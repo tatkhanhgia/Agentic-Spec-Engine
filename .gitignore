@@ -1,0 +1,9 @@
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Embedded git repos
+.claude/skills/
+
+# Temporary Office files
+~$*.docx
