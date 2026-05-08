@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cp -r \"C:/Users/Admin/Documents/NetBeansProjects/MyProject/skills/skills/xlsx/scripts/office/soffice.py\" \"C:/Users/Admin/Documents/NetBeansProjects/MyProject/ai-skill-gateway/.claude/skills/document-skills/xlsx/scripts/office/soffice.py\")",
+      "Bash(cp -r \"C:/Users/Admin/Documents/NetBeansProjects/MyProject/skills/skills/xlsx/scripts/office/pack.py\" \"C:/Users/Admin/Documents/NetBeansProjects/MyProject/ai-skill-gateway/.claude/skills/document-skills/xlsx/scripts/office/pack.py\")",
+      "Bash(cp -r \"C:/Users/Admin/Documents/NetBeansProjects/MyProject/skills/skills/xlsx/scripts/office/validate.py\" \"C:/Users/Admin/Documents/NetBeansProjects/MyProject/ai-skill-gateway/.claude/skills/document-skills/xlsx/scripts/office/validate.py\")",
+      "Bash(cp -r \"C:/Users/Admin/Documents/NetBeansProjects/MyProject/skills/skills/xlsx/scripts/office/unpack.py\" \"C:/Users/Admin/Documents/NetBeansProjects/MyProject/ai-skill-gateway/.claude/skills/document-skills/xlsx/scripts/office/unpack.py\")",
+      "Bash(cp \"C:/Users/Admin/Documents/NetBeansProjects/MyProject/skills/skills/xlsx/scripts/office/helpers/__init__.py\" \"C:/Users/Admin/Documents/NetBeansProjects/MyProject/ai-skill-gateway/.claude/skills/document-skills/xlsx/scripts/office/helpers/__init__.py\")",
+      "Bash(cp \"C:/Users/Admin/Documents/NetBeansProjects/MyProject/skills/skills/xlsx/scripts/office/helpers/merge_runs.py\" \"C:/Users/Admin/Documents/NetBeansProjects/MyProject/ai-skill-gateway/.claude/skills/document-skills/xlsx/scripts/office/helpers/merge_runs.py\")",
+      "Bash(cp \"C:/Users/Admin/Documents/NetBeansProjects/MyProject/skills/skills/xlsx/scripts/office/helpers/simplify_redlines.py\" \"C:/Users/Admin/Documents/NetBeansProjects/MyProject/ai-skill-gateway/.claude/skills/document-skills/xlsx/scripts/office/helpers/simplify_redlines.py\")",
+      "Bash(cp \"C:/Users/Admin/Documents/NetBeansProjects/MyProject/skills/skills/xlsx/scripts/office/validators/__init__.py\" \"C:/Users/Admin/Documents/NetBeansProjects/MyProject/ai-skill-gateway/.claude/skills/document-skills/xlsx/scripts/office/validators/__init__.py\")",
+      "Bash(cp \"C:/Users/Admin/Documents/NetBeansProjects/MyProject/skills/skills/xlsx/scripts/office/validators/base.py\" \"C:/Users/Admin/Documents/NetBeansProjects/MyProject/ai-skill-gateway/.claude/skills/document-skills/xlsx/scripts/office/validators/base.py\")",
+      "Bash(cp \"C:/Users/Admin/Documents/NetBeansProjects/MyProject/skills/skills/xlsx/scripts/office/validators/docx.py\" \"C:/Users/Admin/Documents/NetBeansProjects/MyProject/ai-skill-gateway/.claude/skills/document-skills/xlsx/scripts/office/validators/docx.py\")",
+      "Bash(cp \"C:/Users/Admin/Documents/NetBeansProjects/MyProject/skills/skills/xlsx/scripts/office/validators/pptx.py\" \"C:/Users/Admin/Documents/NetBeansProjects/MyProject/ai-skill-gateway/.claude/skills/document-skills/xlsx/scripts/office/validators/pptx.py\")",
+      "Bash(cp \"C:/Users/Admin/Documents/NetBeansProjects/MyProject/skills/skills/xlsx/scripts/office/validators/redlining.py\" \"C:/Users/Admin/Documents/NetBeansProjects/MyProject/ai-skill-gateway/.claude/skills/document-skills/xlsx/scripts/office/validators/redlining.py\")",
+      "Bash(cp:*)",
+      "Bash(python scripts/package_skill.py \"../openproject-create\" \"../openproject-create-dist\")",
+      "mcp__openproject__list_work_packages",
+      "Bash(git add *)"
+    ]
+  }
+}
