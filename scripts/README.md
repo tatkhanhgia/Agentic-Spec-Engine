@@ -21,6 +21,7 @@ This directory contains the runtime scripts used for the GoPaperless DOCX workfl
 - `inspect_heading_xml.py` inspects heading paragraph XML details.
 - `inspect_style_xml.py` inspects style XML details for key Word styles.
 - `analyze_content_type.py` checks Content-Type consistency in request/header attribute sections.
+- `check_frame_format.py` is the mandatory exit-code formatting gate. Check H rejects percentage widths in regular attribute cells and requires `Path Attributes` and generated connection-table cells to match `tblGrid`; `pack_docx()` enforces the same width invariant before writing any DOCX.
 
 ### Targeted fixers
 

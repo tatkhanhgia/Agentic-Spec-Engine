@@ -1,0 +1,2132 @@
+{
+  "source": "code",
+  "backend": "C:\\Users\\Admin\\Documents\\NetBeansProjects\\Library_RSSP_SDK\\ProjectRSSP_newest\\Gopaperless_Workflow_Maven",
+  "controllers": 19,
+  "count": 236,
+  "endpoints": [
+    {
+      "method": "POST",
+      "path": "/v1/admin/accounts",
+      "key": "POST /v1/admin/accounts",
+      "name": "Create Owner",
+      "controller": "AdminController",
+      "group": "admin",
+      "pattern": ".*/admin/accounts"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/admin/accounts-tools",
+      "key": "POST /v1/admin/accounts-tools",
+      "name": "Create Owner For Tools",
+      "controller": "AdminController",
+      "group": "admin",
+      "pattern": ".*/admin/accounts-tools"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/admin/enterprises-tools/lookup",
+      "key": "POST /v1/admin/enterprises-tools/lookup",
+      "name": "Lookup Enterprise By Tax Code For Tools",
+      "controller": "AdminController",
+      "group": "admin",
+      "pattern": ".*/admin/enterprises-tools/lookup"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/admin/system/refresh-packages",
+      "key": "GET /v1/admin/system/refresh-packages",
+      "name": "Refresh Certificate Profiles",
+      "controller": "AdminController",
+      "group": "admin",
+      "pattern": ".*/admin/system/refresh-packages"
+    },
+    {
+      "method": "DELETE",
+      "path": "/v1/application/queue",
+      "key": "DELETE /v1/application/queue",
+      "name": "Add API Request Queue",
+      "controller": "ApplicationController",
+      "group": "application",
+      "pattern": ".*application/queue"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/application/queue",
+      "key": "POST /v1/application/queue",
+      "name": "Add API Request Queue",
+      "controller": "ApplicationController",
+      "group": "application",
+      "pattern": ".*application/queue"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/application/users*",
+      "key": "POST /v1/application/users*",
+      "name": "Register Application User",
+      "controller": "ApplicationController",
+      "group": "application",
+      "pattern": ".*/v1/application/users*"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/application/users-biometric",
+      "key": "POST /v1/application/users-biometric",
+      "name": "Register Application User with Biometric",
+      "controller": "ApplicationController",
+      "group": "application",
+      "pattern": ".*/v1/application/users-biometric"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/application/users/check",
+      "key": "POST /v1/application/users/check",
+      "name": "Check User Existed in KeyCloak",
+      "controller": "ApplicationController",
+      "group": "application",
+      "pattern": ".*/v1/application/users/check"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/authenticate",
+      "key": "POST /v1/authenticate",
+      "name": "Password/Client Credential Authentication",
+      "controller": "AuthorizeController",
+      "group": "authorize",
+      "pattern": "/v1/authenticate"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/authenticate/pre",
+      "key": "POST /v1/authenticate/pre",
+      "name": "PreLogin",
+      "controller": "AuthorizeController",
+      "group": "authorize",
+      "pattern": "/v1/authenticate/pre"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/authenticate/sso",
+      "key": "POST /v1/authenticate/sso",
+      "name": "Login SSO",
+      "controller": "AuthorizeController",
+      "group": "authorize",
+      "pattern": "/v1/authenticate/sso"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/authenticate/tse",
+      "key": "POST /v1/authenticate/tse",
+      "name": "Login TSE",
+      "controller": "AuthorizeController",
+      "group": "authorize",
+      "pattern": "/v1/authenticate/tse"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/authenticate/tse/status",
+      "key": "GET /v1/authenticate/tse/status",
+      "name": "Check TSE Status",
+      "controller": "AuthorizeController",
+      "group": "authorize",
+      "pattern": "/v1/authenticate/tse/status"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/authenticate/tse/status",
+      "key": "POST /v1/authenticate/tse/status",
+      "name": "Check TSE Status",
+      "controller": "AuthorizeController",
+      "group": "authorize",
+      "pattern": "/v1/authenticate/tse/status"
+    },
+    {
+      "method": "DELETE",
+      "path": "/v1/tokens",
+      "key": "DELETE /v1/tokens",
+      "name": "Revoke Token",
+      "controller": "AuthorizeController",
+      "group": "authorize",
+      "pattern": "/v1/tokens"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/category",
+      "key": "GET /v1/category",
+      "name": "Get List Categories",
+      "controller": "CategoryController",
+      "group": "category",
+      "pattern": ".*/category"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/category",
+      "key": "POST /v1/category",
+      "name": "Create Category",
+      "controller": "CategoryController",
+      "group": "category",
+      "pattern": ".*/category"
+    },
+    {
+      "method": "DELETE",
+      "path": "/v1/category/[0-9]*",
+      "key": "DELETE /v1/category/{p}",
+      "name": "Delete Category",
+      "controller": "CategoryController",
+      "group": "category",
+      "pattern": ".*/category/[0-9]*"
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/category/[0-9]*",
+      "key": "PUT /v1/category/{p}",
+      "name": "Update Category",
+      "controller": "CategoryController",
+      "group": "category",
+      "pattern": ".*/category/[0-9]*"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/connectors",
+      "key": "GET /v1/connectors",
+      "name": "Get List Login Connector",
+      "controller": "ConnectorController",
+      "group": "connector",
+      "pattern": ".*connectors"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/connectors/certificate-profile",
+      "key": "GET /v1/connectors/certificate-profile",
+      "name": "Get Certificate Profiles for Connector",
+      "controller": "ConnectorController",
+      "group": "connector",
+      "pattern": ".*connectors/certificate-profile"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/connectors/iss",
+      "key": "GET /v1/connectors/iss",
+      "name": "Get List ISS Connector",
+      "controller": "ConnectorController",
+      "group": "connector",
+      "pattern": ".*connectors/iss"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/connectors/smartid",
+      "key": "GET /v1/connectors/smartid",
+      "name": "Get List Smart-ID Connector",
+      "controller": "ConnectorController",
+      "group": "connector",
+      "pattern": ".*connectors/smartid"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/connectors/usbtoken",
+      "key": "GET /v1/connectors/usbtoken",
+      "name": "Get List USB-Token Connector",
+      "controller": "ConnectorController",
+      "group": "connector",
+      "pattern": ".*connectors/usbtoken"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/system/signing/servers",
+      "key": "GET /v1/system/signing/servers",
+      "name": "Get List RSSP Connector",
+      "controller": "ConnectorController",
+      "group": "connector",
+      "pattern": "/v1/system/signing/servers"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/contacts",
+      "key": "POST /v1/contacts",
+      "name": "Create Contact",
+      "controller": "ContactController",
+      "group": "contact",
+      "pattern": ".*contacts"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/settings/addressbook",
+      "key": "GET /v1/settings/addressbook",
+      "name": "Get Address Book",
+      "controller": "ContactController",
+      "group": "contact",
+      "pattern": ".*/settings/addressbook"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/settings/addressbook",
+      "key": "POST /v1/settings/addressbook",
+      "name": "Create AddressBook",
+      "controller": "ContactController",
+      "group": "contact",
+      "pattern": ".*/settings/addressbook"
+    },
+    {
+      "method": "DELETE",
+      "path": "/v1/settings/addressbook/[0-9]*",
+      "key": "DELETE /v1/settings/addressbook/{p}",
+      "name": "Delete AddressBook",
+      "controller": "ContactController",
+      "group": "contact",
+      "pattern": ".*settings/addressbook/[0-9]*"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/settings/addressbook/[0-9]*",
+      "key": "POST /v1/settings/addressbook/{p}",
+      "name": "Update AddressBook",
+      "controller": "ContactController",
+      "group": "contact",
+      "pattern": ".*settings/addressbook/[0-9]*"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/settings/contacts(/[0-9]*/[0-9]*){0,1}",
+      "key": "GET /v1/settings/contacts/{p}/{p}",
+      "name": "Get Contact",
+      "controller": "ContactController",
+      "group": "contact",
+      "pattern": ".*/settings/contacts(/[0-9]*/[0-9]*){0,1}"
+    },
+    {
+      "method": "DELETE",
+      "path": "/v1/settings/contacts/[0-9]*",
+      "key": "DELETE /v1/settings/contacts/{p}",
+      "name": "Delete Contact",
+      "controller": "ContactController",
+      "group": "contact",
+      "pattern": ".*settings/contacts/[0-9]*"
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/settings/contacts/[0-9]*",
+      "key": "PUT /v1/settings/contacts/{p}",
+      "name": "Update Contact",
+      "controller": "ContactController",
+      "group": "contact",
+      "pattern": ".*settings/contacts/[0-9]*"
+    },
+    {
+      "method": "DELETE",
+      "path": "/v1/(packages/)[0-9]*",
+      "key": "DELETE /v1/packages/{p}",
+      "name": "Delete Package",
+      "controller": "DocumentController",
+      "group": "document",
+      "pattern": ".*(packages/)[0-9]*"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/(packages/)[0-9]*",
+      "key": "GET /v1/packages/{p}",
+      "name": "Download Package",
+      "controller": "DocumentController",
+      "group": "document",
+      "pattern": ".*(packages/)[0-9]*"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/(packages/)[0-9]*(/documents)",
+      "key": "POST /v1/packages/{p}/documents",
+      "name": "Upload Document",
+      "controller": "DocumentController",
+      "group": "document",
+      "pattern": ".*(packages/)[0-9]*(/documents)"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/(packages/)[0-9]*(/documents/)[0-9]*",
+      "key": "GET /v1/packages/{p}/documents/{p}",
+      "name": "Download Document",
+      "controller": "DocumentController",
+      "group": "document",
+      "pattern": ".*(packages/)[0-9]*(/documents/)[0-9]*"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/(packages/)[0-9]*(/documents/)[0-9]*(/base64)",
+      "key": "GET /v1/packages/{p}/documents/{p}/base64",
+      "name": "Download Document Base64",
+      "controller": "DocumentController",
+      "group": "document",
+      "pattern": ".*(packages/)[0-9]*(/documents/)[0-9]*(/base64)"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/(packages/)[0-9]*(/documents/)[0-9]*(/signature-summary)",
+      "key": "GET /v1/packages/{p}/documents/{p}/signature-summary",
+      "name": "Download Signature Summary",
+      "controller": "DocumentController",
+      "group": "document",
+      "pattern": ".*(packages/)[0-9]*(/documents/)[0-9]*(/signature-summary)"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/(packages/)[0-9]*(/documents/)[0-9]*(/signature-summary/base64)",
+      "key": "GET /v1/packages/{p}/documents/{p}/signature-summary/base64",
+      "name": "Download Signature Summary Base64",
+      "controller": "DocumentController",
+      "group": "document",
+      "pattern": ".*(packages/)[0-9]*(/documents/)[0-9]*(/signature-summary/base64)"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/(packages/)[0-9]*(/documents/)[0-9]*/embed_signature",
+      "key": "POST /v1/packages/{p}/documents/{p}/embed_signature",
+      "name": "Embed Signature",
+      "controller": "DocumentController",
+      "group": "document",
+      "pattern": ".*(packages/)[0-9]*(/documents/)[0-9]*/embed_signature"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/(packages/)[0-9]*(/documents/)[0-9]*/hash",
+      "key": "POST /v1/packages/{p}/documents/{p}/hash",
+      "name": "Get Hash of Signature Field",
+      "controller": "DocumentController",
+      "group": "document",
+      "pattern": ".*(packages/)[0-9]*(/documents/)[0-9]*/hash"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/(packages/)[0-9]*(/documents/)[0-9]*/images/[0-9]*",
+      "key": "GET /v1/packages/{p}/documents/{p}/images/{p}",
+      "name": "Generate Image from Document",
+      "controller": "DocumentController",
+      "group": "document",
+      "pattern": ".*(packages/)[0-9]*(/documents/)[0-9]*/images/[0-9]*"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/(packages/)[0-9]*(/documents/)[0-9]*/images/[0-9]*/base64",
+      "key": "GET /v1/packages/{p}/documents/{p}/images/{p}/base64",
+      "name": "Generate Image from Document Base64",
+      "controller": "DocumentController",
+      "group": "document",
+      "pattern": ".*(packages/)[0-9]*(/documents/)[0-9]*/images/[0-9]*/base64"
+    },
+    {
+      "method": "DELETE",
+      "path": "/v1/(packages/)[0-9]*(/documents/)[0-9]+",
+      "key": "DELETE /v1/packages/{p}/documents/{p}",
+      "name": "Delete Document",
+      "controller": "DocumentController",
+      "group": "document",
+      "pattern": ".*(packages/)[0-9]*(/documents/)[0-9]+"
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/(packages/)[0-9]*(/documents/)[0-9]+/update",
+      "key": "PUT /v1/packages/{p}/documents/{p}/update",
+      "name": "Update Document",
+      "controller": "DocumentController",
+      "group": "document",
+      "pattern": ".*(packages/)[0-9]*(/documents/)[0-9]+/update"
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/(packages/)[0-9]*(/documents/)[0-9]+/update/base64",
+      "key": "PUT /v1/packages/{p}/documents/{p}/update/base64",
+      "name": "Update Document Base64",
+      "controller": "DocumentController",
+      "group": "document",
+      "pattern": ".*(packages/)[0-9]*(/documents/)[0-9]+/update/base64"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/(packages/)[0-9]*(/documents/base64)",
+      "key": "POST /v1/packages/{p}/documents/base64",
+      "name": "Upload Document Base64",
+      "controller": "DocumentController",
+      "group": "document",
+      "pattern": ".*(packages/)[0-9]*(/documents/base64)"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/(packages/)[0-9]*/base64",
+      "key": "GET /v1/packages/{p}/base64",
+      "name": "Download Package Base64",
+      "controller": "DocumentController",
+      "group": "document",
+      "pattern": ".*(packages/)[0-9]*/base64"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/(packages/documents/pre)",
+      "key": "POST /v1/packages/documents/pre",
+      "name": "Pre Check Document",
+      "controller": "DocumentController",
+      "group": "document",
+      "pattern": ".*(packages/documents/pre)"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/packages",
+      "key": "POST /v1/packages",
+      "name": "Create Package",
+      "controller": "DocumentController",
+      "group": "document",
+      "pattern": ".*packages"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/packages/(ALL|all|All|INACTIVE|inactive|Inactive|ACTIVE|active|Active)(/[0-9]*){0,1}(/[0-9]*){0,1}",
+      "key": "GET /v1/packages/{p}/{p}/{p}",
+      "name": "Get All Package",
+      "controller": "DocumentController",
+      "group": "document",
+      "pattern": ".*packages/(ALL|all|All|INACTIVE|inactive|Inactive|ACTIVE|active|Active)(/[0-9]*){0,1}(/[0-9]*){0,1}"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/packages/[0-9]*/details",
+      "key": "GET /v1/packages/{p}/details",
+      "name": "Get Package Details",
+      "controller": "DocumentController",
+      "group": "document",
+      "pattern": ".*packages/[0-9]*/details"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/packages/[0-9]*/documents/[0-9]*/attachments",
+      "key": "GET /v1/packages/{p}/documents/{p}/attachments",
+      "name": "Get Attachments",
+      "controller": "DocumentController",
+      "group": "document",
+      "pattern": "/v1/packages/[0-9]*/documents/[0-9]*/attachments"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/packages/[0-9]*/documents/[0-9]*/attachments",
+      "key": "POST /v1/packages/{p}/documents/{p}/attachments",
+      "name": "Upload Attachment",
+      "controller": "DocumentController",
+      "group": "document",
+      "pattern": "/v1/packages/[0-9]*/documents/[0-9]*/attachments"
+    },
+    {
+      "method": "DELETE",
+      "path": "/v1/packages/[0-9]*/documents/[0-9]*/attachments/[0-9]*",
+      "key": "DELETE /v1/packages/{p}/documents/{p}/attachments/{p}",
+      "name": "Delete Attachment",
+      "controller": "DocumentController",
+      "group": "document",
+      "pattern": "/v1/packages/[0-9]*/documents/[0-9]*/attachments/[0-9]*"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/packages/[0-9]*/documents/[0-9]*/attachments/[0-9]*",
+      "key": "GET /v1/packages/{p}/documents/{p}/attachments/{p}",
+      "name": "Download Attachment",
+      "controller": "DocumentController",
+      "group": "document",
+      "pattern": "/v1/packages/[0-9]*/documents/[0-9]*/attachments/[0-9]*"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/packages/[0-9]*/documents/[0-9]*/initials*",
+      "key": "POST /v1/packages/{p}/documents/{p}/initials*",
+      "name": "Fill Initials",
+      "controller": "DocumentController",
+      "group": "document",
+      "pattern": "/v1/packages/[0-9]*/documents/[0-9]*/initials*"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/packages/[0-9]*/documents/[0-9]*/merge",
+      "key": "POST /v1/packages/{p}/documents/{p}/merge",
+      "name": "Merge Document",
+      "controller": "DocumentController",
+      "group": "document",
+      "pattern": "/v1/packages/[0-9]*/documents/[0-9]*/merge"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/packages/[0-9]*/documents/[0-9]*/paper",
+      "key": "POST /v1/packages/{p}/documents/{p}/paper",
+      "name": "Convert Document to Paper",
+      "controller": "DocumentController",
+      "group": "document",
+      "pattern": "/v1/packages/[0-9]*/documents/[0-9]*/paper"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/packages/[0-9]*/documents/[0-9]*/sign",
+      "key": "POST /v1/packages/{p}/documents/{p}/sign",
+      "name": "Sign Document via RSSP with Enterprise Settings",
+      "controller": "DocumentController",
+      "group": "document",
+      "pattern": "/v1/packages/[0-9]*/documents/[0-9]*/sign"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/packages/[0-9]*/documents/[0-9]*/sign_eseal",
+      "key": "POST /v1/packages/{p}/documents/{p}/sign_eseal",
+      "name": "Sign ESeal via RSSP with Enterprise Settings",
+      "controller": "DocumentController",
+      "group": "document",
+      "pattern": "/v1/packages/[0-9]*/documents/[0-9]*/sign_eseal"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/packages/[0-9]*/documents/[0-9]*/template",
+      "key": "POST /v1/packages/{p}/documents/{p}/template",
+      "name": "Apply Workflow Template",
+      "controller": "DocumentController",
+      "group": "document",
+      "pattern": "/v1/packages/[0-9]*/documents/[0-9]*/template"
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/packages/[0-9]+",
+      "key": "PUT /v1/packages/{p}",
+      "name": "Rename Package",
+      "controller": "DocumentController",
+      "group": "document",
+      "pattern": ".*packages/[0-9]+"
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/packages/[0-9]+/documents/[0-9]+",
+      "key": "PUT /v1/packages/{p}/documents/{p}",
+      "name": "Rename Document",
+      "controller": "DocumentController",
+      "group": "document",
+      "pattern": ".*packages/[0-9]+/documents/[0-9]+"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/packages/[0-9]+/documents/[0-9]+/details",
+      "key": "GET /v1/packages/{p}/documents/{p}/details",
+      "name": "Get Document Details",
+      "controller": "DocumentController",
+      "group": "document",
+      "pattern": ".*packages/[0-9]+/documents/[0-9]+/details"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/packages/[0-9]+/documents/[0-9]+/verification",
+      "key": "GET /v1/packages/{p}/documents/{p}/verification",
+      "name": "Get Document Verification",
+      "controller": "DocumentController",
+      "group": "document",
+      "pattern": ".*packages/[0-9]+/documents/[0-9]+/verification"
+    },
+    {
+      "method": "DELETE",
+      "path": "/v1/enterprise/custom_fields(/[a-zA-Z0-9\\\\-_]+(/[0-9]+)?)?",
+      "key": "DELETE /v1/enterprise/custom_fields/{p}/{p}??",
+      "name": "Delete Enterprise Custom Field",
+      "controller": "EnterpriseController",
+      "group": "enterprise",
+      "pattern": ".*/v1/enterprise/custom_fields(/[a-zA-Z0-9\\\\-_]+(/[0-9]+)?)?"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/enterprise/custom_fields(/[a-zA-Z0-9\\\\-_]+(/[0-9]+)?)?",
+      "key": "GET /v1/enterprise/custom_fields/{p}/{p}??",
+      "name": "Get Enterprise Custom Fields",
+      "controller": "EnterpriseController",
+      "group": "enterprise",
+      "pattern": ".*/v1/enterprise/custom_fields(/[a-zA-Z0-9\\\\-_]+(/[0-9]+)?)?"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/enterprise/custom_fields(/[a-zA-Z0-9\\\\-_]+(/[0-9]+)?)?",
+      "key": "POST /v1/enterprise/custom_fields/{p}/{p}??",
+      "name": "Create Enterprise Custom Field",
+      "controller": "EnterpriseController",
+      "group": "enterprise",
+      "pattern": ".*/v1/enterprise/custom_fields(/[a-zA-Z0-9\\\\-_]+(/[0-9]+)?)?"
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/enterprise/custom_fields(/[a-zA-Z0-9\\\\-_]+(/[0-9]+)?)?",
+      "key": "PUT /v1/enterprise/custom_fields/{p}/{p}??",
+      "name": "Update Enterprise Custom Field",
+      "controller": "EnterpriseController",
+      "group": "enterprise",
+      "pattern": ".*/v1/enterprise/custom_fields(/[a-zA-Z0-9\\\\-_]+(/[0-9]+)?)?"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/enterprise/electronic-seals(/){0,1}[0-9]*(/){0,1}[0-9]*",
+      "key": "GET /v1/enterprise/electronic-seals/{p}/{p}",
+      "name": "Get Enterprise Electronic Seals",
+      "controller": "EnterpriseController",
+      "group": "enterprise",
+      "pattern": ".*/v1/enterprise/electronic-seals(/){0,1}[0-9]*(/){0,1}[0-9]*"
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/enterprise/electronic-seals(/){0,1}[0-9]*(/){0,1}[0-9]*",
+      "key": "PUT /v1/enterprise/electronic-seals/{p}/{p}",
+      "name": "Update Enterprise Electronic Seals",
+      "controller": "EnterpriseController",
+      "group": "enterprise",
+      "pattern": ".*/v1/enterprise/electronic-seals(/){0,1}[0-9]*(/){0,1}[0-9]*"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/enterprise/invitations",
+      "key": "POST /v1/enterprise/invitations",
+      "name": "Invite Enterprise User",
+      "controller": "EnterpriseController",
+      "group": "enterprise",
+      "pattern": ".*/v1/enterprise/invitations"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/enterprise/invitations/[0-9]+/[0-9]+",
+      "key": "GET /v1/enterprise/invitations/{p}/{p}",
+      "name": "Get Enterprise Invitations",
+      "controller": "EnterpriseController",
+      "group": "enterprise",
+      "pattern": ".*/v1/enterprise/invitations/[0-9]+/[0-9]+"
+    },
+    {
+      "method": "DELETE",
+      "path": "/v1/enterprise/invitations/[1-9][0-9]*",
+      "key": "DELETE /v1/enterprise/invitations/{p}{p}",
+      "name": "Cancel Enterprise User Invitation",
+      "controller": "EnterpriseController",
+      "group": "enterprise",
+      "pattern": ".*/v1/enterprise/invitations/[1-9][0-9]*"
+    },
+    {
+      "method": "DELETE",
+      "path": "/v1/enterprise/invitations/[1-9][0-9]*/delete",
+      "key": "DELETE /v1/enterprise/invitations/{p}{p}/delete",
+      "name": "Delete Enterprise User Invitation",
+      "controller": "EnterpriseController",
+      "group": "enterprise",
+      "pattern": ".*/v1/enterprise/invitations/[1-9][0-9]*/delete"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/enterprise/invitations/[1-9][0-9]*/resend",
+      "key": "POST /v1/enterprise/invitations/{p}{p}/resend",
+      "name": "Resend Enterprise User Invitation",
+      "controller": "EnterpriseController",
+      "group": "enterprise",
+      "pattern": ".*/v1/enterprise/invitations/[1-9][0-9]*/resend"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/enterprise/invitations/export",
+      "key": "GET /v1/enterprise/invitations/export",
+      "name": "Export Enterprise Invitations",
+      "controller": "EnterpriseController",
+      "group": "enterprise",
+      "pattern": ".*/v1/enterprise/invitations/export"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/enterprise/invitations/export/[0-9]+/[0-9]+",
+      "key": "GET /v1/enterprise/invitations/export/{p}/{p}",
+      "name": "Export Enterprise Invitations",
+      "controller": "EnterpriseController",
+      "group": "enterprise",
+      "pattern": ".*/v1/enterprise/invitations/export/[0-9]+/[0-9]+"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/enterprise/invitations/export/[a-zA-Z_]+",
+      "key": "GET /v1/enterprise/invitations/export/{p}",
+      "name": "Export Enterprise Invitations",
+      "controller": "EnterpriseController",
+      "group": "enterprise",
+      "pattern": ".*/v1/enterprise/invitations/export/[a-zA-Z_]+"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/enterprise/invitations/export/[a-zA-Z_]+/[0-9]+/[0-9]+",
+      "key": "GET /v1/enterprise/invitations/export/{p}/{p}/{p}",
+      "name": "Export Enterprise Invitations",
+      "controller": "EnterpriseController",
+      "group": "enterprise",
+      "pattern": ".*/v1/enterprise/invitations/export/[a-zA-Z_]+/[0-9]+/[0-9]+"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/enterprise/reports/[0-9]+/[0-9]+",
+      "key": "GET /v1/enterprise/reports/{p}/{p}",
+      "name": "Get Enterprise Report List",
+      "controller": "EnterpriseController",
+      "group": "enterprise",
+      "pattern": ".*/v1/enterprise/reports/[0-9]+/[0-9]+"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/enterprise/reports/quota/statistics/[0-9]+/[0-9]+",
+      "key": "GET /v1/enterprise/reports/quota/statistics/{p}/{p}",
+      "name": "Get Enterprise Quota Statistics",
+      "controller": "EnterpriseController",
+      "group": "enterprise",
+      "pattern": ".*/v1/enterprise/reports/quota/statistics/[0-9]+/[0-9]+"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/enterprise/reports/workflows/statistics/export",
+      "key": "GET /v1/enterprise/reports/workflows/statistics/export",
+      "name": "Export Enterprise Workflow Statistics",
+      "controller": "EnterpriseController",
+      "group": "enterprise",
+      "pattern": ".*/v1/enterprise/reports/workflows/statistics/export"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/enterprise/reports/workflows/statistics/export/[0-9]+/[0-9]+",
+      "key": "GET /v1/enterprise/reports/workflows/statistics/export/{p}/{p}",
+      "name": "Export Enterprise Workflow Statistics",
+      "controller": "EnterpriseController",
+      "group": "enterprise",
+      "pattern": ".*/v1/enterprise/reports/workflows/statistics/export/[0-9]+/[0-9]+"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/enterprise/reports/workflows/statistics/export/[a-zA-Z_]+",
+      "key": "GET /v1/enterprise/reports/workflows/statistics/export/{p}",
+      "name": "Export Enterprise Workflow Statistics",
+      "controller": "EnterpriseController",
+      "group": "enterprise",
+      "pattern": ".*/v1/enterprise/reports/workflows/statistics/export/[a-zA-Z_]+"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/enterprise/reports/workflows/statistics/export/[a-zA-Z_]+/[0-9]+/[0-9]+",
+      "key": "GET /v1/enterprise/reports/workflows/statistics/export/{p}/{p}/{p}",
+      "name": "Export Enterprise Workflow Statistics",
+      "controller": "EnterpriseController",
+      "group": "enterprise",
+      "pattern": ".*/v1/enterprise/reports/workflows/statistics/export/[a-zA-Z_]+/[0-9]+/[0-9]+"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/enterprise/roles/[0-9]+/[0-9]+",
+      "key": "GET /v1/enterprise/roles/{p}/{p}",
+      "name": "Get Enterprise Roles",
+      "controller": "EnterpriseController",
+      "group": "enterprise",
+      "pattern": ".*/v1/enterprise/roles/[0-9]+/[0-9]+"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/enterprise/settings/tsa",
+      "key": "GET /v1/enterprise/settings/tsa",
+      "name": "Get Enterprise TSA Configuration",
+      "controller": "EnterpriseController",
+      "group": "enterprise",
+      "pattern": ".*/v1/enterprise/settings/tsa"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/enterprise/settings/tsa",
+      "key": "POST /v1/enterprise/settings/tsa",
+      "name": "Add Enterprise TSA Setting",
+      "controller": "EnterpriseController",
+      "group": "enterprise",
+      "pattern": ".*/v1/enterprise/settings/tsa"
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/enterprise/settings/tsa",
+      "key": "PUT /v1/enterprise/settings/tsa",
+      "name": "Update Enterprise TSA Configuration",
+      "controller": "EnterpriseController",
+      "group": "enterprise",
+      "pattern": ".*/v1/enterprise/settings/tsa"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/enterprise/settings/tsa/test-connection",
+      "key": "POST /v1/enterprise/settings/tsa/test-connection",
+      "name": "Test Connection Enterprise TSA Configuration",
+      "controller": "EnterpriseController",
+      "group": "enterprise",
+      "pattern": ".*/v1/enterprise/settings/tsa/test-connection"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/enterprise/users",
+      "key": "POST /v1/enterprise/users",
+      "name": "Register Enterprise User",
+      "controller": "EnterpriseController",
+      "group": "enterprise",
+      "pattern": ".*/v1/enterprise/users"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/enterprise/users/[0-9]+/[0-9]+",
+      "key": "GET /v1/enterprise/users/{p}/{p}",
+      "name": "Get Enterprise Users",
+      "controller": "EnterpriseController",
+      "group": "enterprise",
+      "pattern": ".*/v1/enterprise/users/[0-9]+/[0-9]+"
+    },
+    {
+      "method": "DELETE",
+      "path": "/v1/enterprise/users/[1-9][0-9]*",
+      "key": "DELETE /v1/enterprise/users/{p}{p}",
+      "name": "Remove Enterprise User",
+      "controller": "EnterpriseController",
+      "group": "enterprise",
+      "pattern": ".*/v1/enterprise/users/[1-9][0-9]*"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/enterprise/users/[1-9][0-9]*/quota",
+      "key": "GET /v1/enterprise/users/{p}{p}/quota",
+      "name": "Get Enterprise User Quota",
+      "controller": "EnterpriseController",
+      "group": "enterprise",
+      "pattern": ".*/v1/enterprise/users/[1-9][0-9]*/quota"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/enterprise/users/agent-invite",
+      "key": "POST /v1/enterprise/users/agent-invite",
+      "name": "Agent Invite Enterprise User",
+      "controller": "EnterpriseController",
+      "group": "enterprise",
+      "pattern": ".*/v1/enterprise/users/agent-invite"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/enterprise/users/export",
+      "key": "GET /v1/enterprise/users/export",
+      "name": "Export Enterprise Users",
+      "controller": "EnterpriseController",
+      "group": "enterprise",
+      "pattern": ".*/v1/enterprise/users/export"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/enterprise/users/export/[0-9]+/[0-9]+",
+      "key": "GET /v1/enterprise/users/export/{p}/{p}",
+      "name": "Export Enterprise Users",
+      "controller": "EnterpriseController",
+      "group": "enterprise",
+      "pattern": ".*/v1/enterprise/users/export/[0-9]+/[0-9]+"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/enterprise/users/statistics",
+      "key": "GET /v1/enterprise/users/statistics",
+      "name": "Get Enterprise User Management Statistics",
+      "controller": "EnterpriseController",
+      "group": "enterprise",
+      "pattern": ".*/v1/enterprise/users/statistics"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/enterprise/workflows/[a-zA-Z_]+/[0-9]+/[0-9]+",
+      "key": "GET /v1/enterprise/workflows/{p}/{p}/{p}",
+      "name": "Get Enterprise Workflows",
+      "controller": "EnterpriseController",
+      "group": "enterprise",
+      "pattern": ".*/v1/enterprise/workflows/[a-zA-Z_]+/[0-9]+/[0-9]+"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/documents/fields",
+      "key": "GET /v1/documents/fields",
+      "name": "Get Field Types",
+      "controller": "FieldController",
+      "group": "field",
+      "pattern": ".*documents/fields"
+    },
+    {
+      "method": "DELETE",
+      "path": "/v1/packages/[0-9]*/documents/[0-9]*/fields",
+      "key": "DELETE /v1/packages/{p}/documents/{p}/fields",
+      "name": "Delete Field",
+      "controller": "FieldController",
+      "group": "field",
+      "pattern": ".*packages/[0-9]*/documents/[0-9]*/fields"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/packages/[0-9]*/documents/[0-9]*/fields",
+      "key": "GET /v1/packages/{p}/documents/{p}/fields",
+      "name": "Get Fields",
+      "controller": "FieldController",
+      "group": "field",
+      "pattern": ".*packages/[0-9]*/documents/[0-9]*/fields"
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/packages/[0-9]*/documents/[0-9]*/fields",
+      "key": "PUT /v1/packages/{p}/documents/{p}/fields",
+      "name": "Fill Form Fields",
+      "controller": "FieldController",
+      "group": "field",
+      "pattern": ".*packages/[0-9]*/documents/[0-9]*/fields"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/packages/[0-9]*/documents/[0-9]*/fields/.*",
+      "key": "POST /v1/packages/{p}/documents/{p}/fields/{p}",
+      "name": "Add Field",
+      "controller": "FieldController",
+      "group": "field",
+      "pattern": ".*packages/[0-9]*/documents/[0-9]*/fields/.*"
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/packages/[0-9]*/documents/[0-9]*/fields/.*",
+      "key": "PUT /v1/packages/{p}/documents/{p}/fields/{p}",
+      "name": "Update Field",
+      "controller": "FieldController",
+      "group": "field",
+      "pattern": ".*packages/[0-9]*/documents/[0-9]*/fields/.*"
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/packages/[0-9]*/documents/[0-9]*/fields/assign",
+      "key": "PUT /v1/packages/{p}/documents/{p}/fields/assign",
+      "name": "Assign Document Field",
+      "controller": "FieldController",
+      "group": "field",
+      "pattern": ".*packages/[0-9]*/documents/[0-9]*/fields/assign"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/identity",
+      "key": "POST /v1/identity",
+      "name": "Facial Matching",
+      "controller": "IdentityController",
+      "group": "identity",
+      "pattern": "/v1/identity"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/identity/verification/email-otp",
+      "key": "POST /v1/identity/verification/email-otp",
+      "name": "Send Email OTP",
+      "controller": "IdentityController",
+      "group": "identity",
+      "pattern": "/v1/identity/verification/email-otp"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/csc/credentials/[a-zA-Z0-9-]+/status",
+      "key": "GET /v1/csc/credentials/{p}/status",
+      "name": "Get Credential Registration Status",
+      "controller": "RSSPController",
+      "group": "rssp",
+      "pattern": "/v1/csc/credentials/[a-zA-Z0-9-]+/status"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/csc/credentials/[a-zA-Z0-9]+/finish",
+      "key": "POST /v1/csc/credentials/{p}/finish",
+      "name": "Finish Register Certificate",
+      "controller": "RSSPController",
+      "group": "rssp",
+      "pattern": "/v1/csc/credentials/[a-zA-Z0-9]+/finish"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/csc/credentials/[a-zA-Z0-9]+/send-otp",
+      "key": "POST /v1/csc/credentials/{p}/send-otp",
+      "name": "Send OTP for Certificate Registration",
+      "controller": "RSSPController",
+      "group": "rssp",
+      "pattern": "/v1/csc/credentials/[a-zA-Z0-9]+/send-otp"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/csc/credentials/[a-zA-Z0-9]+/taxcode",
+      "key": "GET /v1/csc/credentials/{p}/taxcode",
+      "name": "Get List Tax Codes",
+      "controller": "RSSPController",
+      "group": "rssp",
+      "pattern": "/v1/csc/credentials/[a-zA-Z0-9]+/taxcode"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/csc/credentials/[a-zA-Z0-9]+/verify",
+      "key": "POST /v1/csc/credentials/{p}/verify",
+      "name": "Verify OTP for Certificate Registration",
+      "controller": "RSSPController",
+      "group": "rssp",
+      "pattern": "/v1/csc/credentials/[a-zA-Z0-9]+/verify"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/csc/credentials/authorization",
+      "key": "POST /v1/csc/credentials/authorization",
+      "name": "RSSP Credential Authorization",
+      "controller": "RSSPController",
+      "group": "rssp",
+      "pattern": "/v1/csc/credentials/authorization"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/csc/credentials/document/details",
+      "key": "POST /v1/csc/credentials/document/details",
+      "name": "Get Information of Citizen Card",
+      "controller": "RSSPController",
+      "group": "rssp",
+      "pattern": "/v1/csc/credentials/document/details"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/csc/credentials/info",
+      "key": "POST /v1/csc/credentials/info",
+      "name": "Get Credentials Info",
+      "controller": "RSSPController",
+      "group": "rssp",
+      "pattern": "/v1/csc/credentials/info"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/csc/credentials/list",
+      "key": "POST /v1/csc/credentials/list",
+      "name": "Get Filtered Credential List",
+      "controller": "RSSPController",
+      "group": "rssp",
+      "pattern": "/v1/csc/credentials/list"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/csc/credentials/ocsp-check",
+      "key": "POST /v1/csc/credentials/ocsp-check",
+      "name": "Check OCSP Certificate Status",
+      "controller": "RSSPController",
+      "group": "rssp",
+      "pattern": "/v1/csc/credentials/ocsp-check"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/csc/credentials/register",
+      "key": "POST /v1/csc/credentials/register",
+      "name": "Register Certificate via RSSP",
+      "controller": "RSSPController",
+      "group": "rssp",
+      "pattern": "/v1/csc/credentials/register"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/csc/credentials/send-otp",
+      "key": "POST /v1/csc/credentials/send-otp",
+      "name": "Send OTP via RSSP",
+      "controller": "RSSPController",
+      "group": "rssp",
+      "pattern": "/v1/csc/credentials/send-otp"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/csc/packages/[0-9]*/documents/[0-9]*/sign_rssp",
+      "key": "POST /v1/csc/packages/{p}/documents/{p}/sign_rssp",
+      "name": "Sign Document via RSSP Directly",
+      "controller": "RSSPController",
+      "group": "rssp",
+      "pattern": "/v1/csc/packages/[0-9]*/documents/[0-9]*/sign_rssp"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/csc/packages/sign/status",
+      "key": "POST /v1/csc/packages/sign/status",
+      "name": "Get Signing Status",
+      "controller": "RSSPController",
+      "group": "rssp",
+      "pattern": "/v1/csc/packages/sign/status"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/csc/signatures/sign-hash",
+      "key": "POST /v1/csc/signatures/sign-hash",
+      "name": "Get Sign Hash From Service",
+      "controller": "RSSPController",
+      "group": "rssp",
+      "pattern": "/v1/csc/signatures/sign-hash"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/csc/signing/[a-zA-Z0-9-]+/status",
+      "key": "GET /v1/csc/signing/{p}/status",
+      "name": "Get Signing Transaction Status",
+      "controller": "RSSPController",
+      "group": "rssp",
+      "pattern": "/v1/csc/signing/[a-zA-Z0-9-]+/status"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/csc/signing/pending-sessions",
+      "key": "GET /v1/csc/signing/pending-sessions",
+      "name": "Get Pending Signing Sessions",
+      "controller": "RSSPController",
+      "group": "rssp",
+      "pattern": "/v1/csc/signing/pending-sessions"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/packages/SIGN",
+      "key": "POST /v1/packages/sign",
+      "name": "Bulk Sign Packages",
+      "controller": "RSSPController",
+      "group": "rssp",
+      "pattern": "/v1/packages/SIGN"
+    },
+    {
+      "method": "DELETE",
+      "path": "/v1/packages/SIGN/status",
+      "key": "DELETE /v1/packages/sign/status",
+      "name": "Release Bulk Signing Management",
+      "controller": "RSSPController",
+      "group": "rssp",
+      "pattern": "/v1/packages/SIGN/status"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/packages/SIGN/status",
+      "key": "GET /v1/packages/sign/status",
+      "name": "Get Bulk Signing Status",
+      "controller": "RSSPController",
+      "group": "rssp",
+      "pattern": "/v1/packages/SIGN/status"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/ras/issue/cancel",
+      "key": "POST /v1/ras/issue/cancel",
+      "name": "Cancel Issue Certificate",
+      "controller": "RSSPController",
+      "group": "rssp",
+      "pattern": "/v1/ras/issue/cancel"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/ras/request/cancel",
+      "key": "POST /v1/ras/request/cancel",
+      "name": "Cancel Authorize Signing Request",
+      "controller": "RSSPController",
+      "group": "rssp",
+      "pattern": "/v1/ras/request/cancel"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/providers",
+      "key": "GET /v1/providers",
+      "name": "Get List Providers",
+      "controller": "SystemController",
+      "group": "system",
+      "pattern": ".*/v1/providers"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/system/billing/catalog",
+      "key": "GET /v1/system/billing/catalog",
+      "name": "Get Billing Catalog",
+      "controller": "SystemController",
+      "group": "system",
+      "pattern": ".*/v1/system/billing/catalog"
+    },
+    {
+      "method": "DELETE",
+      "path": "/v1/system/cache",
+      "key": "DELETE /v1/system/cache",
+      "name": "Delete Cache Data",
+      "controller": "SystemController",
+      "group": "system",
+      "pattern": ".*/v1/system/cache"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/system/cache",
+      "key": "GET /v1/system/cache",
+      "name": "Get Cache Data",
+      "controller": "SystemController",
+      "group": "system",
+      "pattern": ".*/v1/system/cache"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/system/file/[a-zA-Z0-9\\\\-]+",
+      "key": "GET /v1/system/file/{p}",
+      "name": "Download file system",
+      "controller": "SystemController",
+      "group": "system",
+      "pattern": ".*/v1/system/file/[a-zA-Z0-9\\\\-]+"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/system/logs/([0-9]+)/([0-9]+)",
+      "key": "GET /v1/system/logs/{p}/{p}",
+      "name": "List System Logs",
+      "controller": "SystemController",
+      "group": "system",
+      "pattern": ".*/v1/system/logs/([0-9]+)/([0-9]+)"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/system/logs/([0-9]+)/details",
+      "key": "GET /v1/system/logs/{p}/details",
+      "name": "Get System Log Details",
+      "controller": "SystemController",
+      "group": "system",
+      "pattern": ".*/v1/system/logs/([0-9]+)/details"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/system/reload",
+      "key": "POST /v1/system/reload",
+      "name": "Reload System Resources",
+      "controller": "SystemController",
+      "group": "system",
+      "pattern": ".*/v1/system/reload"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/system/response-codes",
+      "key": "POST /v1/system/response-codes",
+      "name": "Add Response Code",
+      "controller": "SystemController",
+      "group": "system",
+      "pattern": ".*/v1/system/response-codes"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/system/serviceplans/([0-9]+)/([0-9]+)",
+      "key": "GET /v1/system/serviceplans/{p}/{p}",
+      "name": "Get All Service Plans",
+      "controller": "SystemController",
+      "group": "system",
+      "pattern": ".*/v1/system/serviceplans/([0-9]+)/([0-9]+)"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/system/serviceplans/([0-9]+)/billing/catalog",
+      "key": "GET /v1/system/serviceplans/{p}/billing/catalog",
+      "name": "Get Service Plan Billing Catalog",
+      "controller": "SystemController",
+      "group": "system",
+      "pattern": ".*/v1/system/serviceplans/([0-9]+)/billing/catalog"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/system/signing/apps",
+      "key": "GET /v1/system/signing/apps",
+      "name": "Get App Name Mapping List",
+      "controller": "SystemController",
+      "group": "system",
+      "pattern": ".*/v1/system/signing/apps"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/system/terms-of-service/([a-zA-Z0-9\\\\-]+)",
+      "key": "GET /v1/system/terms-of-service/{p}",
+      "name": "Download Terms of Service File",
+      "controller": "SystemController",
+      "group": "system",
+      "pattern": ".*/v1/system/terms-of-service/([a-zA-Z0-9\\\\-]+)"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/(packages/)[0-9]*(/template)",
+      "key": "POST /v1/packages/{p}/template",
+      "name": "Save Workflow as Template",
+      "controller": "TemplateController",
+      "group": "template",
+      "pattern": ".*(packages/)[0-9]*(/template)"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/enterprise/templates",
+      "key": "POST /v1/enterprise/templates",
+      "name": "Create Enterprise Template",
+      "controller": "TemplateController",
+      "group": "template",
+      "pattern": "/v1/enterprise/templates"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/settings/templates",
+      "key": "POST /v1/settings/templates",
+      "name": "Create Personal Template",
+      "controller": "TemplateController",
+      "group": "template",
+      "pattern": "/v1/settings/templates"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/settings/templates/(ENTERPRISE|enterprise|PERSONAL|personal)/[0-9]+/[0-9]+",
+      "key": "GET /v1/settings/templates/{p}/{p}/{p}",
+      "name": "Get List Template",
+      "controller": "TemplateController",
+      "group": "template",
+      "pattern": ".*settings/templates/(ENTERPRISE|enterprise|PERSONAL|personal)/[0-9]+/[0-9]+"
+    },
+    {
+      "method": "DELETE",
+      "path": "/v1/templates/[0-9]+",
+      "key": "DELETE /v1/templates/{p}",
+      "name": "Delete Template",
+      "controller": "TemplateController",
+      "group": "template",
+      "pattern": ".*templates/[0-9]+"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/templates/[0-9]+",
+      "key": "GET /v1/templates/{p}",
+      "name": "Get Template By ID",
+      "controller": "TemplateController",
+      "group": "template",
+      "pattern": ".*templates/[0-9]+"
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/templates/[0-9]+",
+      "key": "PUT /v1/templates/{p}",
+      "name": "Update Template",
+      "controller": "TemplateController",
+      "group": "template",
+      "pattern": ".*templates/[0-9]+"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/templates/[0-9]+/clone",
+      "key": "POST /v1/templates/{p}/clone",
+      "name": "Clone Template",
+      "controller": "TemplateController",
+      "group": "template",
+      "pattern": ".*templates/[0-9]+/clone"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/templates/[0-9]+/details",
+      "key": "GET /v1/templates/{p}/details",
+      "name": "Get Template Details",
+      "controller": "TemplateController",
+      "group": "template",
+      "pattern": ".*templates/[0-9]+/details"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/templates/[0-9]+/documents/[0-9]+/fields/(signature|text|checkbox)",
+      "key": "POST /v1/templates/{p}/documents/{p}/fields/{p}",
+      "name": "Add Template Field",
+      "controller": "TemplateController",
+      "group": "template",
+      "pattern": ".*templates/[0-9]+/documents/[0-9]+/fields/(signature|text|checkbox)"
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/templates/[0-9]+/documents/[0-9]+/fields/(signature|text|checkbox)",
+      "key": "PUT /v1/templates/{p}/documents/{p}/fields/{p}",
+      "name": "Update Template Field",
+      "controller": "TemplateController",
+      "group": "template",
+      "pattern": ".*templates/[0-9]+/documents/[0-9]+/fields/(signature|text|checkbox)"
+    },
+    {
+      "method": "DELETE",
+      "path": "/v1/templates/[0-9]+/workflow/[0-9]+",
+      "key": "DELETE /v1/templates/{p}/workflow/{p}",
+      "name": "Delete Template Workflow Participant",
+      "controller": "TemplateController",
+      "group": "template",
+      "pattern": ".*templates/[0-9]+/workflow/[0-9]+"
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/templates/[0-9]+/workflow/[0-9]+/placeholder",
+      "key": "PUT /v1/templates/{p}/workflow/{p}/placeholder",
+      "name": "Update Template Workflow Placeholder",
+      "controller": "TemplateController",
+      "group": "template",
+      "pattern": ".*templates/[0-9]+/workflow/[0-9]+/placeholder"
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/templates/[0-9]+/workflow/[0-9]+/reorder",
+      "key": "PUT /v1/templates/{p}/workflow/{p}/reorder",
+      "name": "Reorder Template Workflow Participant",
+      "controller": "TemplateController",
+      "group": "template",
+      "pattern": ".*templates/[0-9]+/workflow/[0-9]+/reorder"
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/templates/[0-9]+/workflow/[0-9]+/user",
+      "key": "PUT /v1/templates/{p}/workflow/{p}/user",
+      "name": "Update Template Workflow User",
+      "controller": "TemplateController",
+      "group": "template",
+      "pattern": ".*templates/[0-9]+/workflow/[0-9]+/user"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/templates/[0-9]+/workflow/placeholder",
+      "key": "POST /v1/templates/{p}/workflow/placeholder",
+      "name": "Add Template Workflow Placeholder",
+      "controller": "TemplateController",
+      "group": "template",
+      "pattern": ".*templates/[0-9]+/workflow/placeholder"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/templates/[0-9]+/workflow/users",
+      "key": "GET /v1/templates/{p}/workflow/users",
+      "name": "Get Template Workflow Users",
+      "controller": "TemplateController",
+      "group": "template",
+      "pattern": ".*templates/[0-9]+/workflow/users"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/templates/[0-9]+/workflow/users",
+      "key": "POST /v1/templates/{p}/workflow/users",
+      "name": "Add Template Workflow Users",
+      "controller": "TemplateController",
+      "group": "template",
+      "pattern": ".*templates/[0-9]+/workflow/users"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/trusted-billing/bills",
+      "key": "POST /v1/trusted-billing/bills",
+      "name": "Create Trusted Billing Bill",
+      "controller": "TrustedBillingController",
+      "group": "trustedbilling",
+      "pattern": ".*/v1/trusted-billing/bills"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/trusted-billing/customers",
+      "key": "POST /v1/trusted-billing/customers",
+      "name": "Create Trusted Billing Customer",
+      "controller": "TrustedBillingController",
+      "group": "trustedbilling",
+      "pattern": ".*/v1/trusted-billing/customers"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/account/activity-logs/[0-9]+/[0-9]+",
+      "key": "GET /v1/account/activity-logs/{p}/{p}",
+      "name": "Get User Activity Logs",
+      "controller": "UserController",
+      "group": "user",
+      "pattern": ".*/v1/account/activity-logs/[0-9]+/[0-9]+"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/account/billings/[0-9]+/[0-9]+",
+      "key": "GET /v1/account/billings/{p}/{p}",
+      "name": "Get Billing Payment History",
+      "controller": "UserController",
+      "group": "user",
+      "pattern": ".*/v1/account/billings/[0-9]+/[0-9]+"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/account/billings/initialize",
+      "key": "POST /v1/account/billings/initialize",
+      "name": "Initialize Billing Frame",
+      "controller": "UserController",
+      "group": "user",
+      "pattern": ".*/v1/account/billings/initialize"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/account/billings/payments/[0-9]+",
+      "key": "GET /v1/account/billings/payments/{p}",
+      "name": "Get Billing Payment Details",
+      "controller": "UserController",
+      "group": "user",
+      "pattern": ".*/v1/account/billings/payments/[0-9]+"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/account/certificate-enrollments/(([0-9]+/[0-9]+)|((ALL|all|DONE|FAILED|EXPIRED|REJECTED|WAITING_FOR_APPROVAL_IN_VNEID|GENERATE_SESSION_SUCCESS|WAITING_EMAIL_VERIFY|WAITING_MOBILE_VERIFY|NOT_VERIFIED)(/[0-9]+)?(/[0-9]+)?))",
+      "key": "GET /v1/account/certificate-enrollments/{p}/{p}/{p}?/{p}?",
+      "name": "Get Certificate Enroll History",
+      "controller": "UserController",
+      "group": "user",
+      "pattern": ".*/v1/account/certificate-enrollments/(([0-9]+/[0-9]+)|((ALL|all|DONE|FAILED|EXPIRED|REJECTED|WAITING_FOR_APPROVAL_IN_VNEID|GENERATE_SESSION_SUCCESS|WAITING_EMAIL_VERIFY|WAITING_MOBILE_VERIFY|NOT_VERIFIED)(/[0-9]+)?(/[0-9]+)?))"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/account/dashboard/activities/[0-9]+/[0-9]+",
+      "key": "GET /v1/account/dashboard/activities/{p}/{p}",
+      "name": "Get Dashboard Activities",
+      "controller": "UserController",
+      "group": "user",
+      "pattern": ".*/v1/account/dashboard/activities/[0-9]+/[0-9]+"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/account/dashboard/categories",
+      "key": "GET /v1/account/dashboard/categories",
+      "name": "Get Dashboard Categories",
+      "controller": "UserController",
+      "group": "user",
+      "pattern": ".*/v1/account/dashboard/categories"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/account/dashboard/overdue-workflows/[0-9]+/[0-9]+",
+      "key": "GET /v1/account/dashboard/overdue-workflows/{p}/{p}",
+      "name": "Get Dashboard Overdue Workflows",
+      "controller": "UserController",
+      "group": "user",
+      "pattern": ".*/v1/account/dashboard/overdue-workflows/[0-9]+/[0-9]+"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/account/dashboard/processing-trend",
+      "key": "GET /v1/account/dashboard/processing-trend",
+      "name": "Get Dashboard Processing Trend",
+      "controller": "UserController",
+      "group": "user",
+      "pattern": ".*/v1/account/dashboard/processing-trend"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/account/dashboard/quota",
+      "key": "GET /v1/account/dashboard/quota",
+      "name": "Get Dashboard Quota",
+      "controller": "UserController",
+      "group": "user",
+      "pattern": ".*/v1/account/dashboard/quota"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/account/dashboard/validations",
+      "key": "GET /v1/account/dashboard/validations",
+      "name": "Get Dashboard Validations",
+      "controller": "UserController",
+      "group": "user",
+      "pattern": ".*/v1/account/dashboard/validations"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/account/dashboard/workflow-types",
+      "key": "GET /v1/account/dashboard/workflow-types",
+      "name": "Get Dashboard Workflow Types",
+      "controller": "UserController",
+      "group": "user",
+      "pattern": ".*/v1/account/dashboard/workflow-types"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/account/dashboard/workflows",
+      "key": "GET /v1/account/dashboard/workflows",
+      "name": "Get Dashboard Workflows",
+      "controller": "UserController",
+      "group": "user",
+      "pattern": ".*/v1/account/dashboard/workflows"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/account/enterprises",
+      "key": "GET /v1/account/enterprises",
+      "name": "Get Account Enterprises",
+      "controller": "UserController",
+      "group": "user",
+      "pattern": ".*/v1/account/enterprises"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/account/identity",
+      "key": "POST /v1/account/identity",
+      "name": "Add Identity for a User",
+      "controller": "UserController",
+      "group": "user",
+      "pattern": ".*/v1/account/identity"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/account/invitations(/[0-9]+/[0-9]+)?",
+      "key": "GET /v1/account/invitations/{p}/{p}?",
+      "name": "Get Account Invitations",
+      "controller": "UserController",
+      "group": "user",
+      "pattern": ".*/v1/account/invitations(/[0-9]+/[0-9]+)?"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/account/invitations/(?!(accept|reject)$)[^/]+",
+      "key": "GET /v1/account/invitations/{p}",
+      "name": "Get Account Invitation By ID",
+      "controller": "UserController",
+      "group": "user",
+      "pattern": ".*/v1/account/invitations/(?!(accept|reject)$)[^/]+"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/account/invitations/accept",
+      "key": "POST /v1/account/invitations/accept",
+      "name": "Accept Account Invitation",
+      "controller": "UserController",
+      "group": "user",
+      "pattern": ".*/v1/account/invitations/accept"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/account/invitations/reject",
+      "key": "POST /v1/account/invitations/reject",
+      "name": "Reject Account Invitation",
+      "controller": "UserController",
+      "group": "user",
+      "pattern": ".*/v1/account/invitations/reject"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/account/profiles",
+      "key": "GET /v1/account/profiles",
+      "name": "Get Account Profiles",
+      "controller": "UserController",
+      "group": "user",
+      "pattern": ".*/v1/account/profiles"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/account/remove",
+      "key": "POST /v1/account/remove",
+      "name": "Remove Account Request",
+      "controller": "UserController",
+      "group": "user",
+      "pattern": ".*/v1/account/remove"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/account/reports/quota/consume-history/[0-9]+/[0-9]+",
+      "key": "GET /v1/account/reports/quota/consume-history/{p}/{p}",
+      "name": "Get Account Quota Consume History",
+      "controller": "UserController",
+      "group": "user",
+      "pattern": ".*/v1/account/reports/quota/consume-history/[0-9]+/[0-9]+"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/account/signing-transactions/((ALL|SUCCESS|FAILED|REJECTED|EXPIRED)/)?[0-9]+/[0-9]+",
+      "key": "GET /v1/account/signing-transactions/{p}/?{p}/{p}",
+      "name": "Get Signing History",
+      "controller": "UserController",
+      "group": "user",
+      "pattern": ".*/v1/account/signing-transactions/((ALL|SUCCESS|FAILED|REJECTED|EXPIRED)/)?[0-9]+/[0-9]+"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/account/statistics/documents",
+      "key": "GET /v1/account/statistics/documents",
+      "name": "Document Statistic",
+      "controller": "UserController",
+      "group": "user",
+      "pattern": ".*/v1/account/statistics/documents"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/account/statistics/usage",
+      "key": "GET /v1/account/statistics/usage",
+      "name": "Get Account Usage Statistics",
+      "controller": "UserController",
+      "group": "user",
+      "pattern": ".*/v1/account/statistics/usage"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/account/switch",
+      "key": "POST /v1/account/switch",
+      "name": "Switch Enterprise Context",
+      "controller": "UserController",
+      "group": "user",
+      "pattern": ".*/v1/account/switch"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/settings/profile",
+      "key": "GET /v1/settings/profile",
+      "name": "Get General Profile Information",
+      "controller": "UserController",
+      "group": "user",
+      "pattern": ".*/v1/settings/profile"
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/settings/profile/general",
+      "key": "PUT /v1/settings/profile/general",
+      "name": "Update General Profile",
+      "controller": "UserController",
+      "group": "user",
+      "pattern": ".*/v1/settings/profile/general"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/settings/signatures",
+      "key": "GET /v1/settings/signatures",
+      "name": "Get Signature Settings",
+      "controller": "UserController",
+      "group": "user",
+      "pattern": ".*/v1/settings/signatures"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/settings/signatures",
+      "key": "POST /v1/settings/signatures",
+      "name": "Add Signature Appearance",
+      "controller": "UserController",
+      "group": "user",
+      "pattern": ".*/v1/settings/signatures"
+    },
+    {
+      "method": "DELETE",
+      "path": "/v1/settings/signatures/[0-9]*",
+      "key": "DELETE /v1/settings/signatures/{p}",
+      "name": "Delete Signature Appearance",
+      "controller": "UserController",
+      "group": "user",
+      "pattern": ".*/v1/settings/signatures/[0-9]*"
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/settings/signatures/[0-9]*",
+      "key": "PUT /v1/settings/signatures/{p}",
+      "name": "Update Signature Appearance",
+      "controller": "UserController",
+      "group": "user",
+      "pattern": ".*/v1/settings/signatures/[0-9]*"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/settings/templates/(ENTERPRISE|enterprise|PERSONAL|personal|ALL|all)/[0-9]+/[0-9]+",
+      "key": "GET /v1/settings/templates/{p}/{p}/{p}",
+      "name": "Get List Template",
+      "controller": "UserController",
+      "group": "user",
+      "pattern": ".*/v1/settings/templates/(ENTERPRISE|enterprise|PERSONAL|personal|ALL|all)/[0-9]+/[0-9]+"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/verification/email-otp",
+      "key": "POST /v1/verification/email-otp",
+      "name": "Send Email OTP",
+      "controller": "UserController",
+      "group": "user",
+      "pattern": ".*/v1/verification/email-otp"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/validations(/[0-9]*/[0-9]*){0,1}",
+      "key": "GET /v1/validations/{p}/{p}",
+      "name": "Get List Validation",
+      "controller": "ValidationController",
+      "group": "validation",
+      "pattern": ".*/v1/validations(/[0-9]*/[0-9]*){0,1}"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/validations(/[0-9]*/[0-9]*){0,1}",
+      "key": "POST /v1/validations/{p}/{p}",
+      "name": "Add Validation",
+      "controller": "ValidationController",
+      "group": "validation",
+      "pattern": ".*/v1/validations(/[0-9]*/[0-9]*){0,1}"
+    },
+    {
+      "method": "DELETE",
+      "path": "/v1/validations/[0-9]+",
+      "key": "DELETE /v1/validations/{p}",
+      "name": "Delete Validation",
+      "controller": "ValidationController",
+      "group": "validation",
+      "pattern": ".*/v1/validations/[0-9]+"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/validations/[0-9]+/reports",
+      "key": "GET /v1/validations/{p}/reports",
+      "name": "Get Report of Validation",
+      "controller": "ValidationController",
+      "group": "validation",
+      "pattern": ".*/v1/validations/[0-9]+/reports"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/validations/reports/[a-zA-Z0-9]+/(detailed|diagnostic|simple)",
+      "key": "GET /v1/validations/reports/{p}/{p}",
+      "name": "Download Reports",
+      "controller": "ValidationController",
+      "group": "validation",
+      "pattern": ".*/v1/validations/reports/[a-zA-Z0-9]+/(detailed|diagnostic|simple)"
+    },
+    {
+      "method": "POST",
+      "path": "/billing/webhook",
+      "key": "POST /billing/webhook",
+      "name": "Trusted Billing Webhook",
+      "controller": "BillingWebhookController",
+      "group": "webhook",
+      "pattern": ".*/billing/webhook"
+    },
+    {
+      "method": "POST",
+      "path": "/billing/webhook/([a-zA-Z0-9\\\\-]+)",
+      "key": "POST /billing/webhook/{p}",
+      "name": "",
+      "controller": "BillingWebhookController",
+      "group": "webhook",
+      "pattern": ".*/billing/webhook/([a-zA-Z0-9\\\\-]+)"
+    },
+    {
+      "method": "POST",
+      "path": "/rss/webhook",
+      "key": "POST /rss/webhook",
+      "name": "RSS Webhook",
+      "controller": "WebhookController",
+      "group": "webhook",
+      "pattern": ".*/rss/webhook"
+    },
+    {
+      "method": "POST",
+      "path": "/rss/webhook/([a-zA-Z0-9\\\\-]+)",
+      "key": "POST /rss/webhook/{p}",
+      "name": "RSS Webhook - Receive event start processing",
+      "controller": "WebhookController",
+      "group": "webhook",
+      "pattern": ".*/rss/webhook/([a-zA-Z0-9\\\\-]+)"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/(/workflow/)[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}",
+      "key": "GET /v1/workflow/{p}-{p}-{p}-{p}-{p}",
+      "name": "Get Workflow Details By UUID",
+      "controller": "WorkflowController",
+      "group": "workflow",
+      "pattern": ".*(/workflow/)[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}"
+    },
+    {
+      "method": "DELETE",
+      "path": "/v1/(packages/)[0-9]*(/workflow)",
+      "key": "DELETE /v1/packages/{p}/workflow",
+      "name": "Delete Workflow",
+      "controller": "WorkflowController",
+      "group": "workflow",
+      "pattern": ".*(packages/)[0-9]*(/workflow)"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/(packages/)[0-9]*(/workflow)",
+      "key": "GET /v1/packages/{p}/workflow",
+      "name": "Get Workflow Details",
+      "controller": "WorkflowController",
+      "group": "workflow",
+      "pattern": ".*(packages/)[0-9]*(/workflow)"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/(packages/)[0-9]*(/workflow)",
+      "key": "POST /v1/packages/{p}/workflow",
+      "name": "Start new Workflow",
+      "controller": "WorkflowController",
+      "group": "workflow",
+      "pattern": ".*(packages/)[0-9]*(/workflow)"
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/(packages/)[0-9]*(/workflow)",
+      "key": "PUT /v1/packages/{p}/workflow",
+      "name": "Update Workflow Details",
+      "controller": "WorkflowController",
+      "group": "workflow",
+      "pattern": ".*(packages/)[0-9]*(/workflow)"
+    },
+    {
+      "method": "DELETE",
+      "path": "/v1/(packages/)[0-9]*(/workflow/)[0-9]*",
+      "key": "DELETE /v1/packages/{p}/workflow/{p}",
+      "name": "Delete Workflow User",
+      "controller": "WorkflowController",
+      "group": "workflow",
+      "pattern": ".*(packages/)[0-9]*(/workflow/)[0-9]*"
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/(packages/)[0-9]*(/workflow/)[0-9]*(/tos-acceptance)",
+      "key": "PUT /v1/packages/{p}/workflow/{p}/tos-acceptance",
+      "name": "Accept ToS for ECONTRACT Workflow",
+      "controller": "WorkflowController",
+      "group": "workflow",
+      "pattern": ".*(packages/)[0-9]*(/workflow/)[0-9]*(/tos-acceptance)"
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/(packages/)[0-9]*(/workflow/)[0-9]*(/user)",
+      "key": "PUT /v1/packages/{p}/workflow/{p}/user",
+      "name": "Update Workflow Participant",
+      "controller": "WorkflowController",
+      "group": "workflow",
+      "pattern": ".*(packages/)[0-9]*(/workflow/)[0-9]*(/user)"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/(packages/)[0-9]*(/workflow/[0-9]*/import)",
+      "key": "POST /v1/packages/{p}/workflow/{p}/import",
+      "name": "Import Excel to Clone Workflow",
+      "controller": "WorkflowController",
+      "group": "workflow",
+      "pattern": ".*(packages/)[0-9]*(/workflow/[0-9]*/import)"
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/(packages/)[0-9]*(/workflow/[0-9]*/placeholder)",
+      "key": "PUT /v1/packages/{p}/workflow/{p}/placeholder",
+      "name": "Update Placeholder",
+      "controller": "WorkflowController",
+      "group": "workflow",
+      "pattern": ".*(packages/)[0-9]*(/workflow/[0-9]*/placeholder)"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/(packages/)[0-9]*(/workflow/placeholder)",
+      "key": "POST /v1/packages/{p}/workflow/placeholder",
+      "name": "Add Placeholder To Workflow",
+      "controller": "WorkflowController",
+      "group": "workflow",
+      "pattern": ".*(packages/)[0-9]*(/workflow/placeholder)"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/(packages/)[0-9]*(/workflow/share)",
+      "key": "POST /v1/packages/{p}/workflow/share",
+      "name": "Share Workflow",
+      "controller": "WorkflowController",
+      "group": "workflow",
+      "pattern": ".*(packages/)[0-9]*(/workflow/share)"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/(packages/)[0-9]*(/workflow/users)",
+      "key": "GET /v1/packages/{p}/workflow/users",
+      "name": "Get Workflow Users",
+      "controller": "WorkflowController",
+      "group": "workflow",
+      "pattern": ".*(packages/)[0-9]*(/workflow/users)"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/(packages/)[0-9]*(/workflow/users)",
+      "key": "POST /v1/packages/{p}/workflow/users",
+      "name": "Add User To Workflow",
+      "controller": "WorkflowController",
+      "group": "workflow",
+      "pattern": ".*(packages/)[0-9]*(/workflow/users)"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/(workflow/)[a-zA-Z_]*(/){0,1}[0-9]*(/){0,1}[0-9]*",
+      "key": "GET /v1/workflow/{p}/{p}/{p}",
+      "name": "Get All Workflow",
+      "controller": "WorkflowController",
+      "group": "workflow",
+      "pattern": ".*(workflow/)[a-zA-Z_]*(/){0,1}[0-9]*(/){0,1}[0-9]*"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/packages/[0-9]*/approve",
+      "key": "POST /v1/packages/{p}/approve",
+      "name": "Approve Workflow",
+      "controller": "WorkflowController",
+      "group": "workflow",
+      "pattern": ".*packages/[0-9]*/approve"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/packages/[0-9]*/comments(/[0-9]+/[0-9]+){0,1}",
+      "key": "GET /v1/packages/{p}/comments/{p}/{p}",
+      "name": "Get Workflow Comments",
+      "controller": "WorkflowController",
+      "group": "workflow",
+      "pattern": ".*packages/[0-9]*/comments(/[0-9]+/[0-9]+){0,1}"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/packages/[0-9]*/comments(/[0-9]+/[0-9]+){0,1}",
+      "key": "POST /v1/packages/{p}/comments/{p}/{p}",
+      "name": "Add Workflow Comment/Message",
+      "controller": "WorkflowController",
+      "group": "workflow",
+      "pattern": ".*packages/[0-9]*/comments(/[0-9]+/[0-9]+){0,1}"
+    },
+    {
+      "method": "DELETE",
+      "path": "/v1/packages/[0-9]*/comments/[0-9]*",
+      "key": "DELETE /v1/packages/{p}/comments/{p}",
+      "name": "Delete Workflow Comment/Message",
+      "controller": "WorkflowController",
+      "group": "workflow",
+      "pattern": ".*packages/[0-9]*/comments/[0-9]*"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/packages/[0-9]*/decline",
+      "key": "POST /v1/packages/{p}/decline",
+      "name": "Decline Workflow",
+      "controller": "WorkflowController",
+      "group": "workflow",
+      "pattern": ".*packages/[0-9]*/decline"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/packages/[0-9]*/log((/){0,1}[0-9]*(/){0,1}[0-9]*){0,1}",
+      "key": "GET /v1/packages/{p}/log/{p}/{p}",
+      "name": "Get Workflow History",
+      "controller": "WorkflowController",
+      "group": "workflow",
+      "pattern": ".*packages/[0-9]*/log((/){0,1}[0-9]*(/){0,1}[0-9]*){0,1}"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/packages/[0-9]*/submit",
+      "key": "POST /v1/packages/{p}/submit",
+      "name": "Submit Workflow",
+      "controller": "WorkflowController",
+      "group": "workflow",
+      "pattern": ".*packages/[0-9]*/submit"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/packages/[0-9]*/workflow/[0-9]*/remind",
+      "key": "POST /v1/packages/{p}/workflow/{p}/remind",
+      "name": "Send Reminder",
+      "controller": "WorkflowController",
+      "group": "workflow",
+      "pattern": ".*packages/[0-9]*/workflow/[0-9]*/remind"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/workflow/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}/view",
+      "key": "POST /v1/workflow/{p}-{p}-{p}-{p}-{p}/view",
+      "name": "View Workflow",
+      "controller": "WorkflowController",
+      "group": "workflow",
+      "pattern": ".*workflow/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}/view"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/workflow/[0-9a-zA-Z -]+/import",
+      "key": "GET /v1/workflow/{p}/import",
+      "name": "Get Status of Import Excel",
+      "controller": "WorkflowController",
+      "group": "workflow",
+      "pattern": ".*workflow/[0-9a-zA-Z -]+/import"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/workflow/from-template",
+      "key": "POST /v1/workflow/from-template",
+      "name": "Create Workflow From Template",
+      "controller": "WorkflowController",
+      "group": "workflow",
+      "pattern": ".*/workflow/from-template$"
+    }
+  ]
+}

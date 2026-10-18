@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hướng dẫn sử dụng - Đồng bộ file nhiều máy</title>
+<style>
+  :root{
+    --bg:#f1f5f9;
+    --card:#ffffff;
+    --ink:#0f172a;
+    --muted:#64748b;
+    --line:#e2e8f0;
+    --blue:#2563eb;
+    --blue-bg:#eff6ff;
+    --green:#16a34a;
+    --green-bg:#f0fdf4;
+    --violet:#7c3aed;
+    --violet-bg:#f5f3ff;
+    --amber:#d97706;
+    --amber-bg:#fffbeb;
+    --red:#dc2626;
+    --red-bg:#fef2f2;
+    --radius:14px;
+    --shadow:0 1px 3px rgba(15,23,42,.08),0 4px 16px rgba(15,23,42,.06);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth;scroll-padding-top:84px}
+  body{
+    margin:0;
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+    line-height:1.65;
+  }
+  .wrap{max-width:860px;margin:0 auto;padding:0 20px 80px}
+
+  header.hero{
+    background:linear-gradient(135deg,#1e3a8a,#2563eb 55%,#3b82f6);
+    color:#fff;
+    padding:48px 20px 40px;
+    text-align:center;
+  }
+  header.hero h1{margin:0 0 8px;font-size:clamp(24px,4.5vw,34px);letter-spacing:.5px}
+  header.hero p{margin:0;opacity:.92;font-size:clamp(14px,2.4vw,17px)}
+
+  nav.toc{
+    position:sticky;top:0;z-index:20;
+    background:#fff;
+    border-bottom:1px solid var(--line);
+    box-shadow:0 1px 8px rgba(15,23,42,.06);
+  }
+  nav.toc .wrap{
+    display:flex;gap:6px;flex-wrap:wrap;align-items:center;
+    padding-top:12px;padding-bottom:12px;
+    margin:0 auto;max-width:860px;
+  }
+  nav.toc a{
+    text-decoration:none;color:var(--muted);font-size:13px;font-weight:600;
+    padding:6px 10px;border-radius:8px;white-space:nowrap;
+  }
+  nav.toc a:hover{background:var(--blue-bg);color:var(--blue)}
+
+  section{margin-top:36px}
+  h2{
+    font-size:22px;margin:0 0 16px;padding-bottom:10px;
+    border-bottom:3px solid var(--blue);
+    display:flex;align-items:center;gap:10px;
+  }
+  h2 .no{
+    background:var(--blue);color:#fff;font-size:14px;border-radius:8px;
+    min-width:30px;height:30px;display:inline-flex;align-items:center;justify-content:center;
+    flex:none;
+  }
+  h3{font-size:17px;margin:0 0 8px}
+  p{margin:8px 0}
+
+  .card{
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    padding:20px 22px;margin:14px 0;box-shadow:var(--shadow);
+  }
+  .card.bordered{border-top:4px solid var(--blue)}
+  .card.blue{border-top:4px solid var(--blue)}
+  .card.green{border-top:4px solid var(--green)}
+  .card.violet{border-top:4px solid var(--violet)}
+  .card.amber{border-top:4px solid var(--amber)}
+  .card.red{border-top:4px solid var(--red)}
+
+  .badge{
+    display:inline-block;font-size:12px;font-weight:700;letter-spacing:.3px;
+    padding:3px 10px;border-radius:999px;margin-right:8px;vertical-align:middle;
+  }
+  .badge.moi{background:var(--blue);color:#fff}
+  .badge.cu{background:var(--green);color:#fff}
+  .badge.batbuoc{background:var(--violet);color:#fff}
+  .badge.meo{background:var(--amber);color:#fff}
+
+  .steps{counter-reset:step;list-style:none;margin:10px 0 4px;padding:0}
+  .steps li{
+    position:relative;padding:8px 0 8px 44px;counter-increment:step;
+  }
+  .steps li::before{
+    content:counter(step);
+    position:absolute;left:0;top:10px;
+    width:30px;height:30px;border-radius:50%;
+    background:var(--blue-bg);color:var(--blue);
+    font-weight:700;font-size:14px;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .steps li b{color:var(--blue)}
+  .steps.li-blue li::before{background:var(--blue-bg);color:var(--blue)}
+  .steps.li-green li::before{background:var(--green-bg);color:var(--green)}
+
+  code{
+    font-family:Consolas,Menlo,monospace;font-size:14px;
+    background:#f1f5f9;border:1px solid var(--line);border-radius:6px;
+    padding:1px 7px;color:#0f172a;
+  }
+  .path{
+    display:block;text-align:center;font-weight:700;font-size:clamp(15px,2.8vw,19px);
+    background:var(--amber-bg);border:1px dashed var(--amber);color:var(--amber);
+    border-radius:10px;padding:14px;margin:14px 0;
+  }
+  .deviceid{
+    background:var(--violet-bg);border:1px solid var(--violet);border-radius:10px;
+    padding:12px 16px;margin:10px 0;font-size:15px;
+  }
+  .warn{
+    background:var(--red-bg);border-left:4px solid var(--red);border-radius:8px;
+    padding:12px 16px;margin:12px 0;font-size:15px;
+  }
+  .ok{
+    background:var(--green-bg);border-left:4px solid var(--green);border-radius:8px;
+    padding:12px 16px;margin:12px 0;font-size:15px;
+  }
+  .info{
+    background:var(--blue-bg);border-left:4px solid var(--blue);border-radius:8px;
+    padding:12px 16px;margin:12px 0;font-size:15px;
+  }
+
+  details{
+    background:var(--card);border:1px solid var(--line);border-radius:10px;
+    margin:10px 0;padding:0 16px;
+  }
+  details summary{
+    cursor:pointer;font-weight:700;padding:14px 0;list-style:none;
+    display:flex;align-items:center;gap:8px;color:var(--ink);
+  }
+  details summary::after{content:"+";margin-left:auto;font-size:20px;color:var(--muted)}
+  details[open] summary::after{content:"-"}
+  details[open] summary{border-bottom:1px solid var(--line)}
+  details .body{padding:12px 0 16px}
+
+  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:15px}
+  th,td{text-align:left;padding:10px 12px;border:1px solid var(--line)}
+  th{background:#f8fafc;font-weight:700}
+
+  footer{
+    margin-top:48px;text-align:center;color:var(--muted);font-size:13px;
+    border-top:1px solid var(--line);padding-top:20px;
+  }
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+  @media print{
+    nav.toc{display:none}
+    body{background:#fff}
+    .card{box-shadow:none;break-inside:avoid}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <h1>Đồng bộ file nhiều máy</h1>
+  <p>Hướng dẫn đơn giản cho người mới bắt đầu &mdash; làm theo từng bước là xong</p>
+</header>
+
+<nav class="toc">
+  <div class="wrap">
+    <a href="#phan1">1. Bộ cài để làm gì?</a>
+    <a href="#phan2">2. Khái niệm</a>
+    <a href="#phan3">3. Cài lần đầu</a>
+    <a href="#phan4">4. Thêm máy mới</a>
+    <a href="#phan5">5. Dùng hằng ngày</a>
+    <a href="#phan6">6. Nâng cao</a>
+    <a href="#phan7">7. Hỏi đáp</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<section id="phan1">
+  <h2><span class="no">1</span> Bộ cài này dùng để làm gì?</h2>
+  <div class="card bordered">
+    <p>Giúp <b>2 hay nhiều máy tính</b> "xem chung" một thư mục. Bạn bỏ file vào thư mục trên máy này, máy kia sẽ <b>tự động</b> có file đó.</p>
+    <ul>
+      <li>Không còn phải gửi file qua Zalo, Email hay USB.</li>
+      <li>File sửa ở máy nào, các máy còn lại tự động cập nhật theo.</li>
+    </ul>
+    <span class="path">Thư mục sync: <code>C:\Users\Admin\Documents\Sync</code></span>
+  </div>
+  <div class="card amber">
+    <h3>Chỉ cần nhớ 3 file</h3>
+    <table>
+      <tr><th>File</th><th>Khi nào dùng</th></tr>
+      <tr><td><b>Cai-Dat-Sync.cmd</b></td><td>Cài lần đầu, hoặc thêm máy mới</td></tr>
+      <tr><td><b>Huong-Dan.cmd</b></td><td>Xem hướng dẫn chi tiết (file này)</td></tr>
+      <tr><td><b>Khoi-Dong-Sync.cmd</b></td><td>Bật lại Syncthing nếu bị tắt</td></tr>
+    </table>
+    <p style="margin-top:12px;color:var(--muted);font-size:14px">Các file <code>.ps1</code> khác là file hệ thống &mdash; không cần mở.</p>
+  </div>
+</section>
+
+<section id="phan2">
+  <h2><span class="no">2</span> Ba điều cần biết trước</h2>
+  <div class="grid">
+    <div class="card">
+      <h3>Máy cũ / Máy mới</h3>
+      <p><b>Máy cũ</b> = máy đã cài bộ sync từ trước (ví dụ máy LAPTOP).</p>
+      <p><b>Máy mới</b> = máy muốn thêm vào lần này (ví dụ máy thứ 3).</p>
+    </div>
+    <div class="card">
+      <h3>Device ID</h3>
+      <p>Giống "số căn cước" của máy tính &mdash; mỗi máy có một số riêng, không trùng nhau.</p>
+      <p>Muốn hai máy nói được với nhau: máy A phải biết số của máy B, <b>và ngược lại</b>. Thiếu một chiều là không chạy.</p>
+    </div>
+    <div class="card">
+      <h3>Tailscale</h3>
+      <p>Mạng ảo nối các máy lại với nhau. <b>Tất cả</b> các máy phải cài Tailscale và đăng nhập <b>cùng một tài khoản</b>.</p>
+      <p>Chưa có? Vào <code>tailscale.com</code> tải về rồi đăng nhập.</p>
+    </div>
+  </div>
+  <div class="info">
+    <b>Xem số Device ID của máy mình:</b> mở trình duyệt gõ <code>http://127.0.0.1:8384</code> &rarr; tìm máy của mình &rarr; bấm <b>Show ID</b>.
+  </div>
+</section>
+
+<section id="phan3">
+  <h2><span class="no">3</span> Cài lần đầu (máy đầu tiên)</h2>
+  <div class="card">
+    <ol class="steps">
+      <li>Kiểm tra có thư mục <code>C:\Users\Admin\Documents\Sync</code>.</li>
+      <li>Chạy file: <b>Cai-Dat-Sync.cmd</b></li>
+      <li>Khi hỏi "Device ID" &rarr; nhấn <b>Enter</b> để bỏ qua (vì chưa có máy nào).</li>
+      <li>Xong. <b>Ghi lại số "DEVICE ID MAY NAY"</b> hiện ra cuối màn hình.</li>
+    </ol>
+  </div>
+</section>
+
+<section id="phan4">
+  <h2><span class="no">4</span> Thêm một máy mới</h2>
+  <div class="warn">
+    Quy tắc: máy <b>mới</b> "ra mắt" trước, máy <b>cũ</b> "nhận" máy mới sau. Làm <b>lần lượt theo thứ tự</b> dưới đây, không làm ngược.
+  </div>
+
+  <div class="card blue">
+    <h3><span class="badge moi">BUỚC A</span> Trên máy MỚI</h3>
+    <ol class="steps li-blue">
+      <li>Cài Tailscale và đăng nhập cùng tài khoản (xem Phần 2).</li>
+      <li>Copy toàn bộ thư mục chứa bộ cài (có file <code>Cai-Dat-Sync.cmd</code>) sang máy mới bằng USB hoặc mạng nội bộ.</li>
+      <li>Mở thư mục đó, chạy: <b>Cai-Dat-Sync.cmd</b></li>
+      <li>
+        Khi hỏi "Device ID":
+        <ul>
+          <li>Có số của máy cũ bên cạnh &rarr; dán từng số vào &rarr; Enter. (Làm vậy với <b>từng</b> máy cũ.)</li>
+          <li>Không có số nào &rarr; cứ Enter bỏ qua, nối sau cũng được.</li>
+        </ul>
+      </li>
+      <li>Cuối màn hình hiện <b>"DEVICE ID MAY NAY"</b> &mdash; đây là số của máy mới.</li>
+    </ol>
+    <div class="deviceid">
+      <b><span class="badge batbuoc">BẮT BUỘC</span> Gửi số "DEVICE ID MAY NAY" này cho người lo máy CŨ.</b>
+    </div>
+    <p>Kiểm tra Tailscale đang chạy (biểu tượng nhỏ ở góc phải màn hình).</p>
+  </div>
+
+  <div class="card green">
+    <h3><span class="badge cu">BUỚC B</span> Trên máy CŨ (làm trên TỪNG máy cũ)</h3>
+    <ol class="steps li-green">
+      <li>Nhận "DEVICE ID" của máy mới (từ Buớc A).</li>
+      <li>Chạy: <b>Cai-Dat-Sync.cmd</b> &rarr; Enter.</li>
+      <li>Khi hỏi "Device ID": dán DEVICE ID của máy mới vào &rarr; Enter. (Các máy cũ khác đã biết rồi thì Enter bỏ qua.)</li>
+      <li>Xong. Chuyển sang máy cũ tiếp theo, làm lại từ đầu.</li>
+    </ol>
+  </div>
+
+  <div class="card violet">
+    <h3><span class="badge batbuoc">BUỚC C</span> Kết nối lần cuối (làm trên TỪNG máy)</h3>
+    <ol class="steps">
+      <li>Mở trình duyệt: <code>http://127.0.0.1:8384</code></li>
+      <li>Nếu có thông báo <b>"Add device"</b> hoặc thư mục cần xác nhận &rarr; bấm <b>Add / Accept</b>.</li>
+      <li>Kiểm tra thư mục <b>"Documents Sync"</b> hiện chữ <b>Synced</b>.</li>
+    </ol>
+    <div class="ok">
+      <b>Thử nghiệm:</b> bỏ 1 file vào thư mục Sync trên máy này &mdash; máy kia phải tự động có file đó trong vài giây.
+    </div>
+  </div>
+</section>
+
+<section id="phan5">
+  <h2><span class="no">5</span> Sử dụng hằng ngày</h2>
+  <div class="card bordered">
+    <p>Chỉ cần <b>bỏ file vào</b> <code>C:\Users\Admin\Documents\Sync</code> &mdash; mọi thứ tự động chạy, không cần làm gì thêm.</p>
+    <p>Syncthing bị tắt? Chạy <b>Khoi-Dong-Sync.cmd</b> để bật lại.</p>
+  </div>
+</section>
+
+<section id="phan6">
+  <h2><span class="no">6</span> Nâng cao: đăng ký máy trong file cấu hình</h2>
+  <div class="card">
+    <p>Không bắt buộc. Chỉ làm khi muốn danh sách máy được lưu sẵn, khỏi phải dán Device ID mỗi lần.</p>
+    <details>
+      <summary>Mở hướng dẫn chi tiết</summary>
+      <div class="body">
+        <ol class="steps">
+          <li>Mở file bằng Notepad: <code>config.ps1</code> (cùng thư mục với Cai-Dat-Sync.cmd)</li>
+          <li>Tìm dòng <code>$Peers = @(</code>.</li>
+          <li>Thêm 1 dòng (bọc trong ngoặc nhọn, ngăn cách bằng dấu phẩy):
+            <p><code>@{ Name = 'Tên máy'; TailscaleIp = 'IP máy'; SyncthingDeviceId = 'DEVICE ID' },</code></p>
+          </li>
+          <li>Lưu file, chạy lại: <b>Cai-Dat-Sync.cmd</b> &rarr; Enter (nhấn Enter khi hỏi Device ID, vì đã điền trong file rồi).</li>
+          <li>Làm lại trên <b>từng</b> máy còn lại.</li>
+        </ol>
+        <table>
+          <tr><th>Thông tin</th><th>Lấy ở đâu</th><th>Ghi chú</th></tr>
+          <tr><td>Tên máy</td><td>Tự đặt</td><td>Ví dụ "Máy Thứ 3"</td></tr>
+          <tr><td>Tailscale IP</td><td><code>login.tailscale.com/admin/machines</code></td><td>Không biết thì để <code>CHANGE-ME</code>, không hư gì</td></tr>
+          <tr><td>Device ID</td><td><code>http://127.0.0.1:8384</code> &rarr; Show ID</td><td>Bắt buộc</td></tr>
+        </table>
+      </div>
+    </details>
+  </div>
+</section>
+
+<section id="phan7">
+  <h2><span class="no">7</span> Câu hỏi thường gặp</h2>
+  <details>
+    <summary>Máy không thấy nhau / không đồng bộ</summary>
+    <div class="body">
+      Mở <code>http://127.0.0.1:8384</code> trên cả 2 máy:
+      <ul>
+        <li>Máy kia có màu <b>XANH</b> (online) không?</li>
+        <li>Tailscale có đang chạy trên cả 2 máy không?</li>
+        <li>Đã thêm Device ID đủ 2 chiều chưa? (Phần 2)</li>
+      </ul>
+    </div>
+  </details>
+  <details>
+    <summary>Windows hỏi cho phép mạng cho Syncthing</summary>
+    <div class="body">Bấm <b>"Cho phép / Allow access"</b>. Đây là bước bắt buộc.</div>
+  </details>
+  <details>
+    <summary>Lỗi "cannot find path"</summary>
+    <div class="body">Giải nén lại bộ cài mới. Trong thư mục giải nén phải thấy <b>Cai-Dat-Sync.cmd</b> và <b>README.txt</b> cùng hàng.</div>
+  </details>
+  <details>
+    <summary>Thư mục Sync đổi chỗ trên máy mới</summary>
+    <div class="body">Mở <code>config.ps1</code> (xem Phần 6), đổi dòng <code>SyncFolder</code> thành đường dẫn mới trên máy đó.</div>
+  </details>
+</section>
+
+<footer>
+  GoPaperless Sync Pack &mdash; hướng dẫn này có thể in ra để phát cho người dùng mới.
+</footer>
+
+</div>
+</body>
+</html>

@@ -2,8 +2,11 @@
 __pycache__/
 *.py[cod]
 
-# Embedded git repos
-.claude/skills/
+# Embedded git repos. Use /* not / so a negation below can re-include a
+# subdirectory: git never descends into an excluded directory.
+.claude/skills/*
+# ...except skills authored for this project
+!.claude/skills/gkg-signinghub-reference/
 
 # Temporary Office files
 ~$*.docx

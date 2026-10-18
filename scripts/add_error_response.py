@@ -19,7 +19,8 @@ from fix_docx_format import (
     set_cell_valign, set_cell_margins, reset_table_cell_paragraph_spacing,
     reset_table_cell_paragraph_indent, get_element_text, make_table_cell,
     apply_paragraph_style_layout, make_blank_paragraph_like,
-    parse_template, parse_api_body_rules,
+    parse_template, parse_api_body_rules, parse_table_property_rules,
+    parse_column_widths,
     fix_document, pack_docx
 )
 
@@ -162,8 +163,10 @@ def build_error_frame(clone_para, http_code, json_obj):
     return new_para
 
 
-def make_response_attributes_table(attributes):
+def make_response_attributes_table(attributes, column_widths):
     """Create a Response Attributes table."""
+    if len(column_widths) != 5:
+        raise ValueError("Response Attributes requires five column widths")
     tbl = etree.Element(qn("tbl"))
     tblPr = etree.SubElement(tbl, qn("tblPr"))
     tblW = etree.SubElement(tblPr, qn("tblW"))
@@ -182,9 +185,9 @@ def make_response_attributes_table(attributes):
         b.set(qn("space"), "0")
         b.set(qn("color"), "D9D9D9")
     tblGrid = etree.SubElement(tbl, qn("tblGrid"))
-    for w in ("900", "2200", "1400", "1200", "3300"):
+    for width in column_widths:
         gridCol = etree.SubElement(tblGrid, qn("gridCol"))
-        gridCol.set(qn("w"), w)
+        gridCol.set(qn("w"), str(width))
 
     # Row 1: merged header "Response Attributes"
     tr1 = etree.SubElement(tbl, qn("tr"))
@@ -192,14 +195,10 @@ def make_response_attributes_table(attributes):
     trHeight1 = etree.SubElement(trPr1, qn("trHeight"))
     trHeight1.set(qn("val"), "420")
     trHeight1.set(qn("hRule"), "atLeast")
-    tc1 = make_table_cell("Response Attributes", header=True)
+    tc1 = make_table_cell("Response Attributes", 5000, width_type="pct", header=True)
     tcPr1 = tc1.find(qn("tcPr"))
     grid_span1 = etree.SubElement(tcPr1, qn("gridSpan"))
     grid_span1.set(qn("val"), "5")
-    tcW1 = tcPr1.find(qn("tcW"))
-    if tcW1 is not None:
-        tcW1.set(qn("w"), "5000")
-        tcW1.set(qn("type"), "pct")
     tr1.append(tc1)
 
     # Row 2: column headers
@@ -208,8 +207,9 @@ def make_response_attributes_table(attributes):
     trHeight2 = etree.SubElement(trPr2, qn("trHeight"))
     trHeight2.set(qn("val"), "420")
     trHeight2.set(qn("hRule"), "atLeast")
-    for h in ("No", "Name", "Type", "Presence", "Description"):
-        tr2.append(make_table_cell(h, header=True))
+    for heading, width in zip(("No", "Name", "Type", "Presence", "Description"),
+                              column_widths):
+        tr2.append(make_table_cell(heading, width, header=True))
 
     # Data rows
     for no, attr in enumerate(attributes, start=1):
@@ -219,8 +219,8 @@ def make_response_attributes_table(attributes):
         trHeight.set(qn("val"), "420")
         trHeight.set(qn("hRule"), "atLeast")
         values = [str(no), attr["name"], attr["type"], attr["presence"], attr["description"]]
-        for val in values:
-            tr.append(make_table_cell(val, header=False))
+        for value, width in zip(values, column_widths):
+            tr.append(make_table_cell(value, width, header=False))
 
     return tbl
 
@@ -237,7 +237,8 @@ def insert_before_sectPr(body, elements):
             body.append(el)
 
 
-def add_error_response_section(root, config, heading_text, http_code, json_obj, attributes):
+def add_error_response_section(
+        root, config, heading_text, http_code, json_obj, attributes, column_widths):
     """Insert a complete error response section at the end of the document."""
     body = root.find(".//" + qn("body"))
     if body is None:
@@ -258,7 +259,7 @@ def add_error_response_section(root, config, heading_text, http_code, json_obj, 
 
     section.append(make_blank_paragraph_like(None, config, parse_api_body_rules(os.path.join("scripts", "GoPaperless_DOCX_Format_Template.md")).get("Before Attributes description", {})))
     section.append(make_label_para("Attributes description", config))
-    section.append(make_response_attributes_table(attributes))
+    section.append(make_response_attributes_table(attributes, column_widths))
 
     insert_before_sectPr(body, section)
     return True
@@ -273,6 +274,9 @@ def main():
     template_md = os.path.join("scripts", "GoPaperless_DOCX_Format_Template.md")
     config = parse_template(template_md)
     api_body_rules = parse_api_body_rules(template_md)
+    table_property_rules = parse_table_property_rules(template_md)
+    attribute_widths = parse_column_widths(
+        table_property_rules, "Generated attribute table column widths", 5)
 
     document_xml = os.path.join(unpacked, "word", "document.xml")
     tree = etree.parse(document_xml)
@@ -295,7 +299,8 @@ def main():
         heading_text="Error Response Template (Review)",
         http_code="400",
         json_obj=error_json,
-        attributes=attributes
+        attributes=attributes,
+        column_widths=attribute_widths,
     )
 
     tree.write(document_xml, xml_declaration=True, encoding="utf-8", standalone=True)
@@ -303,21 +308,23 @@ def main():
 
     # Run formatter to apply template rules
     from fix_docx_format import (
-        parse_table_border_rules, parse_table_property_rules,
+        parse_table_border_rules,
         parse_frame_method_rules, parse_heading_hierarchy_rules,
+        parse_frame_url_rules,
         fix_styles, fix_heading_numbering_layout, fix_document, pack_docx
     )
     table_border_rules = parse_table_border_rules(template_md)
-    table_property_rules = parse_table_property_rules(template_md)
     method_rules = parse_frame_method_rules(template_md)
     heading_hierarchy_rules = parse_heading_hierarchy_rules(template_md)
+    frame_url_rules = parse_frame_url_rules(template_md)
 
     styles_xml = os.path.join(unpacked, "word", "styles.xml")
     numbering_xml = os.path.join(unpacked, "word", "numbering.xml")
     fix_styles(styles_xml, config)
     fix_heading_numbering_layout(numbering_xml)
     fix_document(document_xml, config, table_border_rules, api_body_rules,
-                 table_property_rules, method_rules, heading_hierarchy_rules)
+                 table_property_rules, method_rules, heading_hierarchy_rules,
+                 frame_url_rules)
 
     output_dir = "formatted"
     os.makedirs(output_dir, exist_ok=True)

@@ -1,0 +1,546 @@
+{
+  "note": "code routes with no documented endpoint matching their regex",
+  "count": 90,
+  "endpoints": [
+    {
+      "method": "POST",
+      "path": "/v1/admin/accounts-tools",
+      "name": "Create Owner For Tools",
+      "controller": "AdminController"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/admin/enterprises-tools/lookup",
+      "name": "Lookup Enterprise By Tax Code For Tools",
+      "controller": "AdminController"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/admin/system/refresh-packages",
+      "name": "Refresh Certificate Profiles",
+      "controller": "AdminController"
+    },
+    {
+      "method": "DELETE",
+      "path": "/v1/application/queue",
+      "name": "Add API Request Queue",
+      "controller": "ApplicationController"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/application/queue",
+      "name": "Add API Request Queue",
+      "controller": "ApplicationController"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/application/users*",
+      "name": "Register Application User",
+      "controller": "ApplicationController"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/application/users-biometric",
+      "name": "Register Application User with Biometric",
+      "controller": "ApplicationController"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/application/users/check",
+      "name": "Check User Existed in KeyCloak",
+      "controller": "ApplicationController"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/authenticate/tse",
+      "name": "Login TSE",
+      "controller": "AuthorizeController"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/authenticate/tse/status",
+      "name": "Check TSE Status",
+      "controller": "AuthorizeController"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/authenticate/tse/status",
+      "name": "Check TSE Status",
+      "controller": "AuthorizeController"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/connectors",
+      "name": "Get List Login Connector",
+      "controller": "ConnectorController"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/connectors/certificate-profile",
+      "name": "Get Certificate Profiles for Connector",
+      "controller": "ConnectorController"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/contacts",
+      "name": "Create Contact",
+      "controller": "ContactController"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/settings/addressbook/[0-9]*",
+      "name": "Update AddressBook",
+      "controller": "ContactController"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/packages/[0-9]*/documents/[0-9]*/initials*",
+      "name": "Fill Initials",
+      "controller": "DocumentController"
+    },
+    {
+      "method": "DELETE",
+      "path": "/v1/enterprise/custom_fields(/[a-zA-Z0-9\\\\-_]+(/[0-9]+)?)?",
+      "name": "Delete Enterprise Custom Field",
+      "controller": "EnterpriseController"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/enterprise/custom_fields(/[a-zA-Z0-9\\\\-_]+(/[0-9]+)?)?",
+      "name": "Get Enterprise Custom Fields",
+      "controller": "EnterpriseController"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/enterprise/custom_fields(/[a-zA-Z0-9\\\\-_]+(/[0-9]+)?)?",
+      "name": "Create Enterprise Custom Field",
+      "controller": "EnterpriseController"
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/enterprise/custom_fields(/[a-zA-Z0-9\\\\-_]+(/[0-9]+)?)?",
+      "name": "Update Enterprise Custom Field",
+      "controller": "EnterpriseController"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/enterprise/electronic-seals(/){0,1}[0-9]*(/){0,1}[0-9]*",
+      "name": "Get Enterprise Electronic Seals",
+      "controller": "EnterpriseController"
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/enterprise/electronic-seals(/){0,1}[0-9]*(/){0,1}[0-9]*",
+      "name": "Update Enterprise Electronic Seals",
+      "controller": "EnterpriseController"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/enterprise/invitations",
+      "name": "Invite Enterprise User",
+      "controller": "EnterpriseController"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/enterprise/invitations/[0-9]+/[0-9]+",
+      "name": "Get Enterprise Invitations",
+      "controller": "EnterpriseController"
+    },
+    {
+      "method": "DELETE",
+      "path": "/v1/enterprise/invitations/[1-9][0-9]*",
+      "name": "Cancel Enterprise User Invitation",
+      "controller": "EnterpriseController"
+    },
+    {
+      "method": "DELETE",
+      "path": "/v1/enterprise/invitations/[1-9][0-9]*/delete",
+      "name": "Delete Enterprise User Invitation",
+      "controller": "EnterpriseController"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/enterprise/invitations/[1-9][0-9]*/resend",
+      "name": "Resend Enterprise User Invitation",
+      "controller": "EnterpriseController"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/enterprise/invitations/export",
+      "name": "Export Enterprise Invitations",
+      "controller": "EnterpriseController"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/enterprise/invitations/export/[0-9]+/[0-9]+",
+      "name": "Export Enterprise Invitations",
+      "controller": "EnterpriseController"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/enterprise/invitations/export/[a-zA-Z_]+",
+      "name": "Export Enterprise Invitations",
+      "controller": "EnterpriseController"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/enterprise/invitations/export/[a-zA-Z_]+/[0-9]+/[0-9]+",
+      "name": "Export Enterprise Invitations",
+      "controller": "EnterpriseController"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/enterprise/reports/[0-9]+/[0-9]+",
+      "name": "Get Enterprise Report List",
+      "controller": "EnterpriseController"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/enterprise/reports/quota/statistics/[0-9]+/[0-9]+",
+      "name": "Get Enterprise Quota Statistics",
+      "controller": "EnterpriseController"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/enterprise/reports/workflows/statistics/export",
+      "name": "Export Enterprise Workflow Statistics",
+      "controller": "EnterpriseController"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/enterprise/reports/workflows/statistics/export/[0-9]+/[0-9]+",
+      "name": "Export Enterprise Workflow Statistics",
+      "controller": "EnterpriseController"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/enterprise/reports/workflows/statistics/export/[a-zA-Z_]+",
+      "name": "Export Enterprise Workflow Statistics",
+      "controller": "EnterpriseController"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/enterprise/reports/workflows/statistics/export/[a-zA-Z_]+/[0-9]+/[0-9]+",
+      "name": "Export Enterprise Workflow Statistics",
+      "controller": "EnterpriseController"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/enterprise/settings/tsa",
+      "name": "Get Enterprise TSA Configuration",
+      "controller": "EnterpriseController"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/enterprise/settings/tsa",
+      "name": "Add Enterprise TSA Setting",
+      "controller": "EnterpriseController"
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/enterprise/settings/tsa",
+      "name": "Update Enterprise TSA Configuration",
+      "controller": "EnterpriseController"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/enterprise/settings/tsa/test-connection",
+      "name": "Test Connection Enterprise TSA Configuration",
+      "controller": "EnterpriseController"
+    },
+    {
+      "method": "DELETE",
+      "path": "/v1/enterprise/users/[1-9][0-9]*",
+      "name": "Remove Enterprise User",
+      "controller": "EnterpriseController"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/enterprise/users/[1-9][0-9]*/quota",
+      "name": "Get Enterprise User Quota",
+      "controller": "EnterpriseController"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/enterprise/users/agent-invite",
+      "name": "Agent Invite Enterprise User",
+      "controller": "EnterpriseController"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/enterprise/users/export",
+      "name": "Export Enterprise Users",
+      "controller": "EnterpriseController"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/enterprise/users/export/[0-9]+/[0-9]+",
+      "name": "Export Enterprise Users",
+      "controller": "EnterpriseController"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/enterprise/users/statistics",
+      "name": "Get Enterprise User Management Statistics",
+      "controller": "EnterpriseController"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/enterprise/workflows/[a-zA-Z_]+/[0-9]+/[0-9]+",
+      "name": "Get Enterprise Workflows",
+      "controller": "EnterpriseController"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/packages/[0-9]*/documents/[0-9]*/fields/.*",
+      "name": "Add Field",
+      "controller": "FieldController"
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/packages/[0-9]*/documents/[0-9]*/fields/.*",
+      "name": "Update Field",
+      "controller": "FieldController"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/identity",
+      "name": "Facial Matching",
+      "controller": "IdentityController"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/identity/verification/email-otp",
+      "name": "Send Email OTP",
+      "controller": "IdentityController"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/packages/SIGN",
+      "name": "Bulk Sign Packages",
+      "controller": "RSSPController"
+    },
+    {
+      "method": "DELETE",
+      "path": "/v1/packages/SIGN/status",
+      "name": "Release Bulk Signing Management",
+      "controller": "RSSPController"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/packages/SIGN/status",
+      "name": "Get Bulk Signing Status",
+      "controller": "RSSPController"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/ras/request/cancel",
+      "name": "Cancel Authorize Signing Request",
+      "controller": "RSSPController"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/providers",
+      "name": "Get List Providers",
+      "controller": "SystemController"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/system/billing/catalog",
+      "name": "Get Billing Catalog",
+      "controller": "SystemController"
+    },
+    {
+      "method": "DELETE",
+      "path": "/v1/system/cache",
+      "name": "Delete Cache Data",
+      "controller": "SystemController"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/system/cache",
+      "name": "Get Cache Data",
+      "controller": "SystemController"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/system/file/[a-zA-Z0-9\\\\-]+",
+      "name": "Download file system",
+      "controller": "SystemController"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/system/logs/([0-9]+)/([0-9]+)",
+      "name": "List System Logs",
+      "controller": "SystemController"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/system/logs/([0-9]+)/details",
+      "name": "Get System Log Details",
+      "controller": "SystemController"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/system/reload",
+      "name": "Reload System Resources",
+      "controller": "SystemController"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/system/response-codes",
+      "name": "Add Response Code",
+      "controller": "SystemController"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/system/serviceplans/([0-9]+)/([0-9]+)",
+      "name": "Get All Service Plans",
+      "controller": "SystemController"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/system/serviceplans/([0-9]+)/billing/catalog",
+      "name": "Get Service Plan Billing Catalog",
+      "controller": "SystemController"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/system/signing/apps",
+      "name": "Get App Name Mapping List",
+      "controller": "SystemController"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/system/terms-of-service/([a-zA-Z0-9\\\\-]+)",
+      "name": "Download Terms of Service File",
+      "controller": "SystemController"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/enterprise/templates",
+      "name": "Create Enterprise Template",
+      "controller": "TemplateController"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/settings/templates",
+      "name": "Create Personal Template",
+      "controller": "TemplateController"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/trusted-billing/bills",
+      "name": "Create Trusted Billing Bill",
+      "controller": "TrustedBillingController"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/trusted-billing/customers",
+      "name": "Create Trusted Billing Customer",
+      "controller": "TrustedBillingController"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/account/certificate-enrollments/(([0-9]+/[0-9]+)|((ALL|all|DONE|FAILED|EXPIRED|REJECTED|WAITING_FOR_APPROVAL_IN_VNEID|GENERATE_SESSION_SUCCESS|WAITING_EMAIL_VERIFY|WAITING_MOBILE_VERIFY|NOT_VERIFIED)(/[0-9]+)?(/[0-9]+)?))",
+      "name": "Get Certificate Enroll History",
+      "controller": "UserController"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/account/invitations(/[0-9]+/[0-9]+)?",
+      "name": "Get Account Invitations",
+      "controller": "UserController"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/account/signing-transactions/((ALL|SUCCESS|FAILED|REJECTED|EXPIRED)/)?[0-9]+/[0-9]+",
+      "name": "Get Signing History",
+      "controller": "UserController"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/verification/email-otp",
+      "name": "Send Email OTP",
+      "controller": "UserController"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/validations(/[0-9]*/[0-9]*){0,1}",
+      "name": "Get List Validation",
+      "controller": "ValidationController"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/validations(/[0-9]*/[0-9]*){0,1}",
+      "name": "Add Validation",
+      "controller": "ValidationController"
+    },
+    {
+      "method": "DELETE",
+      "path": "/v1/validations/[0-9]+",
+      "name": "Delete Validation",
+      "controller": "ValidationController"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/validations/[0-9]+/reports",
+      "name": "Get Report of Validation",
+      "controller": "ValidationController"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/validations/reports/[a-zA-Z0-9]+/(detailed|diagnostic|simple)",
+      "name": "Download Reports",
+      "controller": "ValidationController"
+    },
+    {
+      "method": "POST",
+      "path": "/billing/webhook",
+      "name": "Trusted Billing Webhook",
+      "controller": "BillingWebhookController"
+    },
+    {
+      "method": "POST",
+      "path": "/billing/webhook/([a-zA-Z0-9\\\\-]+)",
+      "name": "",
+      "controller": "BillingWebhookController"
+    },
+    {
+      "method": "POST",
+      "path": "/rss/webhook",
+      "name": "RSS Webhook",
+      "controller": "WebhookController"
+    },
+    {
+      "method": "POST",
+      "path": "/rss/webhook/([a-zA-Z0-9\\\\-]+)",
+      "name": "RSS Webhook - Receive event start processing",
+      "controller": "WebhookController"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/(/workflow/)[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}",
+      "name": "Get Workflow Details By UUID",
+      "controller": "WorkflowController"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/packages/[0-9]*/comments(/[0-9]+/[0-9]+){0,1}",
+      "name": "Get Workflow Comments",
+      "controller": "WorkflowController"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/packages/[0-9]*/comments(/[0-9]+/[0-9]+){0,1}",
+      "name": "Add Workflow Comment/Message",
+      "controller": "WorkflowController"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/workflow/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}/view",
+      "name": "View Workflow",
+      "controller": "WorkflowController"
+    }
+  ]
+}

@@ -1,0 +1,8028 @@
+{
+  "docx": "GoPaperless Workflow RESTful API Specification V2-Formatted.docx",
+  "stats": {
+    "paragraphs": 40556,
+    "tables": 839,
+    "frames": 1242,
+    "endpoints": 206
+  },
+  "sections": {
+    "Target": "0be6ac495317",
+    "Abbreviation": "d9ce9d19144a",
+    "System Connection Information": "72baeaf7ab37",
+    "Authenticate – Log in": "da39a3ee5e6b",
+    "Authenticate – Log in / Client Credentials Authentication": "35e7833dd71c",
+    "Authenticate – Log in / Password Authentication": "9489841045d1",
+    "Authenticate – Log in / Single Sign On Authentication": "a3ef63850e0a",
+    "Authenticate – Log in / OTP Login Authentication": "94ce7b6a328b",
+    "Authenticate – Log in / Revoke refresh token": "c79393683c2d",
+    "Authenticate – Log in / Get Information": "efe920f304cf",
+    "Authenticate – Log in / Pre Login Authentication": "a9d44a91a80c",
+    "Authenticate – Log in / Switch Enterprise Context": "4cf5a92d0c13",
+    "Document Package": "da39a3ee5e6b",
+    "Document Package / Pre Upload Document": "3853ae0eae7e",
+    "Document Package / Add Document Package": "800bab4a10ea",
+    "Document Package / Share Document Package/ Share Workflow": "f3a210330c2a",
+    "Document Package / Upload Document": "74dbfd5ecd75",
+    "Document Package / Upload Document (base64)": "55a608a64b67",
+    "Document Package / Download Package": "d19cfec0a6b7",
+    "Document Package / Download Package (base64)": "e2478d965e41",
+    "Document Package / Download Document": "18c48ca1757a",
+    "Document Package / Download Document (base64)": "fa31e657e372",
+    "Document Package / Get All Packages": "38479f1f4fcb",
+    "Document Package / Get Document Image": "8daabe48d6cc",
+    "Document Package / Get Document Image Base64": "f0ddffb1bb81",
+    "Document Package / Get Document Details": "5f7f630ce84e",
+    "Document Package / Get Document Verification": "2a8d6aeb3f78",
+    "Document Package / Get Package Verification": "9e35604b5e31",
+    "Document Package / Get Package Details": "5f31c28c7f93",
+    "Document Package / Rename Package": "2f388d03dbdb",
+    "Document Package / Rename Document": "9c3a4aa57394",
+    "Document Package / Delete Package": "de999f5d7cc1",
+    "Document Package / Delete Document": "f4c531d59143",
+    "Document Package / Update Document": "8092f4175528",
+    "Document Package / Update Document (base64)": "b411c7d3b295",
+    "Document Package / Merge Document": "aee9ed7d06e8",
+    "Document Package / Apply Workflow Template": "72452c1d6030",
+    "Document Package / Convert Document to Paper": "e5d8fa44e919",
+    "Document Package / Download Signature Summary": "7cfd4f216b2a",
+    "Document Package / Download Signature Summary (base64)": "ada6faf32fc0",
+    "Document Workflow": "da39a3ee5e6b",
+    "Document Workflow / Start new Workflow": "6b6b022397a3",
+    "Document Workflow / Create Workflow From Template": "55145df1ee00",
+    "Document Workflow / Share Workflow": "85c2bb3394a8",
+    "Document Workflow / Add Electronic Seal to Workflow": "ebca1d776a09",
+    "Document Workflow / Add User to Workflow": "ea0fdc44faba",
+    "Document Workflow / Get All Workflow": "436b2a6fc0a7",
+    "Document Workflow / Update Workflow Details": "8b778f724a79",
+    "Document Workflow / Delete Workflow": "62745e95c4a8",
+    "Document Workflow / Get Workflow Details": "01766b8ad112",
+    "Document Workflow / Get Workflow Details by UUID": "6afa05ce62e8",
+    "Document Workflow / View Workflow": "6ba26337a89b",
+    "Document Workflow / Get Workflow Users": "fccc07784965",
+    "Document Workflow / Update Workflow User": "b28297f4b2e4",
+    "Document Workflow / Delete Workflow User": "4cf5ca4f9973",
+    "Document Workflow / Accept Terms of Service (ECONTRACT)": "211e0f70fb21",
+    "Document Workflow / Update Workflow Reminders": "d460f276478d",
+    "Document Workflow / Get Workflow Reminders": "d45dae4dbdc2",
+    "Document Workflow / Send Reminder": "22a3ca425102",
+    "Document Workflow / Get Workflow History": "2469ebca371f",
+    "Document Workflow / Add Workflow Comment/Message": "4a4e0b09650c",
+    "Document Workflow / Get Workflow Comment/Message": "e628f5ead9e5",
+    "Document Workflow / Delete Workflow Comment/Message": "429a815018d9",
+    "Document Workflow / Get Workflow User Authentication (Document Opening)": "876eb2893ad0",
+    "Document Workflow / Update Workflow User Authentication (Document Opening)": "86a26bbb808c",
+    "Document Workflow / Get Workflow User Permissions": "199f4e300c4b",
+    "Document Workflow / Update Workflow User Permissions": "30da2465d370",
+    "Document Workflow / Create new Category": "533cc48d3937",
+    "Document Workflow / Update Category": "593ff0676408",
+    "Document Workflow / Get list of Category": "203ff6b341c3",
+    "Document Workflow / Delete Category": "34eca3c84801",
+    "Document Workflow / Add Placeholder to Workflow": "c07ab3d3247e",
+    "Document Workflow / Update Placeholder in Workflow": "038a291abdc5",
+    "Document Workflow / Import Excel to Clone Workflow": "90c4472983fe",
+    "Document Workflow / Get Status of Import Excel": "438cb6da93fa",
+    "Document Workflow / Upload Attachment": "64fa4f13ab72",
+    "Document Workflow / Get Attachments": "cbe54c718ba3",
+    "Document Workflow / Delete Attachment": "5046cefcdebb",
+    "Document Workflow / Download Attachment": "a840560afcb8",
+    "Document Preparation": "da39a3ee5e6b",
+    "Document Preparation / Add Digital Signature Field": "eb5c164a96ce",
+    "Document Preparation / Update Digital Signature Field": "b8a5bca682a9",
+    "Document Preparation / Add TextBox Field": "861942e36229",
+    "Document Preparation / Update TextBox Field": "cd4e7a65223a",
+    "Document Preparation / Add Initial Field": "eac0076547f4",
+    "Document Preparation / Update Initial Field": "3808a44b63ae",
+    "Document Preparation / Assign Document Field": "545a5870647e",
+    "Document Preparation / Delete Document Field": "0e440daa0f7a",
+    "Document Preparation / Get Document Fields": "7b5cface4c6d",
+    "Document Preparation / Get Field Types": "4f1a8bdbb156",
+    "Document Preparation / Add In-person Field": "36816084aaef",
+    "Document Preparation / Update In-person Field": "e3c04fa255a2",
+    "Document Preparation / Add Datetime Field": "7f41f1e896df",
+    "Document Preparation / Update Datetime Field": "949410a17e4b",
+    "Document Preparation / Add CheckBox Field": "d7588dbe0b04",
+    "Document Preparation / Update CheckBox Field": "f88377742973",
+    "Document Preparation / Add RadioBox Field": "f3d0c6060984",
+    "Document Preparation / Update RadioBox Field": "12dd61df5921",
+    "Document Preparation / Add QR Field": "0e2737ebd8ab",
+    "Document Preparation / Update QR Field": "01004f0cfd15",
+    "Document Preparation / Add ComboBox Field": "af58167aaf8d",
+    "Document Preparation / Update ComboBox Field": "64feeda4327d",
+    "Document Preparation / Add Toggle Field": "e7f73bd60760",
+    "Document Preparation / Update Toggle Field": "91d31763c73e",
+    "Document Preparation / Add Numeric Stepper Field": "780dacf5ff08",
+    "Document Preparation / Update Numeric Stepper Field": "b1cbae8be074",
+    "Document Preparation / Add Hyperlink Field": "b02e785ada40",
+    "Document Preparation / Update Hyperlink Field": "30e3e98ee100",
+    "Document Preparation / Add Stamp Field": "450bcff5e31c",
+    "Document Preparation / Update Stamp Field": "6e6dd5bf502f",
+    "Document Preparation / Add Camera Field": "42ab91877a02",
+    "Document Preparation / Update Camera Field": "98e6b09be9d4",
+    "Document Preparation / Add Attachment Field": "475ec10e4f95",
+    "Document Preparation / Update Attachment Field": "a2ccc18e409e",
+    "Document Preparation / Add CheckBox Field Version 2": "13541e9a335b",
+    "Document Preparation / Update CheckBox Field Version 2": "9a350e8f12fc",
+    "Document Preparation / Add RadioBox Field Version 2": "1244b2c7af48",
+    "Document Preparation / Update RadioBox Field Version 2": "629f7bd32f37",
+    "Document Preparation / Add VNeID Field": "5890407a139a",
+    "Document Preparation / Update VNeID Field": "025b1e1030fb",
+    "Document Preparation / Add Redact Field": "2c1adf904950",
+    "Document Preparation / Update Redact Field": "59174a209703",
+    "Document Preparation / Add Elabor Field": "9a3a3a3af89f",
+    "Document Preparation / Update Elabor Field": "6c7ecfad0892",
+    "Document Processing": "da39a3ee5e6b",
+    "Document Processing / Approve Document": "da0f5cf4f5a9",
+    "Document Processing / Decline Document": "a7145c7747aa",
+    "Document Processing / Sign with GoPaperless Workflow": "da39a3ee5e6b",
+    "Document Processing / Sign Document": "65968a9d1b07",
+    "Document Processing / Sign Eseal": "d9d48c049f38",
+    "Document Processing / Two Step Signing": "da39a3ee5e6b",
+    "Document Processing / Get Document Hash": "8ec57882327e",
+    "Document Processing / Embed Signature": "20896b8dfe42",
+    "Document Processing / Fill Form Fields": "02a39cb3cc69",
+    "Document Processing / Fill Initials": "217d1ac64574",
+    "Document Processing / Submit Document": "8fd09032839e",
+    "Connector": "47a4652cbe29",
+    "Connector / Get List USB-Token Connector": "5955c402bfa9",
+    "Connector / Get List Smart-ID Connector": "3c2011857760",
+    "Connector / Get List Internal Signing Service Connector (ISS)": "a6095d4e4ee1",
+    "Connector / Get Certificate Profile of Connector": "e415aefedeb7",
+    "RSSP Processing": "da39a3ee5e6b",
+    "RSSP Processing / Get RSSP Information": "6c0da7c14104",
+    "RSSP Processing / Get Filtered Credential List": "ddaf5c0dc967",
+    "RSSP Processing / Sign Document via RSSP Directly": "d79d5b58c361",
+    "RSSP Processing / RSSP Credential Authorization": "8818c7d4a9ac",
+    "RSSP Processing / Get Signing Status (TSE MID)": "af608c005503",
+    "RSSP Processing / Get Credentials Info": "ed62e1c613ab",
+    "RSSP Processing / Send OTP via RSSP": "49860ec088a6",
+    "RSSP Processing / Get Signing Transaction Status": "760f285a9c0f",
+    "RSSP Processing / Get Pending Signing Sessions": "077edce5e4f1",
+    "RSSP Processing / Get Sign Hash From Service": "cfb72b8da4b0",
+    "RSSP Processing / Check OCSP Certificate Status": "8764a8b358ae",
+    "Register Certificate Processing": "da39a3ee5e6b",
+    "Register Certificate Processing / Get Information of Citizen card": "dbc2fc4219dc",
+    "Register Certificate Processing / Register Certificate via RSSP": "afef4cad7d92",
+    "Register Certificate Processing / Send OTP to Certificate Registration": "50d1b0a95906",
+    "Register Certificate Processing / Verify OTP for Certificate Registration": "e47408eea990",
+    "Register Certificate Processing / Get List Tax Codes": "b392ebd689f5",
+    "Register Certificate Processing / Finish Register Certificate": "7cd16f41e6a1",
+    "Enterprise Management": "da39a3ee5e6b",
+    "Enterprise Management / Register Enterprise User": "bd7702220d0b",
+    "Enterprise Management / Get Workflow User Permissions of Enterprise Package": "9e80e410c174",
+    "Enterprise Management / Update Workflow User Permissions of Enterprise Package": "ab51b119176b",
+    "Enterprise Management / Get Workflow User Authentication (Document Opening) of Enterprise Package": "a8eee86e32a3",
+    "Enterprise Management / Update Workflow User Authentication of Enterprise Package": "ea6810582bb7",
+    "Enterprise Management / Reset Enterprise User Password": "7d22b52e7aef",
+    "Enterprise Management / Change User Service Plan": "0511d46284eb",
+    "Enterprise Management / Get Enterprise Users": "1c099037a394",
+    "Enterprise Management / Get Enterprise User": "24dce0bc1f39",
+    "Enterprise Management / Update Enterprise User": "8ccb73ace1e6",
+    "Enterprise Management / Delete Enterprise User": "0c0c45173393",
+    "Enterprise Management / Get Groups": "33d455475daa",
+    "Enterprise Management / Delete Groups": "073daa31302b",
+    "Enterprise Management / Add Member into Group": "b0f5c5f2336d",
+    "Enterprise Management / Delete Member in Group": "60ac2d275e20",
+    "Enterprise Management / Get Roles": "1874d511a248",
+    "Enterprise Management / Get Role Users": "4a6a3b4b698d",
+    "Enterprise Management / Delete Role": "b9d8862322ac",
+    "Enterprise Management / Add Role": "8b606a595333",
+    "Account Management": "da39a3ee5e6b",
+    "Account Management / Get Account Invitations": "277066a0cca6",
+    "Account Management / Accept Account Invitations": "961d375cc072",
+    "Account Management / Reject All Account Invitations": "d8e0c2173a45",
+    "Account Management / Register Enterprise User (Free Trial)": "024707571842",
+    "Account Management / Get Account": "4721e4ee5f07",
+    "Account Management / Send Forgot Password Request": "7b1f27b0811e",
+    "Account Management / Account Usage Statistics": "befe6e224988",
+    "Account Management / Document Statistics": "a6e3d2b9b10a",
+    "Account Management / Get User Activity Logs": "226a6498ce51",
+    "Account Management / Get Group": "a938d7e61dcf",
+    "Account Management / Change Password": "12c47c169053",
+    "Account Management / Update Security Settings": "50a6fde8af48",
+    "Account Management / Add Identity for a User": "ec608d886c34",
+    "Personal Settings": "da39a3ee5e6b",
+    "Personal Settings / Get Signature Settings": "66e12f4b46b1",
+    "Personal Settings / Add Signature Appearance": "c973f5dd4a65",
+    "Personal Settings / Update Signature Appearance": "e71e515753fc",
+    "Personal Settings / Delete Signature Appearance": "366515d22253",
+    "Personal Settings / Get General Profile Information": "ae442c0cb3f8",
+    "Personal Settings / Update General Profile Information": "4a86ef5a458d",
+    "Personal Settings / Get Address Book": "8895639e9a24",
+    "Personal Settings / Add Address Book": "3411b9224f95",
+    "Personal Settings / Update Address Book": "a84c04d99337",
+    "Personal Settings / Delete Address Book": "7218b62bc0d5",
+    "Personal Settings / Add Contact into Address Book": "23e36ad7a52b",
+    "Personal Settings / Remove Contact in Address Book": "8ab83b75b15a",
+    "Personal Settings / Get Templates": "101cad79d7b0",
+    "Application/Device Management": "da39a3ee5e6b",
+    "Application/Device Management / Register Application User": "6ff99af14828",
+    "Application/Device Management / Add Personal Contact": "bbf457583ba9",
+    "Application/Device Management / Get Contacts": "bd13b09fa03e",
+    "Application/Device Management / Update Personal Contact": "194696b82aa4",
+    "Application/Device Management / Delete Personal Contact": "468d6dc4efdd",
+    "Template": "1f7d745c706e",
+    "Template / Save Workflow as Template": "5ce20e61ec3f",
+    "Template / Get Template By ID": "2a2a755029fb",
+    "Template / Update Template": "83a2583c7de7",
+    "Template / Delete Template": "43cb15f49e3a",
+    "ADMIN APIs": "da39a3ee5e6b",
+    "ADMIN APIs / Admin Authentication": "14b5b66e2cb2",
+    "ADMIN APIs / Create Account": "d40cacc34ed7",
+    "ADMIN APIs / Change User Service Plan": "c9d3574588a4",
+    "ADMIN APIs / Get Accounts": "f3c8b8683719",
+    "ADMIN APIs / Service Plan Reset": "b22903116e75",
+    "AddUserToWorkflowRequest": "e2d5e3906ffa",
+    "AddUserToWorkflowResponse": "643ac746df77",
+    "GetWorkflowHistoryResponse": "7c8c13f3a044",
+    "VerificationSignatureRequest": "c7d52a78bc1d",
+    "AssignDocumentRequest": "1f8ed0a6c807",
+    "RegisterUserRequest": "0bdc7d5d639b",
+    "UpdateWorkflowPermissionRequest": "cca3e324bfc4",
+    "GetFilteredCredentialListResponse": "c0f645ab741e",
+    "GetListWorkflowResponse": "cc44d5f1c541",
+    "BaseFillFormRequest": "a45d85a25886",
+    "AddPlaceholderToWorkflowRequest": "8530d5bb1778",
+    "AddPlaceholderToWorkflowResponse": "649773d84741",
+    "GetAttachmentsResponse": "c550be0df221",
+    "GetCertificateProfilesResponse": "832bde5447c4",
+    "TemplateDocumentResponse": "2fa10169ae86",
+    "Package": "4750e815460f",
+    "NextSigner": "5658e9b0c73a",
+    "Access_duration_1 (Get Packages request)": "24d06cf769c7",
+    "Decline": "52ac26b1b4d2",
+    "Certify": "34b8b65d216a",
+    "DocumentVerification": "4f1500a1e58b",
+    "PackageVerification": "45f1e9cd5101",
+    "Document": "277ef8f79ec9",
+    "Workflow": "4d34abaa0490",
+    "User": "da277723bcd1",
+    "Reminder": "bbb7832dda79",
+    "Action": "c172f75381e0",
+    "Information": "f8f9890c6bc7",
+    "Comment/Message": "0a4482484b22",
+    "Sender": "6024e88d1bd6",
+    "Authentication (for Workflow User Authentication)": "0d12e3c4b097",
+    "Password": "05a636d01b6c",
+    "Sms": "425350a90fb6",
+    "Authentication_Signing (for Workflow User Authentication)": "44bbd105ea8f",
+    "Access_duration (for Workflow User Authentication)": "ef78f73b778e",
+    "DurationByDate": "343281f36718",
+    "DurationByDays": "0ce428997153",
+    "DurationDays": "86fc08777d2a",
+    "DurationDate": "c00b10e5c64a",
+    "Permission": "60fd89d88b6d",
+    "Dimension": "d66c2ad1b9fd",
+    "FieldAuthentication": "b6fc260805d9",
+    "Otp": "6800eb99590c",
+    "Font": "66c9ede828ce",
+    "AlignmentOption": "f291f3da388d",
+    "SignatureFieldAttribute": "14a24d1a3702",
+    "VerificationData": "41f5238d3304",
+    "TextFieldAttribute": "c0c131f0fdd2",
+    "CheckboxFieldAttribute": "8da9d61c35c6",
+    "QRFieldAttribute": "c2c705ef07c3",
+    "InitialFieldAttribute": "9246813694e5",
+    "RSSPService": "f2f0023aa767",
+    "Owner(Package Details)": "2c1dc88c4a50",
+    "Document(Package Details)": "6b2abd0bd32d",
+    "Authentication(SigningRequest)": "9a8a75efbd3b",
+    "Authentication (Workflow User Authentication)": "0d12e3c4b097",
+    "UserOfEnterprise": "2714be471032",
+    "Group": "4e2c5b9bfd6e",
+    "Member": "f68fa1652546",
+    "Role": "1f59568293c2",
+    "Invitation": "31830d6998b7",
+    "ServicePlan": "f19dc353f63b",
+    "Constraints": "628307f40a45",
+    "Setting": "48844d1a817a",
+    "Billing": "5ececad63fa1",
+    "Enterprise": "67c31c9b313f",
+    "Consumer": "6efd35c0d54d",
+    "UserActivity": "8324838a9c7b",
+    "General": "44541be80ac5",
+    "Security": "2ce868aaaa4c",
+    "Locale": "291aebe1fd8d",
+    "Contact": "1320d495653e",
+    "Account": "3687a7d3eaa7",
+    "Address Book": "9f9790fa5d09",
+    "WorkflowDetail": "80d0ad203631",
+    "Category": "f11a627c75d8",
+    "SignatureAppearance": "3c3d4f0cbaa1",
+    "MetadataSignature": "3391fbe9fbfe",
+    "CredentialConfiguration": "9536fe536660",
+    "AssignedField": "cb27fe9cd5f2",
+    "CredentialInfo": "6a191c4ad5e8",
+    "PersonalInformation": "24832605813c",
+    "ChooseItems": "38b3f74d701c",
+    "ChooseItem": "f9629cd1ea01",
+    "Date": "559f521cd080",
+    "NumericItems": "0181f3f5d6bb",
+    "File": "91dbe6f4f237",
+    "Frame": "7bf39289f7ae",
+    "Image": "737986e5838c",
+    "CertificateProfile": "94a8058866a4",
+    "IssuingProvider": "7c4a9451f8cc",
+    "RedactPolicy": "f1ac3205c594",
+    "RedactionRule": "1c4b6bc8fb0a",
+    "FieldTypeGroup": "f4fb48d5f1bd",
+    "FieldTypeItem": "0399adc178ca",
+    "RadioboxFieldAttribute": "70fe30ae69a5",
+    "ComboBoxFieldAttribute": "689d6ae2d3ee",
+    "DateTimeFieldAttribute": "ab33caaaf6dc",
+    "ImageFieldAttribute": "332672d9e8df",
+    "CameraFieldAttribute": "b0c967f7cf48",
+    "AttachmentFieldAttribute": "8d4a1d59e0b3",
+    "HyperLinkFieldAttribute": "02b7b0433eaa",
+    "ToggleFieldAttribute": "6007867ee41c",
+    "NumericFieldAttribute": "b049191930e8",
+    "CheckboxFieldAttributeV2": "c47c5f7632ce",
+    "RadioboxFieldAttributeV2": "6f8b05d1a465",
+    "WorkflowMode": "cc8013daeb78",
+    "WorkflowStatus": "4886f988b610",
+    "LevelOfAssurance": "d0554bcf6176",
+    "LockAction": "7a889b2c3f39",
+    "LockPermission": "379df48bd814",
+    "AnnotationPosition": "a1f63dab0af5",
+    "DocumentType": "0e7942c9dbab",
+    "SigningAlgorithm": "1b14792f6ae9",
+    "HashingAlgorithm": "6a0b7d949d98",
+    "AppearanceDesign": "9244b38b7970",
+    "AppearanceAlignment": "846f61e30961",
+    "WorkflowState": "29e85f16a2b8",
+    "FieldTypes": "5e2ce3c8d8e7",
+    "AuthorizeMode": "1dd32103c501",
+    "DocumentTypeForEID": "c664a4bf334d",
+    "Color": "674cadfd8040",
+    "FontName": "3f822f26d5f6"
+  },
+  "endpoints": {
+    "POST /v1/authenticate": {
+      "name": "Password Authentication",
+      "category": "Authenticate – Log in",
+      "headers": [
+        "x-language-name",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "grant_type",
+          "M"
+        ],
+        [
+          "client_id",
+          "M"
+        ],
+        [
+          "client_secret",
+          "M"
+        ],
+        [
+          "username",
+          "M"
+        ],
+        [
+          "password",
+          "M"
+        ],
+        [
+          "remember_me_enabled",
+          "O"
+        ],
+        [
+          "scope",
+          "O"
+        ]
+      ],
+      "response_fields": [
+        "access_token",
+        "token_type",
+        "expires_in",
+        "refresh_token",
+        "refresh_token_expires_in",
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "POST /v1/authenticate/sso": {
+      "name": "Single Sign On Authentication",
+      "category": "Authenticate – Log in",
+      "headers": [
+        "x-language-name",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "token",
+          "M"
+        ],
+        [
+          "code",
+          "M"
+        ],
+        [
+          "method",
+          "M"
+        ],
+        [
+          "profile_name",
+          "M"
+        ],
+        [
+          "profile_id",
+          "M"
+        ],
+        [
+          "remember_me_enabled",
+          "O"
+        ]
+      ],
+      "response_fields": [
+        "access_token",
+        "token_type",
+        "expires_in",
+        "refresh_token",
+        "refresh_token_expires_in",
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "POST /v1/authenticate/otp": {
+      "name": "OTP Login Authentication",
+      "category": "Authenticate – Log in",
+      "headers": [
+        "x-language-name",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "mobile_number",
+          "M"
+        ],
+        [
+          "method",
+          "M"
+        ]
+      ],
+      "response_fields": [
+        "access_token",
+        "token_type",
+        "expires_in",
+        "refresh_token",
+        "refresh_token_expires_in",
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "DELETE /v1/tokens": {
+      "name": "Revoke refresh token",
+      "category": "Authenticate – Log in",
+      "headers": [
+        "x-language-name",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "refresh_token",
+          "M"
+        ],
+        [
+          "token_type_hint",
+          "M"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "GET /v1/info": {
+      "name": "Get Information",
+      "category": "Authenticate – Log in",
+      "headers": [
+        "x-language-name",
+        "Content-Type",
+        "Authorization"
+      ],
+      "request_fields": [],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "POST /v1/authenticate/pre": {
+      "name": "Pre Login Authentication",
+      "category": "Authenticate – Log in",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "email",
+          "M"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "status"
+      ]
+    },
+    "POST /v1/account/switch": {
+      "name": "Switch Enterprise Context",
+      "category": "Authenticate – Log in",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "profile_id",
+          "M"
+        ],
+        [
+          "enterprise_id",
+          "O"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "POST /v1/packages/documents/pre": {
+      "name": "Pre Upload Document",
+      "category": "Document Package",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "file_data",
+          "RC (If content-type is application/json)"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "document_status",
+        "document_status_name"
+      ]
+    },
+    "POST /v1/packages": {
+      "name": "Add Document Package",
+      "category": "Document Package",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "package_name",
+          "M"
+        ]
+      ],
+      "response_fields": [
+        "package_id",
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "POST /v1/packages/{packageId}/workflow/share": {
+      "name": "Share Workflow",
+      "category": "Document Workflow",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "POST /v1/packages/{packageId}/documents": {
+      "name": "Upload Document",
+      "category": "Document Package",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "x-file-name",
+        "Content-Type"
+      ],
+      "request_fields": [],
+      "response_fields": [
+        "document_id",
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "POST /v1/packages/{packageId}/documents/base64": {
+      "name": "Upload Document (base64)",
+      "category": "Document Package",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "x-file-name",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "document",
+          "M"
+        ]
+      ],
+      "response_fields": [
+        "document_id",
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "GET /v1/packages/{packageId}": {
+      "name": "Download Package",
+      "category": "Document Package",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "x-password",
+        "x-otp",
+        "Content-Type"
+      ],
+      "request_fields": [],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "GET /v1/packages/{packageId}/base64": {
+      "name": "Download Package (base64)",
+      "category": "Document Package",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "x-password",
+        "x-otp",
+        "Content-Type"
+      ],
+      "request_fields": [],
+      "response_fields": [
+        "file_data",
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "GET /v1/packages/{packageId}/documents/{documentId}": {
+      "name": "Download Document",
+      "category": "Document Package",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "x-password",
+        "x-otp",
+        "Content-Type"
+      ],
+      "request_fields": [],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "GET /v1/packages/{packageId}/documents/{documentId}/base64": {
+      "name": "Download Document (base64)",
+      "category": "Document Package",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "x-password",
+        "x-otp",
+        "Content-Type"
+      ],
+      "request_fields": [],
+      "response_fields": [
+        "file_data",
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "GET /v1/packages/{document_status}/{page_no}/{records_per_page}": {
+      "name": "Get All Packages",
+      "category": "Document Package",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "x-search-text",
+        "x-total-records",
+        "Content-Type"
+      ],
+      "request_fields": [],
+      "response_fields": [
+        "packages",
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "GET /v1/packages/{packageId}/documents/{documentId}/images/{pageNo}": {
+      "name": "Get Document Image",
+      "category": "Document Package",
+      "headers": [
+        "x-page-width",
+        "x-page-height",
+        "x-image-type",
+        "x-otp",
+        "x-password",
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "GET /v1/packages/{packageId}/documents/{documentId}/images/{pageNo}/base64": {
+      "name": "Get Document Image Base64",
+      "category": "Document Package",
+      "headers": [
+        "x-page-width",
+        "x-page-height",
+        "x-image-type",
+        "x-otp",
+        "x-password",
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "file_data",
+        "image_format"
+      ]
+    },
+    "GET /v1/packages/{packageId}/documents/{documentId}/details": {
+      "name": "Get Document Details",
+      "category": "Document Package",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [],
+      "response_fields": [
+        "document_id",
+        "document_name",
+        "document_order",
+        "document_type",
+        "document_width",
+        "document_height",
+        "document_pages",
+        "form_field",
+        "lock_form_fields",
+        "created_at",
+        "created_by",
+        "modified_at",
+        "modified_by",
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "GET /v1/packages/{packageId}/documents/{documentId}/verification": {
+      "name": "Get Document Verification",
+      "category": "Document Package",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "GET /v1/packages/{packageId}/verification": {
+      "name": "Get Package Verification",
+      "category": "Document Package",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "GET /v1/packages/{packageId}/details": {
+      "name": "Get Package Details",
+      "category": "Document Package",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "name",
+        "owner",
+        "document_status",
+        "documents"
+      ]
+    },
+    "PUT /v1/packages/{packageId}": {
+      "name": "Rename Package",
+      "category": "Document Package",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "package_name",
+          "M"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "PUT /v1/packages/{packageId}/documents/{documentId}": {
+      "name": "Rename Document",
+      "category": "Document Package",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "document_name",
+          "M"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "DELETE /v1/packages/{packageId}": {
+      "name": "Delete Package",
+      "category": "Document Package",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "DELETE /v1/packages/{packageId}/documents/{documentId}": {
+      "name": "Delete Document",
+      "category": "Document Package",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "PUT /v1/packages/{packageId}/documents/{documentId}/update": {
+      "name": "Update Document",
+      "category": "Document Package",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "x-file-name",
+        "Content-Type"
+      ],
+      "request_fields": [],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "PUT /v1/packages/{packageId}/documents/{documentId}/update/base64": {
+      "name": "Update Document (base64)",
+      "category": "Document Package",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "x-file-name",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "document",
+          "M"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "POST /v1/packages/{packageId}/documents/{documentId}/merge": {
+      "name": "Merge Document",
+      "category": "Document Package",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type",
+        "x-append-to-top"
+      ],
+      "request_fields": [],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "POST /v1/packages/{packageId}/documents/{documentId}/template": {
+      "name": "Apply Workflow Template",
+      "category": "Document Package",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "template_name",
+          "M"
+        ],
+        [
+          "apply_to_all",
+          "O"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "POST /v1/packages/{packageId}/documents/{documentId}/paper": {
+      "name": "Convert Document to Paper",
+      "category": "Document Package",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "converter_display_name",
+          "O"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "GET /v1/packages/{packageId}/documents/{documentId}/signature-summary": {
+      "name": "Download Signature Summary",
+      "category": "Document Package",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "GET /v1/packages/{packageId}/documents/{documentId}/signature-summary/base64": {
+      "name": "Download Signature Summary (base64)",
+      "category": "Document Package",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [],
+      "response_fields": [
+        "file_data",
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "POST /v1/packages/{packageId}/workflow": {
+      "name": "Start new Workflow",
+      "category": "Document Workflow",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "workflow_mode",
+          "O"
+        ],
+        [
+          "deadline_at",
+          "O"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "POST /v1/workflow/from-template": {
+      "name": "Create Workflow From Template",
+      "category": "Document Workflow",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "template_id",
+          "M"
+        ],
+        [
+          "package_name",
+          "O"
+        ]
+      ],
+      "response_fields": [
+        "package_id",
+        "workflow_id",
+        "document_id",
+        "template_id"
+      ]
+    },
+    "POST /v1/packages/{packageId}/workflow/electronic-seals": {
+      "name": "Add Electronic Seal to Workflow",
+      "category": "Document Workflow",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "name",
+          "M"
+        ],
+        [
+          "signing_order",
+          "M"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "name",
+        "signing_order",
+        "level_of_assurance"
+      ]
+    },
+    "POST /v1/packages/{packageId}/workflow/users": {
+      "name": "Add User to Workflow",
+      "category": "Document Workflow",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "users",
+          "M"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "users"
+      ]
+    },
+    "GET /v1/workflow/{criteria}/{page_no}/{records_per_page}": {
+      "name": "Get All Workflow",
+      "category": "Document Workflow",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "x-search-text",
+        "x-total-records",
+        "x-category-id",
+        "Content-Type"
+      ],
+      "request_fields": [],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "workflows"
+      ]
+    },
+    "PUT /v1/packages/{packageId}/workflow": {
+      "name": "Update Workflow Details",
+      "category": "Document Workflow",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "x-time-zone",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "workflow_mode",
+          "O"
+        ],
+        [
+          "continue_on_decline",
+          "O"
+        ],
+        [
+          "message",
+          "O"
+        ],
+        [
+          "comments",
+          "O"
+        ],
+        [
+          "deadline_at",
+          "O"
+        ],
+        [
+          "category_id",
+          "O"
+        ],
+        [
+          "details",
+          "O"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "DELETE /v1/packages/{packageId}/workflow": {
+      "name": "Delete Workflow",
+      "category": "Document Workflow",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "GET /v1/packages/{packageId}/workflow": {
+      "name": "Get Workflow Details",
+      "category": "Document Workflow",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "documents",
+        "users",
+        "workflow",
+        "package_id",
+        "package_name",
+        "package_owner",
+        "owner_name",
+        "package_status",
+        "unread",
+        "next_signer",
+        "next_signer_email",
+        "created_at",
+        "created_by",
+        "modified_at",
+        "modified_by"
+      ]
+    },
+    "GET /v1/workflow/{workflowUuid}": {
+      "name": "Get Workflow Details by UUID",
+      "category": "Document Workflow",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "documents",
+        "users",
+        "workflow",
+        "package_id",
+        "package_name",
+        "package_owner",
+        "owner_name",
+        "package_status",
+        "unread",
+        "next_signer",
+        "next_signer_email",
+        "created_at",
+        "created_by",
+        "modified_at",
+        "modified_by"
+      ]
+    },
+    "POST /v1/workflow/{uuid}/view": {
+      "name": "View Workflow",
+      "category": "Document Workflow",
+      "headers": [
+        "x-language-name",
+        "Content-Type"
+      ],
+      "request_fields": [],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "documents",
+        "users",
+        "workflow",
+        "package_id",
+        "package_name",
+        "package_owner",
+        "owner_name",
+        "package_status",
+        "unread",
+        "next_signer",
+        "next_signer_email",
+        "created_at",
+        "created_by",
+        "modified_at",
+        "modified_by"
+      ]
+    },
+    "GET /v1/packages/{packageId}/workflow/users": {
+      "name": "Get Workflow Users",
+      "category": "Document Workflow",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "users"
+      ]
+    },
+    "PUT /v1/packages/{packageId}/workflow/{order}/user": {
+      "name": "Update Workflow User",
+      "category": "Document Workflow",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "user_email",
+          "O"
+        ],
+        [
+          "user_name",
+          "O"
+        ],
+        [
+          "email_notification",
+          "O"
+        ],
+        [
+          "mobile_number",
+          "O"
+        ],
+        [
+          "role",
+          "O"
+        ],
+        [
+          "signing_order",
+          "O"
+        ],
+        [
+          "email_language_code",
+          "O"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "user_email",
+        "signing_order",
+        "guest_user",
+        "email_language_code"
+      ]
+    },
+    "DELETE /v1/packages/{packageId}/workflow/{order}": {
+      "name": "Delete Workflow User",
+      "category": "Document Workflow",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "PUT /v1/packages/{packageId}/workflow/{participantId}/tos-acceptance": {
+      "name": "Accept Terms of Service (ECONTRACT)",
+      "category": "Document Workflow",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "ip",
+          "M"
+        ],
+        [
+          "ua",
+          "M"
+        ],
+        [
+          "ts",
+          "M"
+        ],
+        [
+          "act",
+          "M"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "PUT /v1/packages/{packageId}/workflow/reminders": {
+      "name": "Update Workflow Reminders",
+      "category": "Document Workflow",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "apply_to_all",
+          "O"
+        ],
+        [
+          "enabled",
+          "M"
+        ],
+        [
+          "frequency",
+          "M"
+        ],
+        [
+          "remind_after",
+          "M"
+        ],
+        [
+          "keep_reminding_after",
+          "M"
+        ],
+        [
+          "total_reminders",
+          "M"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "GET /v1/packages/{packageId}/workflow/reminders": {
+      "name": "Get Workflow Reminders",
+      "category": "Document Workflow",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "enabled",
+        "frequency",
+        "remind_after",
+        "keep_reminding_after",
+        "total_reminders"
+      ]
+    },
+    "POST /v1/packages/{packageId}/workflow/{order}/remind": {
+      "name": "Send Reminder",
+      "category": "Document Workflow",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "GET /v1/packages/{packageId}/log/{page_no}/{records_per_page}": {
+      "name": "Get Workflow History",
+      "category": "Document Workflow",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "workflow_id",
+        "actions"
+      ]
+    },
+    "POST /v1/packages/{packageId}/comments": {
+      "name": "Add Workflow Comment/Message",
+      "category": "Document Workflow",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "send_to_owner",
+          "O"
+        ],
+        [
+          "order",
+          "M"
+        ],
+        [
+          "text",
+          "M"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "GET /v1/packages/{packageId}/comments": {
+      "name": "Get Workflow Comment/Message",
+      "category": "Document Workflow",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "comments"
+      ]
+    },
+    "DELETE /v1/packages/{packageId}/comments/{commentId}": {
+      "name": "Delete Workflow Comment/Message",
+      "category": "Document Workflow",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "GET /v1/packages/{packageId}/workflow/{order}/authentication": {
+      "name": "Get Workflow User Authentication (Document Opening)",
+      "category": "Document Workflow",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "authentication",
+        "authentication_signing",
+        "access_duration"
+      ]
+    },
+    "PUT /v1/packages/{packageId}/workflow/{order}/authentication": {
+      "name": "Update Workflow User Authentication (Document Opening)",
+      "category": "Document Workflow",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "authentication",
+          "O"
+        ],
+        [
+          "authentication_signing",
+          "O"
+        ],
+        [
+          "access_duration",
+          "O"
+        ],
+        [
+          "apply_to_all",
+          "O"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "GET /v1/packages/{packageId}/workflow/{order}/permissions": {
+      "name": "Get Workflow User Permissions",
+      "category": "Document Workflow",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "print",
+        "download",
+        "add_text",
+        "change_recipients",
+        "add_attachment"
+      ]
+    },
+    "PUT /v1/packages/{packageId}/workflow/{order}/permissions": {
+      "name": "Update Workflow User Permissions",
+      "category": "Document Workflow",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "apply_to_all",
+          "M"
+        ],
+        [
+          "permissions",
+          "M"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "POST /v1/category": {
+      "name": "Create new Category",
+      "category": "Document Workflow",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "category_name",
+          "M"
+        ],
+        [
+          "category_icon",
+          "M"
+        ],
+        [
+          "category_parent_id",
+          "O"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "category_id"
+      ]
+    },
+    "PUT /v1/category/{categoryId}": {
+      "name": "Update Category",
+      "category": "Document Workflow",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "category_name",
+          "O"
+        ],
+        [
+          "category_icon",
+          "O"
+        ],
+        [
+          "category_parent_id",
+          "O"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "GET /v1/category": {
+      "name": "Get list of Category",
+      "category": "Document Workflow",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "categories"
+      ]
+    },
+    "DELETE /v1/category/{categoryId}": {
+      "name": "Delete Category",
+      "category": "Document Workflow",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "POST /v1/packages/{packageId}/workflow/placeholder": {
+      "name": "Add Placeholder to Workflow",
+      "category": "Document Workflow",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "placeholders",
+          "M"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "placeholders"
+      ]
+    },
+    "PUT /v1/packages/{packageId}/workflow/{order}/placeholder": {
+      "name": "Update Placeholder in Workflow",
+      "category": "Document Workflow",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "placeholder",
+          "M"
+        ],
+        [
+          "email_notification",
+          "M"
+        ],
+        [
+          "role",
+          "M"
+        ],
+        [
+          "signing_order",
+          "M"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "POST /v1/packages/{packageId}/workflow/{order}/import": {
+      "name": "Import Excel to Clone Workflow",
+      "category": "Document Workflow",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "items",
+          "M"
+        ],
+        [
+          "items[].username",
+          "M"
+        ],
+        [
+          "items[].user_email",
+          "M"
+        ],
+        [
+          "items[].mobile_number",
+          "M"
+        ],
+        [
+          "items[].personal_code",
+          "O"
+        ],
+        [
+          "items[].vneid_fullname",
+          "O"
+        ],
+        [
+          "items[].vneid_birthday",
+          "O"
+        ],
+        [
+          "items[].vneid_gender",
+          "O"
+        ],
+        [
+          "items[].vneid_current_place",
+          "O"
+        ],
+        [
+          "items[].vneid_place",
+          "O"
+        ],
+        [
+          "items[].vneid_level_account",
+          "O"
+        ],
+        [
+          "items[].vneid_type_account",
+          "O"
+        ],
+        [
+          "items[].vneid_date_issuer",
+          "O"
+        ],
+        [
+          "items[].vneid_date_expired",
+          "O"
+        ],
+        [
+          "webhook_url",
+          "O"
+        ],
+        [
+          "share_enabled",
+          "O"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "GET /v1/workflow/{transactionCode}/import": {
+      "name": "Get Status of Import Excel",
+      "category": "Document Workflow",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [],
+      "response_fields": [
+        "status",
+        "total_workflows",
+        "workflow_success",
+        "workflow_fail",
+        "workflow_inprogress",
+        "percentage",
+        "results"
+      ]
+    },
+    "POST /v1/packages/{packageId}/documents/{documentId}/attachments": {
+      "name": "Upload Attachment",
+      "category": "Document Workflow",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "x-file-name",
+        "Content-Type"
+      ],
+      "request_fields": [],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "attachment_id"
+      ]
+    },
+    "GET /v1/packages/{packageId}/documents/{documentId}/attachments": {
+      "name": "Get Attachments",
+      "category": "Document Workflow",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "attachments"
+      ]
+    },
+    "DELETE /v1/packages/{packageId}/documents/{documentId}/attachments/{attachmentId}": {
+      "name": "Delete Attachment",
+      "category": "Document Workflow",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "attachment_id"
+      ]
+    },
+    "GET /v1/packages/{packageId}/documents/{documentId}/attachments/{attachmentId}": {
+      "name": "Download Attachment",
+      "category": "Document Workflow",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "POST /v1/packages/{packageId}/documents/{documentId}/fields/signature": {
+      "name": "Add Digital Signature Field",
+      "category": "Document Preparation",
+      "headers": [
+        "x-language-name",
+        "x-dimension-unit",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "page",
+          "M"
+        ],
+        [
+          "field_name",
+          "M"
+        ],
+        [
+          "dimension",
+          "M"
+        ],
+        [
+          "visible_enabled",
+          "M"
+        ],
+        [
+          "level_of_assurance",
+          "O"
+        ],
+        [
+          "authentication_signing",
+          "O"
+        ],
+        [
+          "verification",
+          "O"
+        ],
+        [
+          "required",
+          "O"
+        ],
+        [
+          "suffix",
+          "O"
+        ],
+        [
+          "remark",
+          "O"
+        ],
+        [
+          "annotation_position",
+          "O"
+        ],
+        [
+          "appearance_design",
+          "O"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "field_name"
+      ]
+    },
+    "PUT /v1/packages/{packageId}/documents/{documentId}/fields/signature": {
+      "name": "Update Digital Signature Field",
+      "category": "Document Preparation",
+      "headers": [
+        "x-language-name",
+        "x-dimension-unit",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "renamed_as",
+          "O"
+        ],
+        [
+          "page",
+          "O"
+        ],
+        [
+          "field_name",
+          "M"
+        ],
+        [
+          "dimension",
+          "O"
+        ],
+        [
+          "visible_enabled",
+          "O"
+        ],
+        [
+          "level_of_assurance",
+          "O"
+        ],
+        [
+          "authentication_signing",
+          "O"
+        ],
+        [
+          "verification",
+          "O"
+        ],
+        [
+          "required",
+          "O"
+        ],
+        [
+          "suffix",
+          "O"
+        ],
+        [
+          "remark",
+          "O"
+        ],
+        [
+          "annotation_position",
+          "O"
+        ],
+        [
+          "appearance_design",
+          "O"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "field_name"
+      ]
+    },
+    "POST /v1/packages/{packageId}/documents/{documentId}/fields/text": {
+      "name": "Add TextBox Field",
+      "category": "Document Preparation",
+      "headers": [
+        "x-language-name",
+        "x-dimension-unit",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "page",
+          "M"
+        ],
+        [
+          "field_name",
+          "M"
+        ],
+        [
+          "dimension",
+          "M"
+        ],
+        [
+          "visible_enabled",
+          "M"
+        ],
+        [
+          "read_only",
+          "O"
+        ],
+        [
+          "color",
+          "O"
+        ],
+        [
+          "align_option",
+          "O"
+        ],
+        [
+          "value",
+          "RC(Required attribute for processing.)"
+        ],
+        [
+          "multiline",
+          "O"
+        ],
+        [
+          "max_length",
+          "O"
+        ],
+        [
+          "format_type",
+          "O"
+        ],
+        [
+          "font",
+          "O"
+        ],
+        [
+          "place_holder",
+          "O"
+        ],
+        [
+          "tool_tip_text",
+          "O"
+        ],
+        [
+          "type",
+          "M"
+        ],
+        [
+          "required",
+          "O"
+        ],
+        [
+          "suffix",
+          "O"
+        ],
+        [
+          "remark",
+          "O"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "field_name"
+      ]
+    },
+    "PUT /v1/packages/{packageId}/documents/{documentId}/fields/text": {
+      "name": "Update TextBox Field",
+      "category": "Document Preparation",
+      "headers": [
+        "x-language-name",
+        "x-dimension-unit",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "renamed_as",
+          "O"
+        ],
+        [
+          "page",
+          "O"
+        ],
+        [
+          "field_name",
+          "M"
+        ],
+        [
+          "dimension",
+          "O"
+        ],
+        [
+          "visible_enabled",
+          "O"
+        ],
+        [
+          "read_only",
+          "O"
+        ],
+        [
+          "color",
+          "O"
+        ],
+        [
+          "align_option",
+          "O"
+        ],
+        [
+          "value",
+          "RC(Required attribute for processing.)"
+        ],
+        [
+          "multiline",
+          "O"
+        ],
+        [
+          "max_length",
+          "O"
+        ],
+        [
+          "format_type",
+          "O"
+        ],
+        [
+          "font",
+          "O"
+        ],
+        [
+          "place_holder",
+          "O"
+        ],
+        [
+          "tool_tip_text",
+          "O"
+        ],
+        [
+          "required",
+          "O"
+        ],
+        [
+          "suffix",
+          "O"
+        ],
+        [
+          "remark",
+          "O"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "field_name"
+      ]
+    },
+    "POST /v1/packages/{packageId}/documents/{documentId}/fields/initials": {
+      "name": "Add Initial Field",
+      "category": "Document Preparation",
+      "headers": [
+        "x-language-name",
+        "x-dimension-unit",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "field_name",
+          "M"
+        ],
+        [
+          "page",
+          "M"
+        ],
+        [
+          "dimension",
+          "M"
+        ],
+        [
+          "visible_enabled",
+          "M"
+        ],
+        [
+          "image",
+          "RC(Required attribute for processing.)"
+        ],
+        [
+          "required",
+          "O"
+        ],
+        [
+          "suffix",
+          "O"
+        ],
+        [
+          "remark",
+          "O"
+        ],
+        [
+          "replicate_all_pages",
+          "O"
+        ],
+        [
+          "apply_to_all",
+          "O"
+        ],
+        [
+          "replicate_pages",
+          "O"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "field_name"
+      ]
+    },
+    "PUT /v1/packages/{packageId}/documents/{documentId}/fields/initials": {
+      "name": "Update Initial Field",
+      "category": "Document Preparation",
+      "headers": [
+        "x-language-name",
+        "x-dimension-unit",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "renamed_as",
+          "O"
+        ],
+        [
+          "field_name",
+          "M"
+        ],
+        [
+          "page",
+          "O"
+        ],
+        [
+          "dimension",
+          "O"
+        ],
+        [
+          "visible_enabled",
+          "O"
+        ],
+        [
+          "image",
+          "O"
+        ],
+        [
+          "required",
+          "O"
+        ],
+        [
+          "suffix",
+          "O"
+        ],
+        [
+          "remark",
+          "O"
+        ],
+        [
+          "replicate_all_pages",
+          "O"
+        ],
+        [
+          "apply_to_all",
+          "O"
+        ],
+        [
+          "replicate_pages",
+          "O"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "PUT /v1/packages/{packageId}/documents/{documentId}/fields/assign": {
+      "name": "Assign Document Field",
+      "category": "Document Preparation",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "fields_assign",
+          "M"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "DELETE /v1/packages/{packageId}/documents/{documentId}/fields": {
+      "name": "Delete Document Field",
+      "category": "Document Preparation",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "field_name",
+          "M"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "GET /v1/packages/{packageId}/documents/{documentId}/fields": {
+      "name": "Get Document Fields",
+      "category": "Document Preparation",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "textbox",
+        "checkbox",
+        "radiobox",
+        "qr",
+        "initial",
+        "inperson",
+        "signature",
+        "combobox",
+        "datetime",
+        "stamp",
+        "camera",
+        "attachment",
+        "hyperlink",
+        "toggle",
+        "stepper",
+        "checkboxV2",
+        "radioboxV2"
+      ]
+    },
+    "GET /v1/documents/fields": {
+      "name": "Get Field Types",
+      "category": "Document Preparation",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "field_types"
+      ]
+    },
+    "POST /v1/packages/{packageId}/documents/{documentId}/fields/in_person_signature": {
+      "name": "Add In-person Field",
+      "category": "Document Preparation",
+      "headers": [
+        "x-language-name",
+        "x-dimension-unit",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "page",
+          "M"
+        ],
+        [
+          "field_name",
+          "M"
+        ],
+        [
+          "dimension",
+          "M"
+        ],
+        [
+          "visible_enabled",
+          "M"
+        ],
+        [
+          "level_of_assurance",
+          "O"
+        ],
+        [
+          "authentication_signing",
+          "O"
+        ],
+        [
+          "verification",
+          "O"
+        ],
+        [
+          "required",
+          "O"
+        ],
+        [
+          "suffix",
+          "O"
+        ],
+        [
+          "remark",
+          "O"
+        ],
+        [
+          "annotation_position",
+          "O"
+        ],
+        [
+          "appearance_design",
+          "O"
+        ],
+        [
+          "order",
+          "M"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "field_name"
+      ]
+    },
+    "PUT /v1/packages/{packageId}/documents/{documentId}/fields/in_person_signature": {
+      "name": "Update In-person Field",
+      "category": "Document Preparation",
+      "headers": [
+        "x-language-name",
+        "x-dimension-unit",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "renamed_as",
+          "O"
+        ],
+        [
+          "page",
+          "O"
+        ],
+        [
+          "field_name",
+          "M"
+        ],
+        [
+          "dimension",
+          "O"
+        ],
+        [
+          "visible_enabled",
+          "O"
+        ],
+        [
+          "level_of_assurance",
+          "O"
+        ],
+        [
+          "authentication_signing",
+          "O"
+        ],
+        [
+          "verification",
+          "O"
+        ],
+        [
+          "required",
+          "O"
+        ],
+        [
+          "suffix",
+          "O"
+        ],
+        [
+          "remark",
+          "O"
+        ],
+        [
+          "annotation_position",
+          "O"
+        ],
+        [
+          "appearance_design",
+          "O"
+        ],
+        [
+          "order",
+          "O"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "field_name"
+      ]
+    },
+    "POST /v1/packages/{packageId}/documents/{documentId}/fields/datetime": {
+      "name": "Add Datetime Field",
+      "category": "Document Preparation",
+      "headers": [
+        "x-language-name",
+        "x-dimension-unit",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "page",
+          "M"
+        ],
+        [
+          "field_name",
+          "M"
+        ],
+        [
+          "dimension",
+          "M"
+        ],
+        [
+          "visible_enabled",
+          "M"
+        ],
+        [
+          "read_only",
+          "O"
+        ],
+        [
+          "color",
+          "O"
+        ],
+        [
+          "align_option",
+          "O"
+        ],
+        [
+          "value",
+          "RC(Required attribute for processing.)"
+        ],
+        [
+          "multiline",
+          "O"
+        ],
+        [
+          "max_length",
+          "O"
+        ],
+        [
+          "format_type",
+          "O"
+        ],
+        [
+          "font",
+          "O"
+        ],
+        [
+          "place_holder",
+          "O"
+        ],
+        [
+          "tool_tip_text",
+          "O"
+        ],
+        [
+          "required",
+          "O"
+        ],
+        [
+          "suffix",
+          "O"
+        ],
+        [
+          "remark",
+          "O"
+        ],
+        [
+          "date",
+          "M"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "field_name"
+      ]
+    },
+    "PUT /v1/packages/{packageId}/documents/{documentId}/fields/datetime": {
+      "name": "Update Datetime Field",
+      "category": "Document Preparation",
+      "headers": [
+        "x-language-name",
+        "x-dimension-unit",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "renamed_as",
+          "O"
+        ],
+        [
+          "page",
+          "O"
+        ],
+        [
+          "field_name",
+          "M"
+        ],
+        [
+          "dimension",
+          "O"
+        ],
+        [
+          "visible_enabled",
+          "O"
+        ],
+        [
+          "read_only",
+          "O"
+        ],
+        [
+          "color",
+          "O"
+        ],
+        [
+          "align_option",
+          "O"
+        ],
+        [
+          "value",
+          "RC(Required attribute for processing.)"
+        ],
+        [
+          "multiline",
+          "O"
+        ],
+        [
+          "max_length",
+          "O"
+        ],
+        [
+          "format_type",
+          "O"
+        ],
+        [
+          "font",
+          "O"
+        ],
+        [
+          "place_holder",
+          "O"
+        ],
+        [
+          "tool_tip_text",
+          "O"
+        ],
+        [
+          "required",
+          "O"
+        ],
+        [
+          "suffix",
+          "O"
+        ],
+        [
+          "remark",
+          "O"
+        ],
+        [
+          "date",
+          "O"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "POST /v1/packages/{packageId}/documents/{documentId}/fields/checkbox": {
+      "name": "Add CheckBox Field",
+      "category": "Document Preparation",
+      "headers": [
+        "x-language-name",
+        "x-dimension-unit",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "page",
+          "M"
+        ],
+        [
+          "field_name",
+          "M"
+        ],
+        [
+          "dimension",
+          "M"
+        ],
+        [
+          "visible_enabled",
+          "M"
+        ],
+        [
+          "read_only",
+          "O"
+        ],
+        [
+          "color",
+          "O"
+        ],
+        [
+          "align_option",
+          "O"
+        ],
+        [
+          "value",
+          "RC(Required attribute for processing.)"
+        ],
+        [
+          "group_name",
+          "O"
+        ],
+        [
+          "check_box_type",
+          "O"
+        ],
+        [
+          "checked",
+          "O"
+        ],
+        [
+          "font",
+          "O"
+        ],
+        [
+          "place_holder",
+          "O"
+        ],
+        [
+          "tool_tip_text",
+          "O"
+        ],
+        [
+          "multiple_checked",
+          "O"
+        ],
+        [
+          "required",
+          "O"
+        ],
+        [
+          "suffix",
+          "O"
+        ],
+        [
+          "remark",
+          "O"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "field_name"
+      ]
+    },
+    "PUT /v1/packages/{packageId}/documents/{documentId}/fields/checkbox": {
+      "name": "Update CheckBox Field",
+      "category": "Document Preparation",
+      "headers": [
+        "x-language-name",
+        "x-dimension-unit",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "renamed_as",
+          "O"
+        ],
+        [
+          "page",
+          "O"
+        ],
+        [
+          "field_name",
+          "M"
+        ],
+        [
+          "dimension",
+          "O"
+        ],
+        [
+          "visible_enabled",
+          "O"
+        ],
+        [
+          "read_only",
+          "O"
+        ],
+        [
+          "color",
+          "O"
+        ],
+        [
+          "align_option",
+          "O"
+        ],
+        [
+          "value",
+          "RC(Required attribute for processing.)"
+        ],
+        [
+          "group_name",
+          "O"
+        ],
+        [
+          "check_box_type",
+          "O"
+        ],
+        [
+          "checked",
+          "O"
+        ],
+        [
+          "font",
+          "O"
+        ],
+        [
+          "place_holder",
+          "O"
+        ],
+        [
+          "tool_tip_text",
+          "O"
+        ],
+        [
+          "multiple_checked",
+          "O"
+        ],
+        [
+          "required",
+          "O"
+        ],
+        [
+          "suffix",
+          "O"
+        ],
+        [
+          "remark",
+          "O"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "POST /v1/packages/{packageId}/documents/{documentId}/fields/radiobox": {
+      "name": "Add RadioBox Field",
+      "category": "Document Preparation",
+      "headers": [
+        "x-language-name",
+        "x-dimension-unit",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "page",
+          "M"
+        ],
+        [
+          "field_name",
+          "M"
+        ],
+        [
+          "dimension",
+          "M"
+        ],
+        [
+          "visible_enabled",
+          "M"
+        ],
+        [
+          "read_only",
+          "O"
+        ],
+        [
+          "color",
+          "O"
+        ],
+        [
+          "align_option",
+          "O"
+        ],
+        [
+          "value",
+          "RC(Required attribute for processing.)"
+        ],
+        [
+          "radio_group_name",
+          "O"
+        ],
+        [
+          "check_box_type",
+          "O"
+        ],
+        [
+          "checked",
+          "O"
+        ],
+        [
+          "font",
+          "O"
+        ],
+        [
+          "place_holder",
+          "O"
+        ],
+        [
+          "tool_tip_text",
+          "O"
+        ],
+        [
+          "multiple_checked",
+          "O"
+        ],
+        [
+          "required",
+          "O"
+        ],
+        [
+          "suffix",
+          "O"
+        ],
+        [
+          "remark",
+          "O"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "field_name"
+      ]
+    },
+    "PUT /v1/packages/{packageId}/documents/{documentId}/fields/radiobox": {
+      "name": "Update RadioBox Field",
+      "category": "Document Preparation",
+      "headers": [
+        "x-language-name",
+        "x-dimension-unit",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "renamed_as",
+          "O"
+        ],
+        [
+          "page",
+          "O"
+        ],
+        [
+          "field_name",
+          "M"
+        ],
+        [
+          "dimension",
+          "O"
+        ],
+        [
+          "visible_enabled",
+          "O"
+        ],
+        [
+          "read_only",
+          "O"
+        ],
+        [
+          "color",
+          "O"
+        ],
+        [
+          "align_option",
+          "O"
+        ],
+        [
+          "value",
+          "RC(Required attribute for processing.)"
+        ],
+        [
+          "radio_group_name",
+          "O"
+        ],
+        [
+          "check_box_type",
+          "O"
+        ],
+        [
+          "checked",
+          "O"
+        ],
+        [
+          "font",
+          "O"
+        ],
+        [
+          "place_holder",
+          "O"
+        ],
+        [
+          "tool_tip_text",
+          "O"
+        ],
+        [
+          "multiple_checked",
+          "O"
+        ],
+        [
+          "required",
+          "O"
+        ],
+        [
+          "suffix",
+          "O"
+        ],
+        [
+          "remark",
+          "O"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "POST /v1/packages/{packageId}/documents/{documentId}/fields/qrcode": {
+      "name": "Add QR Field",
+      "category": "Document Preparation",
+      "headers": [
+        "x-language-name",
+        "x-dimension-unit",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "page",
+          "M"
+        ],
+        [
+          "field_name",
+          "M"
+        ],
+        [
+          "dimension",
+          "M"
+        ],
+        [
+          "visible_enabled",
+          "M"
+        ],
+        [
+          "read_only",
+          "O"
+        ],
+        [
+          "required",
+          "O"
+        ],
+        [
+          "suffix",
+          "O"
+        ],
+        [
+          "remark",
+          "O"
+        ],
+        [
+          "is_transparent",
+          "O"
+        ],
+        [
+          "image_qr",
+          "RC(Required attribute for processing.)"
+        ],
+        [
+          "value",
+          "RC(Required attribute for processing.)"
+        ],
+        [
+          "allow_unauthenticated_workflow_view",
+          "O"
+        ],
+        [
+          "custom_url",
+          "O"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "field_name"
+      ]
+    },
+    "PUT /v1/packages/{packageId}/documents/{documentId}/fields/qrcode": {
+      "name": "Update QR Field",
+      "category": "Document Preparation",
+      "headers": [
+        "x-language-name",
+        "x-dimension-unit",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "renamed_as",
+          "O"
+        ],
+        [
+          "page",
+          "O"
+        ],
+        [
+          "field_name",
+          "M"
+        ],
+        [
+          "dimension",
+          "O"
+        ],
+        [
+          "visible_enabled",
+          "O"
+        ],
+        [
+          "read_only",
+          "O"
+        ],
+        [
+          "required",
+          "O"
+        ],
+        [
+          "suffix",
+          "O"
+        ],
+        [
+          "remark",
+          "O"
+        ],
+        [
+          "is_transparent",
+          "O"
+        ],
+        [
+          "image_qr",
+          "RC(Required attribute for processing.)"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "POST /v1/packages/{packageId}/documents/{documentId}/fields/combobox": {
+      "name": "Add ComboBox Field",
+      "category": "Document Preparation",
+      "headers": [
+        "x-language-name",
+        "x-dimension-unit",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "page",
+          "M"
+        ],
+        [
+          "field_name",
+          "M"
+        ],
+        [
+          "dimension",
+          "M"
+        ],
+        [
+          "visible_enabled",
+          "M"
+        ],
+        [
+          "read_only",
+          "O"
+        ],
+        [
+          "required",
+          "O"
+        ],
+        [
+          "suffix",
+          "O"
+        ],
+        [
+          "remark",
+          "O"
+        ],
+        [
+          "color",
+          "O"
+        ],
+        [
+          "align_option",
+          "O"
+        ],
+        [
+          "value",
+          "RC(Required attribute for processing.)"
+        ],
+        [
+          "multiline",
+          "O"
+        ],
+        [
+          "max_length",
+          "O"
+        ],
+        [
+          "format_type",
+          "O"
+        ],
+        [
+          "font",
+          "O"
+        ],
+        [
+          "place_holder",
+          "O"
+        ],
+        [
+          "tool_tip_text",
+          "O"
+        ],
+        [
+          "combo_item",
+          "RC(Required attribute for processing.)"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "field_name"
+      ]
+    },
+    "PUT /v1/packages/{packageId}/documents/{documentId}/fields/combobox": {
+      "name": "Update ComboBox Field",
+      "category": "Document Preparation",
+      "headers": [
+        "x-language-name",
+        "x-dimension-unit",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "renamed_as",
+          "O"
+        ],
+        [
+          "page",
+          "O"
+        ],
+        [
+          "field_name",
+          "M"
+        ],
+        [
+          "dimension",
+          "O"
+        ],
+        [
+          "visible_enabled",
+          "O"
+        ],
+        [
+          "read_only",
+          "O"
+        ],
+        [
+          "required",
+          "O"
+        ],
+        [
+          "suffix",
+          "O"
+        ],
+        [
+          "remark",
+          "O"
+        ],
+        [
+          "color",
+          "O"
+        ],
+        [
+          "align_option",
+          "O"
+        ],
+        [
+          "value",
+          "RC(Required attribute for processing.)"
+        ],
+        [
+          "multiline",
+          "O"
+        ],
+        [
+          "max_length",
+          "O"
+        ],
+        [
+          "format_type",
+          "O"
+        ],
+        [
+          "font",
+          "O"
+        ],
+        [
+          "place_holder",
+          "O"
+        ],
+        [
+          "tool_tip_text",
+          "O"
+        ],
+        [
+          "combo_item",
+          "RC(Required attribute for processing.)"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "POST /v1/packages/{packageId}/documents/{documentId}/fields/toggle": {
+      "name": "Add Toggle Field",
+      "category": "Document Preparation",
+      "headers": [
+        "x-language-name",
+        "x-dimension-unit",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "page",
+          "M"
+        ],
+        [
+          "field_name",
+          "M"
+        ],
+        [
+          "dimension",
+          "M"
+        ],
+        [
+          "visible_enabled",
+          "M"
+        ],
+        [
+          "read_only",
+          "O"
+        ],
+        [
+          "required",
+          "O"
+        ],
+        [
+          "suffix",
+          "O"
+        ],
+        [
+          "remark",
+          "O"
+        ],
+        [
+          "color",
+          "O"
+        ],
+        [
+          "align_option",
+          "O"
+        ],
+        [
+          "value",
+          "RC(Required attribute for processing.)"
+        ],
+        [
+          "multiline",
+          "O"
+        ],
+        [
+          "max_length",
+          "O"
+        ],
+        [
+          "format_type",
+          "O"
+        ],
+        [
+          "font",
+          "O"
+        ],
+        [
+          "place_holder",
+          "O"
+        ],
+        [
+          "tool_tip_text",
+          "O"
+        ],
+        [
+          "toggle_item",
+          "RC(Required attribute for processing.)"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "field_name"
+      ]
+    },
+    "PUT /v1/packages/{packageId}/documents/{documentId}/fields/toggle": {
+      "name": "Update Toggle Field",
+      "category": "Document Preparation",
+      "headers": [
+        "x-language-name",
+        "x-dimension-unit",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "renamed_as",
+          "O"
+        ],
+        [
+          "page",
+          "O"
+        ],
+        [
+          "field_name",
+          "M"
+        ],
+        [
+          "dimension",
+          "O"
+        ],
+        [
+          "visible_enabled",
+          "O"
+        ],
+        [
+          "read_only",
+          "O"
+        ],
+        [
+          "required",
+          "O"
+        ],
+        [
+          "suffix",
+          "O"
+        ],
+        [
+          "remark",
+          "O"
+        ],
+        [
+          "color",
+          "O"
+        ],
+        [
+          "align_option",
+          "O"
+        ],
+        [
+          "value",
+          "RC(Required attribute for processing.)"
+        ],
+        [
+          "multiline",
+          "O"
+        ],
+        [
+          "max_length",
+          "O"
+        ],
+        [
+          "format_type",
+          "O"
+        ],
+        [
+          "font",
+          "O"
+        ],
+        [
+          "place_holder",
+          "O"
+        ],
+        [
+          "tool_tip_text",
+          "O"
+        ],
+        [
+          "toggle_item",
+          "RC(Required attribute for processing.)"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "POST /v1/packages/{packageId}/documents/{documentId}/fields/numeric_stepper": {
+      "name": "Add Numeric Stepper Field",
+      "category": "Document Preparation",
+      "headers": [
+        "x-language-name",
+        "x-dimension-unit",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "page",
+          "M"
+        ],
+        [
+          "field_name",
+          "M"
+        ],
+        [
+          "dimension",
+          "M"
+        ],
+        [
+          "visible_enabled",
+          "M"
+        ],
+        [
+          "read_only",
+          "O"
+        ],
+        [
+          "required",
+          "O"
+        ],
+        [
+          "suffix",
+          "O"
+        ],
+        [
+          "remark",
+          "O"
+        ],
+        [
+          "color",
+          "O"
+        ],
+        [
+          "align_option",
+          "O"
+        ],
+        [
+          "value",
+          "RC(Required attribute for processing.)"
+        ],
+        [
+          "multiline",
+          "O"
+        ],
+        [
+          "max_length",
+          "O"
+        ],
+        [
+          "format_type",
+          "O"
+        ],
+        [
+          "font",
+          "O"
+        ],
+        [
+          "place_holder",
+          "O"
+        ],
+        [
+          "tool_tip_text",
+          "O"
+        ],
+        [
+          "numeric_stepper_items",
+          "RC(Required attribute for processing.)"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "field_name"
+      ]
+    },
+    "PUT /v1/packages/{packageId}/documents/{documentId}/fields/numeric_stepper": {
+      "name": "Update Numeric Stepper Field",
+      "category": "Document Preparation",
+      "headers": [
+        "x-language-name",
+        "x-dimension-unit",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "renamed_as",
+          "O"
+        ],
+        [
+          "page",
+          "O"
+        ],
+        [
+          "field_name",
+          "M"
+        ],
+        [
+          "dimension",
+          "O"
+        ],
+        [
+          "visible_enabled",
+          "O"
+        ],
+        [
+          "read_only",
+          "O"
+        ],
+        [
+          "required",
+          "O"
+        ],
+        [
+          "suffix",
+          "O"
+        ],
+        [
+          "remark",
+          "O"
+        ],
+        [
+          "color",
+          "O"
+        ],
+        [
+          "align_option",
+          "O"
+        ],
+        [
+          "value",
+          "RC(Required attribute for processing.)"
+        ],
+        [
+          "multiline",
+          "O"
+        ],
+        [
+          "max_length",
+          "O"
+        ],
+        [
+          "format_type",
+          "O"
+        ],
+        [
+          "font",
+          "O"
+        ],
+        [
+          "place_holder",
+          "O"
+        ],
+        [
+          "tool_tip_text",
+          "O"
+        ],
+        [
+          "numeric_stepper_items",
+          "RC(Required attribute for processing.)"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "POST /v1/packages/{packageId}/documents/{documentId}/fields/hyperlink": {
+      "name": "Add Hyperlink Field",
+      "category": "Document Preparation",
+      "headers": [
+        "x-language-name",
+        "x-dimension-unit",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "page",
+          "M"
+        ],
+        [
+          "field_name",
+          "M"
+        ],
+        [
+          "dimension",
+          "M"
+        ],
+        [
+          "visible_enabled",
+          "M"
+        ],
+        [
+          "read_only",
+          "O"
+        ],
+        [
+          "required",
+          "O"
+        ],
+        [
+          "suffix",
+          "O"
+        ],
+        [
+          "remark",
+          "O"
+        ],
+        [
+          "color",
+          "O"
+        ],
+        [
+          "align_option",
+          "O"
+        ],
+        [
+          "value",
+          "RC(Required attribute for processing.)"
+        ],
+        [
+          "multiline",
+          "O"
+        ],
+        [
+          "max_length",
+          "O"
+        ],
+        [
+          "format_type",
+          "O"
+        ],
+        [
+          "font",
+          "O"
+        ],
+        [
+          "place_holder",
+          "O"
+        ],
+        [
+          "tool_tip_text",
+          "O"
+        ],
+        [
+          "address",
+          "RC(Required attribute for processing.)"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "field_name"
+      ]
+    },
+    "PUT /v1/packages/{packageId}/documents/{documentId}/fields/hyperlink": {
+      "name": "Update Hyperlink Field",
+      "category": "Document Preparation",
+      "headers": [
+        "x-language-name",
+        "x-dimension-unit",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "renamed_as",
+          "O"
+        ],
+        [
+          "page",
+          "O"
+        ],
+        [
+          "field_name",
+          "M"
+        ],
+        [
+          "dimension",
+          "O"
+        ],
+        [
+          "visible_enabled",
+          "O"
+        ],
+        [
+          "read_only",
+          "O"
+        ],
+        [
+          "required",
+          "O"
+        ],
+        [
+          "suffix",
+          "O"
+        ],
+        [
+          "remark",
+          "O"
+        ],
+        [
+          "color",
+          "O"
+        ],
+        [
+          "align_option",
+          "O"
+        ],
+        [
+          "value",
+          "RC(Required attribute for processing.)"
+        ],
+        [
+          "multiline",
+          "O"
+        ],
+        [
+          "max_length",
+          "O"
+        ],
+        [
+          "format_type",
+          "O"
+        ],
+        [
+          "font",
+          "O"
+        ],
+        [
+          "place_holder",
+          "O"
+        ],
+        [
+          "tool_tip_text",
+          "O"
+        ],
+        [
+          "address",
+          "RC(Required attribute for processing.)"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "POST /v1/packages/{packageId}/documents/{documentId}/fields/stamp": {
+      "name": "Add Stamp Field",
+      "category": "Document Preparation",
+      "headers": [
+        "x-language-name",
+        "x-dimension-unit",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "page",
+          "M"
+        ],
+        [
+          "field_name",
+          "M"
+        ],
+        [
+          "dimension",
+          "M"
+        ],
+        [
+          "visible_enabled",
+          "M"
+        ],
+        [
+          "read_only",
+          "O"
+        ],
+        [
+          "required",
+          "O"
+        ],
+        [
+          "suffix",
+          "O"
+        ],
+        [
+          "remark",
+          "O"
+        ],
+        [
+          "place_holder",
+          "O"
+        ],
+        [
+          "tool_tip_text",
+          "O"
+        ],
+        [
+          "image",
+          "RC(Required attribute for processing.)"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "field_name"
+      ]
+    },
+    "PUT /v1/packages/{packageId}/documents/{documentId}/fields/stamp": {
+      "name": "Update Stamp Field",
+      "category": "Document Preparation",
+      "headers": [
+        "x-language-name",
+        "x-dimension-unit",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "renamed_as",
+          "O"
+        ],
+        [
+          "page",
+          "O"
+        ],
+        [
+          "field_name",
+          "M"
+        ],
+        [
+          "dimension",
+          "O"
+        ],
+        [
+          "visible_enabled",
+          "O"
+        ],
+        [
+          "read_only",
+          "O"
+        ],
+        [
+          "required",
+          "O"
+        ],
+        [
+          "suffix",
+          "O"
+        ],
+        [
+          "remark",
+          "O"
+        ],
+        [
+          "place_holder",
+          "O"
+        ],
+        [
+          "tool_tip_text",
+          "O"
+        ],
+        [
+          "image",
+          "RC(Required attribute for processing.)"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "POST /v1/packages/{packageId}/documents/{documentId}/fields/camera": {
+      "name": "Add Camera Field",
+      "category": "Document Preparation",
+      "headers": [
+        "x-language-name",
+        "x-dimension-unit",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "page",
+          "M"
+        ],
+        [
+          "field_name",
+          "M"
+        ],
+        [
+          "dimension",
+          "M"
+        ],
+        [
+          "visible_enabled",
+          "M"
+        ],
+        [
+          "read_only",
+          "O"
+        ],
+        [
+          "required",
+          "O"
+        ],
+        [
+          "suffix",
+          "O"
+        ],
+        [
+          "remark",
+          "O"
+        ],
+        [
+          "place_holder",
+          "O"
+        ],
+        [
+          "tool_tip_text",
+          "O"
+        ],
+        [
+          "camera",
+          "RC(Required attribute for processing.)"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "field_name"
+      ]
+    },
+    "PUT /v1/packages/{packageId}/documents/{documentId}/fields/camera": {
+      "name": "Update Camera Field",
+      "category": "Document Preparation",
+      "headers": [
+        "x-language-name",
+        "x-dimension-unit",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "renamed_as",
+          "O"
+        ],
+        [
+          "page",
+          "O"
+        ],
+        [
+          "field_name",
+          "M"
+        ],
+        [
+          "dimension",
+          "O"
+        ],
+        [
+          "visible_enabled",
+          "O"
+        ],
+        [
+          "read_only",
+          "O"
+        ],
+        [
+          "required",
+          "O"
+        ],
+        [
+          "suffix",
+          "O"
+        ],
+        [
+          "remark",
+          "O"
+        ],
+        [
+          "place_holder",
+          "O"
+        ],
+        [
+          "tool_tip_text",
+          "O"
+        ],
+        [
+          "camera",
+          "RC(Required attribute for processing.)"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "POST /v1/packages/{packageId}/documents/{documentId}/fields/attachment": {
+      "name": "Add Attachment Field",
+      "category": "Document Preparation",
+      "headers": [
+        "x-language-name",
+        "x-dimension-unit",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "page",
+          "M"
+        ],
+        [
+          "field_name",
+          "M"
+        ],
+        [
+          "dimension",
+          "M"
+        ],
+        [
+          "visible_enabled",
+          "M"
+        ],
+        [
+          "read_only",
+          "O"
+        ],
+        [
+          "required",
+          "O"
+        ],
+        [
+          "suffix",
+          "O"
+        ],
+        [
+          "remark",
+          "O"
+        ],
+        [
+          "place_holder",
+          "O"
+        ],
+        [
+          "tool_tip_text",
+          "O"
+        ],
+        [
+          "file",
+          "RC(Required attribute for processing.)"
+        ],
+        [
+          "show_icon_enabled",
+          "O"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "field_name"
+      ]
+    },
+    "PUT /v1/packages/{packageId}/documents/{documentId}/fields/attachment": {
+      "name": "Update Attachment Field",
+      "category": "Document Preparation",
+      "headers": [
+        "x-language-name",
+        "x-dimension-unit",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "renamed_as",
+          "O"
+        ],
+        [
+          "page",
+          "O"
+        ],
+        [
+          "field_name",
+          "M"
+        ],
+        [
+          "dimension",
+          "O"
+        ],
+        [
+          "visible_enabled",
+          "O"
+        ],
+        [
+          "read_only",
+          "O"
+        ],
+        [
+          "required",
+          "O"
+        ],
+        [
+          "suffix",
+          "O"
+        ],
+        [
+          "remark",
+          "O"
+        ],
+        [
+          "place_holder",
+          "O"
+        ],
+        [
+          "tool_tip_text",
+          "O"
+        ],
+        [
+          "file",
+          "RC(Required attribute for processing.)"
+        ],
+        [
+          "show_icon_enabled",
+          "O"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "POST /v1/packages/{packageId}/documents/{documentId}/fields/checkboxV2": {
+      "name": "Add CheckBox Field Version 2",
+      "category": "Document Preparation",
+      "headers": [
+        "x-language-name",
+        "x-dimension-unit",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "page",
+          "M"
+        ],
+        [
+          "field_name",
+          "M"
+        ],
+        [
+          "dimension",
+          "M"
+        ],
+        [
+          "visible_enabled",
+          "M"
+        ],
+        [
+          "read_only",
+          "O"
+        ],
+        [
+          "required",
+          "O"
+        ],
+        [
+          "suffix",
+          "O"
+        ],
+        [
+          "remark",
+          "O"
+        ],
+        [
+          "place_holder",
+          "O"
+        ],
+        [
+          "tool_tip_text",
+          "O"
+        ],
+        [
+          "checked",
+          "M"
+        ],
+        [
+          "text_next_to",
+          "O"
+        ],
+        [
+          "font",
+          "O"
+        ],
+        [
+          "group_name",
+          "O"
+        ],
+        [
+          "align_option",
+          "O"
+        ],
+        [
+          "multiple_checked",
+          "O"
+        ],
+        [
+          "checkbox_frame",
+          "RC(Required attribute for processing.)"
+        ],
+        [
+          "uncheckbox_frame",
+          "RC(Required attribute for processing.)"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "field_name"
+      ]
+    },
+    "PUT /v1/packages/{packageId}/documents/{documentId}/fields/checkboxV2": {
+      "name": "Update CheckBox Field Version 2",
+      "category": "Document Preparation",
+      "headers": [
+        "x-language-name",
+        "x-dimension-unit",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "renamed_as",
+          "O"
+        ],
+        [
+          "page",
+          "M"
+        ],
+        [
+          "field_name",
+          "M"
+        ],
+        [
+          "dimension",
+          "M"
+        ],
+        [
+          "visible_enabled",
+          "M"
+        ],
+        [
+          "read_only",
+          "O"
+        ],
+        [
+          "required",
+          "O"
+        ],
+        [
+          "suffix",
+          "O"
+        ],
+        [
+          "remark",
+          "O"
+        ],
+        [
+          "place_holder",
+          "O"
+        ],
+        [
+          "tool_tip_text",
+          "O"
+        ],
+        [
+          "checked",
+          "M"
+        ],
+        [
+          "text_next_to",
+          "O"
+        ],
+        [
+          "font",
+          "O"
+        ],
+        [
+          "group_name",
+          "O"
+        ],
+        [
+          "align_option",
+          "O"
+        ],
+        [
+          "multiple_checked",
+          "O"
+        ],
+        [
+          "checkbox_frame",
+          "RC(Required attribute for processing.)"
+        ],
+        [
+          "uncheckbox_frame",
+          "RC(Required attribute for processing.)"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "POST /v1/packages/{packageId}/documents/{documentId}/fields/radioboxV2": {
+      "name": "Add RadioBox Field Version 2",
+      "category": "Document Preparation",
+      "headers": [
+        "x-language-name",
+        "x-dimension-unit",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "page",
+          "M"
+        ],
+        [
+          "field_name",
+          "M"
+        ],
+        [
+          "dimension",
+          "M"
+        ],
+        [
+          "visible_enabled",
+          "M"
+        ],
+        [
+          "read_only",
+          "O"
+        ],
+        [
+          "required",
+          "O"
+        ],
+        [
+          "suffix",
+          "O"
+        ],
+        [
+          "remark",
+          "O"
+        ],
+        [
+          "place_holder",
+          "O"
+        ],
+        [
+          "tool_tip_text",
+          "O"
+        ],
+        [
+          "checked",
+          "M"
+        ],
+        [
+          "text_next_to",
+          "O"
+        ],
+        [
+          "font",
+          "O"
+        ],
+        [
+          "group_name",
+          "O"
+        ],
+        [
+          "align_option",
+          "O"
+        ],
+        [
+          "multiple_checked",
+          "O"
+        ],
+        [
+          "checkbox_frame",
+          "RC(Required attribute for processing.)"
+        ],
+        [
+          "uncheckbox_frame",
+          "RC(Required attribute for processing.)"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "field_name"
+      ]
+    },
+    "PUT /v1/packages/{packageId}/documents/{documentId}/fields/radioboxV2": {
+      "name": "Update RadioBox Field Version 2",
+      "category": "Document Preparation",
+      "headers": [
+        "x-language-name",
+        "x-dimension-unit",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "renamed_as",
+          "O"
+        ],
+        [
+          "page",
+          "M"
+        ],
+        [
+          "field_name",
+          "M"
+        ],
+        [
+          "dimension",
+          "M"
+        ],
+        [
+          "visible_enabled",
+          "M"
+        ],
+        [
+          "read_only",
+          "O"
+        ],
+        [
+          "required",
+          "O"
+        ],
+        [
+          "suffix",
+          "O"
+        ],
+        [
+          "remark",
+          "O"
+        ],
+        [
+          "place_holder",
+          "O"
+        ],
+        [
+          "tool_tip_text",
+          "O"
+        ],
+        [
+          "checked",
+          "M"
+        ],
+        [
+          "text_next_to",
+          "O"
+        ],
+        [
+          "font",
+          "O"
+        ],
+        [
+          "group_name",
+          "O"
+        ],
+        [
+          "align_option",
+          "O"
+        ],
+        [
+          "multiple_checked",
+          "O"
+        ],
+        [
+          "checkbox_frame",
+          "RC(Required attribute for processing.)"
+        ],
+        [
+          "uncheckbox_frame",
+          "RC(Required attribute for processing.)"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "POST /v1/packages/{packageId}/documents/{documentId}/fields/vneid": {
+      "name": "Add VNeID Field",
+      "category": "Document Preparation",
+      "headers": [
+        "x-language-name",
+        "x-dimension-unit",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "page",
+          "M"
+        ],
+        [
+          "field_name",
+          "M"
+        ],
+        [
+          "dimension",
+          "M"
+        ],
+        [
+          "visible_enabled",
+          "M"
+        ],
+        [
+          "read_only",
+          "O"
+        ],
+        [
+          "color",
+          "O"
+        ],
+        [
+          "align_option",
+          "O"
+        ],
+        [
+          "value",
+          "RC(Required attribute for processing.)"
+        ],
+        [
+          "multiline",
+          "O"
+        ],
+        [
+          "max_length",
+          "O"
+        ],
+        [
+          "format_type",
+          "O"
+        ],
+        [
+          "font",
+          "O"
+        ],
+        [
+          "place_holder",
+          "O"
+        ],
+        [
+          "tool_tip_text",
+          "O"
+        ],
+        [
+          "type",
+          "M"
+        ],
+        [
+          "required",
+          "O"
+        ],
+        [
+          "suffix",
+          "O"
+        ],
+        [
+          "remark",
+          "O"
+        ],
+        [
+          "loaded_from_vneid",
+          "O"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "field_name"
+      ]
+    },
+    "PUT /v1/packages/{packageId}/documents/{documentId}/fields/vneid": {
+      "name": "Update VNeID Field",
+      "category": "Document Preparation",
+      "headers": [
+        "x-language-name",
+        "x-dimension-unit",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "renamed_as",
+          "O"
+        ],
+        [
+          "page",
+          "O"
+        ],
+        [
+          "field_name",
+          "M"
+        ],
+        [
+          "dimension",
+          "O"
+        ],
+        [
+          "visible_enabled",
+          "O"
+        ],
+        [
+          "read_only",
+          "O"
+        ],
+        [
+          "color",
+          "O"
+        ],
+        [
+          "align_option",
+          "O"
+        ],
+        [
+          "value",
+          "RC(Required attribute for processing.)"
+        ],
+        [
+          "multiline",
+          "O"
+        ],
+        [
+          "max_length",
+          "O"
+        ],
+        [
+          "format_type",
+          "O"
+        ],
+        [
+          "font",
+          "O"
+        ],
+        [
+          "place_holder",
+          "O"
+        ],
+        [
+          "tool_tip_text",
+          "O"
+        ],
+        [
+          "required",
+          "O"
+        ],
+        [
+          "suffix",
+          "O"
+        ],
+        [
+          "remark",
+          "O"
+        ],
+        [
+          "type",
+          "O"
+        ],
+        [
+          "loaded_from_vneid",
+          "O"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "field_name"
+      ]
+    },
+    "POST /v1/packages/{packageId}/documents/{documentId}/fields/redaction": {
+      "name": "Add Redact Field",
+      "category": "Document Preparation",
+      "headers": [
+        "x-language-name",
+        "x-dimension-unit",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "page",
+          "M"
+        ],
+        [
+          "field_name",
+          "M"
+        ],
+        [
+          "dimension",
+          "M"
+        ],
+        [
+          "visible_enabled",
+          "M"
+        ],
+        [
+          "read_only",
+          "O"
+        ],
+        [
+          "required",
+          "O"
+        ],
+        [
+          "suffix",
+          "O"
+        ],
+        [
+          "remark",
+          "O"
+        ],
+        [
+          "redact_policy",
+          "O"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "field_name"
+      ]
+    },
+    "PUT /v1/packages/{packageId}/documents/{documentId}/fields/redaction": {
+      "name": "Update Redact Field",
+      "category": "Document Preparation",
+      "headers": [
+        "x-language-name",
+        "x-dimension-unit",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "renamed_as",
+          "O"
+        ],
+        [
+          "page",
+          "O"
+        ],
+        [
+          "field_name",
+          "M"
+        ],
+        [
+          "dimension",
+          "O"
+        ],
+        [
+          "visible_enabled",
+          "O"
+        ],
+        [
+          "read_only",
+          "O"
+        ],
+        [
+          "required",
+          "O"
+        ],
+        [
+          "suffix",
+          "O"
+        ],
+        [
+          "remark",
+          "O"
+        ],
+        [
+          "redact_policy",
+          "O"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "POST /v1/packages/{packageId}/documents/{documentId}/fields/elabor": {
+      "name": "Add Elabor Field",
+      "category": "Document Preparation",
+      "headers": [
+        "x-language-name",
+        "x-dimension-unit",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "page",
+          "M"
+        ],
+        [
+          "field_name",
+          "M"
+        ],
+        [
+          "dimension",
+          "M"
+        ],
+        [
+          "visible_enabled",
+          "M"
+        ],
+        [
+          "read_only",
+          "O"
+        ],
+        [
+          "color",
+          "O"
+        ],
+        [
+          "alignment",
+          "O"
+        ],
+        [
+          "multiline",
+          "O"
+        ],
+        [
+          "max_length",
+          "O"
+        ],
+        [
+          "font",
+          "O"
+        ],
+        [
+          "type",
+          "M"
+        ],
+        [
+          "required",
+          "O"
+        ],
+        [
+          "suffix",
+          "O"
+        ],
+        [
+          "remark",
+          "O"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "field_name"
+      ]
+    },
+    "PUT /v1/packages/{packageId}/documents/{documentId}/fields/elabor": {
+      "name": "Update Elabor Field",
+      "category": "Document Preparation",
+      "headers": [
+        "x-language-name",
+        "x-dimension-unit",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "renamed_as",
+          "O"
+        ],
+        [
+          "page",
+          "O"
+        ],
+        [
+          "field_name",
+          "M"
+        ],
+        [
+          "dimension",
+          "O"
+        ],
+        [
+          "visible_enabled",
+          "O"
+        ],
+        [
+          "read_only",
+          "O"
+        ],
+        [
+          "color",
+          "O"
+        ],
+        [
+          "alignment",
+          "O"
+        ],
+        [
+          "multiline",
+          "O"
+        ],
+        [
+          "max_length",
+          "O"
+        ],
+        [
+          "font",
+          "O"
+        ],
+        [
+          "required",
+          "O"
+        ],
+        [
+          "suffix",
+          "O"
+        ],
+        [
+          "remark",
+          "O"
+        ],
+        [
+          "type",
+          "O"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "field_name"
+      ]
+    },
+    "POST /v1/packages/{packageId}/approve": {
+      "name": "Approve Document",
+      "category": "Document Processing",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "reason",
+          "O"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "POST /v1/packages/{packageId}/decline": {
+      "name": "Decline Document",
+      "category": "Document Processing",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "reason",
+          "M"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "POST /v1/packages/{packageId}/documents/{documentId}/sign": {
+      "name": "Sign Document",
+      "category": "Document Processing",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "field_name",
+          "M"
+        ],
+        [
+          "hand_signature_image",
+          "O"
+        ],
+        [
+          "signing_reason",
+          "O"
+        ],
+        [
+          "signing_location",
+          "O"
+        ],
+        [
+          "contact_information",
+          "O"
+        ],
+        [
+          "skip_verification",
+          "O"
+        ],
+        [
+          "time_zone",
+          "O"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "POST /v1/packages/{packageId}/documents/{documentId}/sign_eseal": {
+      "name": "Sign Eseal",
+      "category": "Document Processing",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "field_name",
+          "M"
+        ],
+        [
+          "hand_signature_image",
+          "O"
+        ],
+        [
+          "signing_location",
+          "O"
+        ],
+        [
+          "contact_information",
+          "O"
+        ],
+        [
+          "skip_verification",
+          "O"
+        ],
+        [
+          "time_zone",
+          "O"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "POST /v1/packages/{packageId}/documents/{documentId}/hash": {
+      "name": "Get Document Hash",
+      "category": "Document Processing",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "field_name",
+          "M"
+        ],
+        [
+          "hand_signature_image",
+          "O"
+        ],
+        [
+          "signing_algo",
+          "M"
+        ],
+        [
+          "contact_information",
+          "O"
+        ],
+        [
+          "hashing_algo",
+          "M"
+        ],
+        [
+          "signing_reason",
+          "O"
+        ],
+        [
+          "signing_location",
+          "O"
+        ],
+        [
+          "certificate_chain",
+          "O"
+        ],
+        [
+          "appearance_design",
+          "O"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "hash_value"
+      ]
+    },
+    "POST /v1/packages/{packageId}/documents/{documentId}/embed_signature": {
+      "name": "Embed Signature",
+      "category": "Document Processing",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "field_name",
+          "M"
+        ],
+        [
+          "signature_value",
+          "M"
+        ],
+        [
+          "certificate_chain",
+          "M"
+        ],
+        [
+          "hash_value",
+          "M"
+        ],
+        [
+          "skip_verification",
+          "O"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "PUT /v1/packages/{packageId}/documents/{documentId}/fields": {
+      "name": "Fill Form Fields",
+      "category": "Document Processing",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "x-idempotency-skip-error",
+        "x-handle-transaction",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "textbox",
+          "O"
+        ],
+        [
+          "radiobox",
+          "O"
+        ],
+        [
+          "checkbox",
+          "O"
+        ],
+        [
+          "stamp",
+          "O"
+        ],
+        [
+          "camera",
+          "O"
+        ],
+        [
+          "attachment",
+          "O"
+        ],
+        [
+          "hyperlink",
+          "O"
+        ],
+        [
+          "date",
+          "O"
+        ],
+        [
+          "datetime",
+          "O"
+        ],
+        [
+          "combobox",
+          "O"
+        ],
+        [
+          "toggle",
+          "O"
+        ],
+        [
+          "numeric_stepper",
+          "O"
+        ],
+        [
+          "checkboxv2",
+          "O"
+        ],
+        [
+          "radioboxv2",
+          "O"
+        ],
+        [
+          "qr",
+          "O"
+        ],
+        [
+          "vneid_field",
+          "O"
+        ],
+        [
+          "custom_field",
+          "O"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "POST /v1/packages/{packageId}/documents/{documentId}/initial": {
+      "name": "Fill Initials",
+      "category": "Document Processing",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "x-handle-transaction",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "field_name",
+          "O"
+        ],
+        [
+          "image",
+          "RC (Required when the initial field has no stored image)"
+        ],
+        [
+          "apply_to_all",
+          "O"
+        ],
+        [
+          "initial_field",
+          "O"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "POST /v1/packages/{packageId}/submit": {
+      "name": "Submit Document",
+      "category": "Document Processing",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "reason",
+          "O"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "GET /v1/connectors/usbtoken": {
+      "name": "Get List USB-Token Connector",
+      "category": "Connector",
+      "headers": [
+        "x-search-server",
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "GET /v1/connectors/smartid": {
+      "name": "Get List Smart-ID Connector",
+      "category": "Connector",
+      "headers": [
+        "x-search-server",
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "GET /v1/connectors/iss": {
+      "name": "Get List Internal Signing Service Connector (ISS)",
+      "category": "Connector",
+      "headers": [
+        "x-search-server",
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "GET /v1/connectors/certificate-profiles": {
+      "name": "Get Certificate Profile of Connector",
+      "category": "Connector",
+      "headers": [
+        "x-search-server",
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "certificate_profiles"
+      ]
+    },
+    "GET /v1/system/signing/servers": {
+      "name": "Get RSSP Information",
+      "category": "RSSP Processing",
+      "headers": [
+        "x-search-server",
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "signing_servers"
+      ]
+    },
+    "POST /v1/csc/credentials/list": {
+      "name": "Get Filtered Credential List",
+      "category": "RSSP Processing",
+      "headers": [
+        "x-language-name",
+        "x-credential-id",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "signing_server",
+          "RC(When the connector_name have the same name)"
+        ],
+        [
+          "document_type",
+          "M"
+        ],
+        [
+          "value",
+          "M"
+        ],
+        [
+          "connector_name",
+          "M"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "credentialIDs"
+      ]
+    },
+    "POST /v1/csc/packages/{packageId}/documents/{documentId}/sign_rssp": {
+      "name": "Sign Document via RSSP Directly",
+      "category": "RSSP Processing",
+      "headers": [
+        "x-language-name",
+        "x-client-ip",
+        "x-os-name",
+        "x-browser-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "field_name",
+          "M"
+        ],
+        [
+          "hand_signature_image",
+          "O"
+        ],
+        [
+          "signing_algo",
+          "O"
+        ],
+        [
+          "contact_information",
+          "O"
+        ],
+        [
+          "hashing_algo",
+          "O"
+        ],
+        [
+          "signing_reason",
+          "O"
+        ],
+        [
+          "signing_location",
+          "O"
+        ],
+        [
+          "skip_verification",
+          "O"
+        ],
+        [
+          "credential_id",
+          "M"
+        ],
+        [
+          "appearance_design",
+          "O"
+        ],
+        [
+          "connector_name",
+          "M"
+        ],
+        [
+          "signing_server",
+          "RC (When more than one connector shares the same connector name)"
+        ],
+        [
+          "citizen_id",
+          "O"
+        ],
+        [
+          "webhook_url",
+          "O"
+        ],
+        [
+          "rssp_operation_mode",
+          "O"
+        ],
+        [
+          "is_redirect_app_enabled",
+          "O"
+        ],
+        [
+          "notification_template",
+          "O"
+        ],
+        [
+          "metadata",
+          "O"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "validity_period",
+        "vc_code"
+      ]
+    },
+    "POST /v1/csc/credentials/authorization": {
+      "name": "RSSP Credential Authorization",
+      "category": "RSSP Processing",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "credential_id",
+          "M"
+        ],
+        [
+          "otp",
+          "O/M"
+        ],
+        [
+          "pin",
+          "O/M"
+        ],
+        [
+          "face_image",
+          "O/M"
+        ],
+        [
+          "package_id",
+          "M"
+        ],
+        [
+          "document_id",
+          "M"
+        ],
+        [
+          "field_name",
+          "M"
+        ],
+        [
+          "responseID",
+          "O"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "POST /v1/csc/packages/sign/status": {
+      "name": "Get Signing Status (TSE MID)",
+      "category": "RSSP Processing",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "transaction_id",
+          "M"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "status"
+      ]
+    },
+    "POST /v1/csc/credentials/info": {
+      "name": "Get Credentials Info",
+      "category": "RSSP Processing",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "connector_name",
+          "RC (When credential_id is provided)"
+        ],
+        [
+          "signing_server",
+          "RC(When the connector_name is have the same name in DB)"
+        ],
+        [
+          "credential_id",
+          "RC(When signing via RSSP,… except USB-Token)"
+        ],
+        [
+          "certificate_encoded",
+          "RC(When signing via USB-Token => Get from USB)"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "cert",
+        "auth_mode",
+        "SCAL",
+        "multisign",
+        "fields"
+      ]
+    },
+    "POST /v1/csc/credentials/send-otp": {
+      "name": "Send OTP via RSSP",
+      "category": "RSSP Processing",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "transaction_id",
+          "M"
+        ],
+        [
+          "notification_template",
+          "O"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "validity_period",
+        "user_email"
+      ]
+    },
+    "GET /v1/csc/signing/{transactionCode}/status": {
+      "name": "Get Signing Transaction Status",
+      "category": "RSSP Processing",
+      "headers": [
+        "x-language-name",
+        "x-connector-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "status",
+        "type",
+        "data",
+        "webhook_url",
+        "user_info",
+        "metadata"
+      ]
+    },
+    "GET /v1/csc/signing/pending-sessions": {
+      "name": "Get Pending Signing Sessions",
+      "category": "RSSP Processing",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "total",
+        "sessions"
+      ]
+    },
+    "POST /v1/csc/signatures/sign-hash": {
+      "name": "Get Sign Hash From Service",
+      "category": "RSSP Processing",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "connector_name",
+          "M"
+        ],
+        [
+          "credential_id",
+          "M"
+        ],
+        [
+          "documents",
+          "M"
+        ],
+        [
+          "signing_algo",
+          "O"
+        ],
+        [
+          "hashing_algo",
+          "O"
+        ],
+        [
+          "citizen_id",
+          "O"
+        ],
+        [
+          "operation_mode",
+          "O"
+        ],
+        [
+          "is_redirect_app_enabled",
+          "O"
+        ],
+        [
+          "metadata",
+          "O"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "status",
+        "signing_algo",
+        "hashing_algo",
+        "documents",
+        "validity_period",
+        "request_id",
+        "transaction_code"
+      ]
+    },
+    "POST /v1/csc/credentials/ocsp-check": {
+      "name": "Check OCSP Certificate Status",
+      "category": "RSSP Processing",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "connector_name",
+          "RC (When certificate is not provided)"
+        ],
+        [
+          "credential_id",
+          "RC (When certificate is not provided)"
+        ],
+        [
+          "certificate",
+          "O"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "valid",
+        "message",
+        "cert_status"
+      ]
+    },
+    "POST /v1/csc/credentials/document/details": {
+      "name": "Get Information of Citizen card",
+      "category": "Register Certificate Processing",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "document_type",
+          "M"
+        ],
+        [
+          "value",
+          "M"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "personal_informations"
+      ]
+    },
+    "POST /v1/csc/credentials/register": {
+      "name": "Register Certificate via RSSP",
+      "category": "Register Certificate Processing",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "connector_name",
+          "O"
+        ],
+        [
+          "signing_server",
+          "RC(When the connector_name is have the same name in DB)"
+        ],
+        [
+          "level_of_assurance",
+          "M"
+        ],
+        [
+          "document_type",
+          "M"
+        ],
+        [
+          "value",
+          "M"
+        ],
+        [
+          "face_image",
+          "M"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "session_id",
+        "is_email_verified",
+        "is_mobile_verified"
+      ]
+    },
+    "POST /v1/csc/credentials/{session_id}/send-otp": {
+      "name": "Send OTP to Certificate Registration",
+      "category": "Register Certificate Processing",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "otp",
+          "M"
+        ],
+        [
+          "user_email",
+          "M"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "POST /v1/csc/credentials/{session_id}/verify": {
+      "name": "Verify OTP for Certificate Registration",
+      "category": "Register Certificate Processing",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "otp",
+          "M"
+        ],
+        [
+          "user_email",
+          "M"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "GET /v1/csc/credentials/{session_id}/taxcode": {
+      "name": "Get List Tax Codes",
+      "category": "Register Certificate Processing",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "otp",
+          "M"
+        ],
+        [
+          "user_email",
+          "M"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "POST /v1/csc/credentials/{session_id}/finish": {
+      "name": "Finish Register Certificate",
+      "category": "Register Certificate Processing",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "certificate_profile",
+          "M"
+        ],
+        [
+          "tax_code",
+          "RC"
+        ],
+        [
+          "issuing_provider",
+          "RC"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "POST /v1/enterprise/users": {
+      "name": "Register Enterprise User",
+      "category": "Enterprise Management",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "user_name",
+          "M"
+        ],
+        [
+          "user_email",
+          "M"
+        ],
+        [
+          "user_password",
+          "M"
+        ],
+        [
+          "security_question",
+          "M"
+        ],
+        [
+          "security_answer",
+          "O"
+        ],
+        [
+          "enterprise_role",
+          "M"
+        ],
+        [
+          "email_notification",
+          "M"
+        ],
+        [
+          "certificate_id",
+          "O"
+        ],
+        [
+          "job_title",
+          "O"
+        ],
+        [
+          "company_name",
+          "O"
+        ],
+        [
+          "mobile_number",
+          "O"
+        ],
+        [
+          "country",
+          "O"
+        ],
+        [
+          "time_zone",
+          "O"
+        ],
+        [
+          "language",
+          "O"
+        ],
+        [
+          "user_national_id",
+          "O"
+        ],
+        [
+          "user_csp_id",
+          "O"
+        ],
+        [
+          "user_ra_id",
+          "O"
+        ],
+        [
+          "user_csc_id",
+          "O"
+        ],
+        [
+          "common_name",
+          "O"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "GET /v1/enterprise/packages/{packageId}/workflow/{order}/permissions": {
+      "name": "Get Workflow User Permissions of Enterprise Package",
+      "category": "Enterprise Management",
+      "headers": [
+        "x-language-name",
+        "Content-Type",
+        "Authorization"
+      ],
+      "request_fields": [
+        [
+          "packageId",
+          "M"
+        ],
+        [
+          "order",
+          "M"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "print",
+        "download",
+        "add_text",
+        "change_recipients",
+        "add_attachment"
+      ]
+    },
+    "PUT /v1/enterprise/packages/{packageId}/workflow/{order}/permissions": {
+      "name": "Update Workflow User Permissions of Enterprise Package",
+      "category": "Enterprise Management",
+      "headers": [
+        "x-language-name",
+        "Content-Type",
+        "Authorization"
+      ],
+      "request_fields": [
+        [
+          "packageId",
+          "M"
+        ],
+        [
+          "order",
+          "M"
+        ],
+        [
+          "apply_to_all",
+          "M"
+        ],
+        [
+          "permissions",
+          "M"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "GET /v1/enterprise/packages/{packageId}/workflow/{order}/authentication": {
+      "name": "Get Workflow User Authentication (Document Opening) of Enterprise Package",
+      "category": "Enterprise Management",
+      "headers": [
+        "x-language-name",
+        "Content-Type",
+        "Authorization"
+      ],
+      "request_fields": [
+        [
+          "packageId",
+          "M"
+        ],
+        [
+          "order",
+          "M"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "authentication",
+        "authentication_signing",
+        "access_duration"
+      ]
+    },
+    "PUT /v1/enterprise/packages/{packageId}/workflow/{order}/authentication": {
+      "name": "Update Workflow User Authentication of Enterprise Package",
+      "category": "Enterprise Management",
+      "headers": [
+        "x-language-name",
+        "Content-Type",
+        "Authorization"
+      ],
+      "request_fields": [
+        [
+          "packageId",
+          "M"
+        ],
+        [
+          "order",
+          "M"
+        ],
+        [
+          "authentication",
+          "M"
+        ],
+        [
+          "authentication_signing",
+          "M"
+        ],
+        [
+          "access_duration",
+          "M"
+        ],
+        [
+          "apply_to_all",
+          "M"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "POST /v1/enterprise/users/{id}/reset-password": {
+      "name": "Reset Enterprise User Password",
+      "category": "Enterprise Management",
+      "headers": [
+        "x-language-name",
+        "Content-Type",
+        "Authorization"
+      ],
+      "request_fields": [
+        [
+          "id",
+          "M"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "PUT /v1/admin/accounts": {
+      "name": "Change User Service Plan",
+      "category": "ADMIN APIs",
+      "headers": [
+        "x-language-name",
+        "Content-Type",
+        "Authorization"
+      ],
+      "request_fields": [
+        [
+          "user_email",
+          "M"
+        ],
+        [
+          "service_plan",
+          "M"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "GET /v1/enterprise/users/{pageNo}/{recordsPerPage}": {
+      "name": "Get Enterprise Users",
+      "category": "Enterprise Management",
+      "headers": [
+        "x-language-name",
+        "Content-Type",
+        "Authorization"
+      ],
+      "request_fields": [
+        [
+          "pageNo",
+          "O"
+        ],
+        [
+          "recordsPerPage",
+          "O"
+        ],
+        [
+          "x-search-text",
+          "O"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "users"
+      ]
+    },
+    "GET /v1/enterprise/users/{id}": {
+      "name": "Get Enterprise User",
+      "category": "Enterprise Management",
+      "headers": [
+        "x-language-name",
+        "Content-Type",
+        "Authorization"
+      ],
+      "request_fields": [
+        [
+          "x-search-text",
+          "O"
+        ],
+        [
+          "id",
+          "M"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "user_id",
+        "created_on",
+        "user_name",
+        "user_email",
+        "enterprise_role",
+        "mobile_number",
+        "job_title",
+        "company_name",
+        "status",
+        "enabled"
+      ]
+    },
+    "PUT /v1/enterprise/users": {
+      "name": "Update Enterprise User",
+      "category": "Enterprise Management",
+      "headers": [
+        "x-language-name",
+        "Content-Type",
+        "Authorization"
+      ],
+      "request_fields": [
+        [
+          "user_email",
+          "M"
+        ],
+        [
+          "user_name",
+          "O"
+        ],
+        [
+          "job_title",
+          "O"
+        ],
+        [
+          "company_name",
+          "O"
+        ],
+        [
+          "mobile_number",
+          "O"
+        ],
+        [
+          "user_old_password",
+          "O"
+        ],
+        [
+          "user_new_password",
+          "O"
+        ],
+        [
+          "security_question",
+          "O"
+        ],
+        [
+          "security_answer",
+          "O"
+        ],
+        [
+          "enterprise_role",
+          "O"
+        ],
+        [
+          "enabled",
+          "O"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "DELETE /v1/enterprise/users": {
+      "name": "Delete Enterprise User",
+      "category": "Enterprise Management",
+      "headers": [
+        "x-language-name",
+        "Content-Type",
+        "Authorization"
+      ],
+      "request_fields": [
+        [
+          "user_email",
+          "M"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "GET /v1/settings/groups/{recordPerPage}/{pageNo}": {
+      "name": "Get Group",
+      "category": "Account Management",
+      "headers": [
+        "x-language-name",
+        "x-search-text",
+        "x-enterprise",
+        "x-total-records",
+        "Content-Type",
+        "Authorization"
+      ],
+      "request_fields": [
+        [
+          "pageNo",
+          "O"
+        ],
+        [
+          "recordsPerPage",
+          "O"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "groups"
+      ]
+    },
+    "DELETE /v1/settings/groups/{id}": {
+      "name": "Delete Groups",
+      "category": "Enterprise Management",
+      "headers": [
+        "x-language-name",
+        "Content-Type",
+        "Authorization"
+      ],
+      "request_fields": [
+        [
+          "Id",
+          "O"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "POST /v1/enterprise/groups/{id}": {
+      "name": "Add Member into Group",
+      "category": "Enterprise Management",
+      "headers": [
+        "x-language-name",
+        "Content-Type",
+        "Authorization"
+      ],
+      "request_fields": [
+        [
+          "id",
+          "O"
+        ],
+        [
+          "group_name",
+          "M"
+        ],
+        [
+          "user_email",
+          "M"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "DELETE /v1/enterprise/groups/{id}": {
+      "name": "Delete Member in Group",
+      "category": "Enterprise Management",
+      "headers": [
+        "x-language-name",
+        "Content-Type",
+        "Authorization"
+      ],
+      "request_fields": [
+        [
+          "id",
+          "O"
+        ],
+        [
+          "group_name",
+          "M"
+        ],
+        [
+          "user_email",
+          "M"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "GET /v1/enterprise/roles/{pageNo}/{recordPerPage}": {
+      "name": "Get Roles",
+      "category": "Enterprise Management",
+      "headers": [
+        "x-language-name",
+        "x-search-text",
+        "x-total-records",
+        "Content-Type",
+        "Authorization"
+      ],
+      "request_fields": [
+        [
+          "pageNo",
+          "O"
+        ],
+        [
+          "recordsPerPage",
+          "O"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "roles"
+      ]
+    },
+    "GET /v1/enterprise/roles/{id}/users/{pageNo}/{recordPerPage}": {
+      "name": "Get Role Users",
+      "category": "Enterprise Management",
+      "headers": [
+        "x-language-name",
+        "x-total-records",
+        "Content-Type",
+        "Authorization"
+      ],
+      "request_fields": [
+        [
+          "pageNo",
+          "O"
+        ],
+        [
+          "recordsPerPage",
+          "O"
+        ],
+        [
+          "id",
+          "M"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "users"
+      ]
+    },
+    "DELETE /v1/enterprise/roles/{id}": {
+      "name": "Delete Role",
+      "category": "Enterprise Management",
+      "headers": [
+        "x-language-name",
+        "Content-Type",
+        "Authorization"
+      ],
+      "request_fields": [
+        [
+          "id",
+          "M"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "POST /v1/enterprise/roles": {
+      "name": "Add Role",
+      "category": "Enterprise Management",
+      "headers": [
+        "x-language-name",
+        "Content-Type",
+        "Authorization"
+      ],
+      "request_fields": [
+        [
+          "name",
+          "M"
+        ],
+        [
+          "description",
+          "M"
+        ],
+        [
+          "default",
+          "M"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "id",
+        "name",
+        "description",
+        "default"
+      ]
+    },
+    "GET /v1/account/invitations": {
+      "name": "Get Account Invitations",
+      "category": "Account Management",
+      "headers": [
+        "x-language-name",
+        "Content-Type",
+        "Authorization"
+      ],
+      "request_fields": [
+        [
+          "user_email",
+          "M"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "invitations"
+      ]
+    },
+    "PUT /v1/account/invitations": {
+      "name": "Accept Account Invitations",
+      "category": "Account Management",
+      "headers": [
+        "x-language-name",
+        "Content-Type",
+        "Authorization"
+      ],
+      "request_fields": [
+        [
+          "enterprise_name",
+          "M"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "DELETE /v1/account/invitations": {
+      "name": "Reject All Account Invitations",
+      "category": "Account Management",
+      "headers": [
+        "x-language-name",
+        "Content-Type",
+        "Authorization"
+      ],
+      "request_fields": [],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "POST /v1/account": {
+      "name": "Register Enterprise User (Free Trial)",
+      "category": "Account Management",
+      "headers": [
+        "x-language-name",
+        "Content-Type",
+        "Authorization"
+      ],
+      "request_fields": [
+        [
+          "user_name",
+          "M"
+        ],
+        [
+          "user_email",
+          "M"
+        ],
+        [
+          "user_password",
+          "M"
+        ],
+        [
+          "security_question",
+          "M"
+        ],
+        [
+          "security_answer",
+          "O"
+        ],
+        [
+          "enterprise_role",
+          "M"
+        ],
+        [
+          "email_notification",
+          "M"
+        ],
+        [
+          "certificate_id",
+          "O"
+        ],
+        [
+          "job_title",
+          "O"
+        ],
+        [
+          "company_name",
+          "O"
+        ],
+        [
+          "mobile_number",
+          "O"
+        ],
+        [
+          "country",
+          "O"
+        ],
+        [
+          "time_zone",
+          "O"
+        ],
+        [
+          "language",
+          "O"
+        ],
+        [
+          "user_national_id",
+          "O"
+        ],
+        [
+          "user_csp_id",
+          "O"
+        ],
+        [
+          "user_ra_id",
+          "O"
+        ],
+        [
+          "user_csc_id",
+          "O"
+        ],
+        [
+          "common_name",
+          "O"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "GET /v1/account": {
+      "name": "Get Account",
+      "category": "Account Management",
+      "headers": [
+        "x-language-name",
+        "Content-Type",
+        "Authorization"
+      ],
+      "request_fields": [],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "user_email",
+        "user_name",
+        "created_on",
+        "enabled",
+        "two_factor_authentication_enabled",
+        "service_plan",
+        "enterprise"
+      ]
+    },
+    "POST /v1/account/password/reset": {
+      "name": "Send Forgot Password Request",
+      "category": "Account Management",
+      "headers": [
+        "x-language-name",
+        "Content-Type",
+        "Authorization"
+      ],
+      "request_fields": [
+        [
+          "user_email",
+          "M"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "GET /v1/account/statistics/usage": {
+      "name": "Account Usage Statistics",
+      "category": "Account Management",
+      "headers": [
+        "x-language-name",
+        "Content-Type",
+        "Authorization"
+      ],
+      "request_fields": [],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "storage",
+        "signature",
+        "workflow",
+        "user"
+      ]
+    },
+    "GET /v1/account/statistics/documents": {
+      "name": "Document Statistics",
+      "category": "Account Management",
+      "headers": [
+        "x-language-name",
+        "Content-Type",
+        "Authorization"
+      ],
+      "request_fields": [],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "draft",
+        "pending",
+        "shared",
+        "signed",
+        "approved",
+        "declined",
+        "completed",
+        "updated",
+        "archived"
+      ]
+    },
+    "GET /v1/account/log/{pageNo}/{recordsPerPage}": {
+      "name": "Get User Activity Logs",
+      "category": "Account Management",
+      "headers": [
+        "x-language-name",
+        "Content-Type",
+        "Authorization"
+      ],
+      "request_fields": [
+        [
+          "pageNo",
+          "O"
+        ],
+        [
+          "recordsPerPage",
+          "O"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "user_activities"
+      ]
+    },
+    "PUT /v1/settings/profile/password": {
+      "name": "Change Password",
+      "category": "Account Management",
+      "headers": [
+        "x-language-name",
+        "Content-Type",
+        "Authorization"
+      ],
+      "request_fields": [
+        [
+          "user_old_password",
+          "M"
+        ],
+        [
+          "user_new_password",
+          "M"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "access_token",
+        "token_type",
+        "expires_in",
+        "refresh_token",
+        "refresh_token_expires_in"
+      ]
+    },
+    "PUT /v1/settings/profile/security": {
+      "name": "Update Security Settings",
+      "category": "Account Management",
+      "headers": [
+        "x-language-name",
+        "Content-Type",
+        "Authorization"
+      ],
+      "request_fields": [
+        [
+          "password",
+          "M"
+        ],
+        [
+          "question",
+          "M"
+        ],
+        [
+          "answer",
+          "M"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "POST /v1/account/identity": {
+      "name": "Add Identity for a User",
+      "category": "Account Management",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "sync_user_from_connector",
+          "M"
+        ],
+        [
+          "webhook_url",
+          "M"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "validity_period"
+      ]
+    },
+    "GET /v1/settings/signatures": {
+      "name": "Get Signature Settings",
+      "category": "Personal Settings",
+      "headers": [
+        "x-language-name",
+        "Content-Type",
+        "Authorization"
+      ],
+      "request_fields": [],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "signatures"
+      ]
+    },
+    "POST /v1/settings/signatures": {
+      "name": "Add Signature Appearance",
+      "category": "Personal Settings",
+      "headers": [
+        "x-language-name",
+        "Content-Type",
+        "Authorization"
+      ],
+      "request_fields": [
+        [
+          "metadata",
+          "M"
+        ],
+        [
+          "credential_configuration",
+          "M"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "appearance_id"
+      ]
+    },
+    "PUT /v1/settings/signatures/{appearance_id}": {
+      "name": "Update Signature Appearance",
+      "category": "Personal Settings",
+      "headers": [
+        "x-language-name",
+        "Content-Type",
+        "Authorization"
+      ],
+      "request_fields": [
+        [
+          "appearance_id",
+          "M"
+        ],
+        [
+          "metadata",
+          "M"
+        ],
+        [
+          "credential_configuration",
+          "M"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "DELETE /v1/settings/signatures/{appearance_id}": {
+      "name": "Delete Signature Appearance",
+      "category": "Personal Settings",
+      "headers": [
+        "x-language-name",
+        "Content-Type",
+        "Authorization"
+      ],
+      "request_fields": [
+        [
+          "appearance_id",
+          "M"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "GET /v1/settings/profile": {
+      "name": "Get General Profile Information",
+      "category": "Personal Settings",
+      "headers": [
+        "x-language-name",
+        "Content-Type",
+        "Authorization"
+      ],
+      "request_fields": [],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "general",
+        "security",
+        "locale",
+        "enterprise"
+      ]
+    },
+    "PUT /v1/settings/profile/general": {
+      "name": "Update General Profile Information",
+      "category": "Personal Settings",
+      "headers": [
+        "x-language-name",
+        "Content-Type",
+        "Authorization"
+      ],
+      "request_fields": [
+        [
+          "user_name",
+          "M"
+        ],
+        [
+          "job_title",
+          "O"
+        ],
+        [
+          "company_name",
+          "O"
+        ],
+        [
+          "mobile_number",
+          "O"
+        ],
+        [
+          "country",
+          "O"
+        ],
+        [
+          "time_zone",
+          "O"
+        ],
+        [
+          "language",
+          "O"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "GET /v1/settings/addressbook": {
+      "name": "Get Address Book",
+      "category": "Personal Settings",
+      "headers": [
+        "x-language-name",
+        "Content-Type",
+        "Authorization"
+      ],
+      "request_fields": [],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "address_books"
+      ]
+    },
+    "POST /v1/settings/addressbook": {
+      "name": "Add Address Book",
+      "category": "Personal Settings",
+      "headers": [
+        "x-language-name",
+        "Content-Type",
+        "Authorization"
+      ],
+      "request_fields": [
+        [
+          "address_book_name",
+          "M"
+        ],
+        [
+          "description",
+          "O"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "address_book_id"
+      ]
+    },
+    "PUT /v1/settings/addressbook/{id}": {
+      "name": "Update Address Book",
+      "category": "Personal Settings",
+      "headers": [
+        "x-language-name",
+        "Content-Type",
+        "Authorization"
+      ],
+      "request_fields": [
+        [
+          "address_book_name",
+          "O"
+        ],
+        [
+          "description",
+          "O"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "DELETE /v1/settings/addressbook/{id}": {
+      "name": "Delete Address Book",
+      "category": "Personal Settings",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "PUT /v1/settings/addressbook": {
+      "name": "Remove Contact in Address Book",
+      "category": "Personal Settings",
+      "headers": [
+        "x-language-name",
+        "Content-Type",
+        "Authorization"
+      ],
+      "request_fields": [
+        [
+          "address_book_name",
+          "M"
+        ],
+        [
+          "contact_email",
+          "M"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "GET /v1/settings/templates/{recordPerPage}/{pageNo}": {
+      "name": "Get Templates",
+      "category": "Personal Settings",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "name",
+          "M"
+        ],
+        [
+          "description",
+          "O"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "Id"
+      ]
+    },
+    "POST /v1/application/users": {
+      "name": "Register Application User",
+      "category": "Application/Device Management",
+      "headers": [
+        "x-language-name",
+        "Content-Type",
+        "Authorization"
+      ],
+      "request_fields": [
+        [
+          "user_first_name",
+          "M"
+        ],
+        [
+          "user_last_name",
+          "M"
+        ],
+        [
+          "user_email",
+          "M"
+        ],
+        [
+          "user_password",
+          "O"
+        ],
+        [
+          "security_question",
+          "O"
+        ],
+        [
+          "security_answer",
+          "O"
+        ],
+        [
+          "email_notification",
+          "O"
+        ],
+        [
+          "certificate_id",
+          "O"
+        ],
+        [
+          "job_title",
+          "O"
+        ],
+        [
+          "company_name",
+          "O"
+        ],
+        [
+          "mobile_number",
+          "O"
+        ],
+        [
+          "country",
+          "O"
+        ],
+        [
+          "time_zone",
+          "O"
+        ],
+        [
+          "language",
+          "O"
+        ],
+        [
+          "user_national_id",
+          "O"
+        ],
+        [
+          "user_csp_id",
+          "O"
+        ],
+        [
+          "user_ra_id",
+          "O"
+        ],
+        [
+          "user_csc_id",
+          "O"
+        ],
+        [
+          "common_name",
+          "O"
+        ],
+        [
+          "full_name",
+          "O"
+        ],
+        [
+          "date_of_birth",
+          "O"
+        ],
+        [
+          "gender",
+          "O"
+        ],
+        [
+          "permanent_address",
+          "O"
+        ],
+        [
+          "residential_address",
+          "O"
+        ],
+        [
+          "eid_account_level",
+          "O"
+        ],
+        [
+          "account_type",
+          "O"
+        ],
+        [
+          "date_of_issue",
+          "O"
+        ],
+        [
+          "date_of_expiry",
+          "O"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "POST /v1/settings/contacts": {
+      "name": "Add Personal Contact",
+      "category": "Application/Device Management",
+      "headers": [
+        "x-language-name",
+        "Content-Type",
+        "Authorization"
+      ],
+      "request_fields": [
+        [
+          "user_first_name",
+          "M"
+        ],
+        [
+          "user_email",
+          "M"
+        ],
+        [
+          "user_last_name",
+          "M"
+        ],
+        [
+          "position",
+          "O"
+        ],
+        [
+          "company_name",
+          "O"
+        ],
+        [
+          "address_book_name",
+          "O"
+        ],
+        [
+          "personal_code",
+          "O"
+        ],
+        [
+          "mobile_number",
+          "O"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "contact_id"
+      ]
+    },
+    "GET /v1/settings/contacts/{pageNo}/{recordPerPage}": {
+      "name": "Get Contacts",
+      "category": "Application/Device Management",
+      "headers": [
+        "x-language-name",
+        "x-search-text",
+        "x-enterprise",
+        "x-total-records",
+        "Content-Type",
+        "Authorization"
+      ],
+      "request_fields": [
+        [
+          "pageNo",
+          "O"
+        ],
+        [
+          "recordsPerPage",
+          "O"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "contacts"
+      ]
+    },
+    "PUT /v1/settings/contacts/{id}": {
+      "name": "Update Personal Contact",
+      "category": "Application/Device Management",
+      "headers": [
+        "x-language-name",
+        "Content-Type",
+        "Authorization"
+      ],
+      "request_fields": [
+        [
+          "id",
+          "M"
+        ],
+        [
+          "user_first_name",
+          "M"
+        ],
+        [
+          "user_email",
+          "M"
+        ],
+        [
+          "user_last_name",
+          "M"
+        ],
+        [
+          "position",
+          "O"
+        ],
+        [
+          "company_name",
+          "O"
+        ],
+        [
+          "personal_code",
+          "O"
+        ],
+        [
+          "mobile_number",
+          "O"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "DELETE /v1/settings/contacts/{id}": {
+      "name": "Delete Personal Contact",
+      "category": "Application/Device Management",
+      "headers": [
+        "x-language-name",
+        "Content-Type",
+        "Authorization"
+      ],
+      "request_fields": [
+        [
+          "id",
+          "M"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "POST /v1/packages/{packageId}/template": {
+      "name": "Save Workflow as Template",
+      "category": "Template",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "name",
+          "M"
+        ],
+        [
+          "description",
+          "O"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "Id"
+      ]
+    },
+    "GET /v1/templates/{id}": {
+      "name": "Get Template By ID",
+      "category": "Template",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "name",
+        "public",
+        "read_only",
+        "description",
+        "created_at",
+        "enterprise",
+        "documents"
+      ]
+    },
+    "PUT /v1/templates/{id}": {
+      "name": "Update Template",
+      "category": "Template",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [
+        [
+          "name",
+          "O"
+        ],
+        [
+          "public",
+          "O"
+        ],
+        [
+          "read_only",
+          "O"
+        ],
+        [
+          "description",
+          "O"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "DELETE /v1/templates/{id}": {
+      "name": "Delete Template",
+      "category": "Template",
+      "headers": [
+        "x-language-name",
+        "Authorization",
+        "Content-Type"
+      ],
+      "request_fields": [],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "POST /v1/admin/authenticate/client_cert": {
+      "name": "Admin Authentication",
+      "category": "ADMIN APIs",
+      "headers": [
+        "x-language-name",
+        "x-password",
+        "Content-Type"
+      ],
+      "request_fields": [],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "access_token",
+        "token_type",
+        "expires_in"
+      ]
+    },
+    "POST /v1/admin/accounts": {
+      "name": "Create Account",
+      "category": "ADMIN APIs",
+      "headers": [
+        "x-language-name",
+        "Content-Type",
+        "Authorization"
+      ],
+      "request_fields": [
+        [
+          "user_first_name",
+          "M"
+        ],
+        [
+          "user_email",
+          "M"
+        ],
+        [
+          "enterprise_name",
+          "O/M"
+        ],
+        [
+          "job_title",
+          "O"
+        ],
+        [
+          "company_name",
+          "O"
+        ],
+        [
+          "mobile_number",
+          "O"
+        ],
+        [
+          "service_plan",
+          "M"
+        ],
+        [
+          "notifications",
+          "O"
+        ],
+        [
+          "user_password",
+          "O"
+        ],
+        [
+          "security_question",
+          "O"
+        ],
+        [
+          "security_answer",
+          "O"
+        ],
+        [
+          "service_agreements",
+          "M"
+        ],
+        [
+          "user_last_name",
+          "M"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    },
+    "GET /v1/admin/accounts/{pageNo}/{recordsPerPage}": {
+      "name": "Get Accounts",
+      "category": "ADMIN APIs",
+      "headers": [
+        "x-language-name",
+        "x-user-name",
+        "x-user-email",
+        "x-enterprise-name",
+        "x-billing-mode",
+        "x-payment-type",
+        "x-service-plan",
+        "x-activated",
+        "x-enabled",
+        "x-from",
+        "x-to",
+        "x-total-records",
+        "Content-Type",
+        "Authorization"
+      ],
+      "request_fields": [
+        [
+          "pageNo",
+          "O"
+        ],
+        [
+          "recordsPerPage",
+          "O"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message",
+        "accounts"
+      ]
+    },
+    "POST /v1/admin/accounts/statisics/reset": {
+      "name": "Service Plan Reset",
+      "category": "ADMIN APIs",
+      "headers": [
+        "x-language-name",
+        "Content-Type",
+        "Authorization"
+      ],
+      "request_fields": [
+        [
+          "user_email",
+          "M"
+        ]
+      ],
+      "response_fields": [
+        "error_description",
+        "error_code",
+        "message"
+      ]
+    }
+  }
+}

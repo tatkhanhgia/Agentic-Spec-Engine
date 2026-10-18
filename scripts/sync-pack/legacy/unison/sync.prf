@@ -1,0 +1,21 @@
+# Unison profile: bidirectional sync for Documents\Sync
+# Used by scripts/sync-pack/sync-folder.ps1 and scripts/sync-pack/setup-sync.ps1
+
+root = /mnt/c/Users/Admin/Documents/Sync
+# Chay tu may ban (laptop): SSH vao may remote
+root = ssh://admin@100.108.172.26//C/Users/Admin/Documents/Sync
+
+# Remote machine must have Unison in WSL; setup-sync.ps1 installs it.
+servercmd = wsl unison
+
+batch = true
+prefer = newer
+times = true
+perms = 0
+
+ignore = Name .DS_Store
+ignore = Name Thumbs.db
+ignore = Name desktop.ini
+ignore = Name .sync-conflict-*
+ignore = Name *.tmp
+ignore = Name ~$*

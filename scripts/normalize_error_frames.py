@@ -20,7 +20,8 @@ from fix_docx_format import (
     qn, get_element_text,
     parse_template, parse_api_body_rules,
     parse_table_border_rules, parse_table_property_rules,
-    parse_frame_method_rules, parse_heading_hierarchy_rules,
+    parse_frame_method_rules, parse_frame_url_rules,
+    parse_heading_hierarchy_rules,
     fix_styles, fix_heading_numbering_layout, fix_document, pack_docx
 )
 from add_error_response import build_txbx_content, clear_txbx_content
@@ -365,6 +366,7 @@ def main():
     table_border_rules = parse_table_border_rules(template_md)
     table_property_rules = parse_table_property_rules(template_md)
     method_rules = parse_frame_method_rules(template_md)
+    frame_url_rules = parse_frame_url_rules(template_md)
     heading_hierarchy_rules = parse_heading_hierarchy_rules(template_md)
 
     styles_xml = os.path.join(unpacked, "word", "styles.xml")
@@ -372,7 +374,8 @@ def main():
     fix_styles(styles_xml, config)
     fix_heading_numbering_layout(numbering_xml)
     fix_document(document_xml, config, table_border_rules, api_body_rules,
-                 table_property_rules, method_rules, heading_hierarchy_rules)
+                 table_property_rules, method_rules, heading_hierarchy_rules,
+                 frame_url_rules)
 
     output_dir = "formatted"
     os.makedirs(output_dir, exist_ok=True)

@@ -194,6 +194,17 @@ def parse_int_property(table_property_rules, key):
     return int(m.group(1)) if m else None
 
 
+def parse_column_widths(table_property_rules, key, expected_count):
+    """Read a required comma-separated dxa column-width list from the template."""
+    value = table_property_rules.get(key, "")
+    widths = [int(part) for part in re.findall(r"\d+", value)]
+    if "dxa" not in value.lower() or len(widths) != expected_count or any(w <= 0 for w in widths):
+        raise ValueError(
+            "%s must define exactly %d positive dxa widths; got %r"
+            % (key, expected_count, value))
+    return widths
+
+
 def parse_api_body_rules(md_path):
     header, rows = read_markdown_table(md_path, '| Element | Text Match | Paragraph Type |')
     if not header:
@@ -246,6 +257,39 @@ def parse_frame_method_rules(md_path):
                 'highlight': highlight,
                 'text_color': text_color,
             }
+    return rules
+
+
+def parse_frame_url_rules(md_path):
+    """Parse request-line URL rules from section 2.8 property table."""
+    with open(md_path, 'r', encoding='utf-8') as f:
+        lines = f.read().splitlines()
+
+    rules = {}
+    in_section = False
+    in_table = False
+    for line in lines:
+        if line.startswith('### 2.8. Request'):
+            in_section = True
+            continue
+        if not in_section:
+            continue
+        if line.startswith('#### 2.8.1'):
+            break
+        if '| Property |' in line and 'Standard Value' in line:
+            in_table = True
+            continue
+        if not in_table:
+            continue
+        if line.strip() == '' or not line.startswith('|'):
+            break
+        cells = [c.strip() for c in line.split('|')]
+        cells = [c for c in cells if c]
+        if len(cells) < 2 or set(cells[0]) <= set('-'):
+            continue
+        key = cells[0].replace('**', '').strip()
+        val = cells[1].strip().strip('`')
+        rules[key] = val
     return rules
 
 
@@ -412,19 +456,28 @@ def make_paragraph(text, style="Normal", config=None, bold=False):
     return para
 
 
-def make_table_cell(text, header=False):
+ATTRIBUTE_COLUMN_HEADER = ("No", "Name", "Type", "Presence", "Description")
+ATTRIBUTE_CENTER_COLUMNS = (0, 3)  # No and Presence (template 2.4)
+
+
+def make_table_cell(text, width, width_type="dxa", header=False, center=None):
+    """Create a cell with an explicit width; callers cannot inherit a stale default."""
+    if width_type not in {"dxa", "pct"} or int(width) <= 0:
+        raise ValueError("invalid table-cell width: %r %r" % (width, width_type))
     tc = etree.Element(qn("tc"))
     tcPr = etree.SubElement(tc, qn("tcPr"))
     tcW = etree.SubElement(tcPr, qn("tcW"))
-    tcW.set(qn("w"), "1666")
-    tcW.set(qn("type"), "pct")
+    tcW.set(qn("w"), str(width))
+    tcW.set(qn("type"), width_type)
     set_cell_valign(tcPr, "center")
     set_cell_margins(tcPr)
     para = etree.SubElement(tc, qn("p"))
     pPr = etree.SubElement(para, qn("pPr"))
     reset_table_cell_paragraph_spacing(pPr)
     reset_table_cell_paragraph_indent(pPr)
-    set_alignment(pPr, "center" if header else "left")
+    if center is None:
+        center = header
+    set_alignment(pPr, "center" if center else "left")
     run = make_run(text, size=24 if header else 22, bold=header, color="FFFFFF" if header else "000000")
     para.append(run)
     if header:
@@ -435,7 +488,13 @@ def make_table_cell(text, header=False):
     return tc
 
 
-def make_connection_info_table():
+def make_connection_info_table(frame_url_rules, column_widths):
+    frame_url_rules = frame_url_rules or {}
+    if len(column_widths) != 4:
+        raise ValueError("System Connection Information requires four column widths")
+    domain = frame_url_rules.get('Current domain', 'prd-gopaperless.mobile-id.vn')
+    context_path = frame_url_rules.get('Current contextPath', '/workflow/api')
+    base_url_value = frame_url_rules.get('Connection table baseURL value', 'https://{domain}{contextPath}')
     tbl = etree.Element(qn("tbl"))
     tblPr = etree.SubElement(tbl, qn("tblPr"))
     tblW = etree.SubElement(tblPr, qn("tblW"))
@@ -450,22 +509,22 @@ def make_connection_info_table():
     for border in ("top", "left", "bottom", "right", "insideH", "insideV"):
         set_border(tblBorders, border, size="2", color="D9D9D9")
     tblGrid = etree.SubElement(tbl, qn("tblGrid"))
-    for width in ("1800", "2600", "3600"):
+    for width in column_widths:
         gridCol = etree.SubElement(tblGrid, qn("gridCol"))
-        gridCol.set(qn("w"), width)
+        gridCol.set(qn("w"), str(width))
     rows = [
         (True, ["No", "Name", "Value", "Description"]),
-        (False, ["1", "domain", "prd-gopaperless.mobile-id.vn", "Current production domain"]),
-        (False, ["2", "contextPath", "/workflow/api", "API context path"]),
-        (False, ["3", "baseUrl", "https://{domain}/{contextPath}/XXX", "Template for API endpoint URLs"]),
+        (False, ["1", "domain", domain, "Current production domain"]),
+        (False, ["2", "contextPath", context_path, "API context path"]),
+        (False, ["3", "baseURL", base_url_value, "Base URL for all API endpoints"]),
     ]
     for is_header, values in rows:
         tr = etree.SubElement(tbl, qn("tr"))
         if is_header:
             trPr = etree.SubElement(tr, qn("trPr"))
             etree.SubElement(trPr, qn("tblHeader"))
-        for value in values:
-            tr.append(make_table_cell(value, header=is_header))
+        for value, width in zip(values, column_widths):
+            tr.append(make_table_cell(value, width, header=is_header))
     return tbl
 
 
@@ -798,6 +857,42 @@ def parse_hex_color(value):
     return m.group(1).upper() if m else None
 
 
+def ensure_tbl_header(tr):
+    trPr = get_or_create(tr, "trPr")
+    if trPr.find(qn("tblHeader")) is None:
+        etree.SubElement(trPr, qn("tblHeader"))
+
+
+def normalize_attribute_table_borders_and_headers(root, table_property_rules):
+    """Apply black borders and tblHeader flags to every attribute table.
+
+    Generated Path Attributes tables and sections cloned from a generated donor
+    inherit D9D9D9 borders and omit tblHeader on the column-header row; legacy
+    endpoint tables use 000000 / sz=4 with tblHeader on rows 0 and 1.
+    """
+    border_size = str(parse_int_property(table_property_rules, "Attribute table border size") or 4)
+    border_color = parse_hex_color(table_property_rules.get("Attribute table border color")) or "000000"
+    tables_changed = 0
+    for tbl in root.iter(qn("tbl")):
+        rows = tbl.findall(qn("tr"))
+        if len(rows) < 2:
+            continue
+        header = tuple(
+            get_element_text(tc).strip()
+            for tc in rows[1].findall(qn("tc"))[:len(ATTRIBUTE_COLUMN_HEADER)]
+        )
+        if header != ATTRIBUTE_COLUMN_HEADER:
+            continue
+        tblPr = get_or_create(tbl, "tblPr")
+        tblBorders = get_or_create(tblPr, "tblBorders")
+        for tag in ("top", "left", "bottom", "right", "insideH", "insideV"):
+            set_border(tblBorders, tag, size=border_size, color=border_color)
+        ensure_tbl_header(rows[0])
+        ensure_tbl_header(rows[1])
+        tables_changed += 1
+    print("[OK] Normalized attribute table borders/headers: %d tables" % tables_changed)
+
+
 def normalize_api_table_start_headers(root, table_property_rules):
     start_headers = {
         "Header Attributes",
@@ -815,20 +910,27 @@ def normalize_api_table_start_headers(root, table_property_rules):
     header_row_height_rule = table_property_rules.get("Attribute table start header row height rule")
     for tbl in root.iter(qn("tbl")):
         rows = tbl.findall(qn("tr"))
-        if not rows:
+        if len(rows) < 2:
+            continue
+        column_header = tuple(
+            get_element_text(tc).strip()
+            for tc in rows[1].findall(qn("tc"))[:len(ATTRIBUTE_COLUMN_HEADER)]
+        )
+        if column_header != ATTRIBUTE_COLUMN_HEADER:
             continue
         first_row = rows[0]
         cells = first_row.findall(qn("tc"))
         if not cells:
             continue
-        if get_element_text(cells[0]) not in start_headers:
-            continue
-        if header_row_height is not None and header_row_height_rule:
+        title = get_element_text(cells[0]).strip()
+        if title not in start_headers:
+            pass
+        elif header_row_height is not None and header_row_height_rule:
             trPr = get_or_create(first_row, "trPr")
             trHeight = get_or_create(trPr, "trHeight")
             trHeight.set(qn("val"), str(header_row_height))
             trHeight.set(qn("hRule"), header_row_height_rule)
-        if header_width is not None and header_width_type:
+        if title in start_headers and header_width is not None and header_width_type:
             tblPr = get_or_create(tbl, "tblPr")
             tblW = get_or_create(tblPr, "tblW")
             tblW.set(qn("w"), str(header_width))
@@ -855,6 +957,259 @@ def normalize_api_table_start_headers(root, table_property_rules):
                     rPr = ensure_rPr_first(run)
                     set_bold(rPr, True)
                     set_color(rPr, color)
+
+
+def normalize_table_body_fonts(root):
+    """Ensure all table body rows use Verdana 11 pt non-bold black text."""
+    start_headers = {
+        "Header Attributes",
+        "Header Request Attributes",
+        "Header Response Attributes",
+        "Path Attributes",
+        "Request Attributes",
+        "Response Attributes",
+    }
+    for tbl in root.iter(qn("tbl")):
+        rows = tbl.findall(qn("tr"))
+        for tr in rows:
+            trPr = tr.find(qn("trPr"))
+            is_header_row = trPr is not None and trPr.find(qn("tblHeader")) is not None
+            if is_header_row:
+                continue
+
+            cells = tr.findall(qn("tc"))
+            if cells:
+                first_cell_text = get_element_text(cells[0]).strip()
+                if first_cell_text in start_headers:
+                    continue
+
+            for tc in tr.iter(qn("tc")):
+                tcPr = get_or_create(tc, "tcPr")
+                set_cell_valign(tcPr, "center")
+                for para in tc.iter(qn("p")):
+                    pPr = para.find(qn("pPr"))
+                    if pPr is None:
+                        pPr = etree.Element(qn("pPr"))
+                        para.insert(0, pPr)
+                    reset_table_cell_paragraph_spacing(pPr)
+                    reset_table_cell_paragraph_indent(pPr)
+                    for run in para.iter(qn("r")):
+                        rPr = run.find(qn("rPr"))
+                        if rPr is None:
+                            rPr = etree.Element(qn("rPr"))
+                            run.insert(0, rPr)
+                        elif run.index(rPr) != 0:
+                            run.remove(rPr)
+                            run.insert(0, rPr)
+                        set_fonts(rPr, "Verdana")
+                        set_size(rPr, 22)
+                        set_bold(rPr, False)
+                        set_color(rPr, "000000")
+                        set_highlight(rPr, None)
+                        set_shd(rPr, None)
+    print("[OK] Normalized table body fonts")
+
+
+def normalize_attribute_table_column_alignment(root):
+    """Centre the No and Presence columns of every attribute table (template 2.4).
+
+    Step 1 applies Normal-style left alignment to all body paragraphs, including
+    table cells, so this pass must run after that normalization.
+    """
+    cells_changed = 0
+    for tbl in root.iter(qn("tbl")):
+        rows = tbl.findall(qn("tr"))
+        if len(rows) < 3:
+            continue
+        header = tuple(
+            get_element_text(tc).strip()
+            for tc in rows[1].findall(qn("tc"))[:len(ATTRIBUTE_COLUMN_HEADER)]
+        )
+        if header != ATTRIBUTE_COLUMN_HEADER:
+            continue
+        for tr in rows[2:]:
+            cells = tr.findall(qn("tc"))
+            if len(cells) < 5:
+                continue
+            for col in ATTRIBUTE_CENTER_COLUMNS:
+                tc = cells[col]
+                for para in tc.findall(qn("p")):
+                    pPr = para.find(qn("pPr"))
+                    if pPr is None:
+                        pPr = etree.Element(qn("pPr"))
+                        para.insert(0, pPr)
+                    jc = pPr.find(qn("jc"))
+                    if jc is None:
+                        jc = etree.SubElement(pPr, qn("jc"))
+                    if jc.get(qn("val")) != "center":
+                        jc.set(qn("val"), "center")
+                        cells_changed += 1
+    print("[OK] Normalized attribute table column alignment: %d cells" % cells_changed)
+
+
+def normalize_attribute_table_widths(root):
+    """Replace invalid percentage widths in regular attribute-table rows.
+
+    Existing legacy tables intentionally retain their current dxa proportions.
+    Only non-dxa widths are synchronized to the table's own five-column grid.
+    """
+    tables_changed = 0
+    cells_changed = 0
+    for tbl in root.iter(qn("tbl")):
+        rows = tbl.findall(qn("tr"))
+        if len(rows) < 2:
+            continue
+        header = tuple(
+            get_element_text(tc).strip()
+            for tc in rows[1].findall(qn("tc"))[:len(ATTRIBUTE_COLUMN_HEADER)]
+        )
+        if header != ATTRIBUTE_COLUMN_HEADER:
+            continue
+        title = get_element_text(rows[0]).strip()
+        exact_widths = title == "Path Attributes"
+        grid_widths = [
+            grid_col.get(qn("w"))
+            for grid_col in tbl.findall(qn("tblGrid") + "/" + qn("gridCol"))
+        ]
+        if len(grid_widths) != len(ATTRIBUTE_COLUMN_HEADER) or any(
+                width is None or not width.isdigit() for width in grid_widths):
+            raise ValueError("attribute table has an invalid five-column tblGrid")
+
+        table_changed = False
+        for tr in rows[1:]:
+            cells = tr.findall(qn("tc"))
+            if len(cells) != len(grid_widths):
+                raise ValueError("attribute table row does not match its five-column tblGrid")
+            for tc, width in zip(cells, grid_widths):
+                tcPr = get_or_create(tc, "tcPr")
+                tcW = get_or_create(tcPr, "tcW")
+                if tcW.get(qn("type")) == "dxa" and (
+                        not exact_widths or tcW.get(qn("w")) == width):
+                    continue
+                tcW.set(qn("w"), width)
+                tcW.set(qn("type"), "dxa")
+                cells_changed += 1
+                table_changed = True
+        if table_changed:
+            tables_changed += 1
+    print("[OK] Normalized attribute table widths: %d tables, %d cells" % (
+        tables_changed, cells_changed))
+
+
+def normalize_connection_table_widths(root, table_property_rules):
+    """Enforce the template grid on the generated connection-information table."""
+    expected = parse_column_widths(
+        table_property_rules, "Generated connection table column widths", 4)
+    changed = False
+    for tbl in root.iter(qn("tbl")):
+        rows = tbl.findall(qn("tr"))
+        if not rows:
+            continue
+        header = tuple(
+            get_element_text(tc).strip() for tc in rows[0].findall(qn("tc")))
+        if header != ("No", "Name", "Value", "Description"):
+            continue
+
+        tbl_grid = tbl.find(qn("tblGrid"))
+        if tbl_grid is None:
+            tbl_grid = etree.Element(qn("tblGrid"))
+            tbl.insert(1, tbl_grid)
+            changed = True
+        current = [col.get(qn("w")) for col in tbl_grid.findall(qn("gridCol"))]
+        if current != [str(width) for width in expected]:
+            for col in tbl_grid.findall(qn("gridCol")):
+                tbl_grid.remove(col)
+            for width in expected:
+                grid_col = etree.SubElement(tbl_grid, qn("gridCol"))
+                grid_col.set(qn("w"), str(width))
+            changed = True
+
+        for tr in rows:
+            cells = tr.findall(qn("tc"))
+            if len(cells) != len(expected):
+                raise ValueError(
+                    "System Connection Information row must have four cells")
+            for tc, width in zip(cells, expected):
+                tcPr = get_or_create(tc, "tcPr")
+                tcW = get_or_create(tcPr, "tcW")
+                if (tcW.get(qn("w")), tcW.get(qn("type"))) == (
+                        str(width), "dxa"):
+                    continue
+                tcW.set(qn("w"), str(width))
+                tcW.set(qn("type"), "dxa")
+                changed = True
+    print("[OK] Normalized connection table widths%s" % (
+        "" if changed else " (already clean)"))
+
+
+def table_width_errors(root):
+    """Return width invariant violations that must block DOCX packaging."""
+    errors = []
+    for tbl in root.iter(qn("tbl")):
+        rows = tbl.findall(qn("tr"))
+        if not rows:
+            continue
+        first_row = tuple(
+            get_element_text(tc).strip() for tc in rows[0].findall(qn("tc")))
+        title = get_element_text(rows[0]).strip()
+        header = tuple(
+            get_element_text(tc).strip()
+            for tc in rows[1].findall(qn("tc"))[:len(ATTRIBUTE_COLUMN_HEADER)]
+        ) if len(rows) > 1 else ()
+        is_attribute = header == ATTRIBUTE_COLUMN_HEADER
+        is_connection = first_row == ("No", "Name", "Value", "Description")
+        if not is_attribute and not is_connection:
+            continue
+
+        grid_widths = [
+            grid_col.get(qn("w"))
+            for grid_col in tbl.findall(qn("tblGrid") + "/" + qn("gridCol"))
+        ]
+        expected_count = 5 if is_attribute else 4
+        if len(grid_widths) != expected_count or any(
+                width is None or not width.isdigit() for width in grid_widths):
+            errors.append("%s: invalid %d-column tblGrid" % (
+                title or "System Connection Information", expected_count))
+            continue
+
+        checked_rows = rows[1:] if is_attribute else rows
+        exact_widths = is_connection or title == "Path Attributes"
+        for row_no, tr in enumerate(checked_rows, 1):
+            cells = tr.findall(qn("tc"))
+            if len(cells) != expected_count:
+                errors.append("%s row %d: %d cells for %d grid columns" % (
+                    title, row_no, len(cells), expected_count))
+                continue
+            for col_no, (tc, grid_width) in enumerate(
+                    zip(cells, grid_widths), 1):
+                tcW = tc.find(qn("tcPr") + "/" + qn("tcW"))
+                if tcW is None:
+                    errors.append("%s row %d column %d: missing tcW" % (
+                        title, row_no, col_no))
+                    continue
+                width = tcW.get(qn("w"))
+                width_type = tcW.get(qn("type"))
+                if width_type != "dxa":
+                    errors.append(
+                        "%s row %d column %d: %s %s; regular cells require dxa"
+                        % (title, row_no, col_no, width, width_type))
+                elif exact_widths and width != grid_width:
+                    errors.append(
+                        "%s row %d column %d: %s dxa; grid requires %s dxa"
+                        % (title, row_no, col_no, width, grid_width))
+    return errors
+
+
+def validate_table_widths(root):
+    """Raise before packaging when a table can reproduce the width defect."""
+    errors = table_width_errors(root)
+    if errors:
+        shown = "\n".join("  - " + item for item in errors[:20])
+        suffix = "\n  ... and %d more" % (len(errors) - 20) \
+            if len(errors) > 20 else ""
+        raise ValueError(
+            "DOCX table-width validation failed (%d issue(s)):\n%s%s"
+            % (len(errors), shown, suffix))
 
 
 def rename_header_attribute_tables(root):
@@ -940,8 +1295,13 @@ def rename_header_attribute_tables(root):
         process_section_tables(section_tables)
 
 
-def make_path_attributes_table(path_vars):
+def make_path_attributes_table(path_vars, column_widths, table_property_rules=None):
     """Create a Path Attributes table for the given path variables."""
+    if len(column_widths) != len(ATTRIBUTE_COLUMN_HEADER):
+        raise ValueError("Path Attributes requires five column widths")
+    rules = table_property_rules or {}
+    border_size = str(parse_int_property(rules, "Attribute table border size") or 4)
+    border_color = parse_hex_color(rules.get("Attribute table border color")) or "000000"
     tbl = etree.Element(qn("tbl"))
     tblPr = etree.SubElement(tbl, qn("tblPr"))
     tblW = etree.SubElement(tblPr, qn("tblW"))
@@ -954,36 +1314,34 @@ def make_path_attributes_table(path_vars):
     tblInd.set(qn("type"), "dxa")
     tblBorders = etree.SubElement(tblPr, qn("tblBorders"))
     for border in ("top", "left", "bottom", "right", "insideH", "insideV"):
-        set_border(tblBorders, border, size="2", color="D9D9D9")
+        set_border(tblBorders, border, size=border_size, color=border_color)
     tblGrid = etree.SubElement(tbl, qn("tblGrid"))
-    for w in ("900", "2200", "1400", "1200", "3300"):
+    for width in column_widths:
         gridCol = etree.SubElement(tblGrid, qn("gridCol"))
-        gridCol.set(qn("w"), w)
+        gridCol.set(qn("w"), str(width))
 
     # Row 1: merged header "Path Attributes"
     tr1 = etree.SubElement(tbl, qn("tr"))
     trPr1 = etree.SubElement(tr1, qn("trPr"))
+    etree.SubElement(trPr1, qn("tblHeader"))
     trHeight1 = etree.SubElement(trPr1, qn("trHeight"))
     trHeight1.set(qn("val"), "420")
     trHeight1.set(qn("hRule"), "atLeast")
-    tc1 = make_table_cell("Path Attributes", header=True)
+    tc1 = make_table_cell("Path Attributes", 5000, width_type="pct", header=True)
     tcPr1 = tc1.find(qn("tcPr"))
     grid_span1 = get_or_create(tcPr1, "gridSpan")
     grid_span1.set(qn("val"), "5")
-    tcW1 = tcPr1.find(qn("tcW"))
-    if tcW1 is not None:
-        tcW1.set(qn("w"), "5000")
-        tcW1.set(qn("type"), "pct")
     tr1.append(tc1)
 
     # Row 2: column headers
     tr2 = etree.SubElement(tbl, qn("tr"))
     trPr2 = etree.SubElement(tr2, qn("trPr"))
+    etree.SubElement(trPr2, qn("tblHeader"))
     trHeight2 = etree.SubElement(trPr2, qn("trHeight"))
     trHeight2.set(qn("val"), "420")
     trHeight2.set(qn("hRule"), "atLeast")
-    for h in ("No", "Name", "Type", "Presence", "Description"):
-        tr2.append(make_table_cell(h, header=True))
+    for heading, width in zip(ATTRIBUTE_COLUMN_HEADER, column_widths):
+        tr2.append(make_table_cell(heading, width, header=True))
 
     # Data rows
     for no, var in enumerate(path_vars, start=1):
@@ -992,18 +1350,22 @@ def make_path_attributes_table(path_vars):
         trHeight = etree.SubElement(trPr, qn("trHeight"))
         trHeight.set(qn("val"), "420")
         trHeight.set(qn("hRule"), "atLeast")
-        tr.append(make_table_cell(str(no), header=False))
-        tr.append(make_table_cell(var, header=False))
-        tr.append(make_table_cell("String", header=False))
-        tr.append(make_table_cell("M", header=False))
-        tr.append(make_table_cell("", header=False))
+        for col_idx, (value, width) in enumerate(
+                zip((str(no), var, "String", "M", ""), column_widths)):
+            tr.append(make_table_cell(
+                value, width, header=False, center=(col_idx in ATTRIBUTE_CENTER_COLUMNS)))
 
     return tbl
 
 
-def create_path_attribute_tables(root, config, api_body_rules):
+def create_path_attribute_tables(root, config, api_body_rules, table_property_rules):
     """Auto-create Path Attributes tables for API sections that have URL path variables
     but are missing a Path Attributes table."""
+    column_widths = parse_column_widths(
+        table_property_rules,
+        "Generated attribute table column widths",
+        len(ATTRIBUTE_COLUMN_HEADER),
+    )
     body = root.find(".//" + qn("body"))
     if body is None:
         return
@@ -1036,20 +1398,25 @@ def create_path_attribute_tables(root, config, api_body_rules):
                     found_request = True
                     continue
                 if found_request and text.strip():
-                    # Look for HTTP method + URL pattern
+                    m = re.search(r'\{baseURL\}(/[^?\s]*)', text)
+                    if m:
+                        path_part = m.group(1)
+                        vars_found = re.findall(r'\{([^}]+)\}', path_part)
+                        vars_found = [v for v in vars_found if v not in ("domain", "contextPath", "baseURL")]
+                        return vars_found
+                    # Legacy fallback while migrating older frame content
                     m = re.search(r'(https?://\{[^}]+\}/\{[^}]+\})(/[^?\s]*)', text)
                     if m:
                         path_part = m.group(2)
                         vars_found = re.findall(r'\{([^}]+)\}', path_part)
-                        # Filter out domain/contextPath just in case
-                        vars_found = [v for v in vars_found if v not in ("domain", "contextPath")]
+                        vars_found = [v for v in vars_found if v not in ("domain", "contextPath", "baseURL")]
                         return vars_found
                     # Fallback: any URL-looking segment with variables
                     m2 = re.search(r'/(v\d+[^?\s]*)', text)
                     if m2:
                         path_part = m2.group(1)
                         vars_found = re.findall(r'\{([^}]+)\}', "/" + path_part)
-                        vars_found = [v for v in vars_found if v not in ("domain", "contextPath")]
+                        vars_found = [v for v in vars_found if v not in ("domain", "contextPath", "baseURL")]
                         return vars_found
                     # If we hit Sample Response or Attributes description, stop looking
                     if text in {"Sample Response", "Attributes description"}:
@@ -1101,7 +1468,8 @@ def create_path_attribute_tables(root, config, api_body_rules):
                         real_insert = idx + 1 + insert_offset
                         # Adjust for any previously inserted tables in this loop
                         # (simplified: just insert)
-                        path_tbl = make_path_attributes_table(path_vars)
+                        path_tbl = make_path_attributes_table(
+                            path_vars, column_widths, table_property_rules)
                         blank = make_blank_paragraph_like(None, config, api_body_rules.get("Between attribute tables", {}))
                         body.insert(real_insert, blank)
                         body.insert(real_insert + 1, path_tbl)
@@ -1109,6 +1477,203 @@ def create_path_attribute_tables(root, config, api_body_rules):
                         idx = real_insert + 2
                         continue
         idx += 1
+
+
+def normalize_attribute_table_content(root):
+    """Fix semantic content of API attribute tables:
+    - Move accesstoken/access_token from Request Attributes to Header Request Attributes as Authorization
+    - Ensure Content-Type is present in Header Request Attributes
+    - Remove empty Request Attributes tables
+    - Renumber rows after modifications
+    """
+    body = root.find(".//" + qn("body"))
+    if body is None:
+        return
+
+    def is_heading_break(node):
+        if node.tag != qn("p"):
+            return False
+        pPr = node.find(qn("pPr"))
+        if pPr is not None:
+            ps = pPr.find(qn("pStyle"))
+            if ps is not None and ps.get(qn("val")) in {"Heading1", "Heading2", "Heading3", "Heading4"}:
+                return True
+        return False
+
+    def get_table_header_text(tbl):
+        rows = tbl.findall(qn("tr"))
+        if not rows:
+            return ""
+        cells = rows[0].findall(qn("tc"))
+        if not cells:
+            return ""
+        return get_element_text(cells[0]).strip()
+
+    def get_row_name(tr):
+        cells = tr.findall(qn("tc"))
+        if len(cells) >= 2:
+            return get_element_text(cells[1]).strip().lower()
+        return ""
+
+    def set_cell_text(tc, text):
+        """Replace text in a table cell, preserving one paragraph with one run.
+        Removes any extra paragraphs to avoid leftover text from cloned rows."""
+        paras = tc.findall(qn("p"))
+        if not paras:
+            para = etree.SubElement(tc, qn("p"))
+        else:
+            para = paras[0]
+            # Remove extra paragraphs to prevent leftover text
+            for extra in paras[1:]:
+                tc.remove(extra)
+        for r in para.findall(qn("r")):
+            para.remove(r)
+        run = make_run(text, font="Verdana", size=22, bold=False, color="000000")
+        para.append(run)
+
+    def renumber_table(tbl, start_idx=2):
+        rows = tbl.findall(qn("tr"))
+        for i, tr in enumerate(rows[start_idx:], start=1):
+            cells = tr.findall(qn("tc"))
+            if cells:
+                set_cell_text(cells[0], str(i))
+
+    def clone_data_row(template_tr):
+        """Clone a data row and return it for modification."""
+        new_tr = deepcopy(template_tr)
+        for attr in list(new_tr.attrib.keys()):
+            if "rsid" in attr or "paraId" in attr or "textId" in attr:
+                del new_tr.attrib[attr]
+        for para in new_tr.iter(qn("p")):
+            for attr in list(para.attrib.keys()):
+                if "rsid" in attr or "paraId" in attr or "textId" in attr:
+                    del para.attrib[attr]
+        return new_tr
+
+    children = list(body)
+    idx = 0
+    moved_count = 0
+    added_count = 0
+    removed_tables = []
+
+    while idx < len(children):
+        child = children[idx]
+        if is_heading_break(child):
+            pPr = child.find(qn("pPr"))
+            ps = pPr.find(qn("pStyle")) if pPr is not None else None
+            style = ps.get(qn("val")) if ps is not None else ""
+            if style in {"Heading3", "Heading4"}:
+                section_nodes = []
+                j = idx + 1
+                while j < len(children):
+                    n = children[j]
+                    if is_heading_break(n):
+                        pPr2 = n.find(qn("pPr"))
+                        ps2 = pPr2.find(qn("pStyle")) if pPr2 is not None else None
+                        s2 = ps2.get(qn("val")) if ps2 is not None else ""
+                        if s2 in {"Heading1", "Heading2", "Heading3", "Heading4"}:
+                            break
+                    section_nodes.append(n)
+                    j += 1
+
+                header_tbl = None
+                request_tbl = None
+                for node in section_nodes:
+                    if node.tag == qn("tbl"):
+                        htext = get_table_header_text(node)
+                        if htext in {"Header Attributes", "Header Request Attributes"}:
+                            header_tbl = node
+                        elif htext == "Request Attributes":
+                            request_tbl = node
+
+                # Always add Content-Type to Header Attributes if missing
+                if header_tbl is not None:
+                    header_rows = header_tbl.findall(qn("tr"))
+                    has_ct = False
+                    for tr in header_rows[2:]:
+                        if get_row_name(tr) == "content-type":
+                            has_ct = True
+                            break
+                    if not has_ct:
+                        template_row = header_rows[2] if len(header_rows) > 2 else None
+                        if template_row is None and request_tbl is not None:
+                            req_rows = request_tbl.findall(qn("tr"))
+                            if len(req_rows) > 2:
+                                template_row = req_rows[2]
+                        if template_row is not None:
+                            ct_row = clone_data_row(template_row)
+                            cells = ct_row.findall(qn("tc"))
+                            if len(cells) >= 5:
+                                set_cell_text(cells[1], "Content-Type")
+                                set_cell_text(cells[2], "String")
+                                set_cell_text(cells[3], "M")
+                                set_cell_text(cells[4], "The MIME type of the request body. Usually application/json")
+                            header_tbl.append(ct_row)
+                            added_count += 1
+                            # Renumber if there won't be a second renumber below
+                            if request_tbl is None:
+                                renumber_table(header_tbl, start_idx=2)
+
+                # Process accesstoken movement only when both tables exist
+                if header_tbl is not None and request_tbl is not None:
+                    req_rows = request_tbl.findall(qn("tr"))
+                    rows_to_remove = []
+                    moved_auth = False
+
+                    for r_idx, tr in enumerate(req_rows[2:], start=2):
+                        name = get_row_name(tr)
+                        if name in ("accesstoken", "access_token"):
+                            rows_to_remove.append(r_idx)
+                            moved_auth = True
+
+                    for r_idx in reversed(rows_to_remove):
+                        request_tbl.remove(req_rows[r_idx])
+
+                    header_rows = header_tbl.findall(qn("tr"))
+                    has_auth = False
+                    for tr in header_rows[2:]:
+                        if get_row_name(tr) == "authorization":
+                            has_auth = True
+                            break
+
+                    if moved_auth and not has_auth:
+                        template_row = header_rows[2] if len(header_rows) > 2 else None
+                        if template_row is None and len(req_rows) > 2:
+                            template_row = req_rows[2]
+                        if template_row is not None:
+                            auth_row = clone_data_row(template_row)
+                            cells = auth_row.findall(qn("tc"))
+                            if len(cells) >= 5:
+                                set_cell_text(cells[1], "Authorization")
+                                set_cell_text(cells[2], "String")
+                                set_cell_text(cells[3], "M")
+                                set_cell_text(cells[4], "The authentication token (accessToken) required to access the API. Must be provided in the format: Bearer {accessToken}")
+                            header_tbl.append(auth_row)
+                            has_auth = True
+                            moved_count += 1
+
+                    renumber_table(header_tbl, start_idx=2)
+
+                    # Check if Request Attributes table is now empty (only header rows)
+                    req_rows_after = request_tbl.findall(qn("tr"))
+                    if len(req_rows_after) <= 2:
+                        removed_tables.append(request_tbl)
+                    else:
+                        renumber_table(request_tbl, start_idx=2)
+
+        idx += 1
+
+    # Remove empty Request Attributes tables
+    for tbl in removed_tables:
+        try:
+            body.remove(tbl)
+        except ValueError:
+            pass
+
+    if moved_count or added_count or removed_tables:
+        print(f"[OK] Normalized attribute table content ({moved_count} auth moved, {added_count} Content-Type added, {len(removed_tables)} empty tables removed)")
+    else:
+        print("[OK] Attribute table content already correct")
 
 
 def apply_table_alignment(root, table_property_rules):
@@ -1155,6 +1720,71 @@ def normalize_inline_shapes(root, target_cx="6664325"):
                 para.insert(0, pPr)
             set_alignment(pPr, "center")
             reset_table_cell_paragraph_indent(pPr)
+
+
+_WPS_NS = "http://schemas.microsoft.com/office/word/2010/wordprocessingShape"
+_A_NS = "http://schemas.openxmlformats.org/drawingml/2006/main"
+_VML_NS = "urn:schemas-microsoft-com:vml"
+_FRAME_METHOD_RE = re.compile(r"^(GET|POST|PUT|DELETE|PATCH)\b")
+
+
+def _is_sample_frame_txbx(txbx):
+    """A txbxContent is a sample frame when its first line is a request line,
+    an `Http Code` status line, or starts a bare JSON body (template 2.8.10)."""
+    paras = txbx.findall(qn("p"))
+    if not paras:
+        return False
+    first = "".join(t.text or "" for t in paras[0].iter(qn("t"))).strip()
+    return bool(_FRAME_METHOD_RE.match(first)) or first.startswith(("Http Code", "{", "["))
+
+
+def normalize_frame_autofit(root):
+    """Template 2.8.10: every sample frame textbox must auto-fit its text.
+
+    A fixed-height frame clips JSON lines when the text is taller than the
+    shape (silent data loss) and reserves dead space when it is shorter. Each
+    frame is stored twice inside mc:AlternateContent and both representations
+    must agree:
+      - DrawingML: <wps:bodyPr> carries <a:spAutoFit/> (replacing any
+        <a:noAutofit/> / <a:normAutofit/> in place, to keep schema order);
+      - VML fallback: the <v:textbox> style contains mso-fit-shape-to-text:t.
+    The stored height is only the last rendered size; Word recomputes it on
+    open once these flags are present, so it is left untouched.
+    """
+    fixed_drawing = fixed_vml = 0
+
+    for wtxbx in root.iter("{%s}txbx" % _WPS_NS):
+        txbx = wtxbx.find(qn("txbxContent"))
+        if txbx is None or not _is_sample_frame_txbx(txbx):
+            continue
+        shape = wtxbx.getparent()
+        bodyPr = shape.find("{%s}bodyPr" % _WPS_NS)
+        if bodyPr is None:
+            bodyPr = etree.SubElement(shape, "{%s}bodyPr" % _WPS_NS)
+        if bodyPr.find("{%s}spAutoFit" % _A_NS) is None:
+            replaced = False
+            for tag in ("noAutofit", "normAutofit"):
+                old = bodyPr.find("{%s}%s" % (_A_NS, tag))
+                if old is not None:
+                    bodyPr.replace(old, etree.Element("{%s}spAutoFit" % _A_NS))
+                    replaced = True
+                    break
+            if not replaced:
+                bodyPr.append(etree.Element("{%s}spAutoFit" % _A_NS))
+            fixed_drawing += 1
+
+    for vtb in root.iter("{%s}textbox" % _VML_NS):
+        txbx = vtb.find(qn("txbxContent"))
+        if txbx is None or not _is_sample_frame_txbx(txbx):
+            continue
+        style = vtb.get("style") or ""
+        if "mso-fit-shape-to-text" not in style:
+            vtb.set("style", (style.rstrip(";") + ";" if style else "") + "mso-fit-shape-to-text:t")
+            fixed_vml += 1
+
+    if fixed_drawing or fixed_vml:
+        print(f"[OK] Frame auto-fit applied: {fixed_drawing} DrawingML bodyPr, {fixed_vml} VML textboxes")
+    return fixed_drawing + fixed_vml
 
 
 def normalize_api_body_spacing(root, config, api_body_rules):
@@ -1803,7 +2433,11 @@ def _prettify_json_in_txbx(txbx):
                 i = len(paragraphs)
             continue
 
-        i += 1
+        # Whole block did not parse: this is a fragment (a body split across
+        # two frames). Skip the entire scanned block. Descending into it would
+        # re-dump nested objects at indent 0, which flattens the template
+        # 2.8.4 "2 spaces per nesting level" indentation of the outer levels.
+        i = block_end + 1
 
 
 def normalize_x_language_name(root):
@@ -1862,26 +2496,112 @@ def highlight_variables_in_document(root):
         _highlight_variables_in_para(runs)
 
 
-def normalize_url_placeholders(root):
-    old_base = "https://prd-gopaperless.mobile-id.vn/workflow/api"
-    new_base = "https://{domain}/{contextPath}"
-    for txbx in root.iter(qn("txbxContent")):
-        text_nodes = [t for t in txbx.iter(qn("t"))]
-        for idx, text_node in enumerate(text_nodes):
-            if text_node.text is None or "prd-gopaperless.mobile-id.vn" not in text_node.text:
-                continue
-            previous_node = text_nodes[idx - 1] if idx > 0 else None
-            if previous_node is None or previous_node.text is None:
-                continue
-            combined = previous_node.text + text_node.text
-            if old_base not in combined:
-                continue
-            normalized = combined.replace(old_base, new_base)
-            previous_node.text = ""
-            text_node.text = normalized
-            if text_node.text.startswith(" ") or text_node.text.endswith(" "):
-                text_node.set("{http://www.w3.org/XML/1998/namespace}space", "preserve")
+def _set_paragraph_text(para, new_text):
+    """Replace paragraph text while preserving the first text node."""
+    XML_SPACE = "{http://www.w3.org/XML/1998/namespace}space"
+    first_t = None
+    for t in para.iter(qn("t")):
+        if first_t is None:
+            first_t = t
+        else:
+            t.text = ""
+    if first_t is None:
+        return
+    first_t.text = new_text
+    if new_text.startswith(" ") or new_text.endswith(" "):
+        first_t.set(XML_SPACE, "preserve")
 
+
+def _to_baseurl_endpoint(url_part, frame_url_rules):
+    """Normalize a request-line URL segment to {baseURL}/path form."""
+    url_part = url_part.strip()
+    placeholder_name = frame_url_rules.get('Request line placeholder', 'baseURL')
+    placeholder = '{' + placeholder_name + '}'
+
+    if url_part.startswith(placeholder):
+        return url_part
+
+    domain = frame_url_rules.get('Current domain', 'prd-gopaperless.mobile-id.vn')
+    context_path = frame_url_rules.get('Current contextPath', '/workflow/api')
+    hardcoded_base = f'https://{domain}{context_path}'
+
+    prefixes = [
+        hardcoded_base,
+        'https://{domain}/{contextPath}',
+        'https://{domain}{contextPath}',
+        f'https://{{domain}}{context_path}',
+        f'https://{{domain}}/{{contextPath}}',
+    ]
+    for prefix in prefixes:
+        if url_part.startswith(prefix):
+            path = url_part[len(prefix):]
+            if path and not path.startswith('/'):
+                path = '/' + path
+            return placeholder + path
+
+    if url_part.startswith('/'):
+        return placeholder + url_part
+
+    return url_part
+
+
+def normalize_url_placeholders(root, frame_url_rules):
+    """Normalize request-line URLs in frames to {baseURL}/endpoint-path."""
+    method_pattern = re.compile(
+        r'^(\s*)(GET|POST|PUT|DELETE|PATCH)\s*(.+?)(?=Content-Type:|x-language-name:|Authorization:|\Z)',
+        re.IGNORECASE,
+    )
+    for txbx in root.iter(qn("txbxContent")):
+        for para in txbx.iter(qn("p")):
+            full_text = get_element_text(para)
+            if not full_text.strip():
+                continue
+            match = method_pattern.match(full_text)
+            if not match:
+                continue
+            url_part = match.group(3).strip()
+            new_url = _to_baseurl_endpoint(url_part, frame_url_rules)
+            if new_url == url_part:
+                continue
+            new_text = f"{match.group(1)}{match.group(2)} {new_url}{full_text[match.end():]}"
+            _set_paragraph_text(para, new_text)
+
+
+
+def _remove_blank_between_headers_and_json(txbx):
+    """Remove blank paragraphs between HTTP headers and JSON body inside text boxes."""
+    paragraphs = list(txbx.iter(qn("p")))
+
+    # Find JSON start index
+    json_start = None
+    for i, para in enumerate(paragraphs):
+        text = get_element_text(para).strip()
+        if text.startswith(('{', '[')):
+            json_start = i
+            break
+
+    if json_start is None or json_start == 0:
+        return
+
+    # Find the last header before JSON (contains ':', not JSON)
+    last_header = None
+    for i in range(json_start - 1, -1, -1):
+        text = get_element_text(paragraphs[i]).strip()
+        if text == "":
+            continue
+        if ':' in text and not text.startswith(('{', '[')):
+            last_header = i
+            break
+        # If we hit non-header, non-blank content, stop
+        if text:
+            break
+
+    if last_header is None:
+        return
+
+    # Remove blank paragraphs between last_header and json_start
+    for i in range(json_start - 1, last_header, -1):
+        txbx.remove(paragraphs[i])
 
 
 def normalize_txbx_content(root, method_rules):
@@ -1893,6 +2613,7 @@ def normalize_txbx_content(root, method_rules):
             _format_txbx_para(runs, method_rules)
             _highlight_variables_in_para(runs)
         _prettify_json_in_txbx(txbx)
+        _remove_blank_between_headers_and_json(txbx)
 
     # 2) Format fallback text in body paragraphs containing inline shapes
     body = root.find(".//" + qn("body"))
@@ -1912,7 +2633,7 @@ def normalize_txbx_content(root, method_rules):
             _highlight_variables_in_para(direct_runs)
 
 
-def ensure_connection_info_section(root, config):
+def ensure_connection_info_section(root, config, frame_url_rules, table_property_rules):
     body = root.find(".//" + qn("body"))
     if body is None:
         return
@@ -1955,10 +2676,12 @@ def ensure_connection_info_section(root, config):
                 if pStyle is not None and pStyle.get(qn("val")) in {"Heading1", "Heading2"}:
                     break
             insert_idx += 1
+    connection_widths = parse_column_widths(
+        table_property_rules, "Generated connection table column widths", 4)
     section = [
         make_paragraph("System Connection Information", "Heading2", config),
         make_paragraph("The following table lists connection parameters used to build API endpoint URLs.", "Normal", config),
-        make_connection_info_table(),
+        make_connection_info_table(frame_url_rules, connection_widths),
     ]
     for offset, element in enumerate(section):
         body.insert(insert_idx + offset, element)
@@ -2017,7 +2740,7 @@ def fix_heading_numbering_layout(numbering_path):
     print("[OK] Fixed heading numbering layout in numbering.xml")
 
 
-def fix_document(document_path, config, table_border_rules, api_body_rules, table_property_rules, method_rules, heading_hierarchy_rules):
+def fix_document(document_path, config, table_border_rules, api_body_rules, table_property_rules, method_rules, heading_hierarchy_rules, frame_url_rules):
     tree = etree.parse(document_path)
     root = tree.getroot()
 
@@ -2029,7 +2752,7 @@ def fix_document(document_path, config, table_border_rules, api_body_rules, tabl
         "Response Attributes",
     ]
 
-    ensure_connection_info_section(root, config)
+    ensure_connection_info_section(root, config, frame_url_rules, table_property_rules)
     apply_heading_hierarchy_rules(root, heading_hierarchy_rules)
 
     # 1) Normalize sub-heading paragraphs and "Attributes description"
@@ -2055,7 +2778,7 @@ def fix_document(document_path, config, table_border_rules, api_body_rules, tabl
         if matched or is_attrs:
             for child in para:
                 if child.tag == qn("r"):
-                    rebuild_rPr(child, "Verdana", 22, True, None)
+                    rebuild_rPr(child, "Verdana", 24, True, None)
             if pPr is not None:
                 p_rPr = pPr.find(qn("rPr"))
                 if p_rPr is not None:
@@ -2172,6 +2895,9 @@ def fix_document(document_path, config, table_border_rules, api_body_rules, tabl
                         else:
                             child.remove(rPr)
 
+    # 2c) Attribute tables must carry black borders and tblHeader before step 3 styles them
+    normalize_attribute_table_borders_and_headers(root, table_property_rules)
+
     # 3) Bold, center-align and center-vertically all table header rows (rows with <w:tblHeader/>)
     for tr in root.iter(qn("tr")):
         trPr = tr.find(qn("trPr"))
@@ -2267,10 +2993,23 @@ def fix_document(document_path, config, table_border_rules, api_body_rules, tabl
     rename_header_attribute_tables(root)
 
     # 5c) Auto-create Path Attributes tables for APIs with URL path variables
-    create_path_attribute_tables(root, config, api_body_rules)
+    create_path_attribute_tables(root, config, api_body_rules, table_property_rules)
+
+    # 5d) Fix semantic content of attribute tables (move accesstoken to Authorization, add Content-Type)
+    normalize_attribute_table_content(root)
+
+    # 5e) Replace invalid regular-cell percentage widths with each table's dxa grid
+    normalize_attribute_table_widths(root)
+    normalize_connection_table_widths(root, table_property_rules)
 
     # 6) Enforce attribute table start-header alignment and font color from the template
     normalize_api_table_start_headers(root, table_property_rules)
+
+    # 6a) Normalize table body rows to Verdana 11pt non-bold black
+    normalize_table_body_fonts(root)
+
+    # 6a2) Re-centre No / Presence after step 1 applied Normal left alignment to cells
+    normalize_attribute_table_column_alignment(root)
 
     # 6b) Center-align all tables and unify table indent
     apply_table_alignment(root, table_property_rules)
@@ -2281,6 +3020,10 @@ def fix_document(document_path, config, table_border_rules, api_body_rules, tabl
     # 6d) Center-align inline text-box frames (Sample Request/Response) and unify their width
     normalize_inline_shapes(root)
 
+    # 6e) Make every sample frame auto-fit its text so no JSON line is clipped
+    #     and no frame holds dead space (template 2.8.10)
+    normalize_frame_autofit(root)
+
     # 7) Enforce spacing and blank-line rules inside each API body section
     normalize_api_body_spacing(root, config, api_body_rules)
 
@@ -2288,7 +3031,7 @@ def fix_document(document_path, config, table_border_rules, api_body_rules, tabl
     normalize_heading3_spacing(root, config)
 
     # 9) Normalize request URLs and format inline text-box frame content
-    normalize_url_placeholders(root)
+    normalize_url_placeholders(root, frame_url_rules)
     normalize_txbx_content(root, method_rules)
 
     # 10) Highlight variable placeholders like {domain}, {token} in red across the document
@@ -2303,6 +3046,10 @@ def fix_document(document_path, config, table_border_rules, api_body_rules, tabl
 
 def pack_docx(source_dir, output_path):
     """Pack unpacked directory into a .docx file."""
+    document_xml = os.path.join(source_dir, "word", "document.xml")
+    if os.path.isfile(document_xml):
+        validate_table_widths(
+            etree.parse(document_xml, etree.XMLParser(huge_tree=True)).getroot())
     with zipfile.ZipFile(output_path, 'w', zipfile.ZIP_DEFLATED) as zf:
         for root, dirs, files in os.walk(source_dir):
             for f in files:
@@ -2328,12 +3075,14 @@ def main():
     table_property_rules = parse_table_property_rules(template_md)
     api_body_rules = parse_api_body_rules(template_md)
     method_rules = parse_frame_method_rules(template_md)
+    frame_url_rules = parse_frame_url_rules(template_md)
     heading_hierarchy_rules = parse_heading_hierarchy_rules(template_md)
     print(f"[OK] Loaded {len(config)} style definitions from {template_md}")
     print(f"[OK] Loaded {len(table_border_rules)} table border rules from {template_md}")
     print(f"[OK] Loaded {len(table_property_rules)} table property rules from {template_md}")
     print(f"[OK] Loaded {len(api_body_rules)} API body rules from {template_md}")
     print(f"[OK] Loaded {len(method_rules)} frame method rules from {template_md}")
+    print(f"[OK] Loaded {len(frame_url_rules)} frame URL rules from {template_md}")
     print(f"[OK] Loaded {len(heading_hierarchy_rules)} heading hierarchy rules from {template_md}")
 
     styles_xml = os.path.join(unpacked, "word", "styles.xml")
@@ -2342,7 +3091,7 @@ def main():
 
     fix_styles(styles_xml, config)
     fix_heading_numbering_layout(numbering_xml)
-    fix_document(document_xml, config, table_border_rules, api_body_rules, table_property_rules, method_rules, heading_hierarchy_rules)
+    fix_document(document_xml, config, table_border_rules, api_body_rules, table_property_rules, method_rules, heading_hierarchy_rules, frame_url_rules)
 
     output_dir = "formatted"
     os.makedirs(output_dir, exist_ok=True)

@@ -57,7 +57,9 @@
 | **Header background color** | `#0070C0` for every table |
 | **Header font** | Verdana 12 pt, bold, white (`FFFFFF`) |
 | **Body font** | Verdana 11 pt, non-bold, black |
-| **Borders** | Solid, 0.5 pt, light gray (`D9D9D9`) or black |
+| **Borders** | Solid black (`000000`), size `4`, on all six table borders (`top`, `left`, `bottom`, `right`, `insideH`, `insideV`) for every attribute table |
+| **Attribute table border size** | `4` |
+| **Attribute table border color** | `000000` |
 | **Header alignment** | Center + middle |
 | **Attribute table start header alignment** | Left + middle for merged start header rows such as `Header Attributes`, `Path Attributes`, `Request Attributes`, and `Response Attributes` |
 | **Attribute table start header font color** | White (`FFFFFF`) |
@@ -68,8 +70,40 @@
 | **Attribute table start header row height rule** | `atLeast` |
 | **Table alignment** | `center` |
 | **Table indent** | `0 dxa` |
+| **Generated attribute table column widths** | `900, 2200, 1400, 1200, 3300 dxa` |
+| **Generated connection table column widths** | `900, 1800, 2600, 3600 dxa` |
 | **Body alignment** | Left for text, center for numbers/status codes |
+| **Attribute table `No` column** | **Center** |
+| **Attribute table `Presence` column** | **Center** |
+| **Attribute table `Name` / `Type` / `Description` columns** | Left |
+| **Table cell width consistency** | Regular cells in five-column attribute tables must use `dxa`, never percentage widths. Every `Path Attributes` cell and every newly generated table cell must also equal its corresponding `tblGrid/gridCol`; the full-width merged attribute-table start header remains `5000 pct` |
 | **Row height** | Minimum 20 pt, automatic or fixed |
+
+The `No` and `Presence` columns of every attribute table are centered. When cloning
+an existing section to build a new one, verify the donor follows this - part of the
+document predates the rule and still has these two columns left-aligned.
+
+**An attribute table is identified by its column header row**, `No | Name | Type |
+Presence | Description`, not by its title. Endpoint tables title that row
+`Header Request Attributes`, `Path Attributes`, `Request Attributes` or
+`Response Attributes`, but a table in the `REQUEST/RESPONSE OBJECT` and
+`RELATIVE OBJECT` chapters titles it with the object's own name
+(`TextFieldAttribute`, `CheckboxFieldAttribute`, ...). Both kinds are attribute
+tables and both obey this rule. Matching on the title alone left the whole object
+chapter unchecked, which is how 33 left-aligned rows reached the document on
+2026-07-27 without `check_frame_format.py` noticing.
+
+**Presence completeness.** Every data row of every attribute table must display a
+non-empty `Presence` value. The vocabulary in use is `M`, `O`, `M/O`, `O/M`, and
+`RC` with an optional parenthesised condition, e.g.
+`RC (When operation_mode is S)`. An empty Presence cell is never a valid state:
+it means the value was lost during a clone/substitute edit or was never filled in
+after adding the section. On 2026-07-27 eleven rows (all of
+`Create Workflow From Template` and `Get Status of Import Excel`) reached the
+document with blank Presence cells because no check guarded this column;
+`check_frame_format.py` check F now fails on any attribute-table row whose
+Presence cell is blank. The value itself must come from the backend code or the
+owner — the check guards completeness only, it cannot validate correctness.
 
 ### 2.5. Table Border Rule Lookup
 
@@ -109,10 +143,13 @@ Rules for text **inside** Request, Success Response, and Error Response frames (
 
 | Property | Standard Value |
 |----------|----------------|
-| **Base URL pattern** | `https://{domain}/{contextPath}/XXX` |
+| **Connection table baseURL value** | `https://{domain}{contextPath}` |
 | **Current domain** | `prd-gopaperless.mobile-id.vn` |
 | **Current contextPath** | `/workflow/api` |
-| **URL formatting** | Bold the URL/path on the first line of the frame. Only the HTTP method badge uses background shading + white text. |
+| **Request line format** | `{METHOD} {baseURL}{endpoint-path}` |
+| **Request line placeholder** | `baseURL` |
+| **Forbidden in request line** | `https://`, host names, `{domain}`, `{contextPath}` |
+| **URL formatting** | Bold the `{baseURL}{endpoint-path}` segment on the first line. Only the HTTP method badge uses background shading + white text. |
 
 
 #### 2.8.1. HTTP Method Badge
@@ -127,7 +164,23 @@ Rules for text **inside** Request, Success Response, and Error Response frames (
 
 - Apply **text highlight / shading** (background color), not font color, to the method name.
 - Use white text on dark solid badge backgrounds for maximum contrast and readability.
-- Method badge must be the first token on the first line of the Request frame, followed by a space and the endpoint path.
+- Method badge must be the first token on the first line of the Request frame, followed by a space and `{baseURL}{endpoint-path}` (for example `{baseURL}/v1/authenticate`).
+
+**Run structure of the first line (mandatory).** The shading must cover the method
+token **only**. The line is therefore built from at least four separate runs, and a
+script must never collapse them into one:
+
+| # | Run text | Shading | Font color |
+|---|----------|---------|------------|
+| 1 | `POST` (the method) | badge color from the table above | `FFFFFF` |
+| 2 | a single space | none | `000000` |
+| 3 | `{baseURL}` | none | `FF0000` (see 2.8.6) |
+| 4 | `/v1/...` (the path) | none | `000000` |
+
+> **Failure mode to avoid:** a helper that rewrites a paragraph by keeping the first
+> run and dropping the rest will apply the badge's shading and white text to the
+> entire line, so the whole URL appears highlighted. When editing an existing frame,
+> change the text of the *path run* only; never rebuild the line from run 1.
 
 #### 2.8.2. Header Key–Value Format
 
@@ -138,14 +191,14 @@ Rules for text **inside** Request, Success Response, and Error Response frames (
 | **Header value** | lowercase / exact literal, non-bold, Verdana 10 pt, black | `application/json` |
 
 - Header key naming must follow the canonical form defined in the API specification (e.g., `Content-Type`, `Authorization`, `x-language-name`). Do not arbitrarily switch to lowercase or uppercase.
-- Each header occupies its own line. Blank line after the last header before the body.
+- Each header occupies its own line. No blank line between the last header and the body payload.
 
 #### 2.8.3. Template Frame (Common Headers)
 
 The following headers are considered the **base template** for nearly every Request frame:
 
 ```
-GET /api/v1/example
+POST {baseURL}/v1/authenticate
 x-language-name: en
 Content-Type: application/json
 
@@ -183,6 +236,31 @@ Content-Type: application/json
 }
 ```
 
+**Root-level array bodies.** A body may start with `[` instead of `{`, in both
+Sample Request and Sample Response frames. The bulk Template workflow calls
+(`Add Template Workflow Users`, `Add Template Workflow Placeholder`) take a
+root-level array, which is what the backend parses and what the SigningHub 10.0
+manual specifies for the same operations (`Request Body schema: Array`). The
+array counts as one nesting level like any brace:
+
+```json
+[
+  {
+    "user_email": "giatk@mobile-id.vn",
+    "role": "SIGNER"
+  }
+]
+```
+
+Note the asymmetry this creates with the package-level equivalents under
+`Document Workflow`, which wrap the same payload as `{"users": [ ... ]}` — see
+section 5.
+
+- **Enforced automatically**: `scripts/check_frame_format.py` (check E) re-derives
+  the indentation of every frame body from its brace/bracket structure and fails
+  (exit 1) when any line deviates, so hand edits or scripts cannot reintroduce
+  inconsistent indentation unnoticed.
+
 #### 2.8.5. Frame Text Global Rules
 
 | Property | Value |
@@ -199,7 +277,127 @@ Variable placeholders in URL paths, headers, and JSON bodies must be colored red
 
 | Element | Format | Example |
 |---------|--------|---------|
-| **Variable placeholder** | Curly braces `{}`, Verdana 10 pt, non-bold, **red** (`FF0000`) | `{domain}`, `{contextPath}`, `{accessToken}` |
+| **Variable placeholder** | Curly braces `{}`, Verdana 10 pt, non-bold, **red** (`FF0000`) | `{baseURL}`, `{accessToken}`, `{documentId}` |
+
+#### 2.8.7. Language Code Vocabulary
+
+A single language code vocabulary applies across the whole document. The only accepted
+values are `en` and `vi`, always lowercase. `vn`, `EN`, and `VI` are invalid.
+
+| Location | Standard Value |
+|----------|----------------|
+| `x-language-name` request header row (Header Request Attributes) | Description must read exactly `Display the error message in the specified language. Possible values are: + en + vi`, Type `String`, Mandatory `O` |
+| `x-language-name` line in the Request frame | Always present, value `en` |
+| Supported-language config values (e.g. `gopaperless.workflow.app.langs`) | `en;vi` |
+
+- Every endpoint must expose `x-language-name` in its Header Request Attributes table **and**
+  carry the matching `x-language-name: en` line in its Request frame.
+- `.vn` email/domain suffixes and the `"C": "VN"` country code in certificate
+  Distinguished Names are **not** language codes — leave them untouched.
+
+#### 2.8.8. Error Response Format
+
+Every error response frame uses exactly three keys, in this fixed order:
+
+| # | Key | Type | Meaning |
+|---|-----|------|---------|
+| 1 | `error_description` | String | Technical detail of the error code. English. |
+| 2 | `error_code` | String | The error code identifying the failure. Quoted as a string. |
+| 3 | `message` | String | Human-readable message shown to the end user, rendered in the language requested by `x-language-name`. Because every sample Request frame sends `x-language-name: en`, sample error responses carry an English `message`. |
+
+**Standard error response frame:**
+
+```json
+{
+  "error_description": "Invalid grant type",
+  "error_code": "38",
+  "message": "Invalid login type"
+}
+```
+
+- The legacy keys `error`, `remark`, `remark_message`, `remark_language`, and
+  `language_name` are **forbidden** in error responses, as is the `List<remarkError>` type.
+- `error_description` and `message` are distinct: the first explains the failure to a
+  developer, the second is what an end user sees. Do not copy one into the other verbatim.
+- Message strings must not carry leading or trailing whitespace.
+- Indentation follows 2.8.4 (2 spaces per nesting level).
+
+**Response Attributes table** — every endpoint that can return an error must document
+exactly these three rows, in this order, using the Presence value `M/O`:
+
+| No | Name | Type | Presence | Description |
+|----|------|------|----------|-------------|
+| n | `error_description` | String | M/O | Detailed description of the error code. |
+| n+1 | `error_code` | String | M/O | Code identifying the error. |
+| n+2 | `message` | String | M/O | Error message displayed to the end user. |
+
+> **Exception:** when an endpoint's success response already carries its own `message`
+> field (only `Add Identity for a User` does), the table keeps a single `message` row
+> covering both cases rather than listing the name twice:
+> `Status of the processing on success, or the error message shown to the end user on failure.`
+
+#### 2.8.9. Attribute Naming
+
+Naming depends on **where the name appears**, and the two cases are opposites (user
+decision, 2026-07-27):
+
+| Where | Convention | Correct | Wrong |
+|-------|-----------|---------|-------|
+| JSON body & response — including nested objects and array elements | **`snake_case`** | `field_name`, `max_length`, `read_only`, `type_name`, `ordinary_id` | `fieldName`, `maxLength`, `readOnly` |
+| URL — path segments and query parameters | **`camelCase`** | `{packageId}`, `{documentId}`, `{pageNo}`, `{recordsPerPage}` | `{package_id}`, `{page_no}`, `{records_per_page}` |
+
+Neither rule bends. A JSON key is never camelCase and a URL parameter is never
+snake_case, at any price. The same concept therefore changes spelling when it moves
+between the URL and the body — `{pageNo}` as a path segment, `page_no` as a body
+field — and that is intended, not an inconsistency to "harmonise".
+
+The standard applies to the *document*, and the backend is corrected to match — not
+the other way round. When a backend attribute class spells a property in camelCase,
+document the `snake_case` name and record the class in 5.2 as needing a fix. Never
+copy a camelCase key into the document just because the code currently emits it, and
+never silently "fix" a documented `snake_case` name back to camelCase to match code.
+
+**Why the mismatch is dangerous:** the usual cause is a Java field declared with no
+`@JsonProperty`, so Jackson falls back to the bean name. Combined with
+`@JsonIgnoreProperties(ignoreUnknown = true)` — which every field attribute class
+carries — the mismatch is **silent**: the correctly-named key is discarded and the
+default value applied, with no error returned to the caller.
+
+Known violations of the URL half of the rule, still to be resolved: `{session_id}` (4
+endpoints), `{page_no}` (3), `{records_per_page}` (3), `{appearance_id}` (2) and
+`{document_status}` (1). Note that `{pageNo}` / `{recordsPerPage}` already appear
+correctly elsewhere, so the document currently spells the same path parameter two
+different ways.
+
+#### 2.8.10. Frame Auto-Fit — frame height must match its content
+
+Every Sample Request / Sample Response frame (inline textbox) must **auto-grow
+with its text**. A fixed-height frame fails in both directions: when the text is
+taller than the shape the overflow is clipped — the reader silently loses JSON
+lines when viewing, printing, or exporting to PDF — and when the text is shorter
+the frame reserves a block of dead space that reads as missing content.
+
+Each frame is stored twice inside `mc:AlternateContent` (a DrawingML shape plus
+a VML fallback for older Word versions), and **both representations must agree**:
+
+| Representation | Required value |
+|----------------|----------------|
+| **DrawingML** — `<wps:bodyPr>` of the shape | must contain `<a:spAutoFit/>`; `<a:noAutofit/>` is forbidden |
+| **VML fallback** — `<v:textbox>` | `style` attribute must include `mso-fit-shape-to-text:t` |
+
+- The `height:` value in the VML `style` and the DrawingML extent (`cy`) are only
+  the **last rendered size**. Once both auto-fit flags are set, Word recomputes the
+  height on open, so a stale stored height is not a defect by itself — a missing
+  auto-fit flag is.
+- Do not try to "fix" a clipped frame by hand-editing its stored height to an
+  estimated value; set the auto-fit flags instead and let Word size the shape.
+- History: on 2026-07-27, 206 of 714 frame textboxes carried `<a:noAutofit/>`
+  and a fixed height; line-height estimation showed dozens of them clipping one
+  or more JSON lines while others held large empty areas. A text-level diff can
+  never see this class of defect because no character changes.
+- **Enforced automatically**: `scripts/fix_docx_format.py` normalizes both flags
+  on every sample frame, and `scripts/check_frame_format.py` (check G) fails
+  (exit 1) on any sample frame missing either flag.
 
 ### 2.9. Mandatory Checklist
 
@@ -213,6 +411,12 @@ When creating or editing the DOCX API specification, enforce the following:
 - [ ] **Correct page margins**: L=R=35.3 pt, T=92.2 pt, B=85.0 pt.
 - [ ] **No random paragraph alignment**: `Normal` must be left-aligned. Only cover-page styles should be centered.
 - [ ] **Paragraph spacing**: Do not use repeated Enter/manual blank lines to create spacing. Use Space Before/After in paragraph styles.
+- [ ] **Language codes**: Only lowercase `en` and `vi` appear anywhere in the document. No `vn`, `EN`, or `VI` (see 2.8.7).
+- [ ] **Error response shape**: Every error frame carries exactly `error_description`, `error_code`, `message` in that order. No `error`, `remark`, or `List<remarkError>` anywhere (see 2.8.8).
+- [ ] **Product naming**: The document names only GoPaperless Workflow. No other service names may appear — `SigningHub`, `SH Admin`, `ADSS Server`, `FPS`, or `Paperless` without the `Go` prefix are all leftovers from source material and must be replaced.
+- [ ] **Attribute naming**: Every JSON attribute name — request, response and nested object alike — is `snake_case`. camelCase is never acceptable, at any price (see 2.8.9).
+- [ ] **Presence completeness**: Every data row of every attribute table shows a non-empty `Presence` value (`M`, `O`, `M/O`, `O/M`, or `RC` with optional condition). A blank Presence cell is always a defect (see 2.4).
+- [ ] **Frame auto-fit**: Every sample frame textbox auto-fits its text — `<a:spAutoFit/>` in the DrawingML `bodyPr` **and** `mso-fit-shape-to-text:t` in the VML `v:textbox` style. A frame must never clip its JSON or reserve large empty space (see 2.8.10).
 
 ---
 
@@ -250,3 +454,169 @@ When creating or editing the DOCX API specification, enforce the following:
 3. **Define Heading 1-4 explicitly**: Apply Verdana, size, bold, and blue color (`0050A8`) directly to the styles.
 4. **Standardize table headers**: Convert all table header backgrounds to `0070C0` and make header text Verdana 11 pt, bold, white.
 5. **Remove redundant or duplicate styles**: Review unused or overlapping styles and remove them when safe.
+
+## 5. Deliberate Content Divergences (do NOT "fix" these)
+
+Endpoints documented in the specification that intentionally diverge from the
+backend `validURLs` registry. A doc-vs-code comparison pass MUST NOT delete or
+"correct" these entries; they stay in the document by explicit user decision.
+
+> **Not the same as technical debt.** Everything in this section is intentional and
+> must survive. Defects that are unintentional and merely deferred belong in
+> `TECHNICAL_DEBT.md` at the repository root, and a later pass is expected to clear
+> those. Never move an item between the two files without asking the project owner —
+> it inverts what the next agent does with it.
+
+### 5.1. PLANNED — documented ahead of implementation (user decision 2026-07-27)
+
+These endpoints exist in the SigningHub 10.0 design standard and are kept in
+the Document Workflow and Enterprise Management sections as planned features
+(the 4 Enterprise Management rows added by user decision 2026-07-27). They are NOT in the backend
+`validURLs` registry yet and are expected to fail at runtime until implemented.
+
+| Method | Path | Doc section |
+|--------|------|-------------|
+| GET | `/v1/packages/{packageId}/workflow/reminders` | Get Workflow Reminders |
+| PUT | `/v1/packages/{packageId}/workflow/reminders` | Update Workflow Reminders |
+| GET | `/v1/packages/{packageId}/workflow/{order}/authentication` | Get Workflow User Authentication (Document Opening) |
+| PUT | `/v1/packages/{packageId}/workflow/{order}/authentication` | Update Workflow User Authentication (Document Opening) |
+| GET | `/v1/packages/{packageId}/workflow/{order}/permissions` | Get Workflow User Permissions |
+| PUT | `/v1/packages/{packageId}/workflow/{order}/permissions` | Update Workflow User Permissions |
+| POST | `/v1/packages/{packageId}/workflow/electronic-seals` | Add Electronic Seal to Workflow |
+| GET | `/v1/enterprise/packages/{packageId}/workflow/{order}/permissions` | Get Workflow User Permissions of Enterprise Package |
+| PUT | `/v1/enterprise/packages/{packageId}/workflow/{order}/permissions` | Update Workflow User Permissions of Enterprise Package |
+| GET | `/v1/enterprise/packages/{packageId}/workflow/{order}/authentication` | Get Workflow User Authentication (Document Opening) of Enterprise Package |
+| PUT | `/v1/enterprise/packages/{packageId}/workflow/{order}/authentication` | Update Workflow User Authentication of Enterprise Package |
+
+When one of these routes lands in the backend registry, remove its row here and
+verify the documented shape against the implementation.
+
+**Personal Settings (user decision 2026-07-27):** these 2 endpoints stay in the
+document although no backend route exists. The backend replaced the standalone
+add/remove calls with the `address_book_ids` field on Create/Update Contact
+(FEATURE-023, 2026-06-30), but the owner decided to keep the SigningHub-shaped
+endpoints documented and have the backend implement them later.
+
+| Method | Path | Doc section |
+|--------|------|-------------|
+| PUT | `/v1/settings/addressbook` | Add Contact into Address Book |
+| PUT | `/v1/settings/addressbook` | Remove Contact in Address Book |
+
+### 5.2. AWAITING BACKEND FIX — attribute names documented to the standard (2026-07-27)
+
+Attributes the document spells in `snake_case` per 2.8.9 while the backend currently
+emits or accepts a different spelling. A doc-vs-code comparison MUST NOT "correct"
+these back toward the code; the code is the side that is wrong.
+
+| Doc section | Documented name | Backend spelling | Cause |
+|-------------|-----------------|------------------|-------|
+| Add / Update Elabor Field | `max_length` | `maxLength` | `ElaborFieldAttribute.maxLength` declared without `@JsonProperty` |
+| Add / Update Elabor Field | `read_only` | `readOnly` | `ElaborFieldAttribute.readOnly` declared without `@JsonProperty` |
+| Get Information of Citizen card / `PersonalInformation` object | `personal_identification` | `personal_identificatetion` | `PersonalInformations.personalIdentificatetion` typo, no `@JsonProperty` |
+
+Effect until fixed: a client sending the documented key gets no error — the value is
+silently dropped and the resolver default is applied (`max_length` → 100,
+`read_only` → false). Fix is to add `@JsonProperty` to those properties in
+`ElaborFieldAttribute`.
+
+**Get Credential Registration Status (owner decision 2026-07-27):** the document
+spells the success-response keys in `snake_case` per 2.8.9 — `data` containing
+`request_type`, `citizen_pid`, `credential_id`, `serial_number`,
+`certificate_data` (see the 200 sample frame and the `data` row description) —
+while the backend currently emits camelCase (`data.requestType`, ...) because the
+endpoint serializes `GetCredentialStatusResponse` through the default Jackson
+mapper. A drift pass MUST NOT rewrite these keys back to camelCase; the backend
+is the wrong side and its fix is tracked in `TECHNICAL_DEBT.md` section 7. The
+same serializer also emits an internal `header` object when non-null; it is
+deliberately not documented.
+
+**Update Address Book verb (owner decision 2026-07-27):** the document says
+**PUT** `/v1/settings/addressbook/{id}`, matching SigningHub
+(`PUT /v4/settings/groups/{id}`), while the backend currently dispatches the
+update in `ContactController.doPost` and Postman calls POST. A drift pass MUST
+NOT rewrite the documented method to POST; the backend verb change is tracked
+in `TECHNICAL_DEBT.md` section 7.
+
+**Related naming inconsistency, not yet resolved:** the Elabor sections document the
+alignment object as `alignment`, while every sibling field type calls the same object
+`align_option`. Both spellings are `snake_case`, so 2.8.9 does not decide between
+them; the divergence is in the backend classes and needs a product decision before the
+document harmonises it.
+
+### 5.3. WITHDRAWN — removed from the document although the backend still serves it (2026-07-27)
+
+The Qrypto field API is not going to be implemented as a product feature and was
+removed from the specification by explicit owner decision, **deliberately regardless
+of the Postman collection and the backend still carrying it**.
+
+| Method | Path | Former doc section |
+|--------|------|--------------------|
+| POST | `/v1/packages/{packageId}/documents/{documentId}/fields/qrypto` | Add Qrypto Field |
+| PUT | `/v1/packages/{packageId}/documents/{documentId}/fields/qrypto` | Update Qrypto Field |
+
+Also removed: the `qrypto` row of the `Get Document Fields` Response Attributes table.
+
+A doc-vs-code comparison WILL report these as *docs missing*, because `qrypto` is
+still registered in `FieldRegistryBootstrap` and still reachable through the
+`POST|PUT .../fields/.*` wildcards. That report is expected and MUST NOT be acted on.
+Only remove this entry when the owner says Qrypto is back, or when the backend drops
+the resolver.
+
+Left in place on purpose: the `Items request` example under the `Example` heading.
+`List<items>` was Qrypto-only, but the example is reached from a separate `Items`
+section and `Import Excel to Clone Workflow` also has a field named `items`, so
+deleting it is a separate decision.
+
+### 5.4. DIVERGES FROM SIGNINGHUB — Template module (2026-07-27)
+
+All three were checked against the SigningHub 10.0 manual while documenting the
+Template module. Each is a case where our backend and the reference design
+genuinely differ; the document follows **our backend**, because the backend is
+what an integrator actually calls. Do not "correct" any of them toward
+SigningHub.
+
+| Topic | SigningHub 10.0 | GoPaperless |
+|---|---|---|
+| Paginated template listing | `.../templates/{recordPerPage}/{pageNo}` — the manual notes this group is reversed relative to its own other list APIs | `.../templates/{templateType}/{pageNo}/{recordPerPage}`, matching every other paginated GoPaperless route (`ValidateRequestRoot.getPagination` reads `data[len-2]` as the page number) |
+| Personal vs enterprise scope | two endpoints, `/settings/templates/...` and `/enterprise/templates/...`, plus an `x-enterprise` header | one endpoint with a `{templateType}` path segment carrying `PERSONAL` / `ENTERPRISE` / `ALL` (case-insensitive, defaults to `ALL`) |
+| Template creation from a file | `/v4/settings/templates` and `/v4/enterprise/templates`, `multipart/form-data` | same two paths and the same multipart shape — **not yet documented**, see `TECHNICAL_DEBT.md` |
+
+**Bulk participant payload — NOT a divergence, and the asymmetry is the other
+way round.** `Add Template Workflow Users` and `Add Template Workflow
+Placeholder` take a **root-level JSON array**, which is exactly what SigningHub
+specifies (`Request Body schema: Array`). The package-level equivalents under
+`Document Workflow` wrap the same payload as `{"users": [ ... ]}` /
+`{"placeholders": [ ... ]}`, and those are the ones that depart from the
+reference. Both shapes are documented as the backend implements them; do not
+align one to the other without an owner decision, and do not assume the Template
+form is the mistake.
+
+**Attribute naming inconsistencies inside our own Template responses** — real,
+reported, and documented as-is because they are what the serialisers emit:
+
+| Endpoint | Emits | Note |
+|---|---|---|
+| `Get Template By ID`, `Get Templates` | `created_at` | |
+| `Get Template Details` | `created_on` | SigningHub uses `created_on` throughout |
+| `Add Template Workflow Users` / `Placeholder` | HTTP **201** | |
+| `Add Template Field` | HTTP **200** | also a create, but returns 200 |
+
+These are backend inconsistencies, not documentation errors. Changing the
+document alone would make it wrong.
+
+### 5.5. DIVERGES FROM SIGNINGHUB — Account Management invitations (user decision 2026-07-27)
+
+Checked against the SigningHub 10.0 manual while syncing the Account Management
+module. The document follows **our backend**; do not "correct" any of these
+toward SigningHub.
+
+| Topic | SigningHub 10.0 | GoPaperless |
+|---|---|---|
+| Accept invitation | same URL `/v4/account/invitations`, body `{enterprise_name}`, accepting one invitation **auto-rejects all the others** | `POST /v1/account/invitations/accept`, body `{invitation_token}`, accepts exactly one invitation, other pending invitations are untouched, returns 204 |
+| Reject invitation | "Reject All Account Invitations": one call rejects **all** invitations, no body | `POST /v1/account/invitations/reject`, body `{invitation_token}`, rejects exactly one pending invitation, returns 204 (doc section renamed accordingly on 2026-07-27) |
+| List invitations | `/v4/account/invitations`, body `{user_email}`, no pagination | `GET /v1/account/invitations/{pageNo}/{recordsPerPage}` with optional pagination segments |
+| Invitation detail | no equivalent | `GET /v1/account/invitations/{invitationId}` (ID or token reference) |
+
+The dashboard, billing, signing-history, certificate-enrollment, quota-report,
+enterprises and profiles APIs added on 2026-07-27 have **no SigningHub
+equivalent** at all; their shapes come from the backend serialisers only.

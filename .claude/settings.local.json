@@ -16,7 +16,15 @@
       "Bash(cp:*)",
       "Bash(python scripts/package_skill.py \"../openproject-create\" \"../openproject-create-dist\")",
       "mcp__openproject__list_work_packages",
-      "Bash(git add *)"
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git branch *)",
+      "Bash(git remote *)",
+      "Bash(git push *)",
+      "Bash(git pull *)"
     ]
-  }
+  },
+  "enabledMcpjsonServers": [
+    "openproject"
+  ]
 }
