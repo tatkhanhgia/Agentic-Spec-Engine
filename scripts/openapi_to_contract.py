@@ -93,12 +93,16 @@ class Spec:
         rows = []
         for name, prop in props.items():
             resolved = self.resolve(prop)
-            rows.append({
+            row = {
                 "name": name,
                 "type": self.type_name(prop),
                 "presence": "M" if name in required else "O",
                 "description": " ".join(str(resolved.get("description", "")).split()),
-            })
+            }
+            example = prop.get("example", resolved.get("example"))
+            if example is not None:
+                row["example"] = example
+            rows.append(row)
         return rows, ""
 
 
