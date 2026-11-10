@@ -214,7 +214,13 @@ def rewrite_frame(txbx, fields, stats):
     if new_body == seed_body:
         stats["frames unchanged"] += 1
         return
-    template = next((p for p in body_paras if len(p.findall(qn("r"))) == 1), body_paras[0])
+    # The template's first run must carry text; a blank line can be a run with
+    # only a break, and cloning it would leave nowhere to write the line.
+    template = next((p for p in body_paras
+                     if p.findall(qn("r")) and p.find(qn("r")).find(qn("t")) is not None), None)
+    if template is None:
+        stats["frames skipped (no template run)"] += 1
+        return
     for p in body_paras:
         txbx.remove(p)
     for line in json.dumps(new_body, ensure_ascii=False, indent=2).split("\n"):

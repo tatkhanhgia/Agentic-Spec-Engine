@@ -103,7 +103,9 @@ class Spec:
         required.update(schema.get("required") or [])
         for key in ("anyOf", "oneOf"):
             for branch in schema.get(key) or []:
-                conditional.update(self.resolve(branch).get("required") or [])
+                b_props, b_required, b_conditional = {}, set(), set()
+                self.collect(branch, b_props, b_required, b_conditional, set(seen))
+                conditional.update(b_required | b_conditional)
 
     def fields(self, schema):
         """Top-level properties of an object schema as attribute rows."""
