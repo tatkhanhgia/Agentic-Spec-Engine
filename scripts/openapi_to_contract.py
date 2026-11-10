@@ -83,22 +83,53 @@ class Spec:
         # rendered as "Long" here.
         return PRIMITIVE_NAMES.get(t, t or "Object")
 
+    def collect(self, schema, props, required, conditional, seen=None):
+        """Merge properties and required names of a schema and its allOf chain.
+
+        A name required only in some anyOf/oneOf branch is conditional: the
+        document shows it as RC rather than M or O.
+        """
+        seen = seen if seen is not None else set()
+        ref = schema.get("$ref") if isinstance(schema, dict) else None
+        if ref:
+            if ref in seen:
+                return
+            seen.add(ref)
+        schema = self.resolve(schema or {})
+        for part in schema.get("allOf") or []:
+            self.collect(part, props, required, conditional, seen)
+        for name, prop in (schema.get("properties") or {}).items():
+            props.setdefault(name, prop)
+        required.update(schema.get("required") or [])
+        for key in ("anyOf", "oneOf"):
+            for branch in schema.get(key) or []:
+                b_props, b_required, b_conditional = {}, set(), set()
+                self.collect(branch, b_props, b_required, b_conditional, set(seen))
+                conditional.update(b_required | b_conditional)
+
     def fields(self, schema):
         """Top-level properties of an object schema as attribute rows."""
-        schema = self.resolve(schema or {})
-        if schema.get("type") == "array" or schema.get("type") == ["array", "null"]:
-            return [], self.type_name(schema)
-        props = schema.get("properties") or {}
-        required = set(schema.get("required") or [])
+        schema = schema or {}
+        resolved = self.resolve(schema)
+        if resolved.get("type") == "array" or resolved.get("type") == ["array", "null"]:
+            return [], self.type_name(resolved)
+        props, required, conditional = {}, set(), set()
+        self.collect(schema, props, required, conditional)
         rows = []
         for name, prop in props.items():
             resolved = self.resolve(prop)
-            rows.append({
+            row = {
                 "name": name,
                 "type": self.type_name(prop),
-                "presence": "M" if name in required else "O",
+                "presence": ("M" if name in required
+                             else "RC" if name in conditional
+                             else "O"),
                 "description": " ".join(str(resolved.get("description", "")).split()),
-            })
+            }
+            example = prop.get("example", resolved.get("example"))
+            if example is not None:
+                row["example"] = example
+            rows.append(row)
         return rows, ""
 
 
@@ -124,12 +155,14 @@ def success_response(spec, responses):
     return None, {}
 
 
-def expand_sections(base, sections):
+def expand_sections(spec, base, sections):
     """One record per document section when an operation spans several.
 
-    `x-doc-sections` lists `{title, path-values?, when?}`. `path-values` fills
-    path parameters, so `/fields/{fieldType}` becomes `/fields/text`; `when`
-    names the request variant (e.g. a grant_type) the section documents.
+    `x-doc-sections` lists `{title, path-values?, when?, request-schema?}`.
+    `path-values` fills path parameters, so `/fields/{fieldType}` becomes
+    `/fields/text`; `when` names the request variant (e.g. a grant_type) the
+    section documents; `request-schema` names the anyOf branch whose fields
+    the section's Request table lists.
     """
     if not sections:
         return [base]
@@ -145,6 +178,9 @@ def expand_sections(base, sections):
         record["key"] = "%s %s" % (base["method"], to_key(path))
         record["path_params"] = [p for p in base["path_params"] if p["name"] not in values]
         record["variant"] = section.get("when", "")
+        if section.get("request-schema"):
+            record["request_fields"], record["request_type"] = spec.fields(
+                {"$ref": section["request-schema"]})
         records.append(record)
     return records
 
@@ -217,7 +253,7 @@ def convert(data):
                 "error_codes": op.get("x-error-codes") or [],
                 "needs_review": op.get("x-needs-review") or [],
             }
-            endpoints.extend(expand_sections(base, op.get("x-doc-sections")))
+            endpoints.extend(expand_sections(spec, base, op.get("x-doc-sections")))
     return {
         "source": "openapi",
         "version": (data.get("info") or {}).get("version", ""),
