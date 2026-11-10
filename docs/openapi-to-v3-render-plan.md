@@ -24,9 +24,10 @@ sau khi đã có các bổ sung ở mục 0.
 
 Hai tên còn lệch là do ghép cặp, cần owner xem:
 - `Share Workflow`: tài liệu có **hai section cho cùng một route** `POST /v1/packages/{id}/workflow/share`.
-- `Get Workflow Reminders` (`GET /v1/packages/{id}/workflow/reminders`): đường dẫn này khớp với
-  regex `x-route` của `getAllWorkflows`. Có thể route reminders đang bị Get All Workflow nuốt mất
-  (tương tự lỗi Get Fields mà FEATURE-111 đã ghi nhận). Cần kiểm tra lại trong code.
+- `Get Workflow Reminders` (`GET /v1/packages/{id}/workflow/reminders`): trong controller
+  **không có route reminders nào**. URL này chỉ khớp với regex quá rộng của `getAllWorkflows`
+  (`.*(workflow/)[a-zA-Z_]*...`), nên request sẽ được xử lý như Get All Workflow. Tức là section này
+  đang mô tả một endpoint không tồn tại: hoặc xóa khỏi tài liệu, hoặc làm route trong code.
 
 ## 1. Input để ra được file V3 hôm nay
 
