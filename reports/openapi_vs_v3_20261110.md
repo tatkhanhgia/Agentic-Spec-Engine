@@ -2,12 +2,12 @@
 
 | Metric | Value |
 |---|---|
-| Spec operations | 288 |
+| Spec records (operations expanded by x-doc-sections) | 329 |
 | Doc endpoints | 265 |
 | Paired | 229 |
 | Doc only (no spec operation) | 36 |
-| Spec only (not in doc) | 100 |
-| Paired with no field difference | 18 |
+| Spec only (not in doc) | 102 |
+| Paired with no field difference | 28 |
 | category differs | 1 |
 | headers: common | 719 |
 | headers: only in doc | 129 |
@@ -16,13 +16,13 @@
 | headers: rows in doc | 848 |
 | headers: rows in spec | 812 |
 | headers: type differs | 9 |
-| name differs | 96 |
+| name differs | 2 |
 | path_params: common | 254 |
 | path_params: only in doc | 34 |
-| path_params: only in spec | 76 |
+| path_params: only in spec | 36 |
 | path_params: presence differs | 16 |
 | path_params: rows in doc | 288 |
-| path_params: rows in spec | 330 |
+| path_params: rows in spec | 290 |
 | path_params: type differs | 7 |
 | request_fields: common | 559 |
 | request_fields: doc presence is conditional (RC) | 15 |
@@ -31,14 +31,14 @@
 | request_fields: presence differs | 182 |
 | request_fields: rows in doc | 1061 |
 | request_fields: rows in spec | 844 |
-| request_fields: type differs | 65 |
+| request_fields: type differs | 25 |
 | response_fields: common | 322 |
 | response_fields: doc presence is conditional (RC) | 2 |
 | response_fields: only in doc | 161 |
-| response_fields: only in spec | 123 |
+| response_fields: only in spec | 124 |
 | response_fields: presence differs | 259 |
 | response_fields: rows in doc | 483 |
-| response_fields: rows in spec | 445 |
+| response_fields: rows in spec | 446 |
 | response_fields: type differs | 94 |
 
 ## Doc only
@@ -134,6 +134,7 @@
 - `POST /v1/settings/templates` — Template / Create Personal Template
 - `POST /v1/enterprise/templates` — Template / Create Enterprise Template
 - `GET /v1/settings/templates/{templateType}/{pageNo}/{recordPerPage}` — Template / Get List Template
+- `POST /v1/templates/{templateId}` — Template / Save Template
 - `GET /v1/templates/{templateId}/file` — Template / Get Template File
 - `GET /v1/templates/{templateId}/documents/{documentId}/fields` — Template / Get Template Fields
 - `DELETE /v1/templates/{templateId}/documents/{documentId}/fields` — Template / Delete Template Field
@@ -166,6 +167,7 @@
 - `POST /v1/admin/accounts-personal` — ADMIN APIs / Create Personal Account
 - `POST /v1/admin/enterprises-tools` — ADMIN APIs / Create Enterprise Account
 - `POST /v1/admin/enterprises-tools/lookup` — ADMIN APIs / Lookup Enterprise By Tax Code For Tools
+- `POST /v1/admin/billing-webhooks/redrive` — ADMIN APIs / Re-drive Trusted Billing Payment Webhook
 - `GET /v1/admin/users` — ADMIN APIs / Get User by Email or Citizen ID
 - `GET /v1/admin/system/refresh-packages` — ADMIN APIs / Refresh Certificate Profiles
 - `POST /v1/trusted-billing/customers` — Enterprise Management / Create Trusted Billing Customer
@@ -186,43 +188,33 @@
 ## Paired endpoints with differences
 
 ### Client Credentials Authentication — `POST /v1/authenticate`
-- name: doc `Client Credentials Authentication` / spec `Password/Client Credential Authentication`
 - request_fields only in spec: password, refresh_token, scope, username
 - response_fields only in doc: refresh_token_expires_in
 - response_fields only in spec: refresh_expires_in
 
 ### Password Authentication — `POST /v1/authenticate`
-- name: doc `Password Authentication` / spec `Password/Client Credential Authentication`
 - request_fields only in spec: refresh_token
 - response_fields only in doc: refresh_token_expires_in
 - response_fields only in spec: refresh_expires_in
 
 ### Single Sign On Authentication — `POST /v1/authenticate/sso`
-- name: doc `Single Sign On Authentication` / spec `Login SSO`
 - headers only in spec: x-client-id, x-client-secret
 - request_fields only in doc: remember_me_enabled
 - request_fields only in spec: redirect_uri, scope
 - response_fields only in doc: refresh_token_expires_in
 - response_fields only in spec: refresh_expires_in
 
-### Revoke refresh token — `DELETE /v1/tokens`
-- name: doc `Revoke refresh token` / spec `Revoke Token`
-
 ### Get Information — `GET /v1/info`
-- name: doc `Get Information` / spec `Get Application Information`
 - headers only in doc: Authorization, Content-Type
 - response_fields only in spec: gopaperless.workflow.app.authType, gopaperless.workflow.app.dateformat, gopaperless.workflow.app.description, gopaperless.workflow.app.langs, gopaperless.workflow.app.logo, gopaperless.workflow.app.methods, gopaperless.workflow.app.name, gopaperless.workflow.app.region, gopaperless.workflow.app.version, gopaperless.workflow.login, gopaperless.workflow.url, server_timestamp
 
 ### Pre Login Authentication — `POST /v1/authenticate/pre`
-- name: doc `Pre Login Authentication` / spec `PreLogin`
 - headers only in doc: Authorization
 
 ### Pre Upload Document — `POST /v1/packages/documents/pre`
-- name: doc `Pre Upload Document` / spec `Pre Check Document`
 - headers only in doc: Content-Type
 
 ### Add Document Package — `POST /v1/packages`
-- name: doc `Add Document Package` / spec `Create Package`
 - request_fields only in spec: createdBy, hmac, package_id, type
 - response_fields only in spec: createdBy, hmac, package_name, type
 
@@ -237,7 +229,6 @@
 - response_fields only in spec: document_height, document_mimetype, document_name, document_pages, document_rotate, document_size, document_type, document_width, package_id
 
 ### Upload Document (base64) — `POST /v1/packages/{packageId}/documents/base64`
-- name: doc `Upload Document (base64)` / spec `Upload Document Base64`
 - headers only in spec: x-preserve-form-field
 - response_fields only in spec: document_height, document_mimetype, document_name, document_pages, document_rotate, document_size, document_type, document_width, package_id
 
@@ -245,7 +236,6 @@
 - headers only in doc: Content-Type, x-otp, x-password
 
 ### Download Package (base64) — `GET /v1/packages/{packageId}/base64`
-- name: doc `Download Package (base64)` / spec `Download Package Base64`
 - headers only in doc: Content-Type, x-otp, x-password
 
 ### Download Document — `GET /v1/packages/{packageId}/documents/{documentId}`
@@ -253,24 +243,20 @@
 - headers only in spec: x-original-file
 
 ### Download Document (base64) — `GET /v1/packages/{packageId}/documents/{documentId}/base64`
-- name: doc `Download Document (base64)` / spec `Download Document Base64`
 - headers only in doc: Content-Type, x-otp, x-password
 - headers only in spec: x-original-file
 
 ### Get All Packages — `GET /v1/packages/{document_status}/{page_no}/{records_per_page}`
-- name: doc `Get All Packages` / spec `Get All Package`
 - headers only in doc: Content-Type, x-search-text, x-total-records
 - headers only in spec: x-number-records
 - path_params only in doc: document_status, page_no, records_per_page
 - path_params only in spec: packageStatus, pageNo, pageSize
 
 ### Get Document Image — `GET /v1/packages/{packageId}/documents/{documentId}/images/{pageNo}`
-- name: doc `Get Document Image` / spec `Generate Image from Document`
 - headers only in doc: Content-Type, x-otp, x-password
 - headers only in spec: x-original-file
 
 ### Get Document Image Base64 — `GET /v1/packages/{packageId}/documents/{documentId}/images/{pageNo}/base64`
-- name: doc `Get Document Image Base64` / spec `Generate Image from Document Base64`
 - headers only in doc: Content-Type, x-otp, x-password
 
 ### Get Document Details — `GET /v1/packages/{packageId}/documents/{documentId}/details`
@@ -299,7 +285,6 @@
 - headers only in spec: x-preserve-form-field, x-sort-order
 
 ### Update Document (base64) — `PUT /v1/packages/{packageId}/documents/{documentId}/update/base64`
-- name: doc `Update Document (base64)` / spec `Update Document Base64`
 - headers only in spec: x-preserve-form-field
 - request_fields only in spec: document_order
 
@@ -313,7 +298,6 @@
 - headers only in doc: Content-Type
 
 ### Download Signature Summary (base64) — `GET /v1/packages/{packageId}/documents/{documentId}/signature-summary/base64`
-- name: doc `Download Signature Summary (base64)` / spec `Download Signature Summary Base64`
 - headers only in doc: Content-Type
 
 ### Start new Workflow — `POST /v1/packages/{packageId}/workflow`
@@ -325,9 +309,6 @@
 
 ### Share Workflow — `POST /v1/packages/{packageId}/workflow/share`
 - headers only in doc: Content-Type
-
-### Add User to Workflow — `POST /v1/packages/{packageId}/workflow/users`
-- name: doc `Add User to Workflow` / spec `Add User To Workflow`
 
 ### Get All Workflow — `GET /v1/workflow/{criteria}/{page_no}/{records_per_page}`
 - headers only in doc: Content-Type
@@ -349,7 +330,6 @@
 - response_fields only in spec: owner_email
 
 ### Get Workflow Details by UUID — `GET /v1/workflow/{workflowUuid}`
-- name: doc `Get Workflow Details by UUID` / spec `Get Workflow Details By UUID`
 - headers only in doc: Content-Type
 - headers only in spec: x-catch-event
 - response_fields only in doc: next_signer_email, unread
@@ -366,15 +346,11 @@
 - headers only in doc: Content-Type
 
 ### Update Workflow User — `PUT /v1/packages/{packageId}/workflow/{order}/user`
-- name: doc `Update Workflow User` / spec `Update Workflow Participant`
 - request_fields only in spec: company_name, country, guest_user, reason, user_first_name, user_last_name, user_national_id
 - response_fields only in doc: email_language_code, guest_user, signing_order, user_email
 
 ### Delete Workflow User — `DELETE /v1/packages/{packageId}/workflow/{order}`
 - headers only in doc: Content-Type
-
-### Accept Terms of Service (ECONTRACT) — `PUT /v1/packages/{packageId}/workflow/{participantId}/tos-acceptance`
-- name: doc `Accept Terms of Service (ECONTRACT)` / spec `Accept ToS for ECONTRACT Workflow`
 
 ### Get Workflow Reminders — `GET /v1/packages/{packageId}/workflow/reminders`
 - name: doc `Get Workflow Reminders` / spec `Get All Workflow`
@@ -395,7 +371,6 @@
 - path_params only in spec: pageNo, recordsPerPage
 
 ### Get Workflow Comment/Message — `GET /v1/packages/{packageId}/comments`
-- name: doc `Get Workflow Comment/Message` / spec `Get Workflow Comments`
 - headers only in doc: Content-Type
 - headers only in spec: x-total-records
 
@@ -403,14 +378,12 @@
 - headers only in doc: Content-Type
 
 ### Create new Category — `POST /v1/category`
-- name: doc `Create new Category` / spec `Create Category`
 - request_fields only in spec: scope
 
 ### Update Category — `PUT /v1/category/{categoryId}`
 - request_fields only in spec: scope
 
 ### Get list of Category — `GET /v1/category`
-- name: doc `Get list of Category` / spec `Get List Categories`
 - headers only in doc: Content-Type
 - headers only in spec: x-enterprise-mode, x-total-records
 
@@ -418,12 +391,10 @@
 - headers only in doc: Content-Type
 
 ### Add Placeholder to Workflow — `POST /v1/packages/{packageId}/workflow/placeholder`
-- name: doc `Add Placeholder to Workflow` / spec `Add Placeholder To Workflow`
 - response_fields only in doc: placeholders
 - response_fields only in spec: users
 
 ### Update Placeholder in Workflow — `PUT /v1/packages/{packageId}/workflow/{order}/placeholder`
-- name: doc `Update Placeholder in Workflow` / spec `Update Placeholder`
 - request_fields only in spec: email, email_language_code, guest_user, mobile_number
 
 ### Import Excel to Clone Workflow — `POST /v1/packages/{packageId}/workflow/{order}/import`
@@ -450,49 +421,35 @@
 - headers only in doc: Content-Type
 
 ### Add Digital Signature Field — `POST /v1/packages/{packageId}/documents/{documentId}/fields/signature`
-- name: doc `Add Digital Signature Field` / spec `Add Field`
-- path_params only in spec: fieldType
 - request_fields only in doc: appearance_design, authentication_signing, level_of_assurance, remark, required, verification
 - request_fields only in spec: renamed_as, rotate, type_name
 
 ### Update Digital Signature Field — `PUT /v1/packages/{packageId}/documents/{documentId}/fields/signature`
-- name: doc `Update Digital Signature Field` / spec `Update Field`
-- path_params only in spec: fieldType
 - request_fields only in doc: appearance_design, authentication_signing, level_of_assurance, remark, required, verification
 - request_fields only in spec: rotate, type_name
 - response_fields only in doc: field_name
 
 ### Add TextBox Field — `POST /v1/packages/{packageId}/documents/{documentId}/fields/text`
-- name: doc `Add TextBox Field` / spec `Add Field`
-- path_params only in spec: fieldType
 - request_fields only in doc: align_option, color, font, format_type, max_length, multiline, place_holder, read_only, remark, required, tool_tip_text, type, value
 - request_fields only in spec: annotation_position, renamed_as, rotate, type_name
 
 ### Update TextBox Field — `PUT /v1/packages/{packageId}/documents/{documentId}/fields/text`
-- name: doc `Update TextBox Field` / spec `Update Field`
-- path_params only in spec: fieldType
 - request_fields only in doc: align_option, color, font, format_type, max_length, multiline, place_holder, read_only, remark, required, tool_tip_text, value
 - request_fields only in spec: annotation_position, rotate, type_name
 - response_fields only in doc: field_name
 
 ### Add Initial Field — `POST /v1/packages/{packageId}/documents/{documentId}/fields/initials`
-- name: doc `Add Initial Field` / spec `Add Field`
-- path_params only in spec: fieldType
 - request_fields only in doc: apply_to_all, image, remark, replicate_all_pages, replicate_pages, required
 - request_fields only in spec: annotation_position, renamed_as, rotate, type_name
 
 ### Update Initial Field — `PUT /v1/packages/{packageId}/documents/{documentId}/fields/initials`
-- name: doc `Update Initial Field` / spec `Update Field`
-- path_params only in spec: fieldType
 - request_fields only in doc: apply_to_all, image, remark, replicate_all_pages, replicate_pages, required
 - request_fields only in spec: annotation_position, rotate, type_name
 
 ### Delete Document Field — `DELETE /v1/packages/{packageId}/documents/{documentId}/fields`
-- name: doc `Delete Document Field` / spec `Delete Field`
 - headers only in doc: Content-Type
 
 ### Get Document Fields — `GET /v1/packages/{packageId}/documents/{documentId}/fields`
-- name: doc `Get Document Fields` / spec `Get Fields`
 - headers only in doc: Content-Type
 - headers only in spec: x-coordinate-origin, x-dimension-unit
 - response_fields only in spec: qrypto, redaction, vneid_field
@@ -501,233 +458,149 @@
 - headers only in doc: Content-Type
 
 ### Add In-person Field — `POST /v1/packages/{packageId}/documents/{documentId}/fields/in_person_signature`
-- name: doc `Add In-person Field` / spec `Add Field`
-- path_params only in spec: fieldType
 - request_fields only in doc: appearance_design, authentication_signing, level_of_assurance, order, remark, required, verification
 - request_fields only in spec: renamed_as, rotate, type_name
 
 ### Update In-person Field — `PUT /v1/packages/{packageId}/documents/{documentId}/fields/in_person_signature`
-- name: doc `Update In-person Field` / spec `Update Field`
-- path_params only in spec: fieldType
 - request_fields only in doc: appearance_design, authentication_signing, level_of_assurance, order, remark, required, verification
 - request_fields only in spec: rotate, type_name
 - response_fields only in doc: field_name
 
 ### Add Datetime Field — `POST /v1/packages/{packageId}/documents/{documentId}/fields/datetime`
-- name: doc `Add Datetime Field` / spec `Add Field`
-- path_params only in spec: fieldType
 - request_fields only in doc: align_option, color, date, font, format_type, max_length, multiline, place_holder, read_only, remark, required, tool_tip_text, value
 - request_fields only in spec: annotation_position, renamed_as, rotate, type_name
 
 ### Update Datetime Field — `PUT /v1/packages/{packageId}/documents/{documentId}/fields/datetime`
-- name: doc `Update Datetime Field` / spec `Update Field`
-- path_params only in spec: fieldType
 - request_fields only in doc: align_option, color, date, font, format_type, max_length, multiline, place_holder, read_only, remark, required, tool_tip_text, value
 - request_fields only in spec: annotation_position, rotate, type_name
 
 ### Add CheckBox Field — `POST /v1/packages/{packageId}/documents/{documentId}/fields/checkbox`
-- name: doc `Add CheckBox Field` / spec `Add Field`
-- path_params only in spec: fieldType
 - request_fields only in doc: align_option, check_box_type, checked, color, font, group_name, multiple_checked, place_holder, read_only, remark, required, tool_tip_text, value
 - request_fields only in spec: annotation_position, renamed_as, rotate, type_name
 
 ### Update CheckBox Field — `PUT /v1/packages/{packageId}/documents/{documentId}/fields/checkbox`
-- name: doc `Update CheckBox Field` / spec `Update Field`
-- path_params only in spec: fieldType
 - request_fields only in doc: align_option, check_box_type, checked, color, font, group_name, multiple_checked, place_holder, read_only, remark, required, tool_tip_text, value
 - request_fields only in spec: annotation_position, rotate, type_name
 
 ### Add RadioBox Field — `POST /v1/packages/{packageId}/documents/{documentId}/fields/radiobox`
-- name: doc `Add RadioBox Field` / spec `Add Field`
-- path_params only in spec: fieldType
 - request_fields only in doc: align_option, check_box_type, checked, color, font, multiple_checked, place_holder, radio_group_name, read_only, remark, required, tool_tip_text, value
 - request_fields only in spec: annotation_position, renamed_as, rotate, type_name
 
 ### Update RadioBox Field — `PUT /v1/packages/{packageId}/documents/{documentId}/fields/radiobox`
-- name: doc `Update RadioBox Field` / spec `Update Field`
-- path_params only in spec: fieldType
 - request_fields only in doc: align_option, check_box_type, checked, color, font, multiple_checked, place_holder, radio_group_name, read_only, remark, required, tool_tip_text, value
 - request_fields only in spec: annotation_position, rotate, type_name
 
 ### Add QR Field — `POST /v1/packages/{packageId}/documents/{documentId}/fields/qrcode`
-- name: doc `Add QR Field` / spec `Add Field`
-- path_params only in spec: fieldType
 - request_fields only in doc: allow_unauthenticated_workflow_view, custom_url, image_qr, is_transparent, read_only, remark, required, value
 - request_fields only in spec: annotation_position, renamed_as, rotate, type_name
 
 ### Update QR Field — `PUT /v1/packages/{packageId}/documents/{documentId}/fields/qrcode`
-- name: doc `Update QR Field` / spec `Update Field`
-- path_params only in spec: fieldType
 - request_fields only in doc: image_qr, is_transparent, read_only, remark, required
 - request_fields only in spec: annotation_position, rotate, type_name
 
 ### Add ComboBox Field — `POST /v1/packages/{packageId}/documents/{documentId}/fields/combobox`
-- name: doc `Add ComboBox Field` / spec `Add Field`
-- path_params only in spec: fieldType
 - request_fields only in doc: align_option, color, combo_item, font, format_type, max_length, multiline, place_holder, read_only, remark, required, tool_tip_text, value
 - request_fields only in spec: annotation_position, renamed_as, rotate, type_name
 
 ### Update ComboBox Field — `PUT /v1/packages/{packageId}/documents/{documentId}/fields/combobox`
-- name: doc `Update ComboBox Field` / spec `Update Field`
-- path_params only in spec: fieldType
 - request_fields only in doc: align_option, color, combo_item, font, format_type, max_length, multiline, place_holder, read_only, remark, required, tool_tip_text, value
 - request_fields only in spec: annotation_position, rotate, type_name
 
 ### Add Toggle Field — `POST /v1/packages/{packageId}/documents/{documentId}/fields/toggle`
-- name: doc `Add Toggle Field` / spec `Add Field`
-- path_params only in spec: fieldType
 - request_fields only in doc: align_option, color, font, format_type, max_length, multiline, place_holder, read_only, remark, required, toggle_item, tool_tip_text, value
 - request_fields only in spec: annotation_position, renamed_as, rotate, type_name
 
 ### Update Toggle Field — `PUT /v1/packages/{packageId}/documents/{documentId}/fields/toggle`
-- name: doc `Update Toggle Field` / spec `Update Field`
-- path_params only in spec: fieldType
 - request_fields only in doc: align_option, color, font, format_type, max_length, multiline, place_holder, read_only, remark, required, toggle_item, tool_tip_text, value
 - request_fields only in spec: annotation_position, rotate, type_name
 
 ### Add Numeric Stepper Field — `POST /v1/packages/{packageId}/documents/{documentId}/fields/numeric_stepper`
-- name: doc `Add Numeric Stepper Field` / spec `Add Field`
-- path_params only in spec: fieldType
 - request_fields only in doc: align_option, color, font, format_type, max_length, multiline, numeric_stepper_items, place_holder, read_only, remark, required, tool_tip_text, value
 - request_fields only in spec: annotation_position, renamed_as, rotate, type_name
 
 ### Update Numeric Stepper Field — `PUT /v1/packages/{packageId}/documents/{documentId}/fields/numeric_stepper`
-- name: doc `Update Numeric Stepper Field` / spec `Update Field`
-- path_params only in spec: fieldType
 - request_fields only in doc: align_option, color, font, format_type, max_length, multiline, numeric_stepper_items, place_holder, read_only, remark, required, tool_tip_text, value
 - request_fields only in spec: annotation_position, rotate, type_name
 
 ### Add Hyperlink Field — `POST /v1/packages/{packageId}/documents/{documentId}/fields/hyperlink`
-- name: doc `Add Hyperlink Field` / spec `Add Field`
-- path_params only in spec: fieldType
 - request_fields only in doc: address, align_option, color, font, format_type, max_length, multiline, place_holder, read_only, remark, required, tool_tip_text, value
 - request_fields only in spec: annotation_position, renamed_as, rotate, type_name
 
 ### Update Hyperlink Field — `PUT /v1/packages/{packageId}/documents/{documentId}/fields/hyperlink`
-- name: doc `Update Hyperlink Field` / spec `Update Field`
-- path_params only in spec: fieldType
 - request_fields only in doc: address, align_option, color, font, format_type, max_length, multiline, place_holder, read_only, remark, required, tool_tip_text, value
 - request_fields only in spec: annotation_position, rotate, type_name
 
 ### Add Stamp Field — `POST /v1/packages/{packageId}/documents/{documentId}/fields/stamp`
-- name: doc `Add Stamp Field` / spec `Add Field`
-- path_params only in spec: fieldType
 - request_fields only in doc: image, place_holder, read_only, remark, required, tool_tip_text
 - request_fields only in spec: annotation_position, renamed_as, rotate, type_name
 
 ### Update Stamp Field — `PUT /v1/packages/{packageId}/documents/{documentId}/fields/stamp`
-- name: doc `Update Stamp Field` / spec `Update Field`
-- path_params only in spec: fieldType
 - request_fields only in doc: image, place_holder, read_only, remark, required, tool_tip_text
 - request_fields only in spec: annotation_position, rotate, type_name
 
 ### Add Camera Field — `POST /v1/packages/{packageId}/documents/{documentId}/fields/camera`
-- name: doc `Add Camera Field` / spec `Add Field`
-- path_params only in spec: fieldType
 - request_fields only in doc: camera, place_holder, read_only, remark, required, tool_tip_text
 - request_fields only in spec: annotation_position, renamed_as, rotate, type_name
 
 ### Update Camera Field — `PUT /v1/packages/{packageId}/documents/{documentId}/fields/camera`
-- name: doc `Update Camera Field` / spec `Update Field`
-- path_params only in spec: fieldType
 - request_fields only in doc: camera, place_holder, read_only, remark, required, tool_tip_text
 - request_fields only in spec: annotation_position, rotate, type_name
 
 ### Add Attachment Field — `POST /v1/packages/{packageId}/documents/{documentId}/fields/attachment`
-- name: doc `Add Attachment Field` / spec `Add Field`
-- path_params only in spec: fieldType
 - request_fields only in doc: file, place_holder, read_only, remark, required, show_icon_enabled, tool_tip_text
 - request_fields only in spec: annotation_position, renamed_as, rotate, type_name
 
 ### Update Attachment Field — `PUT /v1/packages/{packageId}/documents/{documentId}/fields/attachment`
-- name: doc `Update Attachment Field` / spec `Update Field`
-- path_params only in spec: fieldType
 - request_fields only in doc: file, place_holder, read_only, remark, required, show_icon_enabled, tool_tip_text
 - request_fields only in spec: annotation_position, rotate, type_name
 
 ### Add CheckBox Field Version 2 — `POST /v1/packages/{packageId}/documents/{documentId}/fields/checkboxV2`
-- name: doc `Add CheckBox Field Version 2` / spec `Add Field`
-- path_params only in spec: fieldType
 - request_fields only in doc: align_option, checkbox_frame, checked, font, group_name, multiple_checked, place_holder, read_only, remark, required, text_next_to, tool_tip_text, uncheckbox_frame
 - request_fields only in spec: annotation_position, renamed_as, rotate, type_name
 
 ### Update CheckBox Field Version 2 — `PUT /v1/packages/{packageId}/documents/{documentId}/fields/checkboxV2`
-- name: doc `Update CheckBox Field Version 2` / spec `Update Field`
-- path_params only in spec: fieldType
 - request_fields only in doc: align_option, checkbox_frame, checked, font, group_name, multiple_checked, place_holder, read_only, remark, required, text_next_to, tool_tip_text, uncheckbox_frame
 - request_fields only in spec: annotation_position, rotate, type_name
 
 ### Add RadioBox Field Version 2 — `POST /v1/packages/{packageId}/documents/{documentId}/fields/radioboxV2`
-- name: doc `Add RadioBox Field Version 2` / spec `Add Field`
-- path_params only in spec: fieldType
 - request_fields only in doc: align_option, checkbox_frame, checked, font, group_name, multiple_checked, place_holder, read_only, remark, required, text_next_to, tool_tip_text, uncheckbox_frame
 - request_fields only in spec: annotation_position, renamed_as, rotate, type_name
 
 ### Update RadioBox Field Version 2 — `PUT /v1/packages/{packageId}/documents/{documentId}/fields/radioboxV2`
-- name: doc `Update RadioBox Field Version 2` / spec `Update Field`
-- path_params only in spec: fieldType
 - request_fields only in doc: align_option, checkbox_frame, checked, font, group_name, multiple_checked, place_holder, read_only, remark, required, text_next_to, tool_tip_text, uncheckbox_frame
 - request_fields only in spec: annotation_position, rotate, type_name
 
 ### Add VNeID Field — `POST /v1/packages/{packageId}/documents/{documentId}/fields/vneid`
-- name: doc `Add VNeID Field` / spec `Add Field`
-- path_params only in spec: fieldType
 - request_fields only in doc: align_option, color, font, format_type, loaded_from_vneid, max_length, multiline, place_holder, read_only, remark, required, tool_tip_text, type, value
 - request_fields only in spec: annotation_position, renamed_as, rotate, type_name
 
 ### Update VNeID Field — `PUT /v1/packages/{packageId}/documents/{documentId}/fields/vneid`
-- name: doc `Update VNeID Field` / spec `Update Field`
-- path_params only in spec: fieldType
 - request_fields only in doc: align_option, color, font, format_type, loaded_from_vneid, max_length, multiline, place_holder, read_only, remark, required, tool_tip_text, type, value
 - request_fields only in spec: annotation_position, rotate, type_name
 - response_fields only in doc: field_name
 
 ### Add Redact Field — `POST /v1/packages/{packageId}/documents/{documentId}/fields/redaction`
-- name: doc `Add Redact Field` / spec `Add Field`
-- path_params only in spec: fieldType
 - request_fields only in doc: read_only, redact_policy, remark, required
 - request_fields only in spec: annotation_position, renamed_as, rotate, type_name
 
 ### Update Redact Field — `PUT /v1/packages/{packageId}/documents/{documentId}/fields/redaction`
-- name: doc `Update Redact Field` / spec `Update Field`
-- path_params only in spec: fieldType
 - request_fields only in doc: read_only, redact_policy, remark, required
 - request_fields only in spec: annotation_position, rotate, type_name
 
 ### Add Elabor Field — `POST /v1/packages/{packageId}/documents/{documentId}/fields/elabor`
-- name: doc `Add Elabor Field` / spec `Add Field`
-- path_params only in spec: fieldType
 - request_fields only in doc: alignment, color, font, max_length, multiline, read_only, remark, required, type
 - request_fields only in spec: annotation_position, renamed_as, rotate, type_name
 
 ### Update Elabor Field — `PUT /v1/packages/{packageId}/documents/{documentId}/fields/elabor`
-- name: doc `Update Elabor Field` / spec `Update Field`
-- path_params only in spec: fieldType
 - request_fields only in doc: alignment, color, font, max_length, multiline, read_only, remark, required, type
 - request_fields only in spec: annotation_position, rotate, type_name
 - response_fields only in doc: field_name
 
-### Approve Document — `POST /v1/packages/{packageId}/approve`
-- name: doc `Approve Document` / spec `Approve Workflow`
-
-### Decline Document — `POST /v1/packages/{packageId}/decline`
-- name: doc `Decline Document` / spec `Decline Workflow`
-
-### Sign Document — `POST /v1/packages/{packageId}/documents/{documentId}/sign`
-- name: doc `Sign Document` / spec `Sign Document via RSSP with Enterprise Settings`
-
 ### Sign Eseal — `POST /v1/packages/{packageId}/documents/{documentId}/sign_eseal`
-- name: doc `Sign Eseal` / spec `Sign ESeal via RSSP with Enterprise Settings`
 - request_fields only in spec: signing_reason
-
-### Get Document Hash — `POST /v1/packages/{packageId}/documents/{documentId}/hash`
-- name: doc `Get Document Hash` / spec `Get Hash of Signature Field`
 
 ### Fill Form Fields — `PUT /v1/packages/{packageId}/documents/{documentId}/fields`
 - request_fields only in doc: attachment, camera, checkbox, checkboxv2, combobox, custom_field, date, datetime, hyperlink, numeric_stepper, qr, radiobox, radioboxv2, stamp, textbox, toggle, vneid_field
-
-### Submit Document — `POST /v1/packages/{packageId}/submit`
-- name: doc `Submit Document` / spec `Submit Workflow`
 
 ### Get List USB-Token Connector — `GET /v1/connectors/usbtoken`
 - headers only in doc: Content-Type, x-search-server
@@ -736,11 +609,9 @@
 - headers only in doc: Content-Type, x-search-server
 
 ### Get List Internal Signing Service Connector (ISS) — `GET /v1/connectors/iss`
-- name: doc `Get List Internal Signing Service Connector (ISS)` / spec `Get List ISS Connector`
 - headers only in doc: Content-Type, x-search-server
 
 ### Get RSSP Information — `GET /v1/system/signing/servers`
-- name: doc `Get RSSP Information` / spec `Get List RSSP Connector`
 - headers only in doc: Content-Type
 
 ### Get Filtered Credential List — `POST /v1/csc/credentials/list`
@@ -754,7 +625,6 @@
 - request_fields only in doc: responseID
 
 ### Get Signing Status (TSE MID) — `POST /v1/csc/packages/sign/status`
-- name: doc `Get Signing Status (TSE MID)` / spec `Get Signing Status`
 - request_fields only in doc: transaction_id
 - request_fields only in spec: notification_template, signing_transaction_id
 
@@ -774,9 +644,6 @@
 
 ### Get Sign Hash From Service — `POST /v1/csc/signatures/sign-hash`
 - response_fields only in doc: documents, hashing_algo, request_id, signing_algo, status, transaction_code, validity_period
-
-### Get Information of Citizen card — `POST /v1/csc/credentials/document/details`
-- name: doc `Get Information of Citizen card` / spec `Get Information of Citizen Card`
 
 ### Register Certificate via RSSP — `POST /v1/csc/credentials/register`
 - request_fields only in spec: certificate_profile, data, issuing_provider
@@ -833,11 +700,9 @@
 - headers only in doc: Content-Type
 
 ### Delete Enterprise User — `DELETE /v1/enterprise/users/{enterpriseUserId}`
-- name: doc `Delete Enterprise User` / spec `Remove Enterprise User`
 - headers only in doc: Content-Type
 
 ### Get Roles — `GET /v1/enterprise/roles/{pageNo}/{recordPerPage}`
-- name: doc `Get Roles` / spec `Get Enterprise Roles`
 - headers only in doc: Content-Type, x-search-text
 - path_params only in doc: recordPerPage
 - path_params only in spec: recordsPerPage
@@ -845,14 +710,12 @@
 - response_fields only in doc: roles
 
 ### Delete Role — `DELETE /v1/enterprise/roles/{id}`
-- name: doc `Delete Role` / spec `Delete Enterprise Role`
 - headers only in doc: Content-Type
 - path_params only in doc: id
 - path_params only in spec: enterpriseRoleId
 - request_fields only in doc: id
 
 ### Add Role — `POST /v1/enterprise/roles`
-- name: doc `Add Role` / spec `Create Enterprise Role`
 - request_fields only in doc: default, description
 - request_fields only in spec: feature, feature_definition_version, features, permissions, remark
 - response_fields only in doc: default, description, id
@@ -875,7 +738,6 @@
 - headers only in doc: Content-Type
 
 ### Get Enterprise Electronic Seals — `GET /v1/enterprise/electronic-seals`
-- name: doc `Get Enterprise Electronic Seals` / spec `List Enterprise Electronic Seals`
 - headers only in doc: Content-Type
 - headers only in spec: x-search-text
 - response_fields only in doc: appearance, basic_information, detail, id
@@ -924,12 +786,10 @@
 - response_fields only in doc: enterprise_id, enterprise_name, is_active, logo_url, profile_id, role, service_plan, user_email
 
 ### Account Usage Statistics — `GET /v1/account/statistics/usage`
-- name: doc `Account Usage Statistics` / spec `Get Account Usage Statistics`
 - headers only in doc: Content-Type
 - response_fields only in spec: balance, elabor_contract, enterprise_quota, service_plan_duration, template, upload_size, validation
 
 ### Document Statistics — `GET /v1/account/statistics/documents`
-- name: doc `Document Statistics` / spec `Document Statistic`
 - headers only in doc: Content-Type
 - headers only in spec: x-enterprise-mode
 - response_fields only in doc: archived, shared
@@ -987,7 +847,6 @@
 - response_fields only in spec: billcode_id, transaction_code, transaction_id
 
 ### Initialize Billing — `POST /v1/account/billings/initialize`
-- name: doc `Initialize Billing` / spec `Initialize Billing Frame`
 - request_fields only in spec: bank_account_id
 - response_fields only in spec: account_number, billing_payment_id
 
@@ -1026,7 +885,6 @@
 - response_fields only in spec: application, feature_permissions, permissions, service_plan, tbs
 
 ### Update General Profile Information — `PUT /v1/settings/profile/general`
-- name: doc `Update General Profile Information` / spec `Update General Profile`
 - request_fields only in doc: country, language, time_zone, user_name
 - request_fields only in spec: account_type, date_of_birth, date_of_expiry, date_of_issue, eid_account_level, full_name, gender, notifications, permanent_address, residential_address, security_answer, security_question, service_agreements, service_plan, user_email, user_first_name, user_last_name, user_national_id, user_password
 
@@ -1034,35 +892,27 @@
 - headers only in doc: Content-Type
 - headers only in spec: x-total-records
 
-### Add Address Book — `POST /v1/settings/addressbook`
-- name: doc `Add Address Book` / spec `Create AddressBook`
-
 ### Delete Address Book — `DELETE /v1/settings/addressbook/{id}`
-- name: doc `Delete Address Book` / spec `Delete AddressBook`
 - headers only in doc: Content-Type
 - path_params only in doc: Id
 - path_params only in spec: addressBookId
 
 ### Get Contacts — `GET /v1/settings/contacts/{pageNo}/{recordPerPage}`
-- name: doc `Get Contacts` / spec `Get Contact`
 - headers only in doc: Content-Type, x-enterprise, x-search-text
 - path_params only in doc: recordPerPage
 - path_params only in spec: recordsPerPage
 - request_fields only in doc: pageNo, recordsPerPage
 
 ### Add Personal Contact — `POST /v1/settings/contacts`
-- name: doc `Add Personal Contact` / spec `Create Contact`
 - request_fields only in spec: address_book_ids, contact_id, created_at, enterprise_id, national_id
 
 ### Update Personal Contact — `PUT /v1/settings/contacts/{id}`
-- name: doc `Update Personal Contact` / spec `Update Contact`
 - path_params only in doc: id
 - path_params only in spec: contactId
 - request_fields only in doc: id
 - request_fields only in spec: address_book_ids, address_book_name, contact_id, created_at, enterprise_id, national_id
 
 ### Delete Personal Contact — `DELETE /v1/settings/contacts/{id}`
-- name: doc `Delete Personal Contact` / spec `Delete Contact`
 - headers only in doc: Content-Type
 - path_params only in doc: id
 - path_params only in spec: contactId
@@ -1081,7 +931,6 @@
 - response_fields only in spec: id
 
 ### Get Templates — `GET /v1/settings/templates/{templateType}/{pageNo}/{recordPerPage}`
-- name: doc `Get Templates` / spec `Get List Template`
 - headers only in doc: Content-Type
 - path_params only in doc: recordPerPage
 - path_params only in spec: recordsPerPage
@@ -1092,6 +941,7 @@
 - headers only in doc: Content-Type
 - path_params only in doc: id
 - path_params only in spec: templateId
+- response_fields only in spec: lifecycle_state
 
 ### Update Template — `PUT /v1/templates/{id}`
 - path_params only in doc: id
@@ -1175,7 +1025,6 @@
 - headers only in doc: Content-Type
 
 ### Create Account — `POST /v1/admin/accounts`
-- name: doc `Create Account` / spec `Create Owner`
 - request_fields only in doc: service_plan
 - request_fields only in spec: address, contact_address, contact_email, industry_type, invoice_address, invoice_email, service_plan_id, tax_code
 

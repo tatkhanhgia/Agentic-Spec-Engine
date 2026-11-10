@@ -4,7 +4,29 @@ Ngày đo: 2026-11-10.
 - Spec: `GoPaperless-Workflow-API` nhánh `master` @ `76e49d483`, file `docs/api/openapi.yaml` (OpenAPI 3.1, 288 operation, 346 schema).
 - Tài liệu: `formatted/GoPaperless Workflow RESTful API Specification V3 - 20260727.docx` (265 endpoint).
 
-Báo cáo chi tiết từng endpoint: `reports/openapi_vs_v3_20261110.md`.
+Báo cáo chi tiết từng endpoint: `reports/openapi_vs_v3_20261110.md`. Báo cáo này đã
+được chạy lại trên spec của nhánh backend `claude/blissful-keller-9jp18x` (tách từ `dev`), tức là
+sau khi đã có các bổ sung ở mục 0.
+
+## 0. Tiến độ
+
+Đã làm ở backend (nhánh `claude/blissful-keller-9jp18x`), `OpenApiSpecConsistencyTest` +
+`ApiContractSnapshotTest` vẫn pass:
+
+| Mục | Trạng thái | Kết quả |
+|---|---|---|
+| 4.1 `x-doc-title` | Xong (52 operation) | Số tên khác nhau giảm từ 96 xuống 2 |
+| 4.2 `x-doc-sections` (tiêu đề, path) | Xong: `authenticate` (2 section), add/update field (2 × 20 section) | Mỗi section ra một bản ghi riêng có đúng tên và path. **Chưa** có schema riêng cho từng loại field |
+| 4.5 object có tên | Mới làm `FieldDimension` (`x-doc-type: dimension`) | Số type request lệch giảm từ 65 xuống 25 |
+| 4.3 `required` của response | Chưa làm | Cần đọc serializer để biết field nào luôn được trả về; không suy đoán |
+| 4.4 `x-presence` (RC) | Chưa làm | — |
+| 4.6, 4.7 | Chưa làm | 4.7 cần owner chốt |
+
+Hai tên còn lệch là do ghép cặp, cần owner xem:
+- `Share Workflow`: tài liệu có **hai section cho cùng một route** `POST /v1/packages/{id}/workflow/share`.
+- `Get Workflow Reminders` (`GET /v1/packages/{id}/workflow/reminders`): đường dẫn này khớp với
+  regex `x-route` của `getAllWorkflows`. Có thể route reminders đang bị Get All Workflow nuốt mất
+  (tương tự lỗi Get Fields mà FEATURE-111 đã ghi nhận). Cần kiểm tra lại trong code.
 
 ## 1. Input để ra được file V3 hôm nay
 

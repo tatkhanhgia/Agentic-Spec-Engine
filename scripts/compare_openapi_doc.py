@@ -40,10 +40,14 @@ def doc_path(e):
 def pair(openapi, doc):
     by_key = {}
     for o in openapi:
-        by_key.setdefault(o["key"], o)
+        by_key.setdefault(o["key"], []).append(o)
     pairs, doc_only = [], []
     for d in doc:
-        match = by_key.get(d["key"])
+        # Several spec records share a key when one operation documents several
+        # sections (x-doc-sections); the section title then picks the record.
+        candidates = by_key.get(d["key"], [])
+        match = next((o for o in candidates if o["name"] == d["name"]),
+                     candidates[0] if candidates else None)
         if match is None:
             concrete = re.sub(r"\{[^}]*\}", "1", doc_path(d))
             for o in openapi:
@@ -112,7 +116,7 @@ def main():
     lines = ["# OpenAPI vs DOCX contract comparison", ""]
     lines.append("| Metric | Value |")
     lines.append("|---|---|")
-    lines.append("| Spec operations | %d |" % len(openapi))
+    lines.append("| Spec records (operations expanded by x-doc-sections) | %d |" % len(openapi))
     lines.append("| Doc endpoints | %d |" % len(doc))
     lines.append("| Paired | %d |" % len(pairs))
     lines.append("| Doc only (no spec operation) | %d |" % len(doc_only))

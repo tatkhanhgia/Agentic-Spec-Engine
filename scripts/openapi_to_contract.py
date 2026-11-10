@@ -71,7 +71,8 @@ class Spec:
         if not isinstance(schema, dict):
             return ""
         if "$ref" in schema:
-            return schema["$ref"].rsplit("/", 1)[-1]
+            target = self.resolve(schema)
+            return target.get("x-doc-type") or schema["$ref"].rsplit("/", 1)[-1]
         t = schema.get("type")
         if isinstance(t, list):
             non_null = [x for x in t if x != "null"]
@@ -123,6 +124,31 @@ def success_response(spec, responses):
     return None, {}
 
 
+def expand_sections(base, sections):
+    """One record per document section when an operation spans several.
+
+    `x-doc-sections` lists `{title, path-values?, when?}`. `path-values` fills
+    path parameters, so `/fields/{fieldType}` becomes `/fields/text`; `when`
+    names the request variant (e.g. a grant_type) the section documents.
+    """
+    if not sections:
+        return [base]
+    records = []
+    for section in sections:
+        record = dict(base)
+        record["name"] = section.get("title", base["name"])
+        path = base["path"]
+        values = section.get("path-values") or {}
+        for param, value in values.items():
+            path = path.replace("{%s}" % param, str(value))
+        record["path"] = path
+        record["key"] = "%s %s" % (base["method"], to_key(path))
+        record["path_params"] = [p for p in base["path_params"] if p["name"] not in values]
+        record["variant"] = section.get("when", "")
+        records.append(record)
+    return records
+
+
 def convert(data):
     spec = Spec(data)
     global_security = data.get("security") or []
@@ -168,8 +194,8 @@ def convert(data):
                 })
 
             tags = op.get("tags") or [""]
-            endpoints.append({
-                "name": op.get("summary", ""),
+            base = {
+                "name": op.get("x-doc-title") or op.get("summary", ""),
                 "category": tags[0],
                 "category_order": tag_order.index(tags[0]) if tags[0] in tag_order else len(tag_order),
                 "operation_id": op.get("operationId", ""),
@@ -190,7 +216,8 @@ def convert(data):
                 "response_example": json_content(resp).get("example"),
                 "error_codes": op.get("x-error-codes") or [],
                 "needs_review": op.get("x-needs-review") or [],
-            })
+            }
+            endpoints.extend(expand_sections(base, op.get("x-doc-sections")))
     return {
         "source": "openapi",
         "version": (data.get("info") or {}).get("version", ""),
