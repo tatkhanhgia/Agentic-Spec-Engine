@@ -227,17 +227,21 @@ def convert(data):
 
 
 def main():
-    args = [a for a in sys.argv[1:] if not a.startswith("-")]
+    argv = sys.argv[1:]
+    out_path = OUT_DEFAULT
+    if "-o" in argv:
+        i = argv.index("-o")
+        out_path = argv[i + 1]
+        argv = argv[:i] + argv[i + 2:]
+    args = [a for a in argv if not a.startswith("-")]
     if not args:
         print(__doc__)
         sys.exit(2)
-    out_path = OUT_DEFAULT
-    if "-o" in sys.argv:
-        out_path = sys.argv[sys.argv.index("-o") + 1]
-        args = [a for a in args if a != out_path]
     with open(args[0], encoding="utf-8") as f:
         data = yaml.safe_load(f)
     contract = convert(data)
+    if os.path.exists(out_path) and os.path.samefile(args[0], out_path):
+        sys.exit("Output path must not refer to the input spec")
     os.makedirs(os.path.dirname(os.path.abspath(out_path)), exist_ok=True)
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(contract, f, ensure_ascii=False, indent=2)

@@ -20,6 +20,7 @@ Usage:
 """
 import collections
 import json
+import os
 import re
 import sys
 
@@ -51,8 +52,14 @@ def pair(openapi, doc):
         if match is None:
             concrete = re.sub(r"\{[^}]*\}", "1", doc_path(d))
             for o in openapi:
-                if o["method"] == d["method"] and o.get("route") and \
-                        re.fullmatch(o["route"], concrete):
+                if o["method"] != d["method"] or not o.get("route"):
+                    continue
+                try:
+                    ok = re.fullmatch(o["route"], concrete)
+                except re.error as exc:
+                    print("warning: bad x-route %r: %s" % (o["route"], exc), file=sys.stderr)
+                    continue
+                if ok:
                     match = o
                     break
         if match is None:
@@ -69,11 +76,13 @@ def rows(e, table):
 
 
 def main():
-    args = [a for a in sys.argv[1:] if not a.startswith("-")]
+    argv = sys.argv[1:]
     out = None
-    if "-o" in sys.argv:
-        out = sys.argv[sys.argv.index("-o") + 1]
-        args = [a for a in args if a != out]
+    if "-o" in argv:
+        i = argv.index("-o")
+        out = argv[i + 1]
+        argv = argv[:i] + argv[i + 2:]
+    args = [a for a in argv if not a.startswith("-")]
     if len(args) != 2:
         print(__doc__)
         sys.exit(2)
@@ -136,6 +145,8 @@ def main():
             lines.append("")
     text = "\n".join(lines) + "\n"
     if out:
+        if os.path.exists(out) and any(os.path.samefile(out, path) for path in args):
+            sys.exit("Output must not refer to an input contract")
         with open(out, "w", encoding="utf-8") as f:
             f.write(text)
         print("wrote %s" % out)
