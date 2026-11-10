@@ -24,19 +24,19 @@
 | path_params: rows in doc | 288 |
 | path_params: rows in spec | 290 |
 | path_params: type differs | 7 |
-| request_fields: common | 559 |
-| request_fields: doc presence is conditional (RC) | 15 |
-| request_fields: only in doc | 502 |
-| request_fields: only in spec | 285 |
-| request_fields: presence differs | 182 |
+| request_fields: common | 907 |
+| request_fields: doc presence is conditional (RC) | 57 |
+| request_fields: only in doc | 154 |
+| request_fields: only in spec | 397 |
+| request_fields: presence differs | 152 |
 | request_fields: rows in doc | 1061 |
-| request_fields: rows in spec | 844 |
-| request_fields: type differs | 25 |
+| request_fields: rows in spec | 1304 |
+| request_fields: type differs | 95 |
 | response_fields: common | 322 |
 | response_fields: doc presence is conditional (RC) | 2 |
 | response_fields: only in doc | 161 |
 | response_fields: only in spec | 124 |
-| response_fields: presence differs | 259 |
+| response_fields: presence differs | 105 |
 | response_fields: rows in doc | 483 |
 | response_fields: rows in spec | 446 |
 | response_fields: type differs | 94 |
@@ -421,30 +421,26 @@
 - headers only in doc: Content-Type
 
 ### Add Digital Signature Field — `POST /v1/packages/{packageId}/documents/{documentId}/fields/signature`
-- request_fields only in doc: appearance_design, authentication_signing, level_of_assurance, remark, required, verification
-- request_fields only in spec: renamed_as, rotate, type_name
+- request_fields only in doc: authentication_signing, verification
+- request_fields only in spec: coordinate_space, field_security, form, keyword_placement, lock_field_enabled, renamed_as, rotate, type
 
 ### Update Digital Signature Field — `PUT /v1/packages/{packageId}/documents/{documentId}/fields/signature`
-- request_fields only in doc: appearance_design, authentication_signing, level_of_assurance, remark, required, verification
-- request_fields only in spec: rotate, type_name
+- request_fields only in doc: authentication_signing, verification
+- request_fields only in spec: coordinate_space, field_security, form, keyword_placement, lock_field_enabled, rotate, type
 - response_fields only in doc: field_name
 
 ### Add TextBox Field — `POST /v1/packages/{packageId}/documents/{documentId}/fields/text`
-- request_fields only in doc: align_option, color, font, format_type, max_length, multiline, place_holder, read_only, remark, required, tool_tip_text, type, value
-- request_fields only in spec: annotation_position, renamed_as, rotate, type_name
+- request_fields only in spec: field_security, lock_action, lock_field_enabled, renamed_as, rotate
 
 ### Update TextBox Field — `PUT /v1/packages/{packageId}/documents/{documentId}/fields/text`
-- request_fields only in doc: align_option, color, font, format_type, max_length, multiline, place_holder, read_only, remark, required, tool_tip_text, value
-- request_fields only in spec: annotation_position, rotate, type_name
+- request_fields only in spec: field_security, lock_action, lock_field_enabled, rotate, type
 - response_fields only in doc: field_name
 
 ### Add Initial Field — `POST /v1/packages/{packageId}/documents/{documentId}/fields/initials`
-- request_fields only in doc: apply_to_all, image, remark, replicate_all_pages, replicate_pages, required
-- request_fields only in spec: annotation_position, renamed_as, rotate, type_name
+- request_fields only in spec: field_security, lock_field_enabled, renamed_as, rotate, type
 
 ### Update Initial Field — `PUT /v1/packages/{packageId}/documents/{documentId}/fields/initials`
-- request_fields only in doc: apply_to_all, image, remark, replicate_all_pages, replicate_pages, required
-- request_fields only in spec: annotation_position, rotate, type_name
+- request_fields only in spec: field_security, lock_field_enabled, rotate, type
 
 ### Delete Document Field — `DELETE /v1/packages/{packageId}/documents/{documentId}/fields`
 - headers only in doc: Content-Type
@@ -458,142 +454,132 @@
 - headers only in doc: Content-Type
 
 ### Add In-person Field — `POST /v1/packages/{packageId}/documents/{documentId}/fields/in_person_signature`
-- request_fields only in doc: appearance_design, authentication_signing, level_of_assurance, order, remark, required, verification
-- request_fields only in spec: renamed_as, rotate, type_name
+- request_fields only in doc: authentication_signing, verification
+- request_fields only in spec: coordinate_space, field_security, form, keyword_placement, lock_field_enabled, renamed_as, rotate, type
 
 ### Update In-person Field — `PUT /v1/packages/{packageId}/documents/{documentId}/fields/in_person_signature`
-- request_fields only in doc: appearance_design, authentication_signing, level_of_assurance, order, remark, required, verification
-- request_fields only in spec: rotate, type_name
+- request_fields only in doc: authentication_signing, verification
+- request_fields only in spec: coordinate_space, field_security, form, keyword_placement, lock_field_enabled, rotate, type
 - response_fields only in doc: field_name
 
 ### Add Datetime Field — `POST /v1/packages/{packageId}/documents/{documentId}/fields/datetime`
-- request_fields only in doc: align_option, color, date, font, format_type, max_length, multiline, place_holder, read_only, remark, required, tool_tip_text, value
-- request_fields only in spec: annotation_position, renamed_as, rotate, type_name
+- request_fields only in spec: field_security, lock_action, lock_field_enabled, renamed_as, rotate, type
 
 ### Update Datetime Field — `PUT /v1/packages/{packageId}/documents/{documentId}/fields/datetime`
-- request_fields only in doc: align_option, color, date, font, format_type, max_length, multiline, place_holder, read_only, remark, required, tool_tip_text, value
-- request_fields only in spec: annotation_position, rotate, type_name
+- request_fields only in spec: field_security, lock_action, lock_field_enabled, rotate, type
 
 ### Add CheckBox Field — `POST /v1/packages/{packageId}/documents/{documentId}/fields/checkbox`
-- request_fields only in doc: align_option, check_box_type, checked, color, font, group_name, multiple_checked, place_holder, read_only, remark, required, tool_tip_text, value
-- request_fields only in spec: annotation_position, renamed_as, rotate, type_name
+- request_fields only in doc: color, place_holder
+- request_fields only in spec: field_security, lock_field_enabled, renamed_as, rotate, type
 
 ### Update CheckBox Field — `PUT /v1/packages/{packageId}/documents/{documentId}/fields/checkbox`
-- request_fields only in doc: align_option, check_box_type, checked, color, font, group_name, multiple_checked, place_holder, read_only, remark, required, tool_tip_text, value
-- request_fields only in spec: annotation_position, rotate, type_name
+- request_fields only in doc: color, place_holder
+- request_fields only in spec: field_security, lock_field_enabled, rotate, type
 
 ### Add RadioBox Field — `POST /v1/packages/{packageId}/documents/{documentId}/fields/radiobox`
-- request_fields only in doc: align_option, check_box_type, checked, color, font, multiple_checked, place_holder, radio_group_name, read_only, remark, required, tool_tip_text, value
-- request_fields only in spec: annotation_position, renamed_as, rotate, type_name
+- request_fields only in doc: check_box_type, color, place_holder, radio_group_name, read_only
+- request_fields only in spec: checkbox_frame, field_security, group_name, lock_field_enabled, renamed_as, rotate, text_next_to, type, uncheckbox_frame
 
 ### Update RadioBox Field — `PUT /v1/packages/{packageId}/documents/{documentId}/fields/radiobox`
-- request_fields only in doc: align_option, check_box_type, checked, color, font, multiple_checked, place_holder, radio_group_name, read_only, remark, required, tool_tip_text, value
-- request_fields only in spec: annotation_position, rotate, type_name
+- request_fields only in doc: check_box_type, color, place_holder, radio_group_name, read_only
+- request_fields only in spec: checkbox_frame, field_security, group_name, lock_field_enabled, rotate, text_next_to, type, uncheckbox_frame
 
 ### Add QR Field — `POST /v1/packages/{packageId}/documents/{documentId}/fields/qrcode`
-- request_fields only in doc: allow_unauthenticated_workflow_view, custom_url, image_qr, is_transparent, read_only, remark, required, value
-- request_fields only in spec: annotation_position, renamed_as, rotate, type_name
+- request_fields only in doc: is_transparent, read_only
+- request_fields only in spec: field_security, lock_field_enabled, renamed_as, rotate, transparent, type
 
 ### Update QR Field — `PUT /v1/packages/{packageId}/documents/{documentId}/fields/qrcode`
-- request_fields only in doc: image_qr, is_transparent, read_only, remark, required
-- request_fields only in spec: annotation_position, rotate, type_name
+- request_fields only in doc: is_transparent, read_only
+- request_fields only in spec: allow_unauthenticated_workflow_view, custom_url, field_security, lock_field_enabled, rotate, transparent, type, value
 
 ### Add ComboBox Field — `POST /v1/packages/{packageId}/documents/{documentId}/fields/combobox`
-- request_fields only in doc: align_option, color, combo_item, font, format_type, max_length, multiline, place_holder, read_only, remark, required, tool_tip_text, value
-- request_fields only in spec: annotation_position, renamed_as, rotate, type_name
+- request_fields only in spec: field_security, lock_action, lock_field_enabled, renamed_as, rotate, type
 
 ### Update ComboBox Field — `PUT /v1/packages/{packageId}/documents/{documentId}/fields/combobox`
-- request_fields only in doc: align_option, color, combo_item, font, format_type, max_length, multiline, place_holder, read_only, remark, required, tool_tip_text, value
-- request_fields only in spec: annotation_position, rotate, type_name
+- request_fields only in spec: field_security, lock_action, lock_field_enabled, rotate, type
 
 ### Add Toggle Field — `POST /v1/packages/{packageId}/documents/{documentId}/fields/toggle`
-- request_fields only in doc: align_option, color, font, format_type, max_length, multiline, place_holder, read_only, remark, required, toggle_item, tool_tip_text, value
-- request_fields only in spec: annotation_position, renamed_as, rotate, type_name
+- request_fields only in spec: field_security, lock_action, lock_field_enabled, renamed_as, rotate, type
 
 ### Update Toggle Field — `PUT /v1/packages/{packageId}/documents/{documentId}/fields/toggle`
-- request_fields only in doc: align_option, color, font, format_type, max_length, multiline, place_holder, read_only, remark, required, toggle_item, tool_tip_text, value
-- request_fields only in spec: annotation_position, rotate, type_name
+- request_fields only in spec: field_security, lock_action, lock_field_enabled, rotate, type
 
 ### Add Numeric Stepper Field — `POST /v1/packages/{packageId}/documents/{documentId}/fields/numeric_stepper`
-- request_fields only in doc: align_option, color, font, format_type, max_length, multiline, numeric_stepper_items, place_holder, read_only, remark, required, tool_tip_text, value
-- request_fields only in spec: annotation_position, renamed_as, rotate, type_name
+- request_fields only in doc: numeric_stepper_items
+- request_fields only in spec: auto_increment_enabled, field_security, lock_action, lock_field_enabled, numeric_stepper, padding_enabled, renamed_as, rotate, type
 
 ### Update Numeric Stepper Field — `PUT /v1/packages/{packageId}/documents/{documentId}/fields/numeric_stepper`
-- request_fields only in doc: align_option, color, font, format_type, max_length, multiline, numeric_stepper_items, place_holder, read_only, remark, required, tool_tip_text, value
-- request_fields only in spec: annotation_position, rotate, type_name
+- request_fields only in doc: numeric_stepper_items
+- request_fields only in spec: auto_increment_enabled, field_security, lock_action, lock_field_enabled, numeric_stepper, padding_enabled, rotate, type
 
 ### Add Hyperlink Field — `POST /v1/packages/{packageId}/documents/{documentId}/fields/hyperlink`
-- request_fields only in doc: address, align_option, color, font, format_type, max_length, multiline, place_holder, read_only, remark, required, tool_tip_text, value
-- request_fields only in spec: annotation_position, renamed_as, rotate, type_name
+- request_fields only in spec: field_security, lock_action, lock_field_enabled, renamed_as, rotate, type
 
 ### Update Hyperlink Field — `PUT /v1/packages/{packageId}/documents/{documentId}/fields/hyperlink`
-- request_fields only in doc: address, align_option, color, font, format_type, max_length, multiline, place_holder, read_only, remark, required, tool_tip_text, value
-- request_fields only in spec: annotation_position, rotate, type_name
+- request_fields only in spec: field_security, lock_action, lock_field_enabled, rotate, type
 
 ### Add Stamp Field — `POST /v1/packages/{packageId}/documents/{documentId}/fields/stamp`
-- request_fields only in doc: image, place_holder, read_only, remark, required, tool_tip_text
-- request_fields only in spec: annotation_position, renamed_as, rotate, type_name
+- request_fields only in doc: place_holder, read_only, tool_tip_text
+- request_fields only in spec: apply_to_all, field_security, lock_field_enabled, renamed_as, replicate_all_pages, replicate_pages, rotate, type
 
 ### Update Stamp Field — `PUT /v1/packages/{packageId}/documents/{documentId}/fields/stamp`
-- request_fields only in doc: image, place_holder, read_only, remark, required, tool_tip_text
-- request_fields only in spec: annotation_position, rotate, type_name
+- request_fields only in doc: place_holder, read_only, tool_tip_text
+- request_fields only in spec: apply_to_all, field_security, lock_field_enabled, replicate_all_pages, replicate_pages, rotate, type
 
 ### Add Camera Field — `POST /v1/packages/{packageId}/documents/{documentId}/fields/camera`
-- request_fields only in doc: camera, place_holder, read_only, remark, required, tool_tip_text
-- request_fields only in spec: annotation_position, renamed_as, rotate, type_name
+- request_fields only in doc: read_only
+- request_fields only in spec: apply_to_all, field_security, image, lock_field_enabled, renamed_as, replicate_all_pages, replicate_pages, rotate, show_icon_enabled, type
 
 ### Update Camera Field — `PUT /v1/packages/{packageId}/documents/{documentId}/fields/camera`
-- request_fields only in doc: camera, place_holder, read_only, remark, required, tool_tip_text
-- request_fields only in spec: annotation_position, rotate, type_name
+- request_fields only in doc: read_only
+- request_fields only in spec: apply_to_all, field_security, image, lock_field_enabled, replicate_all_pages, replicate_pages, rotate, show_icon_enabled, type
 
 ### Add Attachment Field — `POST /v1/packages/{packageId}/documents/{documentId}/fields/attachment`
-- request_fields only in doc: file, place_holder, read_only, remark, required, show_icon_enabled, tool_tip_text
-- request_fields only in spec: annotation_position, renamed_as, rotate, type_name
+- request_fields only in doc: read_only
+- request_fields only in spec: apply_to_all, field_security, image, lock_field_enabled, renamed_as, replicate_all_pages, replicate_pages, rotate, type
 
 ### Update Attachment Field — `PUT /v1/packages/{packageId}/documents/{documentId}/fields/attachment`
-- request_fields only in doc: file, place_holder, read_only, remark, required, show_icon_enabled, tool_tip_text
-- request_fields only in spec: annotation_position, rotate, type_name
+- request_fields only in doc: read_only
+- request_fields only in spec: apply_to_all, field_security, image, lock_field_enabled, replicate_all_pages, replicate_pages, rotate, type
 
 ### Add CheckBox Field Version 2 — `POST /v1/packages/{packageId}/documents/{documentId}/fields/checkboxV2`
-- request_fields only in doc: align_option, checkbox_frame, checked, font, group_name, multiple_checked, place_holder, read_only, remark, required, text_next_to, tool_tip_text, uncheckbox_frame
-- request_fields only in spec: annotation_position, renamed_as, rotate, type_name
+- request_fields only in doc: place_holder, read_only
+- request_fields only in spec: field_security, lock_field_enabled, renamed_as, rotate, type
 
 ### Update CheckBox Field Version 2 — `PUT /v1/packages/{packageId}/documents/{documentId}/fields/checkboxV2`
-- request_fields only in doc: align_option, checkbox_frame, checked, font, group_name, multiple_checked, place_holder, read_only, remark, required, text_next_to, tool_tip_text, uncheckbox_frame
-- request_fields only in spec: annotation_position, rotate, type_name
+- request_fields only in doc: place_holder, read_only
+- request_fields only in spec: field_security, lock_field_enabled, rotate, type
 
 ### Add RadioBox Field Version 2 — `POST /v1/packages/{packageId}/documents/{documentId}/fields/radioboxV2`
-- request_fields only in doc: align_option, checkbox_frame, checked, font, group_name, multiple_checked, place_holder, read_only, remark, required, text_next_to, tool_tip_text, uncheckbox_frame
-- request_fields only in spec: annotation_position, renamed_as, rotate, type_name
+- request_fields only in doc: multiple_checked, place_holder, read_only
+- request_fields only in spec: field_security, lock_field_enabled, renamed_as, rotate, type
 
 ### Update RadioBox Field Version 2 — `PUT /v1/packages/{packageId}/documents/{documentId}/fields/radioboxV2`
-- request_fields only in doc: align_option, checkbox_frame, checked, font, group_name, multiple_checked, place_holder, read_only, remark, required, text_next_to, tool_tip_text, uncheckbox_frame
-- request_fields only in spec: annotation_position, rotate, type_name
+- request_fields only in doc: multiple_checked, place_holder, read_only
+- request_fields only in spec: field_security, lock_field_enabled, rotate, type
 
 ### Add VNeID Field — `POST /v1/packages/{packageId}/documents/{documentId}/fields/vneid`
-- request_fields only in doc: align_option, color, font, format_type, loaded_from_vneid, max_length, multiline, place_holder, read_only, remark, required, tool_tip_text, type, value
-- request_fields only in spec: annotation_position, renamed_as, rotate, type_name
+- request_fields only in spec: date, field_security, lock_field_enabled, renamed_as, rotate
 
 ### Update VNeID Field — `PUT /v1/packages/{packageId}/documents/{documentId}/fields/vneid`
-- request_fields only in doc: align_option, color, font, format_type, loaded_from_vneid, max_length, multiline, place_holder, read_only, remark, required, tool_tip_text, type, value
-- request_fields only in spec: annotation_position, rotate, type_name
+- request_fields only in spec: date, field_security, lock_field_enabled, rotate
 - response_fields only in doc: field_name
 
 ### Add Redact Field — `POST /v1/packages/{packageId}/documents/{documentId}/fields/redaction`
-- request_fields only in doc: read_only, redact_policy, remark, required
-- request_fields only in spec: annotation_position, renamed_as, rotate, type_name
+- request_fields only in doc: read_only
+- request_fields only in spec: field_security, lock_field_enabled, renamed_as, rotate, type
 
 ### Update Redact Field — `PUT /v1/packages/{packageId}/documents/{documentId}/fields/redaction`
-- request_fields only in doc: read_only, redact_policy, remark, required
-- request_fields only in spec: annotation_position, rotate, type_name
+- request_fields only in doc: read_only
+- request_fields only in spec: field_security, lock_field_enabled, rotate, type
 
 ### Add Elabor Field — `POST /v1/packages/{packageId}/documents/{documentId}/fields/elabor`
-- request_fields only in doc: alignment, color, font, max_length, multiline, read_only, remark, required, type
-- request_fields only in spec: annotation_position, renamed_as, rotate, type_name
+- request_fields only in doc: max_length, read_only
+- request_fields only in spec: field_security, lock_field_enabled, maxLength, readOnly, renamed_as, rotate
 
 ### Update Elabor Field — `PUT /v1/packages/{packageId}/documents/{documentId}/fields/elabor`
-- request_fields only in doc: alignment, color, font, max_length, multiline, read_only, remark, required, type
-- request_fields only in spec: annotation_position, rotate, type_name
+- request_fields only in doc: max_length, read_only
+- request_fields only in spec: field_security, lock_field_enabled, maxLength, readOnly, rotate
 - response_fields only in doc: field_name
 
 ### Sign Eseal — `POST /v1/packages/{packageId}/documents/{documentId}/sign_eseal`

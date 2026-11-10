@@ -1,9 +1,9 @@
-# Thử render V3 từ `openapi.yaml` mới nhất (2026-11-10)
+# Render V3 từ `openapi.yaml` (2026-11-10, lần 2)
 
-- Spec: `GoPaperless-Workflow-API` `dev` @ `3316e775a` (đã có PR #439: `x-doc-title`, `x-doc-sections`, `FieldDimension`).
+- Spec: nhánh `GoPaperless-Workflow-API` `claude/blissful-keller-9jp18x` (PR #440), dựa trên `dev` và thêm
+  `required` cho 172 schema cùng schema riêng cho từng loại field.
 - Seed: `formatted/GoPaperless Workflow RESTful API Specification V3 - 20260727.docx` (bản đã chốt).
 - Kết quả: `formatted/GoPaperless Workflow RESTful API Specification V3 - rendered from OpenAPI.docx`.
-- Ảnh so sánh trang bảng thuộc tính của Client Credentials Authentication (trái V3, phải bản render): `reports/render_openapi_vs_v3_20261110.png`.
 
 ```bash
 python scripts/openapi_to_contract.py <openapi.yaml> -o contract/from_openapi.json
@@ -13,17 +13,19 @@ python scripts/check_frame_format.py "formatted/...V3 - rendered from OpenAPI.do
 
 ## Renderer làm gì
 
-`scripts/render_from_openapi.py` chỉ sinh lại **các dòng dữ liệu của 5 loại bảng thuộc tính**
-(Header Request, Path, Request, Response, Header Response) cho những endpoint ghép được với spec.
-Mọi thứ khác lấy nguyên từ V3: bìa, History, Introduction, heading, khung Sample Request/Response,
-hai chương object và style bảng.
-
-- Field đã có trong V3 thì giữ dòng cũ, nên link Type tới object vẫn còn. Renderer ghi lại
-  name, presence và description; type chỉ ghi lại khi ô đó là chữ thường, không có link.
-- Field mới thì clone một dòng chữ thường của cùng bảng, hoặc của bảng cùng loại nếu bảng đó trống.
-- Ba dòng lỗi chung ở cuối bảng Response được giữ nguyên.
-- Section ghép theo regex mà tên không khớp thì không render (Get Workflow Reminders, section
-  Share Workflow trùng).
+- **Bảng thuộc tính** (Header Request, Path, Request, Response, Header Response): danh sách field, M/O và
+  type lấy từ spec.
+  - Field đã có trong V3 thì giữ dòng cũ: giữ **description của V3** (owner đã chọn) và giữ link Type tới object.
+  - Field mới thì lấy description từ spec.
+- **Khung Sample Request / Response 2xx**: tập key cấp 1 lấy theo spec.
+  - Key đã có trong V3 thì giữ giá trị V3.
+  - Key mới lấy `example` của property trong spec.
+  - Key spec không còn thì bỏ.
+  - Cả hai bản XML (DrawingML và VML) đều được ghi giống nhau.
+- **Giữ nguyên từ V3**: bìa, History, Introduction, heading, hai chương object, các khung lỗi, và những
+  section không ghép được với spec.
+- **Presence**: `M` nếu field nằm trong `required`; `RC` nếu field chỉ bắt buộc trong một nhánh `anyOf`
+  (ví dụ Add Signature: cần `page`+`dimension` hoặc `keyword_placement`); còn lại là `O`.
 
 ## Kiểm tra
 
@@ -31,47 +33,50 @@ hai chương object và style bảng.
 |---|---|---|
 | Định dạng (`check_frame_format.py`) | 518 lỗi có sẵn | 518, **không thêm lỗi nào** |
 | Heading | — | giống hệt |
-| 1598 khung sample | — | giống hệt (chưa render từ `example`) |
-| Bảng | 1033 | 1033 |
-| Hyperlink | 864 (14 hỏng có sẵn) | 705 (14 hỏng có sẵn, không thêm) |
-| Số trang PDF (LibreOffice) | 715 | 654 |
+| Hai bản XML của mỗi khung sample | — | 572/572 khớp nhau |
+| Khung sample được ghi lại | — | 118 khung (236 bản XML); 104 khung đã khớp sẵn |
 
-Có 159 hyperlink mất đi vì nằm trong các dòng mà spec không còn, hoặc trong ô description bị ghi lại.
+## So với V3
 
-## Nội dung thay đổi so với V3
+Có 54/265 endpoint giống hệt V3 về bảng. Lần render trước là 38 endpoint. Trong 3.778 dòng thuộc tính
+của V3, khoảng 88% vẫn còn.
 
-229/265 section ghép được, 227 section được render, 38 endpoint không đổi gì.
+| | Lần 1 (spec trên `dev`) | Lần 2 (spec PR #440) |
+|---|---|---|
+| Response: field lệch M/O | 259 | **105** |
+| Request: field lệch M/O | 182 | **152** |
+| Request: field V3 có mà spec không có | 502 | **154** |
+| Add TextBox Field: số field request | 9 (tất cả O) | 23 (`field_name`, `page`, `dimension` là M) |
+| Sample vs bảng mâu thuẫn (vd `refresh_token_expires_in`) | có | không: sample đã theo spec |
 
-| Bảng | Thêm | Bỏ | Đổi M/O | Đổi type | Đổi description |
-|---|---|---|---|---|---|
-| Header Request | 84 | 127 | 3 | 9 | 710 |
-| Path | 33 | 33 | 16 | 7 | 239 |
-| Request | 285 | 502 | 182 | 16 | 541 |
-| Response | 127 | 156 | 259 | 33 | 302 |
+### Phần lệch còn lại là chỗ V3 khác code, không phải lỗi render
 
-Ví dụ cho thấy rõ spec còn thiếu gì:
+- **Header `Content-Type` trên route không có body** (104 chỗ): V3 luôn ghi, spec chỉ khai báo khi có body.
+- **Field V3 ghi M nhưng code không bắt buộc** (khoảng 84 dòng request, 90 dòng response).
+  - Ví dụ: `refresh_token` chỉ có khi `remember_me_enabled`; `value` của các field type ("RC (Required attribute
+    for processing.)") không bị validate.
+  - Field response giữ M chỉ khi serializer luôn ghi key đó.
+- **Field V3 có mà code không có**, hoặc đã đổi tên:
+  - `read_only`/`place_holder` trên một số loại field: class Java không có các key này.
+  - `refresh_token_expires_in` đổi thành `refresh_expires_in`.
+  - Tham số path `pageNo`/`recordsPerPage` bị V3 liệt kê vào bảng Request.
+- **Field code có mà V3 thiếu**: `field_security`, `lock_field_enabled`, `rotate`, `type`, `renamed_as` trên
+  các field type; header `x-total-records`, `x-enterprise-mode`, `x-sort-by`, `x-asc`.
+- **36 section chỉ có trong V3** (ví dụ `POST /v1/authenticate/otp`, Get Workflow Reminders): không có route
+  trong code, nên renderer để nguyên.
 
-- **Client Credentials Authentication**
-  - Request: từ 4 field thành 8. Spec chỉ có một schema dùng chung cho mọi `grant_type`, nên
-    section này kéo thêm cả `username`, `password`, `refresh_token`, `scope`.
-    → Cần thêm schema riêng cho từng section trong `x-doc-sections`.
-  - Response: `refresh_token_expires_in` đổi thành `refresh_expires_in`. Bản render đúng theo code,
-    nhưng **khung Sample Response vẫn ghi tên cũ**, nên bảng và sample đang mâu thuẫn nhau.
-    → Cần render khung sample từ `example`.
-  - Response: `refresh_token` đổi từ M sang O. Spec ghi field này chỉ có khi refresh token được cấp (`remember_me_enabled`).
-- **Add TextBox Field**
-  - Request: V3 có 18 field, bản render còn 9 và tất cả đều là O. Spec mới chỉ có các key chung
-    (`FieldAttributeRequest`), chưa có key riêng của từng loại field, và cũng chưa khai báo `required`.
-- **Description**: 2.000+ chỗ đổi câu chữ, từ văn của tài liệu (theo SigningHub) sang văn của spec.
-  Spec viết đúng theo code nhưng ngắn hơn. Header `Authorization` hiện chỉ ghi "Bearer access token.".
+## Cần owner quyết định
 
-## Kết luận
+1. Header `Content-Type` trên route không có body: theo V3 (luôn ghi) hay theo spec (chỉ ghi khi có body)?
+2. 36 section chỉ có trong V3: xóa, hay làm route trong code?
+3. 102 operation chỉ có trong spec: có thêm section vào V3 không? Renderer hiện chưa tạo section mới.
+4. 14 schema mà request và response bắt buộc khác nhau (`CustomFieldResponse`, `DocumentPackage`,
+   `Document`, `FieldDimension`, `AddCategoryRequest`...): tách thành schema request riêng và schema response
+   riêng?
+5. Lỗi code agent phát hiện, chưa sửa:
+   - `ResponseMessageService` ghi giá trị null thành `"key":` với phần giá trị bỏ trống, tức JSON không hợp lệ
+     (ảnh hưởng `AddIdentityResponse`).
+   - `TermsOfServiceItem` luôn trả 4 key null.
+   - Get Fields không bao giờ tới được, vì regex của Get Field Types bắt trước.
 
-Định dạng thì dùng được ngay: renderer không làm vỡ gì. Về nội dung, bản render **chưa thay được V3**:
-
-1. Nhiều field từ M thành O vì spec thiếu `required`, ở cả response lẫn request.
-2. Nhóm Add/Update Field mất key riêng của từng loại field.
-3. Khung sample chưa render từ spec, nên sample và bảng có thể mâu thuẫn nhau.
-4. Văn mô tả đổi giọng hoàn toàn. Owner cần chọn: giữ văn của V3 khi field không đổi, hay theo spec.
-
-Khi spec bổ sung đủ mục 1–2 và renderer làm thêm mục 3, chạy lại `render_from_openapi.py` sẽ ra bản thay được V3.
+Khi các mục 1–4 được chốt, chạy lại 3 lệnh ở trên là ra bản thay được V3.
