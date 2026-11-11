@@ -89,11 +89,12 @@ def fallback_rows(body):
     return found
 
 
-def rebuild_table(tbl, kind, fields, stats, fallback, fresh=False):
+def rebuild_table(tbl, kind, fields, stats, fallback, fresh=False, linker=None):
     """Rebuild a table's data rows from `fields`.
 
     `fresh` is for a section cloned from another endpoint: its rows only lend
     their formatting, so no row keeps the template's name, type or wording.
+    `linker` links a Type cell naming a component schema to its object section.
     """
     trs = tbl.findall(qn("tr"))
     data = trs[2:]
@@ -139,6 +140,8 @@ def rebuild_table(tbl, kind, fields, stats, fallback, fresh=False):
             if not has_link(cells[2]) and cell_text(cells[2]) != f["type"]:
                 set_cell_text(cells[2], f["type"])
                 stats["types rewritten"] += 1
+        if linker is not None and f.get("ref") and not has_link(cells[2]):
+            linker.link(cells[2], f, stats)
         set_cell_text(cells[1], f["name"])
         set_cell_text(cells[3], f["presence"])
         # The owner keeps the seed's wording for a field it already documents;
@@ -452,7 +455,7 @@ def body_kind(record):
     return bool(record["request_fields"]) or has_content_type(record)
 
 
-def build_section(template_els, record, ids, fallback, stats):
+def build_section(template_els, record, ids, fallback, stats, linker=None):
     """Clone a rendered section and fill it from `record`."""
     # Body-level bookmarks name the template's heading; a clone must not carry them.
     els = [copy.deepcopy(e) for e in template_els
@@ -535,7 +538,7 @@ def build_section(template_els, record, ids, fallback, stats):
             if not record[kind]:
                 drop.append(e)
                 continue
-            rebuild_table(e, kind, record[kind], stats, fallback, fresh=True)
+            rebuild_table(e, kind, record[kind], stats, fallback, fresh=True, linker=linker)
             # Some seed tables carry cell widths off their grid (TECHNICAL_DEBT);
             # a new section must not copy the defect, so every unmerged row
             # takes the grid widths.
@@ -579,7 +582,195 @@ def pick_template(sections, record):
     return None
 
 
-def add_new_sections(body, spec, by_section, fallback, stats, ids):
+class ObjectLinker:
+    """Links composite Type cells to object sections in the RELATIVE OBJECT chapter.
+
+    A Type cell that names a component schema becomes a `w:hyperlink` whose
+    anchor is a bookmark on the object's Heading 2 (the document's convention).
+    When the seed already links the same label to exactly one existing object,
+    that anchor is reused; otherwise an object section is created from the
+    spec at the end of the chapter, cloned from an existing object section.
+    """
+
+    CHAPTER = "RELATIVE OBJECT"
+
+    def __init__(self, root, body, objects):
+        self.body = body
+        self.objects = objects
+        self.created = collections.OrderedDict()   # schema name -> anchor
+        self.queue = []
+        self.marks = {b.get(qn("name")) for b in root.iter(qn("bookmarkStart"))}
+        ids = [int(b.get(qn("id"))) for b in root.iter(qn("bookmarkStart"))
+               if (b.get(qn("id")) or "").isdigit()]
+        self.next_id = max(ids or [0]) + 1
+        # Labels the seed already links, by the name inside List<...>.
+        seen = collections.defaultdict(set)
+        for tr in root.iter(qn("tr")):
+            cells = tr.findall(qn("tc"))
+            if len(cells) != 5:
+                continue
+            link = cells[2].find(".//" + qn("hyperlink"))
+            if link is not None and link.get(qn("anchor")) in self.marks:
+                seen[self.inner(cell_text(cells[2]))].add(link.get(qn("anchor")))
+        self.seed_anchor = {label: next(iter(a)) for label, a in seen.items() if len(a) == 1}
+
+    @staticmethod
+    def inner(label):
+        m = re.match(r"\s*List<(.*)>\s*$", label)
+        return (m.group(1) if m else label).strip()
+
+    def anchor_for(self, ref, label, stats):
+        inner = self.inner(label)
+        if inner in self.seed_anchor:
+            stats["type links to existing objects"] += 1
+            return self.seed_anchor[inner]
+        if ref not in self.objects:
+            return None
+        if ref not in self.created:
+            anchor = "_OBJ_%s" % re.sub(r"[^A-Za-z0-9_]", "_", ref)
+            while anchor in self.marks:
+                anchor += "_"
+            self.marks.add(anchor)
+            self.created[ref] = anchor
+            self.queue.append(ref)
+        stats["type links to new objects"] += 1
+        return self.created[ref]
+
+    def link(self, tc, field, stats):
+        """Turn a plain Type cell into `List<` + hyperlink + `>` (or a bare hyperlink)."""
+        label = field["type"]
+        anchor = self.anchor_for(field["ref"], label, stats)
+        if anchor is None:
+            return
+        set_cell_text(tc, label)
+        p = tc.find(qn("p"))
+        run = p.find(qn("r"))
+        is_list = label.strip().startswith("List<")
+
+        def piece(text):
+            r = copy.deepcopy(run)
+            r.find(qn("t")).text = text
+            return r
+
+        link = etree.Element(qn("hyperlink"))
+        link.set(qn("anchor"), anchor)
+        link.set(qn("history"), "1")
+        linked = piece(self.inner(label))
+        rpr = linked.find(qn("rPr"))
+        if rpr is None:
+            rpr = etree.Element(qn("rPr"))
+            linked.insert(0, rpr)
+        # The seed's Type links use the Hyperlink character style in black.
+        style = etree.Element(qn("rStyle"))
+        style.set(qn("val"), "Hyperlink")
+        rpr.insert(0, style)
+        color = rpr.find(qn("color"))
+        if color is None:
+            color = etree.Element(qn("color"))
+            anchor_el = rpr.find(qn("rFonts"))
+            if anchor_el is not None:
+                anchor_el.addnext(color)
+            else:
+                style.addnext(color)
+        color.set(qn("val"), "000000")
+        link.append(linked)
+        p.remove(run)
+        if is_list:
+            p.append(piece("List<"))
+        p.append(link)
+        if is_list:
+            p.append(piece(">"))
+
+    def template(self):
+        """(heading, table, spacer) of an existing object section with a plain data row."""
+        els = list(self.body)
+        inside = False
+        for i, el in enumerate(els):
+            if etree.QName(el).localname != "p":
+                continue
+            st = style_of(el)
+            if st == "Heading1":
+                inside = para_text(el).strip().upper() == self.CHAPTER
+            elif inside and st == "Heading2" and i + 1 < len(els) and els[i + 1].tag == qn("tbl"):
+                rows = els[i + 1].findall(qn("tr"))
+                if len(rows) > 2 and any(plain_row(r) is not None for r in rows[2:]):
+                    spacer = els[i + 2] if i + 2 < len(els) and els[i + 2].tag == qn("p") else None
+                    if spacer is not None and (style_of(spacer) or para_text(spacer).strip()):
+                        spacer = None
+                    return el, els[i + 1], spacer
+        return None
+
+    def chapter_end(self):
+        els = list(self.body)
+        inside = False
+        for i, el in enumerate(els):
+            if etree.QName(el).localname == "p" and style_of(el) == "Heading1":
+                if inside:
+                    return i
+                inside = para_text(el).strip().upper() == self.CHAPTER
+        return None
+
+    @staticmethod
+    def strip_ids(el):
+        for node in [el] + list(el.iter(qn("p"), qn("tr"))):
+            for attr in ("paraId", "textId"):
+                node.attrib.pop("{%s}%s" % (W14, attr), None)
+
+    def flush(self, stats, fallback):
+        """Create the queued object sections; their own fields may queue more."""
+        found = self.template()
+        at = self.chapter_end()
+        if found is None or at is None:
+            stats["object sections skipped (no template or chapter)"] += len(self.queue)
+            return
+        t_heading, t_table, t_spacer = found
+        while self.queue:
+            ref = self.queue.pop(0)
+            obj = self.objects[ref]
+            heading = copy.deepcopy(t_heading)
+            for b in list(heading.iter(qn("bookmarkStart"))) + list(heading.iter(qn("bookmarkEnd"))):
+                b.getparent().remove(b)
+            self.strip_ids(heading)
+            set_par_text(heading, obj["label"])
+            start = etree.Element(qn("bookmarkStart"))
+            start.set(qn("id"), str(self.next_id))
+            start.set(qn("name"), self.created[ref])
+            end = etree.Element(qn("bookmarkEnd"))
+            end.set(qn("id"), str(self.next_id))
+            self.next_id += 1
+            ppr = heading.find(qn("pPr"))
+            if ppr is not None:
+                ppr.addnext(start)
+            else:
+                heading.insert(0, start)
+            heading.append(end)
+
+            table = copy.deepcopy(t_table)
+            self.strip_ids(table)
+            set_cell_text(table.find(qn("tr")).find(qn("tc")), obj["label"])
+            rebuild_table(table, "object", obj["fields"], stats, fallback, fresh=True, linker=self)
+            grid = [gc.get(qn("w")) for gc in table.findall(qn("tblGrid") + "/" + qn("gridCol"))]
+            for tr in table.findall(qn("tr")):
+                cells = tr.findall(qn("tc"))
+                if len(cells) != len(grid):
+                    continue
+                for tc, width in zip(cells, grid):
+                    tcw = tc.find(qn("tcPr") + "/" + qn("tcW"))
+                    if tcw is not None and width:
+                        tcw.set(qn("w"), width)
+                        tcw.set(qn("type"), "dxa")
+            new = [heading, table]
+            if t_spacer is not None:
+                spacer = copy.deepcopy(t_spacer)
+                self.strip_ids(spacer)
+                new.append(spacer)
+            for el in new:
+                self.body.insert(at, el)
+                at += 1
+            stats["object sections added"] += 1
+
+
+def add_new_sections(body, spec, by_section, fallback, stats, ids, linker=None):
     """Append a section for every spec record the seed does not document.
 
     Each new section clones the closest rendered section (same method and
@@ -611,7 +802,7 @@ def add_new_sections(body, spec, by_section, fallback, stats, ids):
         if template is None or at is None:
             stats["new sections skipped (no template or category)"] += 1
             continue
-        for offset, el in enumerate(build_section(template["els"], record, ids, fallback, stats)):
+        for offset, el in enumerate(build_section(template["els"], record, ids, fallback, stats, linker)):
             body.insert(at + offset, el)
         stats["sections added"] += 1
 
@@ -628,7 +819,8 @@ def request_field_update(settings_xml):
 
 def render(seed, contract_path, out):
     with open(contract_path, encoding="utf-8") as f:
-        spec = json.load(f)["endpoints"]
+        contract = json.load(f)
+    spec = contract["endpoints"]
     doc = extract(seed)
     pairs, _, _ = pair(spec, doc)
     # A pair whose titles differ came from the broad x-route fallback (e.g. a
@@ -646,6 +838,7 @@ def render(seed, contract_path, out):
         root = etree.fromstring(z.read("word/document.xml"), etree.XMLParser(huge_tree=True))
     body = root.find(qn("body"))
     fallback = fallback_rows(body)
+    linker = ObjectLinker(root, body, contract.get("objects") or {})
 
     stats = collections.Counter({k: 0 for k in ("sections paired", "sections rendered", "tables rebuilt", "rows kept",
                             "rows added", "rows removed", "types rewritten", "descriptions kept from seed",
@@ -689,10 +882,11 @@ def render(seed, contract_path, out):
             kind = TABLE_KINDS.get(title)
             if kind and kind not in seen:
                 seen.add(kind)
-                if rebuild_table(el, kind, current[kind], stats, fallback):
+                if rebuild_table(el, kind, current[kind], stats, fallback, linker=linker):
                     stats["tables rebuilt"] += 1
 
-    add_new_sections(body, spec, by_section, fallback, stats, IdAllocator(root))
+    add_new_sections(body, spec, by_section, fallback, stats, IdAllocator(root), linker)
+    linker.flush(stats, fallback)
 
     xml = etree.tostring(root, xml_declaration=True, encoding="UTF-8", standalone=True)
     with zipfile.ZipFile(seed) as zin, zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED) as zout:

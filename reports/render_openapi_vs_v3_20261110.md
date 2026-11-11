@@ -24,6 +24,20 @@ Khi mở file trong Word, chọn **Yes** ở hộp thoại hỏi cập nhật fi
 | 4 | Tách schema request/response | 7 schema request riêng trong spec (`CreateCustomFieldRequest`, `PackageNameRequest`, `DocumentPackageCreated`, `RenameDocumentRequest`, `DeclineWorkflowRequest`, `CreateCategoryRequest`, `CreateContactRequest`). 7 schema còn lại không bắt buộc field nào ở cả hai chiều nên vẫn dùng chung. |
 | 5 | Lỗi code thành issue | tatkhanhgia/GoPaperless-Workflow-API#444 (Get Fields không tới được), tatkhanhgia/GoPaperless-Workflow-API#445 (JSON không hợp lệ). `TermsOfServiceItem` không phải lỗi: 4 key null là cố ý, để tương thích với SigningHub. |
 
+## Bổ sung 2026-11-11: object và body lỗi
+
+- **Chương RELATIVE OBJECT có thêm 86 mục object** cho các kiểu dữ liệu mà bảng mới dùng tới (ví dụ
+  `ElectronicSealResponse`, `FieldSecurity`, `ProfileServicePlan`).
+  - Mỗi mục gồm Heading 2 và bảng thuộc tính, clone từ một mục object có sẵn và đặt ở cuối chương.
+  - Object lồng nhau cũng được tạo mục riêng.
+  - Cột Type của dòng mới trỏ tới mục đó bằng hyperlink + bookmark, đúng quy ước của tài liệu
+    (`List<` + link + `>`, style Hyperlink màu đen). Có 180 link mới, không link nào hỏng hay rỗng.
+  - Nếu V3 đã link cùng nhãn tới đúng một object thì dùng lại anchor đó.
+- **Body lỗi:** báo cáo trước ghi nhầm rằng code trả `error`/`remark`. Thực tế code có 3 định dạng
+  (`FormatSelector`), và cấu hình phát hành dùng `NEW` = `error_code`, `error_description`, `message`, đúng như
+  V3. Spec đã sửa: `ErrorResponse` mô tả NEW, thêm `LegacyErrorResponse` và `HybridErrorResponse`. Ba dòng lỗi
+  trong bảng Response của tài liệu giữ nguyên.
+
 ## Kiểm tra
 
 | Trục | V3 | Bản render |
@@ -43,5 +57,5 @@ Bảng của section mới lấy độ rộng cột theo lưới của bảng, n
   mô tả của section đó.
 - **12 bảng thiếu trong section mới**: section mẫu không có bảng loại đó, chủ yếu là bảng Header Response cho
   `x-total-records`. Muốn có thì cần một section mẫu chứa bảng ấy.
-- **Nội dung V3 khác code**: field V3 ghi M nhưng code không bắt buộc, field đã đổi tên, tên field trong body lỗi.
+- **Nội dung V3 khác code**: field V3 ghi M nhưng code không bắt buộc, field đã đổi tên.
   Renderer theo code; báo cáo chi tiết từng endpoint ở `reports/openapi_vs_v3_20261110.md`.

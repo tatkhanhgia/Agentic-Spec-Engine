@@ -83,6 +83,17 @@ class Spec:
         # rendered as "Long" here.
         return PRIMITIVE_NAMES.get(t, t or "Object")
 
+    @staticmethod
+    def ref_name(schema):
+        """Component schema a property points at (directly or as array items), or None."""
+        if not isinstance(schema, dict):
+            return None
+        target = schema.get("items") if "items" in schema else schema
+        ref = (target or {}).get("$ref", "")
+        if ref.startswith("#/components/schemas/"):
+            return ref.rsplit("/", 1)[-1]
+        return None
+
     def collect(self, schema, props, required, conditional, seen=None):
         """Merge properties and required names of a schema and its allOf chain.
 
@@ -124,8 +135,14 @@ class Spec:
                 "presence": ("M" if name in required
                              else "RC" if name in conditional
                              else "O"),
-                "description": " ".join(str(resolved.get("description", "")).split()),
+                # A description beside a $ref describes this field; the target's
+                # own description describes the object.
+                "description": " ".join(str(prop.get("description")
+                                            or resolved.get("description", "")).split()),
             }
+            ref = self.ref_name(prop)
+            if ref:
+                row["ref"] = ref
             example = prop.get("example", resolved.get("example"))
             if example is not None:
                 row["example"] = example
@@ -266,11 +283,19 @@ def convert(data):
                 "media_types": list((body.get("content") or {}).keys()),
             }
             endpoints.extend(expand_sections(spec, base, op.get("x-doc-sections")))
+    # Object definitions for the RELATIVE OBJECT chapter: every component
+    # schema with properties, under the label its Type cells show.
+    objects = {}
+    for name, schema in ((data.get("components") or {}).get("schemas") or {}).items():
+        rows, _ = spec.fields({"$ref": "#/components/schemas/%s" % name})
+        if rows:
+            objects[name] = {"label": schema.get("x-doc-type") or name, "fields": rows}
     return {
         "source": "openapi",
         "version": (data.get("info") or {}).get("version", ""),
         "count": len(endpoints),
         "endpoints": endpoints,
+        "objects": objects,
     }
 
 
