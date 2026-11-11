@@ -205,15 +205,25 @@ def convert(data):
                     "presence": "M",
                     "description": "Bearer access token.",
                 })
+            body = spec.resolve(op.get("requestBody") or {})
             for param in shared_params + op.get("parameters", []):
                 row, where = param_row(spec, param)
-                if where == "header":
+                # OpenAPI ignores a header parameter named Content-Type; the
+                # request body's media types are its source of truth.
+                if where == "header" and row["name"].lower() != "content-type":
                     headers.append(row)
                 elif where == "path":
                     path_params.append(row)
+            if body.get("content"):
+                media = list(body["content"])
+                headers.append({
+                    "name": "Content-Type",
+                    "type": "String",
+                    "presence": "M" if body.get("required") else "O",
+                    "description": "The MIME type of the request body: %s." % " or ".join(media),
+                })
 
             request_fields, request_type = [], ""
-            body = spec.resolve(op.get("requestBody") or {})
             if body:
                 request_fields, request_type = spec.fields(json_content(body).get("schema"))
 
@@ -252,6 +262,8 @@ def convert(data):
                 "response_example": json_content(resp).get("example"),
                 "error_codes": op.get("x-error-codes") or [],
                 "needs_review": op.get("x-needs-review") or [],
+                "status": op.get("x-doc-status", ""),
+                "media_types": list((body.get("content") or {}).keys()),
             }
             endpoints.extend(expand_sections(spec, base, op.get("x-doc-sections")))
     return {

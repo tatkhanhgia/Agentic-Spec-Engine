@@ -1,8 +1,8 @@
-# Render V3 từ `openapi.yaml` (2026-11-10, lần 2)
+# Render V3 từ `openapi.yaml` (lần 3, 2026-11-11)
 
-- Spec: nhánh `GoPaperless-Workflow-API` `claude/blissful-keller-9jp18x` (PR #440), dựa trên `dev` và thêm
-  `required` cho 172 schema cùng schema riêng cho từng loại field.
-- Seed: `formatted/GoPaperless Workflow RESTful API Specification V3 - 20260727.docx` (bản đã chốt).
+- Spec: nhánh `GoPaperless-Workflow-API` `claude/blissful-keller-9jp18x`, dựa trên `dev` (đã có #439, #440) và
+  thêm phần tách schema request, `x-doc-title` cho route đổi đường dẫn, `x-doc-status`.
+- Seed: `formatted/GoPaperless Workflow RESTful API Specification V3 - 20260727.docx`.
 - Kết quả: `formatted/GoPaperless Workflow RESTful API Specification V3 - rendered from OpenAPI.docx`.
 
 ```bash
@@ -11,72 +11,37 @@ python scripts/render_from_openapi.py "formatted/...V3 - 20260727.docx" contract
 python scripts/check_frame_format.py "formatted/...V3 - rendered from OpenAPI.docx"
 ```
 
-## Renderer làm gì
+Khi mở file trong Word, chọn **Yes** ở hộp thoại hỏi cập nhật field để mục lục có thêm các section mới
+(renderer đã bật `updateFields`).
 
-- **Bảng thuộc tính** (Header Request, Path, Request, Response, Header Response): danh sách field, M/O và
-  type lấy từ spec.
-  - Field đã có trong V3 thì giữ dòng cũ: giữ **description của V3** (owner đã chọn) và giữ link Type tới object.
-  - Field mới thì lấy description từ spec.
-- **Khung Sample Request / Response 2xx**: tập key cấp 1 lấy theo spec.
-  - Key đã có trong V3 thì giữ giá trị V3.
-  - Key mới lấy `example` của property trong spec.
-  - Key spec không còn thì bỏ.
-  - Cả hai bản XML (DrawingML và VML) đều được ghi giống nhau.
-- **Giữ nguyên từ V3**: bìa, History, Introduction, heading, hai chương object, các khung lỗi, và những
-  section không ghép được với spec.
-- **Presence**: `M` nếu field nằm trong `required`; `RC` nếu field chỉ bắt buộc trong một nhánh `anyOf`
-  (ví dụ Add Signature: cần `page`+`dimension` hoặc `keyword_placement`); còn lại là `O`.
+## Quyết định của owner đã áp dụng
+
+| # | Quyết định | Cách làm |
+|---|---|---|
+| 1 | Bỏ `Content-Type` ở GET/DELETE | Adapter sinh dòng `Content-Type` từ `requestBody` (OpenAPI bỏ qua header param tên `Content-Type`). API không có body thì không có dòng này trong bảng và trong khung Sample Request. API có body ghi đúng định dạng (`application/json` hoặc `application/octet-stream`). |
+| 2 | Section V3 chưa có trong code được ghi chú trên tên API | 36 tiêu đề có thêm ` (Not implemented yet)`: 32 section không có route nào, Get Package Verification, Get Workflow Reminders, và 2 route TSE mà code đã tắt (`x-doc-status: not-implemented`). Ba route chỉ đổi đường dẫn (Certificate Profile of Connector, Update Enterprise Electronic Seals, Update Address Book) vẫn giữ section, URL trong sample được sửa theo code. |
+| 3 | Tạo section cho API mới | **88 section mới**, mỗi section đặt ở cuối nhóm (Heading 2) của nó. Mỗi section clone một section đã render có cùng method và cùng dạng có body / không body, ưu tiên cùng nhóm. Nội dung sinh từ spec: tiêu đề, mô tả, URL, header, khung sample (lấy từ `example`) và 5 loại bảng. Khung lỗi của section mẫu bị bỏ, id được đánh lại cho khỏi trùng. Nhiều route cùng tên thì gộp thành một section và ghi các đường dẫn còn lại trong mô tả. |
+| 4 | Tách schema request/response | 7 schema request riêng trong spec (`CreateCustomFieldRequest`, `PackageNameRequest`, `DocumentPackageCreated`, `RenameDocumentRequest`, `DeclineWorkflowRequest`, `CreateCategoryRequest`, `CreateContactRequest`). 7 schema còn lại không bắt buộc field nào ở cả hai chiều nên vẫn dùng chung. |
+| 5 | Lỗi code thành issue | tatkhanhgia/GoPaperless-Workflow-API#444 (Get Fields không tới được), tatkhanhgia/GoPaperless-Workflow-API#445 (JSON không hợp lệ). `TermsOfServiceItem` không phải lỗi: 4 key null là cố ý, để tương thích với SigningHub. |
 
 ## Kiểm tra
 
 | Trục | V3 | Bản render |
 |---|---|---|
 | Định dạng (`check_frame_format.py`) | 518 lỗi có sẵn | 518, **không thêm lỗi nào** |
-| Heading | — | giống hệt |
-| Hai bản XML của mỗi khung sample | — | 572/572 khớp nhau |
-| Khung sample được ghi lại | — | 118 khung (236 bản XML); 104 khung đã khớp sẵn |
+| Số endpoint trong tài liệu | 265 | 353 (265 + 88) |
+| `wp:docPr` / VML `spid` trùng | 0 | 0 |
+| Bookmark trùng / link hỏng | 19 / 14 (có sẵn) | 19 / 14 (không thêm) |
+| Ghép với spec | 229 | 320 |
 
-## So với V3
+Bảng của section mới lấy độ rộng cột theo lưới của bảng, nên không chép lại lỗi độ rộng mà một số bảng V3
+đang có (mục H).
 
-Có 54/265 endpoint giống hệt V3 về bảng. Lần render trước là 38 endpoint. Trong 3.778 dòng thuộc tính
-của V3, khoảng 88% vẫn còn.
+## Còn lại
 
-| | Lần 1 (spec trên `dev`) | Lần 2 (spec PR #440) |
-|---|---|---|
-| Response: field lệch M/O | 259 | **105** |
-| Request: field lệch M/O | 182 | **152** |
-| Request: field V3 có mà spec không có | 502 | **154** |
-| Add TextBox Field: số field request | 9 (tất cả O) | 23 (`field_name`, `page`, `dimension` là M) |
-| Sample vs bảng mâu thuẫn (vd `refresh_token_expires_in`) | có | không: sample đã theo spec |
-
-### Phần lệch còn lại là chỗ V3 khác code, không phải lỗi render
-
-- **Header `Content-Type` trên route không có body** (104 chỗ): V3 luôn ghi, spec chỉ khai báo khi có body.
-- **Field V3 ghi M nhưng code không bắt buộc** (khoảng 84 dòng request, 90 dòng response).
-  - Ví dụ: `refresh_token` chỉ có khi `remember_me_enabled`; `value` của các field type ("RC (Required attribute
-    for processing.)") không bị validate.
-  - Field response giữ M chỉ khi serializer luôn ghi key đó.
-- **Field V3 có mà code không có**, hoặc đã đổi tên:
-  - `read_only`/`place_holder` trên một số loại field: class Java không có các key này.
-  - `refresh_token_expires_in` đổi thành `refresh_expires_in`.
-  - Tham số path `pageNo`/`recordsPerPage` bị V3 liệt kê vào bảng Request.
-- **Field code có mà V3 thiếu**: `field_security`, `lock_field_enabled`, `rotate`, `type`, `renamed_as` trên
-  các field type; header `x-total-records`, `x-enterprise-mode`, `x-sort-by`, `x-asc`.
-- **36 section chỉ có trong V3** (ví dụ `POST /v1/authenticate/otp`, Get Workflow Reminders): không có route
-  trong code, nên renderer để nguyên.
-
-## Cần owner quyết định
-
-1. Header `Content-Type` trên route không có body: theo V3 (luôn ghi) hay theo spec (chỉ ghi khi có body)?
-2. 36 section chỉ có trong V3: xóa, hay làm route trong code?
-3. 102 operation chỉ có trong spec: có thêm section vào V3 không? Renderer hiện chưa tạo section mới.
-4. 14 schema mà request và response bắt buộc khác nhau (`CustomFieldResponse`, `DocumentPackage`,
-   `Document`, `FieldDimension`, `AddCategoryRequest`...): tách thành schema request riêng và schema response
-   riêng?
-5. Lỗi code agent phát hiện, chưa sửa:
-   - `ResponseMessageService` ghi giá trị null thành `"key":` với phần giá trị bỏ trống, tức JSON không hợp lệ
-     (ảnh hưởng `AddIdentityResponse`).
-   - `TermsOfServiceItem` luôn trả 4 key null.
-   - Get Fields không bao giờ tới được, vì regex của Get Field Types bắt trước.
-
-Khi các mục 1–4 được chốt, chạy lại 3 lệnh ở trên là ra bản thay được V3.
+- **13 route chỉ có trong spec**: các route trùng tên đã gộp vào một section, đường dẫn của chúng được ghi trong
+  mô tả của section đó.
+- **12 bảng thiếu trong section mới**: section mẫu không có bảng loại đó, chủ yếu là bảng Header Response cho
+  `x-total-records`. Muốn có thì cần một section mẫu chứa bảng ấy.
+- **Nội dung V3 khác code**: field V3 ghi M nhưng code không bắt buộc, field đã đổi tên, tên field trong body lỗi.
+  Renderer theo code; báo cáo chi tiết từng endpoint ở `reports/openapi_vs_v3_20261110.md`.

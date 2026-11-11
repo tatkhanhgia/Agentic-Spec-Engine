@@ -50,6 +50,11 @@ def pair(openapi, doc):
         match = next((o for o in candidates if o["name"] == d["name"]),
                      candidates[0] if candidates else None)
         if match is None:
+            # A route whose path or method changed keeps its section when the
+            # spec names it with the same x-doc-title in the same category.
+            match = next((o for o in openapi
+                          if o["name"] == d["name"] and o["category"] == d["category"]), None)
+        if match is None:
             concrete = re.sub(r"\{[^}]*\}", "1", doc_path(d))
             for o in openapi:
                 if o["method"] != d["method"] or not o.get("route"):
