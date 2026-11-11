@@ -149,7 +149,8 @@
         }
       ],
       "needs_review": "Not in DOCX V3 (DOCX only has GET /v1/enterprise/electronic-seals with the legacy basic_information/appearance/detail shape). Enterprise lookup can return (1.<stored-procedure status>); RBAC enforce mode adds (5.29)-(5.34).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get Enterprise Electronic Seal By Id",
@@ -320,7 +321,8 @@
         }
       ],
       "needs_review": "Not in DOCX V3. Enterprise lookup can return (1.<stored-procedure status>); RBAC enforce mode adds (5.29)-(5.34).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Update Enterprise Electronic Seals",
@@ -587,7 +589,10 @@
         }
       ],
       "needs_review": "Not in DOCX V3 (DOCX documents PUT /v1/enterprise/electronic-seals with an id in the body, which no longer exists in code). Enterprise and setting writes can return (1.<stored-procedure status>); RBAC enforce mode adds (5.29)-(5.34).\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Delete Enterprise Electronic Seal",
@@ -709,7 +714,8 @@
         }
       ],
       "needs_review": "Not in DOCX V3. reassign_to is parsed from the raw query string, not via getParameter. Setting writes can return (1.<stored-procedure status>); RBAC enforce mode adds (5.29)-(5.34).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get Enterprise Electronic Seals",
@@ -833,7 +839,8 @@
         }
       ],
       "needs_review": "DOCX \"Get Enterprise Electronic Seals\" returns one object with id (enterprise ID), basic_information, appearance and detail; code returns {\"seals\":[ElectronicSealResponse]}. Enterprise lookup can return (1.<stored-procedure status>); RBAC enforce mode adds (5.29)-(5.34).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Add Enterprise Electronic Seal",
@@ -1049,7 +1056,10 @@
         }
       ],
       "needs_review": "Not in DOCX V3. Setting writes can return (1.<stored-procedure status>); RBAC enforce mode adds (5.29)-(5.34).\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Verify Enterprise Electronic Seal PIN (draft)",
@@ -1328,7 +1338,10 @@
         }
       ],
       "needs_review": "Not in DOCX V3. Connector and credential lookups can return further connector (19.x) and RSSP (15.x) codes and (1.<stored-procedure status>) that were not traced one by one; they pass through unchanged and are never reported as 15.56. RBAC enforce mode adds (5.29)-(5.34). The rate limit counts in memory per node, so a cluster of N nodes allows up to N times the configured checks.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Verify Saved Enterprise Electronic Seal PIN",
@@ -1572,7 +1585,8 @@
         }
       ],
       "needs_review": "Not in DOCX V3. Connector and credential lookups can return further connector (19.x) and RSSP (15.x) codes and (1.<stored-procedure status>) that were not traced one by one; they pass through unchanged and are never reported as 15.56. RBAC enforce mode adds (5.29)-(5.34). The rate limit counts in memory per node.\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get Enterprise Custom Fields",
@@ -1707,7 +1721,8 @@
         }
       ],
       "needs_review": "Enterprise lookup can return (1.<stored-procedure status>); RBAC enforce mode adds (5.29)-(5.34).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Create Enterprise Custom Field",
@@ -2022,7 +2037,10 @@
         }
       ],
       "needs_review": "A malformed JSON body returns 500 (-1.266) instead of a 400. Maximum lengths come from the system policy (DOCX: type_name 50, description and place_holder 200). Settings writes can return (1.<stored-procedure status>); RBAC enforce mode adds (5.29)-(5.34).\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Update Enterprise Custom Field",
@@ -2327,7 +2345,10 @@
         }
       ],
       "needs_review": "DOCX says type_name follows the create constraints; code does not check its format or uniqueness on update. Not-found answers 400, not 404. Settings writes can return (1.<stored-procedure status>); RBAC enforce mode adds (5.29)-(5.34).\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Delete Enterprise Custom Field",
@@ -2435,7 +2456,8 @@
         }
       ],
       "needs_review": "Not-found answers 400, not 404. Settings writes can return (1.<stored-procedure status>); RBAC enforce mode adds (5.29)-(5.34).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get Enterprise TSA Configuration",
@@ -2575,7 +2597,8 @@
         }
       ],
       "needs_review": "authentication.password is the stored password re-encrypted with the server private key, which any holder of the public key can reverse; DOCX calls it RSA-encrypted. Enterprise lookup can return (1.<stored-procedure status>); RBAC enforce mode adds (5.29)-(5.34).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Add Enterprise TSA Setting",
@@ -2891,7 +2914,10 @@
         }
       ],
       "needs_review": "The insert returns (1.<stored-procedure status>) on failure. A failing tsa_users entry is only logged; the request still succeeds. RBAC enforce mode adds (5.29)-(5.34).\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Update Enterprise TSA Configuration",
@@ -3165,7 +3191,10 @@
         }
       ],
       "needs_review": "The response is written with Jackson WRAP_ROOT_VALUE enabled, so the body may be wrapped in a root key named after UpdateEnterpriseTSAConfigurationResponse; confirm on a live call. Module failures use CODE_EXCEPTION as sub_code (-1.-1). Setting writes can return (1.<stored-procedure status>); RBAC enforce mode adds (5.29)-(5.34).\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Test Connection Enterprise TSA Configuration",
@@ -3396,7 +3425,10 @@
         }
       ],
       "needs_review": "DOCX says error_subcode is 26 / 27; code emits the strings ENTERPRISE.TSA_ENDPOINT_NOT_ACCESSIBLE and ENTERPRISE.TSA_CREDENTIALS_INVALID. RBAC enforce mode adds (5.29)-(5.34).\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Get Enterprise Download Link Setting",
@@ -3525,7 +3557,8 @@
         }
       ],
       "needs_review": "Not in DOCX V3. Enterprise lookup can return (1.<stored-procedure status>); RBAC enforce mode adds (5.29)-(5.34).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Update Enterprise Download Link Setting",
@@ -3684,7 +3717,10 @@
         }
       ],
       "needs_review": "Not in DOCX V3. Not restricted to the owner in the service (RBAC decides). The setting write can return (1.<stored-procedure status>); RBAC enforce mode adds (5.29)-(5.34).\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Update Enterprise Profile",
@@ -3924,7 +3960,10 @@
         }
       ],
       "needs_review": "Not in DOCX V3. The enterprise update can return (1.<stored-procedure status>); RBAC enforce mode adds (5.29)-(5.34).\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Invite Enterprise User",
@@ -4157,7 +4196,10 @@
         }
       ],
       "needs_review": "DOCX says an unmatched enterprise_role falls back to the default role; code answers (2.28). DOCX describes a message field on success; code returns 204 without body. Sub-code 140 is shared with SUBCODE_ENTERPRISE_ROLE_CREATE_INVALID_REQUEST. User, role, service-plan and invitation stored procedures can return (1.<stored-procedure status>); RBAC enforce mode adds (5.29)-(5.34).\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Get Enterprise Invitations",
@@ -4301,7 +4343,8 @@
         }
       ],
       "needs_review": "Invitation lookups can return (1.<stored-procedure status>); RBAC enforce mode adds (5.29)-(5.34).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Resend Enterprise User Invitation",
@@ -4465,7 +4508,8 @@
         }
       ],
       "needs_review": "Invitation reads and updates can return (1.<stored-procedure status>); RBAC enforce mode adds (5.29)-(5.34).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Cancel Enterprise User Invitation",
@@ -4610,7 +4654,10 @@
         }
       ],
       "needs_review": "Unlike resend and delete, cancel is restricted to the enterprise owner in the service. Invitation reads and updates can return (1.<stored-procedure status>); RBAC enforce mode adds (5.29)-(5.34).\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Delete Enterprise User Invitation",
@@ -4718,7 +4765,8 @@
         }
       ],
       "needs_review": "Invitation reads and updates can return (1.<stored-procedure status>); RBAC enforce mode adds (5.29)-(5.34).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Export Enterprise Invitations",
@@ -4912,7 +4960,8 @@
         }
       ],
       "needs_review": "DOCX lists status values without DIRECT_ASSIGNED, which code accepts. Invitation export query can return (1.<stored-procedure status>); RBAC enforce mode adds (5.29)-(5.34).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Export Enterprise Invitations",
@@ -5093,7 +5142,8 @@
         }
       ],
       "needs_review": "Invitation export query can return (1.<stored-procedure status>); RBAC enforce mode adds (5.29)-(5.34).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Export Enterprise Invitations",
@@ -5269,7 +5319,8 @@
         }
       ],
       "needs_review": "Not in DOCX V3 as a separate route. The window comes from gopaperless.workflow.export.default.offset and .rowcount. Export query can return (1.<stored-procedure status>); RBAC enforce mode adds (5.29)-(5.34).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Export Enterprise Invitations",
@@ -5431,7 +5482,8 @@
         }
       ],
       "needs_review": "Not in DOCX V3 as a separate route. Export query can return (1.<stored-procedure status>); RBAC enforce mode adds (5.29)-(5.34).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Register Enterprise User",
@@ -5901,7 +5953,10 @@
         }
       ],
       "needs_review": "DOCX marks user_password, security_question, enterprise_role and email_notification as mandatory; code requires only user_email and a name, and email_notification defaults to true (DOCX says false). DOCX fields certificate_id, user_csp_id and user_ra_id are not read. IAM user creation errors (other than \"already exists\") are passed through unchanged, and user/role/onboarding procedures can return (1.<stored-procedure status>). RBAC enforce mode adds (5.29)-(5.34).\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Agent Invite Enterprise User",
@@ -6133,7 +6188,10 @@
         }
       ],
       "needs_review": "Connector loading, IAM user creation and application lookup errors are passed through unchanged and were not traced to constants. The new account gets a password derived from the email and the current date (see buildDefaultInviteEnterpriseUserPassword). Stored procedures can return (1.<stored-procedure status>); RBAC enforce mode adds (5.29)-(5.34).\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Get Enterprise Users",
@@ -6276,7 +6334,8 @@
         }
       ],
       "needs_review": "DOCX describes the body as {users: [...]}; code returns a bare array. DOCX lists company_name; code does not return it. Member lookup can return (1.<stored-procedure status>); RBAC enforce mode adds (5.29)-(5.34).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Export Enterprise Users",
@@ -6419,7 +6478,8 @@
         }
       ],
       "needs_review": "Not in DOCX V3 as a separate route. Export query can return (1.<stored-procedure status>); RBAC enforce mode adds (5.29)-(5.34).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Export Enterprise Users",
@@ -6581,7 +6641,8 @@
         }
       ],
       "needs_review": "DOCX says x-search-text is a generic search; code applies it as an email filter. Export query can return (1.<stored-procedure status>); RBAC enforce mode adds (5.29)-(5.34).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get Enterprise User Management Statistics",
@@ -6703,7 +6764,8 @@
         }
       ],
       "needs_review": "document_storage carries the consumed-workflows counter (TotalConsumedWorkflows), not a storage value. The statistics query can return (1.<stored-procedure status>); RBAC enforce mode adds (5.29)-(5.34).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get Enterprise User Quota",
@@ -6855,7 +6917,8 @@
         }
       ],
       "needs_review": "Member and quota lookups can return (1.<stored-procedure status>); RBAC enforce mode adds (5.29)-(5.34).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Update Enterprise User Role",
@@ -7007,7 +7070,10 @@
         }
       ],
       "needs_review": "Not in DOCX V3 (DOCX has PUT /v1/enterprise/users with a different body). Any field other than enterprise_role_id is ignored. USP_ENTERPRISE_USER_UPDATE_ROLE codes other than 101633/101635/109635 are returned as (1.<stored-procedure status>); RBAC enforce mode adds (5.29)-(5.34).\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Delete Enterprise User",
@@ -7122,7 +7188,8 @@
         }
       ],
       "needs_review": "DOCX names this Delete Enterprise User. The last administrator can be removed (guard commented out). Member lookup and removal can return (1.<stored-procedure status>); RBAC enforce mode adds (5.29)-(5.34).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get Permission Catalog",
@@ -7254,7 +7321,8 @@
         }
       ],
       "needs_review": "Not in DOCX V3. RBAC enforce mode adds (5.29)-(5.34). Feature remark and icon texts are a draft awaiting product review, and the icon codes have no agreed client mapping yet.\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Add Role",
@@ -7569,7 +7637,10 @@
         }
       ],
       "needs_review": "DOCX \"Add Role\" has no field table to compare. Sub-code 140 is shared with SUBCODE_ENTERPRISE_INVITATION_NO_SERVICE_PLAN. Role and permission procedures can return (1.<stored-procedure status>); RBAC enforce mode adds (5.29)-(5.34).\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Get Roles",
@@ -7700,7 +7771,8 @@
         }
       ],
       "needs_review": "DOCX (Get Roles) lists an x-search-text header and a {roles: [...]} body; code ignores x-search-text and returns a bare array of EnterpriseRole serialized in snake_case. Role lookup can return (1.<stored-procedure status>); RBAC enforce mode adds (5.29)-(5.34).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Delete Role",
@@ -7836,7 +7908,8 @@
         }
       ],
       "needs_review": "DOCX Delete Role takes an id without saying which ID space; code expects ENTERPRISE_ROLE.ID. Delete procedure codes not mapped by the use case are returned as (1.<stored-procedure status>); RBAC enforce mode adds (5.29)-(5.34).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get Role Permissions",
@@ -8052,7 +8125,8 @@
         }
       ],
       "needs_review": "Not in DOCX V3. The 501/503 refusals happen before authentication. Role and catalog reads can return (1.<stored-procedure status>); RBAC enforce mode adds (5.29)-(5.34).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Update Role Permissions",
@@ -8433,7 +8507,10 @@
         }
       ],
       "needs_review": "Not in DOCX V3. The use case (about 2000 lines) was traced through its refusal helpers, not line by line; partial write failures are reported in the failure object. Write procedures can return (1.<stored-procedure status>); RBAC enforce mode adds (5.29)-(5.34).\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Update Enterprise Role Basic",
@@ -8595,7 +8672,10 @@
         }
       ],
       "needs_review": "Not in DOCX V3. Update procedure codes other than role-not-found are returned as (1.<stored-procedure status>); RBAC enforce mode adds (5.29)-(5.34).\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Get Enterprise Workflows",
@@ -8807,7 +8887,8 @@
         }
       ],
       "needs_review": "The criteria is the first URL segment (any position) that names a WorkflowCriteria, so a context path segment such as \"workflow\" never matches but \"all\" would. The report query can return (1.<stored-procedure status>); RBAC enforce mode adds (5.29)-(5.34).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get Enterprise Report List",
@@ -8944,7 +9025,8 @@
         }
       ],
       "needs_review": "The report query can return (1.<stored-procedure status>); RBAC enforce mode adds (5.29)-(5.34).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get Enterprise Quota Statistics",
@@ -9159,7 +9241,8 @@
         }
       ],
       "needs_review": "Code also reads x-sort-by and x-asc without using them. enterprise_code is always null today. The quota query can return (1.<stored-procedure status>); RBAC enforce mode adds (5.29)-(5.34).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Export Enterprise Workflow Statistics",
@@ -9357,7 +9440,8 @@
         }
       ],
       "needs_review": "DOCX lists x-sort-by values NAME, CREATED_AT and STATUS; code passes any value through unchecked. The export query and file builder can return (1.<stored-procedure status>) or other untraced codes; RBAC enforce mode adds (5.29)-(5.34).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Export Enterprise Workflow Statistics",
@@ -9549,7 +9633,8 @@
         }
       ],
       "needs_review": "Not in DOCX V3 as a separate route. The export query can return (1.<stored-procedure status>); RBAC enforce mode adds (5.29)-(5.34).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Export Enterprise Workflow Statistics",
@@ -9729,7 +9814,8 @@
         }
       ],
       "needs_review": "Not in DOCX V3 as a separate route. The window comes from gopaperless.workflow.export.default.offset and .rowcount. The export query can return (1.<stored-procedure status>); RBAC enforce mode adds (5.29)-(5.34).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Export Enterprise Workflow Statistics",
@@ -9902,7 +9988,8 @@
         }
       ],
       "needs_review": "Not in DOCX V3 as a separate route. The export query can return (1.<stored-procedure status>); RBAC enforce mode adds (5.29)-(5.34).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get Signature Settings",
@@ -10017,7 +10104,8 @@
         }
       ],
       "needs_review": "The list query can return (1.<stored-procedure status>). The unexpected-failure branch reuses the \"cannot add\" exception code. DOCX marks Content-Type mandatory on this GET; the code does not read it.\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Add Signature Appearance",
@@ -10191,7 +10279,10 @@
         }
       ],
       "needs_review": "The insert can return (1.<stored-procedure status>). DOCX marks credential_configuration mandatory; code accepts it absent or null. The PIN in credential_configuration is stored as sent (masked only on read).\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Update Signature Appearance",
@@ -10375,7 +10466,10 @@
         }
       ],
       "needs_review": "The update can return (1.<stored-procedure status>). DOCX lists appearance_id in the body; code only reads it from the path. \"Not found\" reuses the missing-ID sub code (27.11) with 404.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Delete Signature Appearance",
@@ -10476,7 +10570,8 @@
         }
       ],
       "needs_review": "The delete can return (1.<stored-procedure status>). DOCX lists appearance_id in a body and Content-Type as mandatory; code reads only the path segment.\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get General Profile Information",
@@ -10712,7 +10807,8 @@
         }
       ],
       "needs_review": "User, enterprise, application and participant lookups can return (1.<stored-procedure status>) or the errors of their facades, which were not traced further. Field set differs by token type (anonymous, user, application); the enterprise block is written only for enterprise profiles. Gender and date formats come from the identity record.\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Update General Profile Information",
@@ -10985,7 +11081,10 @@
         }
       ],
       "needs_review": "USP_USER_UPDATE and the identity add/update can return (1.<stored-procedure status>). No field is validated as mandatory; DOCX marks user_name mandatory and lists country, time_zone and language, which the request DTO does not have. Which DTO fields reach USP_USER_UPDATE was not traced (mapping by field name into User).\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Get Templates",
@@ -11154,7 +11253,8 @@
         }
       ],
       "needs_review": "Served by TemplateService.getListTemplate; template-access verification (RBAC) errors were not traced and the list procedures can return (1.<stored-procedure status>). TemplateController registers a similar regex but web.xml maps only the exact /v1/settings/templates to it, so UserController serves this path. DOCX lists name/description request fields for a GET; code reads none.\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get List Template",
@@ -11317,7 +11417,8 @@
         }
       ],
       "needs_review": "Not in DOCX V3 (DOCX only has the typed route). Scope resolution (TemplateListScopeResolver) was not traced; errors as for the typed route, including (1.<stored-procedure status>).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Document Statistics",
@@ -11507,7 +11608,8 @@
         }
       ],
       "needs_review": "The statistic query can return (1.<stored-procedure status>). DOCX lists shared and archived counts; code returns all, expiring_soon, inprogress and expired instead (no shared/archived).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Account Usage Statistics",
@@ -11655,7 +11757,8 @@
       },
       "error_codes": [],
       "needs_review": "Even a missing or expired token returns 200 with zeros (auth errors are swallowed). DOCX lists storage, signature, workflow and user blocks; code writes more blocks and adds enterprise_quota/user only for enterprise contexts.\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Add Identity for a User",
@@ -11853,7 +11956,10 @@
         }
       ],
       "needs_review": "Connector loading and UserDataSharingModule (RSS call, quota) errors were not traced and can include (1.<stored-procedure status>). In strict validation mode the token citizen ID wins over the body. The flag is written to JSON as `async` (setter) although the field is annotated `is_async`; both names are accepted on input. DOCX documents only sync_user_from_connector and webhook_url.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Send Email OTP",
@@ -11963,7 +12069,10 @@
         }
       ],
       "needs_review": "Not in DOCX V3; category chosen by closeness. The OTP strategy currently stores the fixed code 123456 instead of a generated one. Success body is empty. Rate limit 3 requests per minute per email; a second request while an OTP is active is rejected.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Remove Account Request",
@@ -12094,7 +12203,10 @@
         }
       ],
       "needs_review": "Wrong password and other delete failures come from the delete procedure as (1.<stored-procedure status>). The missing-password error pairs code 1 with a USER sub code (1.3). Body keys are camelCase (DeleteUserDTO has no JSON names). A caller may name another account in userEmail; only the password check protects it.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Get Signing History",
@@ -12359,7 +12471,8 @@
         }
       ],
       "needs_review": "The list and the lazy-expire update can return (1.<stored-procedure status>). An optional JSON body on this GET is still parsed (citizen_id, credential_id, connector_name); headers override it. DOCX has no WAITING_* status in the path; the header accepts them.\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get Certificate Enroll History",
@@ -12601,7 +12714,8 @@
         }
       ],
       "needs_review": "The list procedure and credential lookups via RSSP/RSS connectors can return (1.<stored-procedure status>) or connector errors, not traced further. An optional JSON body on this GET is parsed (GetListCertificateEnrollRequest filters). The code comment says the default status is DONE; the code actually applies no status filter (ALL).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get Account Invitations",
@@ -12723,7 +12837,8 @@
         }
       ],
       "needs_review": "The invitation list can return (1.<stored-procedure status>). DOCX lists a user_email request field and an `invitations` wrapper; code reads no body and returns a bare array.\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get Account Invitation By ID",
@@ -12934,7 +13049,8 @@
         }
       ],
       "needs_review": "Lookup and lazy expiration can return (1.<stored-procedure status>). DOCX names the segment invitationId (numeric only); code also accepts the UUID token hash.\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Accept Account Invitation",
@@ -13114,7 +13230,10 @@
         }
       ],
       "needs_review": "Invitation lookup and lazy expiration can return (1.<stored-procedure status>). If the status update fails after membership was added, the user stays a member (no rollback). DOCX shows a JSON success body; code returns 204.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Reject Account Invitation",
@@ -13280,7 +13399,10 @@
         }
       ],
       "needs_review": "Invitation lookup and lazy expiration can return (1.<stored-procedure status>). DOCX shows a JSON success body; code returns 204.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Get Account Enterprises",
@@ -13374,7 +13496,8 @@
         }
       ],
       "needs_review": "A failed membership lookup is swallowed and returns an empty array. logo_url is always null (omitted by NON_NULL).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get Account Profiles",
@@ -13488,7 +13611,8 @@
         }
       ],
       "needs_review": "No profile is marked active when the session landed on it without the user choosing it. Service plan loading failures are swallowed (service_plan omitted). The code comment says only owners see service_plan, but the code loads it for every membership.\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get Dashboard Workflows",
@@ -13683,7 +13807,8 @@
         }
       ],
       "needs_review": "The procedure can return (1.<stored-procedure status>). When dashboard mock mode is enabled in configuration, fixed mock data is returned. DOCX also lists signed, approved and updated; code does not return them.\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get Dashboard Quota",
@@ -13900,7 +14025,8 @@
         }
       ],
       "needs_review": "The procedure can return (1.<stored-procedure status>); mock mode returns fixed data. DOCX does not list the validation block.\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get Dashboard Workflow Types",
@@ -14077,7 +14203,8 @@
         }
       ],
       "needs_review": "The procedure can return (1.<stored-procedure status>); mock mode returns fixed data. The route has no page segments, so the procedure always gets the default row count.\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get Dashboard Categories",
@@ -14256,7 +14383,8 @@
         }
       ],
       "needs_review": "The procedure can return (1.<stored-procedure status>); mock mode returns fixed data.",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get Dashboard Validations",
@@ -14443,7 +14571,8 @@
         }
       ],
       "needs_review": "The procedure can return (1.<stored-procedure status>); mock mode returns fixed data.",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get Dashboard Overdue Workflows",
@@ -14631,7 +14760,8 @@
         }
       ],
       "needs_review": "The procedure can return (1.<stored-procedure status>); mock mode returns fixed data. total_count and x-total-records equal the page size, not the grand total.\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get Dashboard Activities",
@@ -14824,7 +14954,8 @@
         }
       ],
       "needs_review": "The procedure can return (1.<stored-procedure status>); mock mode returns fixed data.",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get Dashboard Documents",
@@ -15035,7 +15166,8 @@
         }
       ],
       "needs_review": "Not in DOCX V3; category chosen to match the other dashboard routes. The procedure can return (1.<stored-procedure status>); mock mode returns fixed data. Which view modes hide the participant counts is decided by DashboardDocumentParticipantCountPolicy (not traced).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get Dashboard Recent Documents",
@@ -15222,7 +15354,8 @@
         }
       ],
       "needs_review": "Not in DOCX V3; category chosen to match the other dashboard routes. Response reuses the workflow-list serializer (GetListWorkflowSerializer); the schema here documents its main item fields only. The procedure can return (1.<stored-procedure status>). x-total-records is the page size, not a grand total.\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Initialize Billing",
@@ -15576,7 +15709,10 @@
         }
       ],
       "needs_review": "InitializeBillingUseCase is about 2,000 lines; the Trusted Billing sub codes above were collected from its error helpers, HTTP status per call site was not mapped one by one, and billing/plan procedures can return (1.<stored-procedure status>). An absent webhook_url gets a server default. DOCX marks service_plan_id and service_plan_billing_id mandatory; the controller does not check them itself.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Get User Activity Logs",
@@ -15738,7 +15874,8 @@
         }
       ],
       "needs_review": "The query can return (1.<stored-procedure status>). DOCX lists a `user_activities` wrapper and pageNo/recordsPerPage body fields; code returns items/total_count/page/records_per_page and reads filters from the query string. Whether the (5.29) branch is reachable here was not traced.\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get Billing Payment History",
@@ -15896,7 +16033,8 @@
         }
       ],
       "needs_review": "The list procedure can return (1.<stored-procedure status>). DOCX lists the filters as request fields; code reads them from the query string.\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get Billing Payment Details",
@@ -16067,7 +16205,8 @@
         }
       ],
       "needs_review": "Billing procedures can return (1.<stored-procedure status>); Trusted Billing getBillDetails errors were not traced. trusted_billing is omitted when null.\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get Account Quota Consume History",
@@ -16222,7 +16361,8 @@
         }
       ],
       "needs_review": "The list procedure can return (1.<stored-procedure status>). DOCX marks remaining_balance mandatory; the serializer writes it only when present. participant_identifier is not in DOCX.\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Export Account Quota Consume History",
@@ -16384,7 +16524,8 @@
         }
       ],
       "needs_review": "Not in DOCX V3; category chosen to match the list route. Export always starts at offset 0; recordsPerPage only caps the row count. Without dates it exports the last two months. The file content per format was not traced.\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Export Account Quota Consume History",
@@ -16527,7 +16668,8 @@
         }
       ],
       "needs_review": "Not in DOCX V3; category chosen to match the list route. Without dates it exports the last two months. The file content per format was not traced.\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Add Document Package",
@@ -16714,7 +16856,10 @@
         }
       ],
       "needs_review": "Workflow-quota and package-insert failures return (1.<stored-procedure status>), e.g. the quota procedures' 104625. DOCX documents only package_id in the response; code serializes the whole DocumentPackage, including internal camelCase keys (createdBy, hmac, type).\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Pre Upload Document",
@@ -16821,7 +16966,11 @@
         }
       ],
       "needs_review": "DOCX says document_status is 0 (form field exists) or 1 (empty); code returns 21 (DocumentErrorSubCode.SUBCODE_DOCUMENT_CONTAINS_FORM_FIELD) or 19 (SUBCODE_DOCUMENT_EMPTY_OR_NO_FORM_FIELD). An unreadable PDF is also reported as 19 with HTTP 200 instead of (7.20). Other Content-Types return HTTP 415 with no body.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json",
+        "application/octet-stream"
+      ]
     },
     {
       "name": "Download Package",
@@ -16922,7 +17071,8 @@
         }
       ],
       "needs_review": "DOCX lists x-password, x-otp and a mandatory Content-Type; code reads none of them. Guest (anonymous) tokens are accepted. The exception sub-code reuses the create-package constant. Lookups and FMS downloads can return (1.<stored-procedure status>) or FMS errors.\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Rename Package",
@@ -17088,7 +17238,10 @@
         }
       ],
       "needs_review": "Package lookup and rename procedures can return (1.<stored-procedure status>).",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Delete Package",
@@ -17182,7 +17335,8 @@
         }
       ],
       "needs_review": "The delete procedure can return (1.<stored-procedure status>). Code does not check the workflow state before deleting the package (Delete Document does).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Download Package (base64)",
@@ -17293,7 +17447,8 @@
         }
       ],
       "needs_review": "DOCX lists x-password and x-otp; code does not read them. Lookups can return (1.<stored-procedure status>).",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get Package Details",
@@ -17426,7 +17581,8 @@
         }
       ],
       "needs_review": "DOCX says document_status is ACTIVE/ENABLED or INACTIVE/DISABLED; code emits ENABLED or DISABLED. documents[].name carries the package owner, not the document name, and owner.name repeats the email. A failed document-list lookup is not checked (the code re-checks the package lookup). Lookups can return (1.<stored-procedure status>).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get All Packages",
@@ -17571,7 +17727,8 @@
         }
       ],
       "needs_review": "DOCX names the record-count request header x-total-records and the path params document_status/page_no/records_per_page; code reads x-number-records. DOCX lists x-search-text; code does not read it. The response x-total-records is the page size, not the overall count. The list procedure can return (1.<stored-procedure status>).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Upload Document",
@@ -17807,7 +17964,10 @@
         }
       ],
       "needs_review": "DOCX marks x-file-name optional; code requires it. Quota checks and inserts return (1.<stored-procedure status>). The service does not check that the caller owns packageId. A Content-Type other than application/octet-stream returns HTTP 415 or 405 with no body.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/octet-stream"
+      ]
     },
     {
       "name": "Upload Document (base64)",
@@ -18057,7 +18217,10 @@
         }
       ],
       "needs_review": "DOCX marks x-file-name optional; code requires it. Quota checks and inserts return (1.<stored-procedure status>). The service does not check that the caller owns packageId.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Download Document",
@@ -18170,7 +18333,8 @@
         }
       ],
       "needs_review": "DOCX lists x-password, x-otp and a mandatory Content-Type; code reads none of them and DOCX does not mention x-original-file. The exception sub-code reuses the create-package constant. Document, revision and FMS lookups can return (1.<stored-procedure status>) or FMS errors.\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Rename Document",
@@ -18384,7 +18548,10 @@
         }
       ],
       "needs_review": "Lookups and the rename procedure can return (1.<stored-procedure status>).",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Delete Document",
@@ -18491,7 +18658,8 @@
         }
       ],
       "needs_review": "Workflow-status refusals come from WorkflowFacade.validateStatusOfWorkflow and were not traced. Lookups and the delete procedure can return (1.<stored-procedure status>).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Download Document (base64)",
@@ -18614,7 +18782,8 @@
         }
       ],
       "needs_review": "DOCX lists x-password and x-otp; code does not read them. Lookups can return (1.<stored-procedure status>).",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get Document Details",
@@ -18825,7 +18994,8 @@
         }
       ],
       "needs_review": "DOCX types form_field and lock_form_fields as Boolean; code writes the creator email into both. DOCX says document_type is e.g. \"PDF\"; code writes the MIME type. document_order is always 0. The exception sub-code reuses the create-package constant. Lookups can return (1.<stored-procedure status>).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get Document Verification",
@@ -18935,7 +19105,8 @@
         }
       ],
       "needs_review": "The report type (ValidationReportImpl) extends rssp.validation.object.ValidationReport from an external library, so its keys are not in this repository. Validation-service errors were not traced. The validation locale is hard-coded to Locale.TRADITIONAL_CHINESE.\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get Document Image",
@@ -19093,7 +19264,8 @@
         }
       ],
       "needs_review": "Image rendering is disabled (GetDocumentImage returns no data); confirm whether the route is still supported. DOCX lists x-password and x-otp; code does not read them. A page beyond the document is not rejected.\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get Document Image Base64",
@@ -19256,7 +19428,8 @@
         }
       ],
       "needs_review": "Rendering is disabled; Base64-encoding the null image throws, so the controller answers HTTP 500 with no error code. DOCX lists x-password and x-otp; code does not read them.\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get Document Hash",
@@ -19538,7 +19711,10 @@
         }
       ],
       "needs_review": "DOCX marks field_name mandatory; code does not validate it. Workflow, participant, field, task and field-status lookups and the hash generator (ValidateSignatureV2Processing) add codes that were not traced, plus (1.<stored-procedure status>).\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Embed Signature",
@@ -19781,7 +19957,10 @@
         }
       ],
       "needs_review": "Signature-quota reservation, participant access, field/task lookups and the signing processor add codes that were not traced, plus (1.<stored-procedure status>). The exception sub-code is the get-hash constant.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Sign Document",
@@ -19993,7 +20172,10 @@
         }
       ],
       "needs_review": "Enterprise connector, credential, workflow, quota and RSSP errors come from BasicFlow.processBasicFlowForSigningWithConfiguration and DistributeAuthorizeRSSP, which were not traced. DOCX does not list signing_reason for Sign Eseal; the shared DTO accepts it.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Sign Eseal",
@@ -20204,7 +20386,10 @@
         }
       ],
       "needs_review": "Seal connector, credential, workflow, quota and RSSP errors come from BasicFlow and DistributeAuthorizeRSSP, which were not traced. Seal-specific rules (e.g. user must act as an enterprise user) live there too.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Fill Initials",
@@ -20418,7 +20603,10 @@
         }
       ],
       "needs_review": "Unexpected failures return (-1.0) via createException(0, ...), which has no named constant. Workflow, participant, field and task lookups in RSSPInternal.processBasicFlowForFormField and ProcessingInitialField were not fully traced. DOCX path is /initial; the route regex `initials*` accepts /initial and /initials.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Apply Workflow Template",
@@ -20632,7 +20820,10 @@
         }
       ],
       "needs_review": "DOCX marks template_name mandatory and does not list template_id; code accepts either. apply_to_all is parsed but not used (the template is applied to this document only). An empty body returns (1.2), not (1.1). Template scope, page-count, category-access and workflow-status refusals were not traced. The service does not check package ownership beyond the template-scope and workflow-status checks.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Convert Document to Paper",
@@ -20762,7 +20953,10 @@
         }
       ],
       "needs_review": "A malformed body is ignored and the caller's name is used. Guest (anonymous) tokens are accepted. Document, revision and FMS lookups can return (1.<stored-procedure status>) or FMS errors. The exception sub-code reuses the create-document constant.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Merge Document",
@@ -20895,7 +21089,10 @@
         }
       ],
       "needs_review": "Storage quota, document lookup, update and revision procedures return (1.<stored-procedure status>). The flow does not check that the caller owns the package or that the document belongs to packageId. An unexpected exception propagates to the controller and returns HTTP 500 without an error code.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/octet-stream"
+      ]
     },
     {
       "name": "Get Attachments",
@@ -21011,7 +21208,8 @@
         }
       ],
       "needs_review": "Guest (anonymous) tokens are accepted, and the flow does not check that the caller may see the package. The list procedure can return (1.<stored-procedure status>).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Upload Attachment",
@@ -21189,7 +21387,10 @@
         }
       ],
       "needs_review": "DOCX marks x-file-name optional; code requires it. The flow does not check that the caller owns the package or takes part in its workflow. Inserts and FMS uploads can return (1.<stored-procedure status>) or FMS errors.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/octet-stream"
+      ]
     },
     {
       "name": "Download Attachment",
@@ -21309,7 +21510,8 @@
         }
       ],
       "needs_review": "The missing-attachment-id error pairs WorkflowConstant.CODE_FIELD_ATTACHMENT (11) with an AttachmentErrorSubCode whose own CODE_ATTACHMENT is 44. Lookups and FMS downloads can return (1.<stored-procedure status>) or FMS errors.\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Delete Attachment",
@@ -21429,7 +21631,8 @@
         }
       ],
       "needs_review": "DOCX lists attachment_id in the response; code returns an empty body. The flow does not check that the caller owns the package or the attachment. The delete procedure can return (1.<stored-procedure status>).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Update Document",
@@ -21595,7 +21798,10 @@
         }
       ],
       "needs_review": "The flow ignores packageId and does not check that the caller owns the document. Quota checks, lookups and updates return (1.<stored-procedure status>); the template page-count refusal was not traced. A JSON Content-Type on this route returns HTTP 415.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/octet-stream"
+      ]
     },
     {
       "name": "Update Document (base64)",
@@ -21787,7 +21993,10 @@
         }
       ],
       "needs_review": "DOCX marks document mandatory and does not list document_order; code accepts either. The flow ignores packageId and does not check that the caller owns the document. Quota checks, lookups and updates return (1.<stored-procedure status>). An empty body throws and returns (-1.169).\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Download Signature Summary",
@@ -21908,7 +22117,8 @@
         }
       ],
       "needs_review": "The flow does not check that documentId belongs to packageId. Document, package, revision and participant lookups can return (1.<stored-procedure status>) or FMS errors.\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Download Signature Summary (base64)",
@@ -22039,7 +22249,8 @@
         }
       ],
       "needs_review": "Lookups can return (1.<stored-procedure status>) or FMS errors.",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get Workflow Users",
@@ -22162,7 +22373,8 @@
         }
       ],
       "needs_review": "Workflow, document and participant lookups return (1.<stored-procedure status>); values are not in the repository.\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Add User to Workflow",
@@ -22382,7 +22594,10 @@
         }
       ],
       "needs_review": "Workflow lookup and participant inserts can return (1.<stored-procedure status>). The per-user failures are folded into (9.3) with a composed message. Code does not check that the caller may change the package beyond being a participant or initiator.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Get Workflow Details",
@@ -22642,7 +22857,8 @@
         }
       ],
       "needs_review": "Package, document, participant and detail lookups return (1.<stored-procedure status>). The exact field set of each nested object is produced by WorkflowDetailsJsonWriter and is only summarised in GetWorkflowDetailsSerialize.\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Start new Workflow",
@@ -22865,7 +23081,10 @@
         }
       ],
       "needs_review": "The request `message` is not passed on: the service forwards checker.getMessage() (the validation response message, normally null) as the email message. Quota checks can also return trusted-billing codes (56.x) and the start / category procedures return (1.<stored-procedure status>). DOCX lists only workflow_mode and deadline_at.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Update Workflow Details",
@@ -23111,7 +23330,10 @@
         }
       ],
       "needs_review": "Access and status checks live in UpdateWorkflowDetailUseCase and its ports, which were only scanned for direct error pairs; their lookups return (1.<stored-procedure status>). details (List<AddOrUpdateWorkflowDetailDTO>) is filled from body keys named like workflow attribute types, not from a `details` array.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Delete Workflow",
@@ -23205,7 +23427,8 @@
         }
       ],
       "needs_review": "The delete procedure returns (1.<stored-procedure status>); values are not in the repository.",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Share Workflow",
@@ -23362,7 +23585,8 @@
         }
       ],
       "needs_review": "DOCX lists Content-Type as mandatory and the endpoint twice (Document Package and Document Workflow); code reads no body. If the package lookup fails the service returns the (successful) workflow response instead of the error. Lookups return (1.<stored-procedure status>).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Send Reminder",
@@ -23497,7 +23721,8 @@
         }
       ],
       "needs_review": "Code does not check that the caller belongs to the workflow or owns the package before reminding another participant. DOCX lists Content-Type as mandatory; no body is read. Lookups return (1.<stored-procedure status>).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get All Workflow",
@@ -23712,7 +23937,8 @@
         }
       ],
       "needs_review": "The route regex also accepts `/v1/workflow`, `/v1/workflow/ALL` and other shapes; only the three-segment form is documented. DOCX lists Content-Type as mandatory for a GET. The list procedure returns (1.<stored-procedure status>).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Delete Workflow User",
@@ -23819,7 +24045,8 @@
         }
       ],
       "needs_review": "The delete procedure returns (1.<stored-procedure status>); values are not in the repository.",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get Workflow History",
@@ -23971,7 +24198,8 @@
         }
       ],
       "needs_review": "workflow_id in the response carries the package ID, not the workflow ID. The route also accepts `/log` without paging. Lookups and the audit-trail generator return (1.<stored-procedure status>) or adapter codes not traced here.\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get Workflow Comment/Message",
@@ -24115,7 +24343,8 @@
         }
       ],
       "needs_review": "apiName in code is \"Get Workflow Comments\"; DOCX names it \"Get Workflow Comment/Message\". x-total-records is the page size returned, not the total. Lookups return (1.<stored-procedure status>).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Add Workflow Comment/Message",
@@ -24280,7 +24509,10 @@
         }
       ],
       "needs_review": "DOCX marks `order` mandatory and documents send_to_owner; code ignores both (the comment is always stored without recipients). Lookups return (1.<stored-procedure status>).\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Delete Workflow Comment/Message",
@@ -24394,7 +24626,8 @@
         }
       ],
       "needs_review": "The delete procedure enforces comment ownership and returns (1.<stored-procedure status>).",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Add Package To Category",
@@ -24528,7 +24761,10 @@
         }
       ],
       "needs_review": "A category the caller cannot view answers 403 with the category access denial (1.101298), the same for an unknown id. The attach procedure can return further (1.<stored-procedure status>). Attaching walks up into the parents even when a parent is another user's personal category.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Remove Package From Category",
@@ -24662,7 +24898,10 @@
         }
       ],
       "needs_review": "A category the caller cannot view answers 403 with the category access denial (1.101298). The removal procedure can return (1.<stored-procedure status>).\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Add Packages To Category (Bulk)",
@@ -24785,7 +25024,10 @@
         }
       ],
       "needs_review": "error_code is the compact form (code and sub-code written together, as in other error bodies). A category the caller cannot view answers 403 (1.101298) for the whole request.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Remove Packages From Category (Bulk)",
@@ -24909,7 +25151,10 @@
         }
       ],
       "needs_review": "A package whose sub-categories the caller may not all remove fails on its own with (9.64) in the array. A category the caller cannot view answers 403 (1.101298) for the whole request.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Approve Document",
@@ -25061,7 +25306,10 @@
         }
       ],
       "needs_review": "apiName is \"Approve Workflow\"; DOCX names it \"Approve Document\". The ApproveWorkflow module and lookups return codes not traced here (1.<stored-procedure status>).\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Submit Document",
@@ -25220,7 +25468,10 @@
         }
       ],
       "needs_review": "apiName is \"Submit Workflow\"; DOCX names it \"Submit Document\". If the caller's email is not in the participant list, currentParticipant stays null and the submit loop fails with (-1.159) instead of a clear error.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Decline Document",
@@ -25379,7 +25630,10 @@
         }
       ],
       "needs_review": "apiName is \"Decline Workflow\"; DOCX names it \"Decline Document\". A failure after some documents were declined leaves a partial update (logged as a fallback). Lookups return (1.<stored-procedure status>).\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Add Placeholder to Workflow",
@@ -25562,7 +25816,10 @@
         }
       ],
       "needs_review": "A body without `placeholders` throws (NullPointerException) and returns (-1.167). Unlike add user, the workflow status is not validated. Inserts return (1.<stored-procedure status>).\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Update Workflow User",
@@ -25852,7 +26109,10 @@
         }
       ],
       "needs_review": "apiName is \"Update Workflow Participant\"; DOCX names it \"Update Workflow User\". The body always defaults email_notification to true, so omitting it still requires user_email. Any participant or initiator may update any other participant. Updates return (1.<stored-procedure status>).\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Update Placeholder in Workflow",
@@ -26098,7 +26358,10 @@
         }
       ],
       "needs_review": "The notification consistency check compares against the caller's own participant record, not the placeholder being updated. Updates return (1.<stored-procedure status>).\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "View Workflow",
@@ -26309,7 +26572,8 @@
         }
       ],
       "needs_review": "DOCX lists no Authorization header (public view by QR link); PublicRouteMatcher does not list the route, so the auth filter requires a token unless the deployment adds a bypass regex. The service itself never verifies the caller, so any valid token can read any workflow by UUID. The body is not read; Content-Type is still checked as JSON.\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Import Excel to Clone Workflow",
@@ -26582,7 +26846,10 @@
         }
       ],
       "needs_review": "DOCX marks personal_code optional and username/user_email/mobile_number mandatory; code requires personal_code and requires only the contact matching the target's notification channel. Lookups return (1.<stored-procedure status>).\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Get Status of Import Excel",
@@ -26727,7 +26994,8 @@
         }
       ],
       "needs_review": "The path segment is ignored; the status is looked up by the caller's user ID, so only the latest run is visible. With no run the body is status NOT_FOUND with zero counters.\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Accept Terms of Service (ECONTRACT)",
@@ -26909,7 +27177,10 @@
         }
       ],
       "needs_review": "An empty body fails JSON parsing with (1.2) rather than (1.1). The client-sent ip is replaced by the server-resolved IP. AcceptTosAdapter lookups return (1.<stored-procedure status>).\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Get Workflow Details by UUID",
@@ -27142,7 +27413,8 @@
         }
       ],
       "needs_review": "Token verification uses no strategy (client-credential tokens are not blocked here), unlike Get Workflow Details. Lookups return (1.<stored-procedure status>).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Create Workflow From Template",
@@ -27335,7 +27607,10 @@
         }
       ],
       "needs_review": "DOCX names the response field document_id; code returns document_ids (array). CreateWorkflowFromTemplateUseCase delegates to template, document and FMS ports whose codes, and (1.<stored-procedure status>), are not traced here.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Get Field Types",
@@ -27425,7 +27700,8 @@
         }
       ],
       "needs_review": "The regex `.*documents/fields` also matches `/v1/packages/{id}/documents/{id}/fields` and is tested first in doGet, so every GET on the document fields path is answered by this operation. getFieldType has no try/catch; an exception goes to CatchException.\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get Document Fields",
@@ -27692,7 +27968,8 @@
         }
       ],
       "needs_review": "Unreachable in practice: GET Get Field Types (`.*documents/fields`) matches this path first in FieldController.doGet. ValidateFieldAccessAdapter (token, workflow, participant and document checks) was scanned for direct pairs only; lookups return (1.<stored-procedure status>).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Fill Form Fields",
@@ -27837,7 +28114,10 @@
         }
       ],
       "needs_review": "Served by DocumentService.fillFormField (document domain): blocking validation, RSSP basic flow and ProcessingMultipleField per field type return many codes (30.x, 31.x, 12.x and others) not traced here. The ProcessingRequest schema is left inline to avoid clashing with the document group's definition.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Delete Document Field",
@@ -27995,7 +28275,10 @@
         }
       ],
       "needs_review": "DOCX names it \"Delete Document Field\". The workflow status is not checked, so fields can be removed from active workflows. Field lookups return (1.<stored-procedure status>).\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Add Digital Signature Field",
@@ -28342,6 +28625,9 @@
       ],
       "needs_review": "DOCX documents one Add endpoint per field type with type-specific bodies; code serves all through this route, with one body schema per fieldType (see x-doc-sections). An unknown fieldType returns HTTP 404 with code 0.0. Per-type checks in CheckPayloadRequest and the resolvers return further 10.x/11.x/18.x codes not listed; inserts return (1.<stored-procedure status>).\n",
       "status": "",
+      "media_types": [
+        "application/json"
+      ],
       "variant": ""
     },
     {
@@ -28723,6 +29009,9 @@
       ],
       "needs_review": "DOCX documents one Add endpoint per field type with type-specific bodies; code serves all through this route, with one body schema per fieldType (see x-doc-sections). An unknown fieldType returns HTTP 404 with code 0.0. Per-type checks in CheckPayloadRequest and the resolvers return further 10.x/11.x/18.x codes not listed; inserts return (1.<stored-procedure status>).\n",
       "status": "",
+      "media_types": [
+        "application/json"
+      ],
       "variant": ""
     },
     {
@@ -29057,6 +29346,9 @@
       ],
       "needs_review": "DOCX documents one Add endpoint per field type with type-specific bodies; code serves all through this route, with one body schema per fieldType (see x-doc-sections). An unknown fieldType returns HTTP 404 with code 0.0. Per-type checks in CheckPayloadRequest and the resolvers return further 10.x/11.x/18.x codes not listed; inserts return (1.<stored-procedure status>).\n",
       "status": "",
+      "media_types": [
+        "application/json"
+      ],
       "variant": ""
     },
     {
@@ -29411,6 +29703,9 @@
       ],
       "needs_review": "DOCX documents one Add endpoint per field type with type-specific bodies; code serves all through this route, with one body schema per fieldType (see x-doc-sections). An unknown fieldType returns HTTP 404 with code 0.0. Per-type checks in CheckPayloadRequest and the resolvers return further 10.x/11.x/18.x codes not listed; inserts return (1.<stored-procedure status>).\n",
       "status": "",
+      "media_types": [
+        "application/json"
+      ],
       "variant": ""
     },
     {
@@ -29798,6 +30093,9 @@
       ],
       "needs_review": "DOCX documents one Add endpoint per field type with type-specific bodies; code serves all through this route, with one body schema per fieldType (see x-doc-sections). An unknown fieldType returns HTTP 404 with code 0.0. Per-type checks in CheckPayloadRequest and the resolvers return further 10.x/11.x/18.x codes not listed; inserts return (1.<stored-procedure status>).\n",
       "status": "",
+      "media_types": [
+        "application/json"
+      ],
       "variant": ""
     },
     {
@@ -30166,6 +30464,9 @@
       ],
       "needs_review": "DOCX documents one Add endpoint per field type with type-specific bodies; code serves all through this route, with one body schema per fieldType (see x-doc-sections). An unknown fieldType returns HTTP 404 with code 0.0. Per-type checks in CheckPayloadRequest and the resolvers return further 10.x/11.x/18.x codes not listed; inserts return (1.<stored-procedure status>).\n",
       "status": "",
+      "media_types": [
+        "application/json"
+      ],
       "variant": ""
     },
     {
@@ -30539,6 +30840,9 @@
       ],
       "needs_review": "DOCX documents one Add endpoint per field type with type-specific bodies; code serves all through this route, with one body schema per fieldType (see x-doc-sections). An unknown fieldType returns HTTP 404 with code 0.0. Per-type checks in CheckPayloadRequest and the resolvers return further 10.x/11.x/18.x codes not listed; inserts return (1.<stored-procedure status>).\n",
       "status": "",
+      "media_types": [
+        "application/json"
+      ],
       "variant": ""
     },
     {
@@ -30881,6 +31185,9 @@
       ],
       "needs_review": "DOCX documents one Add endpoint per field type with type-specific bodies; code serves all through this route, with one body schema per fieldType (see x-doc-sections). An unknown fieldType returns HTTP 404 with code 0.0. Per-type checks in CheckPayloadRequest and the resolvers return further 10.x/11.x/18.x codes not listed; inserts return (1.<stored-procedure status>).\n",
       "status": "",
+      "media_types": [
+        "application/json"
+      ],
       "variant": ""
     },
     {
@@ -31268,6 +31575,9 @@
       ],
       "needs_review": "DOCX documents one Add endpoint per field type with type-specific bodies; code serves all through this route, with one body schema per fieldType (see x-doc-sections). An unknown fieldType returns HTTP 404 with code 0.0. Per-type checks in CheckPayloadRequest and the resolvers return further 10.x/11.x/18.x codes not listed; inserts return (1.<stored-procedure status>).\n",
       "status": "",
+      "media_types": [
+        "application/json"
+      ],
       "variant": ""
     },
     {
@@ -31655,6 +31965,9 @@
       ],
       "needs_review": "DOCX documents one Add endpoint per field type with type-specific bodies; code serves all through this route, with one body schema per fieldType (see x-doc-sections). An unknown fieldType returns HTTP 404 with code 0.0. Per-type checks in CheckPayloadRequest and the resolvers return further 10.x/11.x/18.x codes not listed; inserts return (1.<stored-procedure status>).\n",
       "status": "",
+      "media_types": [
+        "application/json"
+      ],
       "variant": ""
     },
     {
@@ -32056,6 +32369,9 @@
       ],
       "needs_review": "DOCX documents one Add endpoint per field type with type-specific bodies; code serves all through this route, with one body schema per fieldType (see x-doc-sections). An unknown fieldType returns HTTP 404 with code 0.0. Per-type checks in CheckPayloadRequest and the resolvers return further 10.x/11.x/18.x codes not listed; inserts return (1.<stored-procedure status>).\n",
       "status": "",
+      "media_types": [
+        "application/json"
+      ],
       "variant": ""
     },
     {
@@ -32444,6 +32760,9 @@
       ],
       "needs_review": "DOCX documents one Add endpoint per field type with type-specific bodies; code serves all through this route, with one body schema per fieldType (see x-doc-sections). An unknown fieldType returns HTTP 404 with code 0.0. Per-type checks in CheckPayloadRequest and the resolvers return further 10.x/11.x/18.x codes not listed; inserts return (1.<stored-procedure status>).\n",
       "status": "",
+      "media_types": [
+        "application/json"
+      ],
       "variant": ""
     },
     {
@@ -32778,6 +33097,9 @@
       ],
       "needs_review": "DOCX documents one Add endpoint per field type with type-specific bodies; code serves all through this route, with one body schema per fieldType (see x-doc-sections). An unknown fieldType returns HTTP 404 with code 0.0. Per-type checks in CheckPayloadRequest and the resolvers return further 10.x/11.x/18.x codes not listed; inserts return (1.<stored-procedure status>).\n",
       "status": "",
+      "media_types": [
+        "application/json"
+      ],
       "variant": ""
     },
     {
@@ -33139,6 +33461,9 @@
       ],
       "needs_review": "DOCX documents one Add endpoint per field type with type-specific bodies; code serves all through this route, with one body schema per fieldType (see x-doc-sections). An unknown fieldType returns HTTP 404 with code 0.0. Per-type checks in CheckPayloadRequest and the resolvers return further 10.x/11.x/18.x codes not listed; inserts return (1.<stored-procedure status>).\n",
       "status": "",
+      "media_types": [
+        "application/json"
+      ],
       "variant": ""
     },
     {
@@ -33500,6 +33825,9 @@
       ],
       "needs_review": "DOCX documents one Add endpoint per field type with type-specific bodies; code serves all through this route, with one body schema per fieldType (see x-doc-sections). An unknown fieldType returns HTTP 404 with code 0.0. Per-type checks in CheckPayloadRequest and the resolvers return further 10.x/11.x/18.x codes not listed; inserts return (1.<stored-procedure status>).\n",
       "status": "",
+      "media_types": [
+        "application/json"
+      ],
       "variant": ""
     },
     {
@@ -33866,6 +34194,9 @@
       ],
       "needs_review": "DOCX documents one Add endpoint per field type with type-specific bodies; code serves all through this route, with one body schema per fieldType (see x-doc-sections). An unknown fieldType returns HTTP 404 with code 0.0. Per-type checks in CheckPayloadRequest and the resolvers return further 10.x/11.x/18.x codes not listed; inserts return (1.<stored-procedure status>).\n",
       "status": "",
+      "media_types": [
+        "application/json"
+      ],
       "variant": ""
     },
     {
@@ -34225,6 +34556,9 @@
       ],
       "needs_review": "DOCX documents one Add endpoint per field type with type-specific bodies; code serves all through this route, with one body schema per fieldType (see x-doc-sections). An unknown fieldType returns HTTP 404 with code 0.0. Per-type checks in CheckPayloadRequest and the resolvers return further 10.x/11.x/18.x codes not listed; inserts return (1.<stored-procedure status>).\n",
       "status": "",
+      "media_types": [
+        "application/json"
+      ],
       "variant": ""
     },
     {
@@ -34613,6 +34947,9 @@
       ],
       "needs_review": "DOCX documents one Add endpoint per field type with type-specific bodies; code serves all through this route, with one body schema per fieldType (see x-doc-sections). An unknown fieldType returns HTTP 404 with code 0.0. Per-type checks in CheckPayloadRequest and the resolvers return further 10.x/11.x/18.x codes not listed; inserts return (1.<stored-procedure status>).\n",
       "status": "",
+      "media_types": [
+        "application/json"
+      ],
       "variant": ""
     },
     {
@@ -34926,6 +35263,9 @@
       ],
       "needs_review": "DOCX documents one Add endpoint per field type with type-specific bodies; code serves all through this route, with one body schema per fieldType (see x-doc-sections). An unknown fieldType returns HTTP 404 with code 0.0. Per-type checks in CheckPayloadRequest and the resolvers return further 10.x/11.x/18.x codes not listed; inserts return (1.<stored-procedure status>).\n",
       "status": "",
+      "media_types": [
+        "application/json"
+      ],
       "variant": ""
     },
     {
@@ -35273,6 +35613,9 @@
       ],
       "needs_review": "DOCX documents one Add endpoint per field type with type-specific bodies; code serves all through this route, with one body schema per fieldType (see x-doc-sections). An unknown fieldType returns HTTP 404 with code 0.0. Per-type checks in CheckPayloadRequest and the resolvers return further 10.x/11.x/18.x codes not listed; inserts return (1.<stored-procedure status>).\n",
       "status": "",
+      "media_types": [
+        "application/json"
+      ],
       "variant": ""
     },
     {
@@ -35610,6 +35953,9 @@
       ],
       "needs_review": "updateField has no catch block of its own; exceptions are answered by CatchException. Per-type checks and update procedures return codes not listed here (1.<stored-procedure status>).\n",
       "status": "",
+      "media_types": [
+        "application/json"
+      ],
       "variant": ""
     },
     {
@@ -35981,6 +36327,9 @@
       ],
       "needs_review": "updateField has no catch block of its own; exceptions are answered by CatchException. Per-type checks and update procedures return codes not listed here (1.<stored-procedure status>).\n",
       "status": "",
+      "media_types": [
+        "application/json"
+      ],
       "variant": ""
     },
     {
@@ -36305,6 +36654,9 @@
       ],
       "needs_review": "updateField has no catch block of its own; exceptions are answered by CatchException. Per-type checks and update procedures return codes not listed here (1.<stored-procedure status>).\n",
       "status": "",
+      "media_types": [
+        "application/json"
+      ],
       "variant": ""
     },
     {
@@ -36649,6 +37001,9 @@
       ],
       "needs_review": "updateField has no catch block of its own; exceptions are answered by CatchException. Per-type checks and update procedures return codes not listed here (1.<stored-procedure status>).\n",
       "status": "",
+      "media_types": [
+        "application/json"
+      ],
       "variant": ""
     },
     {
@@ -37026,6 +37381,9 @@
       ],
       "needs_review": "updateField has no catch block of its own; exceptions are answered by CatchException. Per-type checks and update procedures return codes not listed here (1.<stored-procedure status>).\n",
       "status": "",
+      "media_types": [
+        "application/json"
+      ],
       "variant": ""
     },
     {
@@ -37384,6 +37742,9 @@
       ],
       "needs_review": "updateField has no catch block of its own; exceptions are answered by CatchException. Per-type checks and update procedures return codes not listed here (1.<stored-procedure status>).\n",
       "status": "",
+      "media_types": [
+        "application/json"
+      ],
       "variant": ""
     },
     {
@@ -37747,6 +38108,9 @@
       ],
       "needs_review": "updateField has no catch block of its own; exceptions are answered by CatchException. Per-type checks and update procedures return codes not listed here (1.<stored-procedure status>).\n",
       "status": "",
+      "media_types": [
+        "application/json"
+      ],
       "variant": ""
     },
     {
@@ -38079,6 +38443,9 @@
       ],
       "needs_review": "updateField has no catch block of its own; exceptions are answered by CatchException. Per-type checks and update procedures return codes not listed here (1.<stored-procedure status>).\n",
       "status": "",
+      "media_types": [
+        "application/json"
+      ],
       "variant": ""
     },
     {
@@ -38456,6 +38823,9 @@
       ],
       "needs_review": "updateField has no catch block of its own; exceptions are answered by CatchException. Per-type checks and update procedures return codes not listed here (1.<stored-procedure status>).\n",
       "status": "",
+      "media_types": [
+        "application/json"
+      ],
       "variant": ""
     },
     {
@@ -38833,6 +39203,9 @@
       ],
       "needs_review": "updateField has no catch block of its own; exceptions are answered by CatchException. Per-type checks and update procedures return codes not listed here (1.<stored-procedure status>).\n",
       "status": "",
+      "media_types": [
+        "application/json"
+      ],
       "variant": ""
     },
     {
@@ -39224,6 +39597,9 @@
       ],
       "needs_review": "updateField has no catch block of its own; exceptions are answered by CatchException. Per-type checks and update procedures return codes not listed here (1.<stored-procedure status>).\n",
       "status": "",
+      "media_types": [
+        "application/json"
+      ],
       "variant": ""
     },
     {
@@ -39602,6 +39978,9 @@
       ],
       "needs_review": "updateField has no catch block of its own; exceptions are answered by CatchException. Per-type checks and update procedures return codes not listed here (1.<stored-procedure status>).\n",
       "status": "",
+      "media_types": [
+        "application/json"
+      ],
       "variant": ""
     },
     {
@@ -39926,6 +40305,9 @@
       ],
       "needs_review": "updateField has no catch block of its own; exceptions are answered by CatchException. Per-type checks and update procedures return codes not listed here (1.<stored-procedure status>).\n",
       "status": "",
+      "media_types": [
+        "application/json"
+      ],
       "variant": ""
     },
     {
@@ -40277,6 +40659,9 @@
       ],
       "needs_review": "updateField has no catch block of its own; exceptions are answered by CatchException. Per-type checks and update procedures return codes not listed here (1.<stored-procedure status>).\n",
       "status": "",
+      "media_types": [
+        "application/json"
+      ],
       "variant": ""
     },
     {
@@ -40628,6 +41013,9 @@
       ],
       "needs_review": "updateField has no catch block of its own; exceptions are answered by CatchException. Per-type checks and update procedures return codes not listed here (1.<stored-procedure status>).\n",
       "status": "",
+      "media_types": [
+        "application/json"
+      ],
       "variant": ""
     },
     {
@@ -40984,6 +41372,9 @@
       ],
       "needs_review": "updateField has no catch block of its own; exceptions are answered by CatchException. Per-type checks and update procedures return codes not listed here (1.<stored-procedure status>).\n",
       "status": "",
+      "media_types": [
+        "application/json"
+      ],
       "variant": ""
     },
     {
@@ -41333,6 +41724,9 @@
       ],
       "needs_review": "updateField has no catch block of its own; exceptions are answered by CatchException. Per-type checks and update procedures return codes not listed here (1.<stored-procedure status>).\n",
       "status": "",
+      "media_types": [
+        "application/json"
+      ],
       "variant": ""
     },
     {
@@ -41711,6 +42105,9 @@
       ],
       "needs_review": "updateField has no catch block of its own; exceptions are answered by CatchException. Per-type checks and update procedures return codes not listed here (1.<stored-procedure status>).\n",
       "status": "",
+      "media_types": [
+        "application/json"
+      ],
       "variant": ""
     },
     {
@@ -42014,6 +42411,9 @@
       ],
       "needs_review": "updateField has no catch block of its own; exceptions are answered by CatchException. Per-type checks and update procedures return codes not listed here (1.<stored-procedure status>).\n",
       "status": "",
+      "media_types": [
+        "application/json"
+      ],
       "variant": ""
     },
     {
@@ -42351,6 +42751,9 @@
       ],
       "needs_review": "updateField has no catch block of its own; exceptions are answered by CatchException. Per-type checks and update procedures return codes not listed here (1.<stored-procedure status>).\n",
       "status": "",
+      "media_types": [
+        "application/json"
+      ],
       "variant": ""
     },
     {
@@ -42534,7 +42937,10 @@
         }
       ],
       "needs_review": "Assignment procedures return (1.<stored-procedure status>); values are not in the repository.",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Create Workflow From Paper",
@@ -42929,7 +43335,10 @@
         }
       ],
       "needs_review": "Not in DOCX V3; tag chosen as closest category. Payload validation runs before the RBAC permission gate, so an unauthorised caller still receives field errors. The Content-Type check of doPost runs after this branch, so application/json is not enforced. Insert procedures may return (1.<stored-procedure status>).\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Create Bulk Workflow From Paper",
@@ -43200,7 +43609,10 @@
         }
       ],
       "needs_review": "Not in DOCX V3; tag chosen as closest category. Per-item validation errors are not returned as HTTP errors: they appear in items[].error_code/field of the snapshot. The batch lives only in RAM (lost on restart). The oversize check uses the declared Content-Length only.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Get Bulk Workflow From Paper",
@@ -43369,7 +43781,8 @@
         }
       ],
       "needs_review": "Not in DOCX V3; tag chosen as closest category. Finished batches expire from RAM after a TTL.",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "List Paper Conversions",
@@ -43497,7 +43910,8 @@
         }
       ],
       "needs_review": "Not in DOCX V3; tag chosen as closest category. CANCELLED exists in PaperConversionRequestStatus but is not accepted by the route. The list procedure may return (1.<stored-procedure status>).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get Paper Conversion",
@@ -43710,7 +44124,8 @@
         }
       ],
       "needs_review": "Not in DOCX V3; tag chosen as closest category. The get procedure may return (1.<stored-procedure status>).",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Update Paper Conversion",
@@ -44103,7 +44518,10 @@
         }
       ],
       "needs_review": "Not in DOCX V3; tag chosen as closest category. UpdatePaperConversionRequest extends CreateWorkflowFromPaperRequest, hence the allOf body. The update procedure may return (1.<stored-procedure status>).\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Delete Paper Conversion",
@@ -44248,7 +44666,10 @@
         }
       ],
       "needs_review": "Not in DOCX V3; tag chosen as closest category. The body is parsed as ApprovePaperConversionRequest (expected_version only). Delete and FMS-cleanup steps may return (1.<stored-procedure status>) or FMS errors.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Approve Paper Conversion",
@@ -44536,7 +44957,10 @@
         }
       ],
       "needs_review": "Not in DOCX V3; tag chosen as closest category. The conversion pipeline (CreateWorkflowFromPaperUseCase) can surface further workflow/document/e-seal codes and (1.<stored-procedure status>) that were not traced exhaustively.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Get List Login Connector",
@@ -44633,7 +45057,8 @@
         }
       ],
       "needs_review": "Not in DOCX V3. The service queries Provider.SMART_ID_SIGNING, identical to Get List Smart-ID Connector; confirm the intended provider for login connectors. Connector list lookups can return (1.<stored-procedure status>).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get List Smart-ID Connector",
@@ -44730,7 +45155,8 @@
         }
       ],
       "needs_review": "DOCX lists an optional x-search-server header and a mandatory Content-Type; the code reads neither. Connector list lookups can return (1.<stored-procedure status>).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get List USB-Token Connector",
@@ -44827,7 +45253,8 @@
         }
       ],
       "needs_review": "`data` exposes the raw connector identifier to any authenticated caller; confirm it holds no secrets. DOCX lists an optional x-search-server header and a mandatory Content-Type; the code reads neither. Lookups can return (1.<stored-procedure status>).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get RSSP Information",
@@ -44947,7 +45374,8 @@
         }
       ],
       "needs_review": "DOCX names this \"Get RSSP Information\" and describes x-search-server as a connector name; code treats it as a provider name. The serializer writes authentication_required twice (duplicate JSON key) and exposes rssp_rp_user. Lookups can return (1.<stored-procedure status>).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get List Internal Signing Service Connector (ISS)",
@@ -45029,7 +45457,8 @@
         }
       ],
       "needs_review": "DOCX names it \"Get List Internal Signing Service Connector (ISS)\"; code apiName is \"Get List ISS Connector\". Errors of GetISSConnector were not traced; they can include (1.<stored-procedure status>).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get Certificate Profile of Connector",
@@ -45147,7 +45576,8 @@
         }
       ],
       "needs_review": "DOCX path is /v1/connectors/certificate-profiles (plural) and it lists x-search-server; code serves /connectors/certificate-profile and reads x-connector-name. Profile and terms-of-service lookups can return (1.<stored-procedure status>).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get List Tax Codes",
@@ -45289,7 +45719,8 @@
         }
       ],
       "needs_review": "The session is not checked against the caller, and x-citizen-temp lets any authenticated caller look up tax data for an arbitrary personal number. Session lookup returns (1.<stored-procedure status>); the eID tax lookup errors were not traced. Tax record sub-objects come from the external eID SDK and are not detailed here.\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get Credential Registration Status",
@@ -45412,7 +45843,8 @@
         }
       ],
       "needs_review": "An unknown transactionCode causes a null dereference (RAM bill-code map), reported as (-1.220) instead of a 4xx. The transaction is not checked against the caller. The data object comes from the RSS SDK; its keys are taken from DOCX, not verified in code. Connector lookup can return (1.<stored-procedure status>).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get Signing Transaction Status",
@@ -45512,7 +45944,8 @@
         }
       ],
       "needs_review": "Any signing-status failure (including provider errors) falls through to the sharing lookup, so the caller sees (45.18) instead of the real cause; the exception is the SIGNING_REMOTE_SIGN refusal (15.99), which is returned when the sharing lookup fails too. Token check uses the default policy (client_credential tokens allowed). Transactions are not checked against the caller.\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get Bulk Signing Status",
@@ -45668,7 +46101,8 @@
         }
       ],
       "needs_review": "Not in DOCX V3. With no bulk run in memory the serializer dereferences null, so the NOT_FOUND branch is unreachable and the caller gets (-1.240). percentage uses integer division and stays 0 until every package succeeds.\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Release Bulk Signing Management",
@@ -45741,7 +46175,8 @@
         }
       ],
       "needs_review": "Not in DOCX V3. The success message is set as the raw response message; the declared Content-Type is application/json while the body is plain text. The failure code reuses the RSS credential-status exception constant.\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get Pending Signing Sessions",
@@ -45844,7 +46279,8 @@
         }
       ],
       "needs_review": "DOCX describes session keys in camelCase (requestId, credentialId, ...); the record is written with snake_case and the first key is signing_transaction_id.\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Cancel Authorize Signing Request",
@@ -46016,7 +46452,10 @@
         }
       ],
       "needs_review": "Not in DOCX V3. The body is validated before the token, so payload errors are returned to unauthenticated callers. Content-Type is not checked on this route. Anonymous (guest) tokens are accepted. Status updates can return (1.<stored-procedure status>).\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Cancel Issue Certificate",
@@ -46196,7 +46635,10 @@
         }
       ],
       "needs_review": "The body is validated before the token. Content-Type is not checked on this route. Anonymous (guest) tokens are accepted. A failed status update is only logged and the call still returns 200.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Get Signing Status (TSE MID)",
@@ -46358,7 +46800,10 @@
         }
       ],
       "needs_review": "DOCX names it \"Get Signing Status (TSE MID)\" and the body field transaction_id; code reads signing_transaction_id. Session lookups can return (1.<stored-procedure status>).\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Get Filtered Credential List",
@@ -46593,7 +47038,10 @@
         }
       ],
       "needs_review": "Connector lookup returns (1.<stored-procedure status>); credential listing errors from GetListCertificateDistribute and the provider SDKs were not traced. Anonymous (guest) tokens are accepted. The failure exception code is the connector-list constant.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Sign Document via RSSP Directly",
@@ -46995,7 +47443,10 @@
         }
       ],
       "needs_review": "Only controller, Service and ValidateRequest errors are listed. The block gate, BasicFlow, OCSP check (15.75-15.78), quota reservation and DistributeAuthorizeRSSP add many more RSSP, workflow and stored-procedure codes that were not traced. DOCX documents webhook_url; the snapshot names it webhookUrl, but the setter binds webhook_url.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "RSSP Credential Authorization",
@@ -47222,7 +47673,10 @@
         }
       ],
       "needs_review": "DOCX names the polling trigger responseID; code reads signing_transaction_id. When polling throws, signHashPolling returns null and the caller gets (15.57) instead of an exception code. The controller reads package_id for logging with swapped arguments, so the logged entity ID is always 0. BasicFlow, provider OTP/PIN errors (15.21, 15.56) and stored-procedure codes were not traced.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Send OTP via RSSP",
@@ -47430,7 +47884,10 @@
         }
       ],
       "needs_review": "DOCX body field is transaction_id; code reads signing_transaction_id. validity_period is a hard-coded 300 and user_email is the caller's email, not necessarily where the OTP went. Provider and stored-procedure errors were not traced.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Get Credentials Info",
@@ -47660,7 +48117,10 @@
         }
       ],
       "needs_review": "Certificate analysis, RSSP connection and provider errors and connector lookup (1.<stored-procedure status>) were not traced. Anonymous (guest) tokens are accepted.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Open Trusted SIC Management View",
@@ -47859,7 +48319,10 @@
         }
       ],
       "needs_review": "Connector lookup failures (1.<stored-procedure status>) were not traced. The 200 example is derived from code; on prd the route was exercised only up to the owner check (15.88), because no VNeID SSO login was available.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Register Certificate via RSSP",
@@ -48146,7 +48609,10 @@
         }
       ],
       "needs_review": "The success key is misspelled is_mobile_veriried in code; DOCX says is_mobile_verified. taxcode_enabled is not in DOCX. An unparsable body returns (15.31) instead of (1.2). RegisterFacade enrollment errors and the extraction-required check were not traced.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Send OTP for Certificate Registration",
@@ -48326,7 +48792,10 @@
         }
       ],
       "needs_review": "The session is not checked against the caller. The success body comes from RegisterFacade.sendOTP and was not traced; session lookup returns (1.<stored-procedure status>).\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Verify OTP for Certificate Registration",
@@ -48471,7 +48940,10 @@
         }
       ],
       "needs_review": "The session is not checked against the caller. RegisterFacade.verifyOTP outcomes (invalid OTP, success body) were not traced. DOCX says the OTP is sent by SMS; it may also be an email OTP.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Finish Register Certificate",
@@ -48791,7 +49263,10 @@
         }
       ],
       "needs_review": "A FAILED session step is not handled by the switch and proceeds to issuing. A tax_code that matches no tax record is silently ignored. RegisterFacade.finish, tax lookup and connector errors were not traced; the async-mode body when result data is null was not confirmed.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Get Information of Citizen card",
@@ -48913,7 +49388,10 @@
         }
       ],
       "needs_review": "Anonymous (guest) tokens are accepted and any caller can retrieve the full personal data (including dg1/dg2 values and portrait) of an arbitrary citizen card number. The exception code reuses the verify-OTP constant. eID connector and lookup errors were not traced. DOCX apiName is \"Get Information of Citizen card\".\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Bulk Sign Packages",
@@ -49150,7 +49628,10 @@
         }
       ],
       "needs_review": "Not in DOCX V3. Quota checks (QuotaInternal, BulkSignatureQuotaGate) and CoreBulkProcessing errors were not traced. transaction_id in the response is the server request transaction ID.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Get Sign Hash From Service",
@@ -49368,7 +49849,10 @@
         }
       ],
       "needs_review": "The response body is produced by AuthorizationFlowFactory sign-hash flows and was not traced; the example follows DOCX. Quota reservation, credential loading and provider errors were not traced. The exception code reuses the credential-status constant.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Check OCSP Certificate Status",
@@ -49554,7 +50038,10 @@
         }
       ],
       "needs_review": "ValidateOCSP outcomes (revoked/unknown, 15.75-15.76) and connector or provider errors were not traced. Anonymous (guest) tokens are accepted. The exception code reuses the credentials-info constant.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Facial Matching",
@@ -49716,7 +50203,10 @@
         }
       ],
       "needs_review": "Not in DOCX V3; tag chosen as closest category. eID connector, session, subject lookup and perform errors were not traced. The result is serialized with the default mapper, so key casing follows the eID SDK objects and was not confirmed.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Send Email OTP",
@@ -49842,7 +50332,10 @@
         }
       ],
       "needs_review": "Not in DOCX V3; tag chosen as closest category. No field is validated as mandatory; missing citizen_id or user_email surface as eID provider errors, which were not traced. The exception code reuses the facial-matching constant. The registry also declares /v1/identity/verification/verify-otp, but no do* branch serves it.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Save Workflow as Template",
@@ -50106,7 +50599,10 @@
         }
       ],
       "needs_review": "Not fully traced: the workflow-blocking gate returns the code of whoever holds the block; package, participant-access and quota checks (WorkflowFacade, QuotaInternal) and the serializers return their own codes; USP_TEMPLATE_ADD and lookups return (1.<stored-procedure status>). DOCX names the response field \"Id\"; code returns \"id\".\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Create Personal Template",
@@ -50387,7 +50883,10 @@
         }
       ],
       "needs_review": "Not in DOCX V3. Quota checks (template count, upload size, storage) and document processing return codes not enumerated here; USP calls return (1.<stored-procedure status>). Malformed JSON in the metadata part is reported as (-1.183), not (1.2).\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "multipart/form-data"
+      ]
     },
     {
       "name": "Create Enterprise Template",
@@ -50675,7 +51174,10 @@
         }
       ],
       "needs_review": "Not in DOCX V3. Unlike Save Workflow as Template, the use case checks only the enterprise context, not the TEMPLATE_ENTERPRISE_CREATE permission (URL-RBAC may still gate the route). Quota, document processing and USP codes are not enumerated.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "multipart/form-data"
+      ]
     },
     {
       "name": "Get List Template",
@@ -50837,7 +51339,8 @@
         }
       ],
       "needs_review": "DOCX also allows templateType ALL, but the route regex accepts only PERSONAL/ENTERPRISE (either case), so ALL never reaches the controller. The typeless page/size shape handled by ValidateRequest.validateGetListTemplate is unreachable through this regex. DOCX lists a name/description request body for a GET; none is read. smart_form counts are always 0. List procedures can return (1.<stored-procedure status>).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get Template By ID",
@@ -51001,7 +51504,8 @@
         }
       ],
       "needs_review": "Template lookups can also return other (1.<stored-procedure status>) values, e.g. 101046 for the enterprise lookup. DOCX types `name` as Integer; code returns a string. The response has no template id; DOCX lists none either.\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Save Template",
@@ -51141,7 +51645,8 @@
         }
       ],
       "needs_review": "The save procedure can return (1.<stored-procedure status>).",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Update Template",
@@ -51418,7 +51923,10 @@
         }
       ],
       "needs_review": "DOCX types `public` as Boolean and `name` as Integer; code reads `public` as the TemplateType enum (PRIVATE/PUBLIC), so a JSON boolean is rejected with (1.2). The update procedure can return (1.<stored-procedure status>).\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Delete Template",
@@ -51519,7 +52027,8 @@
         }
       ],
       "needs_review": "DOCX lists Content-Type as mandatory; the route reads no body. The delete procedure can return (1.<stored-procedure status>).",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Clone Template",
@@ -51695,7 +52204,10 @@
         }
       ],
       "needs_review": "DOCX says the name is 1-255 characters; code caps it at the policy maxTemplateName (default 50). The template quota check and the clone procedure return codes not enumerated here ((1.<stored-procedure status>) for the procedure). The new template id is not returned.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Get Template Details",
@@ -51893,7 +52405,8 @@
         }
       ],
       "needs_review": "DOCX describes a flat body (id, name, public, read_only, description, created_on, enterprise, documents, workflow, workflow_details, workflow_categories, participants, tasks); code (WorkflowDetailsJsonWriter, TEMPLATE mode) returns template_id, a nested template object, workflow, documents and users. Template lookups can return (1.<stored-procedure status>).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get Template File",
@@ -52015,7 +52528,8 @@
         }
       ],
       "needs_review": "Not in DOCX V3. File-storage download failures return codes from the FMS adapter that are not enumerated; template and document lookups can return (1.<stored-procedure status>).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get Template Workflow Users",
@@ -52137,7 +52651,8 @@
         }
       ],
       "needs_review": "Template lookups can return (1.<stored-procedure status>). The response also carries delivery_method, which DOCX does not list.",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Add Template Workflow Users",
@@ -52329,7 +52844,10 @@
         }
       ],
       "needs_review": "DOCX marks user_email and role mandatory and lists SMS / EMAIL_AND_SMS delivery methods; code requires only user_name, accepts a missing role, and rejects any delivery method other than EMAIL with (21.22). The template update procedure can return (1.<stored-procedure status>).\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Add Template Workflow Placeholder",
@@ -52481,7 +52999,10 @@
         }
       ],
       "needs_review": "DOCX marks role mandatory; code accepts a missing role. The template update procedure can return (1.<stored-procedure status>).",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Update Template Workflow User",
@@ -52813,7 +53334,10 @@
         }
       ],
       "needs_review": "DOCX marks user_email, user_name and role mandatory; on update code requires none of them. The order path value is the participant id, not a list position. The template update procedure can return (1.<stored-procedure status>).\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Update Template Workflow Placeholder",
@@ -53080,7 +53604,10 @@
         }
       ],
       "needs_review": "DOCX marks placeholder and role mandatory; on update code requires neither. The template update procedure can return (1.<stored-procedure status>).",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Reorder Template Workflow Participant",
@@ -53210,7 +53737,10 @@
         }
       ],
       "needs_review": "The template update procedure can return (1.<stored-procedure status>).",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Delete Template Workflow Participant",
@@ -53324,7 +53854,8 @@
         }
       ],
       "needs_review": "The referenced-participant check (rejectIfReferenced) may emit its own codes beyond (1.2); not fully traced. DOCX lists Content-Type as mandatory; no body is read.\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Add Template Field",
@@ -53629,7 +54160,10 @@
         }
       ],
       "needs_review": "The body is parsed by ParseToField.parseToFieldV3, CalculateDimension and TemplateFieldSnapshot.addField, whose own codes (duplicate name, zero size, etc.) are not traced here. The template update procedure can return (1.<stored-procedure status>).\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Update Template Field",
@@ -53918,7 +54452,10 @@
         }
       ],
       "needs_review": "DOCX marks page, dimension and type_name mandatory for update; code keeps stored values when they are omitted. ParseToField, CalculateDimension and TemplateFieldSnapshot.updateField codes (e.g. unknown field) are not traced. The update procedure can return (1.<stored-procedure status>).\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Get Template Fields",
@@ -54071,7 +54608,8 @@
         }
       ],
       "needs_review": "Not in DOCX V3. Items are serialized field attributes (ExtendedFieldAttribute) whose shape is shared with the document-field APIs; not detailed here. Template lookups can return (1.<stored-procedure status>).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Delete Template Field",
@@ -54236,7 +54774,10 @@
         }
       ],
       "needs_review": "Not in DOCX V3. TemplateFieldSnapshot.removeField failures (e.g. unknown field_name) are not traced. The template update procedure can return (1.<stored-procedure status>).\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Get list of Category",
@@ -54344,7 +54885,8 @@
         }
       ],
       "needs_review": "DOCX lists Content-Type as mandatory; the route reads no body. No page path segments exist, so paging is only via x-total-records. CategoryListReader can return (1.<stored-procedure status>).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Create new Category",
@@ -54529,7 +55071,10 @@
         }
       ],
       "needs_review": "DOCX does not restrict creation to enterprise members; code returns (5.22) for any non-USER subject. The unexpected-failure path reuses the workflow exception (-1.27) instead of EXCEPTION_CATEGORY_CANNOT_CREATE_NEW_CATEGORY. USP_CATEGORY_ADD returns (1.<stored-procedure status>), e.g. duplicate name.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Update Category",
@@ -54689,7 +55234,10 @@
         }
       ],
       "needs_review": "A category that does not exist or belongs to another user/tenant returns HTTP 403 with (1.101291); the value is the private constant CategoryService.CATEGORY_NOT_FOUND_CODE and cannot be listed. USP_CATEGORY_GET / USP_CATEGORY_UPDATE return (1.<stored-procedure status>).\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Delete Category",
@@ -54790,7 +55338,8 @@
         }
       ],
       "needs_review": "A category that does not exist or belongs to another user/tenant returns HTTP 403 with (1.101291) (private CategoryService.CATEGORY_NOT_FOUND_CODE). DOCX lists Content-Type as mandatory; no body is read. USP_CATEGORY_DELETE returns (1.<stored-procedure status>).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get List Enterprise Categories",
@@ -54898,7 +55447,8 @@
         }
       ],
       "needs_review": "Not in DOCX V3. CATEGORY_ENTERPRISE_LIST is enforced by URL-RBAC (code not traced). CategoryListReader can return (1.<stored-procedure status>).",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Create Enterprise Category",
@@ -55090,7 +55640,10 @@
         }
       ],
       "needs_review": "Not in DOCX V3. The CATEGORY_ENTERPRISE_CREATE permission is enforced by URL-RBAC, not in this flow; its denial code is not traced here. USP_CATEGORY_ADD returns (1.<stored-procedure status>).\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Update Enterprise Category",
@@ -55257,7 +55810,10 @@
         }
       ],
       "needs_review": "Not in DOCX V3. CATEGORY_ENTERPRISE_UPDATE is enforced by URL-RBAC (code not traced). USP_CATEGORY_UPDATE returns (1.<stored-procedure status>).",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Delete Enterprise Category",
@@ -55365,7 +55921,8 @@
         }
       ],
       "needs_review": "Not in DOCX V3. USP_CATEGORY_DELETE still filters on the creator, so a non-creator gets the procedure's (1.101293) until the procedure is widened; procedure statuses cannot be listed. CATEGORY_ENTERPRISE_DELETE is enforced by URL-RBAC (code not traced).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "List Category Grants",
@@ -55490,7 +56047,8 @@
         }
       ],
       "needs_review": "Not in DOCX V3. USP_CATEGORY_PERMISSION_LIST returns (1.<stored-procedure status>). Grants beyond the first 1000 are not reachable.",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Grant Category Permission",
@@ -55686,7 +56244,10 @@
         }
       ],
       "needs_review": "Not in DOCX V3. USP_CATEGORY_PERMISSION_LIST / _ADD / _UPDATE return (1.<stored-procedure status>).",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Revoke Category Permission",
@@ -55867,7 +56428,10 @@
         }
       ],
       "needs_review": "Not in DOCX V3. USP_CATEGORY_PERMISSION_LIST / _DELETE return (1.<stored-procedure status>).",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Reload System Resources",
@@ -55982,7 +56546,10 @@
         }
       ],
       "needs_review": "Not in DOCX V3. A rejected or password-grant token returns HTTP 500 (-1.7) instead of 401/403. ValidateRequest.validateReloadSystemResources only checks non-emptiness, so malformed JSON is accepted.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Sync Service Plans",
@@ -56145,7 +56712,10 @@
         }
       ],
       "needs_review": "Not in DOCX V3. A malformed body throws and returns (-1.278) with HTTP 500 rather than (1.2). TBS fetch failures and local plan lookups are cloned from the Trusted Billing SDK wrapper and stored procedures; those codes are not traced here. The (56.2) entry assumes TrustedBillingInitializerAdapter reports a missing connector that way; not verified. Response keys are camelCase (plain ObjectMapper), unlike the rest of the API.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Add Response Code",
@@ -56320,7 +56890,10 @@
         }
       ],
       "needs_review": "Not in DOCX V3. USP_GIA_RESPONSE_CODE_ADD failures return (1.<stored-procedure status>). The catch-all reuses CODE_FAIL as the exception sub-code, so (-1.1) collides with EXCEPTION_USER_CANNOT_GET_USER.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Get Cache Data",
@@ -56455,7 +57028,8 @@
         }
       ],
       "needs_review": "Not in DOCX V3. Client input errors (missing type, bad key) return HTTP 500 with exception codes. The shape of `data` depends on the cache type. CacheDataResponseDTO is written with a plain ObjectMapper, so keys are camelCase.\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Delete Cache Data",
@@ -56596,7 +57170,8 @@
         }
       ],
       "needs_review": "Not in DOCX V3. Client input errors return HTTP 500 with exception codes.",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Download file system",
@@ -56676,7 +57251,8 @@
         }
       ],
       "needs_review": "Not in DOCX V3. The registry regex is built as \".*\" + SystemRoutes.PUBLIC_FILE_PREFIX + \"([a-zA-Z0-9\\-]+)\"; the route scanner only sees the leading literal \".*\", which is why x-route is \".*\". The service is written as a public link, but PublicRouteMatcher does not list /v1/system/file, so the default filter chain asks for a bearer token unless a bypass regex is configured. FMS download failures are cloned from the FMS client.\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get List Terms of Service",
@@ -56776,7 +57352,8 @@
         }
       ],
       "needs_review": "Not in DOCX V3. List lookup failures can return (1.<stored-procedure status>). version_number, description, terms_of_service and privacy_policy are always null.\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get List Terms of Service",
@@ -56876,7 +57453,8 @@
         }
       ],
       "needs_review": "Not in DOCX V3. List lookup failures can return (1.<stored-procedure status>).",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Download Terms of Service File",
@@ -56920,7 +57498,8 @@
       "response_example": null,
       "error_codes": [],
       "needs_review": "Not in DOCX V3. Not-found and exception paths set only a status and a plain message (no code pair); FMS download failures are cloned from the FMS client. The service does no token check of its own; the filter chain still requires a bearer token.\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get List Providers",
@@ -57019,7 +57598,8 @@
         }
       ],
       "needs_review": "Not in DOCX V3. Provider lookup failures can return (1.<stored-procedure status>).",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get All Service Plans",
@@ -57191,7 +57771,8 @@
         }
       ],
       "needs_review": "Not in DOCX V3. The catch-all reuses EXCEPTION_SYSTEM_CANNOT_GET_LIST_PROVIDER (-1.258). `constraints` is removed from each plan before serialization. Filtering rules (industry, role, first-purchase minimum price, ADMIN application group) live in ServicePlanProcessor and its strategies.\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get All Service Plans",
@@ -57376,7 +57957,8 @@
         }
       ],
       "needs_review": "Not in DOCX V3. The catch-all reuses EXCEPTION_SYSTEM_CANNOT_GET_LIST_PROVIDER (-1.258). `constraints` is removed from each plan before serialization. Filtering rules (industry, role, first-purchase minimum price, ADMIN application group) live in ServicePlanProcessor and its strategies.\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get Service Plan Billing Catalog",
@@ -57533,7 +58115,8 @@
         }
       ],
       "needs_review": "Not in DOCX V3.",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get Billing Catalog",
@@ -57671,7 +58254,8 @@
         }
       ],
       "needs_review": "Not in DOCX V3. The failure path reuses the provider-list exception code (-1.258).",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get Trusted Billing Bank Accounts",
@@ -57777,7 +58361,8 @@
         }
       ],
       "needs_review": "Not in DOCX V3. Connector-resolution and TBS SDK failures are cloned from TrustedBillingInitializerAdapter / TrustedBillingService and are not traced here. The moved route replaces GET /v1/trusted-billing/bank-accounts. Account details (account number, identity number) are returned to any authenticated caller.\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get Tax Company Name",
@@ -57880,7 +58465,8 @@
         }
       ],
       "needs_review": "Not in DOCX V3. The 200 body is the raw upstream JSON; the example is illustrative. Errors of the Tax Information client (service creation, upstream status) are cloned and not traced here.\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get App Name Mapping List",
@@ -57978,7 +58564,8 @@
         }
       ],
       "needs_review": "Not in DOCX V3. Lookup failures can return (1.<stored-procedure status>).",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "List System Logs",
@@ -58107,7 +58694,8 @@
         }
       ],
       "needs_review": "Not in DOCX V3. Any authenticated caller can read every system log (no admin check in the service). Stored-procedure failures can return (1.<status>).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get System Log Details",
@@ -58236,7 +58824,8 @@
         }
       ],
       "needs_review": "Not in DOCX V3. Stored-procedure failures can return (1.<status>).",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Create Account",
@@ -58555,7 +59144,10 @@
         }
       ],
       "needs_review": "DOCX V3 \"Create Account\" describes creating a user account with user_* fields and a mandatory service_plan; code validates user_email/user_password/names but never creates that user, makes the caller the enterprise owner, and ignores service_plan_id. DOCX response fields (message on error) differ from the ErrorResponse envelope. The catch-all reuses EXCEPTION_CONTACT_CANNOT_CREATE_CONTACT. Enterprise and API-key inserts can return (1.<stored-procedure status>).\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Create Personal Account",
@@ -58944,7 +59536,10 @@
         }
       ],
       "needs_review": "Not in DOCX V3. Keycloak, USER/identity inserts and Trusted Billing initialization failures are cloned (stored-procedure statuses, TBS errors) and not listed. Whether the user row is rolled back when billing fails was not traced.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Create Enterprise Account",
@@ -59388,7 +59983,10 @@
         }
       ],
       "needs_review": "Not in DOCX V3. Each duplicate check has two branches in CreateEnterpriseAccountUseCase (a conflict factory and createBadRequest); the HTTP status of the first branch was not verified. Owner, enterprise, API-key and Trusted Billing failures are cloned and not listed.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Lookup Enterprise By Tax Code For Tools",
@@ -59660,7 +60258,10 @@
         }
       ],
       "needs_review": "Not in DOCX V3. A too-long tax_code reuses the \"missing\" sub-code (2.102). Not found and lookup failures return (1.<stored-procedure status>).\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Re-drive Trusted Billing Payment Webhook",
@@ -59855,7 +60456,10 @@
         }
       ],
       "needs_review": "Not in DOCX V3. Trusted Billing bill details carry no total due, paid date or bill type: a bill with no local payment is recorded with the sum of its item amounts as price, its last update as paid date, and the first-purchase intent. Other processing failures return the failing step's own code pair after a FAILED record is stored.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Get User by Email or Citizen ID",
@@ -60132,7 +60736,8 @@
         }
       ],
       "needs_review": "Not in DOCX V3. Keys are camelCase (default ObjectMapper), unlike the snake_case API. Lookup failures can return (1.<stored-procedure status>). Returns citizen ID and dates of birth/issue in clear text.\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Refresh Certificate Profiles",
@@ -60212,7 +60817,8 @@
         }
       ],
       "needs_review": "Not in DOCX V3. A state-changing operation exposed as GET.",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Create Trusted Billing Customer",
@@ -60506,7 +61112,10 @@
         }
       ],
       "needs_review": "Not in DOCX V3. The service returns the TbsCreateCustomerResponse as data without a message, so the response writer sends an empty body. The service does no own authorization: any bearer token can create TBS customers. Request keys mix camelCase (default ObjectMapper) and snake_case (@JsonProperty). Connector-resolution errors are cloned and not traced.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Create Trusted Billing Bill",
@@ -60935,7 +61544,10 @@
         }
       ],
       "needs_review": "Not in DOCX V3. Same empty-201 and missing-authorization concerns as Create Trusted Billing Customer: any bearer token can issue bills of any amount.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "RSS Webhook",
@@ -61029,7 +61641,10 @@
       },
       "error_codes": [],
       "needs_review": "Not in DOCX V3. Public route (PublicRouteMatcher ^/rss). An invalid HMAC or payload is only logged and still answered 200, so callers cannot detect rejection. Unexpected failures return HTTP 500 without a code pair; a non-JSON Content-Type returns 415.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "RSS Webhook - Receive event start processing",
@@ -61130,7 +61745,10 @@
       },
       "error_codes": [],
       "needs_review": "Not in DOCX V3. Public route (PublicRouteMatcher ^/rss). An invalid HMAC or payload is only logged and still answered 200, so callers cannot detect rejection. Unexpected failures return HTTP 500 without a code pair; a non-JSON Content-Type returns 415.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Trusted Billing Webhook",
@@ -61327,7 +61945,10 @@
         }
       ],
       "needs_review": "Not in DOCX V3. Public route (PublicRouteMatcher ^/billing/webhook). Signature and payload errors are only logged and still answered 200. An unresolved TBS connector configuration answers 500 with the connector's own code pair. Unexpected failures outside processing return HTTP 500 without a code pair; a non-JSON Content-Type returns 415.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Trusted Billing Webhook - Receive event processing",
@@ -61531,7 +62152,10 @@
         }
       ],
       "needs_review": "Not in DOCX V3. Public route (PublicRouteMatcher ^/billing/webhook). Signature and payload errors are only logged and still answered 200. An unresolved TBS connector configuration answers 500 with the connector's own code pair. Unexpected failures outside processing return HTTP 500 without a code pair; a non-JSON Content-Type returns 415.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Add Personal Contact",
@@ -61831,7 +62455,10 @@
         }
       ],
       "needs_review": "DOCX marks user_first_name and user_last_name mandatory; code only requires user_email. Address book lookup, contact insert and address book membership insert can return (1.<stored-procedure status>). An address_book_name that matches no book is silently ignored. A failure while adding into the address_book_ids books is returned after the contact itself is already created; contact and membership are separate stored-procedure calls with no shared transaction.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Get Contacts",
@@ -61970,7 +62597,8 @@
         }
       ],
       "needs_review": "DOCX lists x-search-text and x-enterprise headers; the code reads neither. The list query can return (1.<stored-procedure status>). The serializer runs one address-book lookup per contact.\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Update Personal Contact",
@@ -62251,7 +62879,10 @@
         }
       ],
       "needs_review": "DOCX marks id, user_first_name, user_email and user_last_name mandatory in the body; code takes the ID from the path and treats every body field as optional. Update can return (1.<stored-procedure status>); a contactId of 0 is not rejected before the database call.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Delete Personal Contact",
@@ -62338,7 +62969,8 @@
         }
       ],
       "needs_review": "DOCX says Content-Type is mandatory and lists id in the body; code reads neither. Delete can return (1.<stored-procedure status>).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get Address Book",
@@ -62465,7 +63097,8 @@
         }
       ],
       "needs_review": "The route has no page segments, so pagination comes only from x-total-records. The list query can return (1.<stored-procedure status>); a failed per-book contact lookup returns the book without contacts.\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Add Address Book",
@@ -62600,7 +63233,10 @@
         }
       ],
       "needs_review": "Insert can return (1.<stored-procedure status>), e.g. for a duplicate name.",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Update Address Book",
@@ -62725,7 +63361,10 @@
         }
       ],
       "needs_review": "DOCX defines Update Address Book as PUT; code serves it on POST only. The service does not pass the caller's user ID to the update, so ownership depends on the stored procedure. Update can return (1.<stored-procedure status>).\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Delete Address Book",
@@ -62819,7 +63458,8 @@
         }
       ],
       "needs_review": "DOCX says Content-Type is mandatory; code does not read it. Only the address book ID is passed to the delete, so ownership depends on the stored procedure. Delete can return (1.<stored-procedure status>).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Add Validation",
@@ -63026,7 +63666,10 @@
         }
       ],
       "needs_review": "Subscription loading (VerifyModule.loadUserSubscriptionContext) and quota reservation (QuotaInternal) can return further pairs that were not traced. USP_VALIDATION_ADD failures return (1.<stored-procedure status>). The file is always stored as a PDF.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Get List Validation",
@@ -63166,7 +63809,8 @@
         }
       ],
       "needs_review": "The list query can return (1.<stored-procedure status>).",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Get Report of Validation",
@@ -63372,7 +64016,8 @@
         }
       ],
       "needs_review": "The ownership check is skipped when the stored validation has no email, and a foreign validation returns 400 instead of 403/404. The lookup can return (1.<stored-procedure status>). Report keys come from the external rssp.validation library (snake_case) plus annotation enrichment, so only the main keys are specified.\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Download Reports",
@@ -63486,7 +64131,8 @@
         }
       ],
       "needs_review": "The service performs no token or ownership check of its own, so any authenticated caller holding a report ID can download it. The response Content-Type is application/pdf only for `detailed`; `simple` is a PDF but is labelled application/xml. The controller extracts the ID with [\\w-]+ while the route accepts only [a-zA-Z0-9]+. Report lookup can return (1.<stored-procedure status>).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Delete Validation",
@@ -63573,7 +64219,8 @@
         }
       ],
       "needs_review": "DOCX says Content-Type is mandatory; code does not check it. Only the validation ID is passed to the delete, so ownership depends on the stored procedure. Delete can return (1.<stored-procedure status>).\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Add API Request Queue",
@@ -63684,7 +64331,10 @@
         }
       ],
       "needs_review": "Not in DOCX V3. /v1/application/* is public in PublicRouteMatcher, but the service validates the bearer token itself. createdBy is taken from the body, not from the token. Insert can return (1.<stored-procedure status>).\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Add API Request Queue",
@@ -63795,7 +64445,10 @@
         }
       ],
       "needs_review": "Not in DOCX V3. A DELETE that inserts a queue entry looks unintended; confirm whether the route should exist.",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Register Application User",
@@ -64126,7 +64779,10 @@
         }
       ],
       "needs_review": "Application lookup, user insert and identity insert return (1.<stored-procedure status>) for unknown clients, duplicate emails and similar; the login step can add the login errors of Password Authentication. DOCX says Authorization is mandatory; the route is public and authenticates with x-client-id/x-client-secret. DOCX lists email_notification, certificate_id, country, time_zone, language, user_csp_id, user_ra_id, user_csc_id and common_name, which the DTO does not read; DOCX types security_answer Boolean and documents gender 1 MALE / 2 FEMALE while code uses 1 NOT_SPECIFIED, 2 MALE, 3 FEMALE, 4 OTHER.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Register Application User with Biometric",
@@ -64320,7 +64976,10 @@
         }
       ],
       "needs_review": "Not in DOCX V3. The eID flow (IdentityFacade connector validation, session, perform, RSSP connector) and Keycloak user creation return further pairs that were not traced. Database steps return (1.<stored-procedure status>). Email format failure uses code 1 with a UserErrorSubCode sub-code.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Check User Existed in KeyCloak",
@@ -64425,7 +65084,10 @@
         }
       ],
       "needs_review": "Not in DOCX V3. Despite the name, the check queries the GoPaperless user table, not Keycloak. Body validation errors are ignored, so an empty or malformed body ends in (-1.262) instead of (1.1)/(1.2). Unknown client credentials return (1.<stored-procedure status>). user_name is accepted but never read.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Client Credentials Authentication",
@@ -64696,6 +65358,9 @@
       ],
       "needs_review": "Credential, account-lock and lookup failures return (1.<status>) where <status> comes from stored procedures (USP_USER_LOGIN, API key / enterprise lookups); values are not in the repository.\n",
       "status": "",
+      "media_types": [
+        "application/json"
+      ],
       "variant": "grant_type is client_credential"
     },
     {
@@ -64967,6 +65632,9 @@
       ],
       "needs_review": "Credential, account-lock and lookup failures return (1.<status>) where <status> comes from stored procedures (USP_USER_LOGIN, API key / enterprise lookups); values are not in the repository.\n",
       "status": "",
+      "media_types": [
+        "application/json"
+      ],
       "variant": "grant_type is password"
     },
     {
@@ -65257,7 +65925,10 @@
         }
       ],
       "needs_review": "DOCX lists code, profile_name and profile_id as mandatory, but the flow never reads them. User and enterprise lookups can also return (1.<stored-procedure status>).\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Login TSE",
@@ -65362,7 +66033,10 @@
         }
       ],
       "needs_review": "Not in DOCX V3. Processing is commented out in AuthorizeService.loginTSE; confirm whether the route is still supported.",
-      "status": "not-implemented"
+      "status": "not-implemented",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Check TSE Status",
@@ -65453,7 +66127,10 @@
         }
       ],
       "needs_review": "Not in DOCX V3. A GET with a request body is unusual for clients and proxies.",
-      "status": "not-implemented"
+      "status": "not-implemented",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Check TSE Status",
@@ -65544,7 +66221,10 @@
         }
       ],
       "needs_review": "Not in DOCX V3. Processing is commented out in AuthorizeService.getStatusTSE.",
-      "status": "not-implemented"
+      "status": "not-implemented",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Pre Login Authentication",
@@ -65601,7 +66281,10 @@
       },
       "error_codes": [],
       "needs_review": "DOCX says Authorization is mandatory, but the route is public (PublicRouteMatcher). DOCX lists status NOT_FOUND; code emits \"NOT FOUND\" with a space.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Revoke refresh token",
@@ -65692,7 +66375,10 @@
         }
       ],
       "needs_review": "USP_SESSION_DELETE failures return (1.<stored-procedure status>). token_type_hint is documented as mandatory but never read.\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     },
     {
       "name": "Get Information",
@@ -65821,7 +66507,8 @@
       },
       "error_codes": [],
       "needs_review": "DOCX says Authorization and Content-Type are mandatory; the route is public and reads neither. Keys are raw property names, so a properties change alters the contract.\n",
-      "status": ""
+      "status": "",
+      "media_types": []
     },
     {
       "name": "Switch Enterprise Context",
@@ -65952,7 +66639,10 @@
         }
       ],
       "needs_review": "DOCX marks profile_id mandatory; code accepts {} and switches to personal. Lookups can return (1.<stored-procedure status>); RBAC enforce mode adds (5.29)-(5.34).\n",
-      "status": ""
+      "status": "",
+      "media_types": [
+        "application/json"
+      ]
     }
   ]
 }

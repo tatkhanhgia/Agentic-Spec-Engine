@@ -317,6 +317,28 @@ def fix_request_frame(txbx, record, stats):
             if para_text(p).strip().lower().startswith("content-type"):
                 txbx.remove(p)
                 stats["Content-Type lines removed"] += 1
+    elif record.get("media_types"):
+        # A cloned template, or the seed itself, may show another media type.
+        want = "Content-Type: %s" % record["media_types"][0]
+        found = frame_body(txbx)
+        end = found[1] if found else len(paras)
+        for p in paras[1:end]:
+            text = para_text(p).strip()
+            if text.lower().startswith("content-type") and text != want:
+                key_run = next((r for r in p.findall(qn("r")) if r.find(qn("t")) is not None), None)
+                if key_run is None:
+                    continue
+                # Keep the bold "Content-Type" run; rewrite only the value runs.
+                runs = [r for r in p.findall(qn("r")) if r.find(qn("t")) is not None]
+                key_run.find(qn("t")).text = "Content-Type"
+                if len(runs) > 1:
+                    runs[1].find(qn("t")).text = ": %s" % record["media_types"][0]
+                    runs[1].find(qn("t")).set("{http://www.w3.org/XML/1998/namespace}space", "preserve")
+                    for r in runs[2:]:
+                        p.remove(r)
+                else:
+                    key_run.find(qn("t")).text = want
+                stats["Content-Type lines rewritten"] += 1
 
 
 def set_par_text(p, text):
@@ -418,7 +440,12 @@ def category_end(body, category):
             return i
         if lv == 2 and para_text(el).strip() == category:
             inside = True
-    return len(els) if inside else None
+    if not inside:
+        return None
+    # The body's last child must stay the final section properties.
+    if els and etree.QName(els[-1]).localname == "sectPr":
+        return len(els) - 1
+    return len(els)
 
 
 def body_kind(record):

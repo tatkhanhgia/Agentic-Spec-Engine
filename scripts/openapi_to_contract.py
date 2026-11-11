@@ -263,6 +263,7 @@ def convert(data):
                 "error_codes": op.get("x-error-codes") or [],
                 "needs_review": op.get("x-needs-review") or [],
                 "status": op.get("x-doc-status", ""),
+                "media_types": list((body.get("content") or {}).keys()),
             }
             endpoints.extend(expand_sections(spec, base, op.get("x-doc-sections")))
     return {
