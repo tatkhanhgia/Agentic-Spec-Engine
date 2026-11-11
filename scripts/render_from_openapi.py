@@ -613,6 +613,7 @@ class ObjectLinker:
             if link is not None and link.get(qn("anchor")) in self.marks:
                 seen[self.inner(cell_text(cells[2]))].add(link.get(qn("anchor")))
         self.seed_anchor = {label: next(iter(a)) for label, a in seen.items() if len(a) == 1}
+        self.can_create = self.template() is not None and self.chapter_end() is not None
 
     @staticmethod
     def inner(label):
@@ -624,7 +625,9 @@ class ObjectLinker:
         if inner in self.seed_anchor:
             stats["type links to existing objects"] += 1
             return self.seed_anchor[inner]
-        if ref not in self.objects:
+        # No link without a destination: a new object section needs a template
+        # to clone and a chapter to go into.
+        if ref not in self.objects or not self.can_create:
             return None
         if ref not in self.created:
             anchor = "_OBJ_%s" % re.sub(r"[^A-Za-z0-9_]", "_", ref)
@@ -708,7 +711,12 @@ class ObjectLinker:
                 if inside:
                     return i
                 inside = para_text(el).strip().upper() == self.CHAPTER
-        return None
+        if not inside:
+            return None
+        # The chapter is the last one: insert before the body's final sectPr.
+        if els and etree.QName(els[-1]).localname == "sectPr":
+            return len(els) - 1
+        return len(els)
 
     @staticmethod
     def strip_ids(el):
