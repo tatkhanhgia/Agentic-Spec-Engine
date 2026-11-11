@@ -4,42 +4,42 @@
 |---|---|
 | Spec records (operations expanded by x-doc-sections) | 329 |
 | Doc endpoints | 265 |
-| Paired | 229 |
-| Doc only (no spec operation) | 36 |
-| Spec only (not in doc) | 102 |
-| Paired with no field difference | 28 |
+| Paired | 232 |
+| Doc only (no spec operation) | 33 |
+| Spec only (not in doc) | 99 |
+| Paired with no field difference | 33 |
 | category differs | 1 |
-| headers: common | 719 |
-| headers: only in doc | 129 |
-| headers: only in spec | 93 |
-| headers: presence differs | 3 |
-| headers: rows in doc | 848 |
-| headers: rows in spec | 812 |
+| headers: common | 733 |
+| headers: only in doc | 125 |
+| headers: only in spec | 94 |
+| headers: presence differs | 6 |
+| headers: rows in doc | 858 |
+| headers: rows in spec | 827 |
 | headers: type differs | 9 |
 | name differs | 2 |
 | path_params: common | 254 |
-| path_params: only in doc | 34 |
-| path_params: only in spec | 36 |
+| path_params: only in doc | 35 |
+| path_params: only in spec | 38 |
 | path_params: presence differs | 16 |
-| path_params: rows in doc | 288 |
-| path_params: rows in spec | 290 |
+| path_params: rows in doc | 289 |
+| path_params: rows in spec | 292 |
 | path_params: type differs | 7 |
-| request_fields: common | 907 |
+| request_fields: common | 909 |
 | request_fields: doc presence is conditional (RC) | 57 |
-| request_fields: only in doc | 154 |
-| request_fields: only in spec | 397 |
-| request_fields: presence differs | 152 |
-| request_fields: rows in doc | 1061 |
-| request_fields: rows in spec | 1304 |
+| request_fields: only in doc | 158 |
+| request_fields: only in spec | 402 |
+| request_fields: presence differs | 144 |
+| request_fields: rows in doc | 1067 |
+| request_fields: rows in spec | 1311 |
 | request_fields: type differs | 95 |
-| response_fields: common | 322 |
+| response_fields: common | 323 |
 | response_fields: doc presence is conditional (RC) | 2 |
 | response_fields: only in doc | 161 |
-| response_fields: only in spec | 124 |
-| response_fields: presence differs | 105 |
-| response_fields: rows in doc | 483 |
-| response_fields: rows in spec | 446 |
-| response_fields: type differs | 94 |
+| response_fields: only in spec | 131 |
+| response_fields: presence differs | 104 |
+| response_fields: rows in doc | 484 |
+| response_fields: rows in spec | 454 |
+| response_fields: type differs | 95 |
 
 ## Doc only
 
@@ -51,7 +51,6 @@
 - `PUT /v1/packages/{packageId}/workflow/{order}/authentication` — Document Workflow / Update Workflow User Authentication (Document Opening)
 - `GET /v1/packages/{packageId}/workflow/{order}/permissions` — Document Workflow / Get Workflow User Permissions
 - `PUT /v1/packages/{packageId}/workflow/{order}/permissions` — Document Workflow / Update Workflow User Permissions
-- `GET /v1/connectors/certificate-profiles` — Connector / Get Certificate Profile of Connector
 - `GET /v1/enterprise/packages/{packageId}/workflow/{order}/permissions` — Enterprise Management / Get Workflow User Permissions of Enterprise Package
 - `PUT /v1/enterprise/packages/{packageId}/workflow/{order}/permissions` — Enterprise Management / Update Workflow User Permissions of Enterprise Package
 - `GET /v1/enterprise/packages/{packageId}/workflow/{order}/authentication` — Enterprise Management / Get Workflow User Authentication (Document Opening) of Enterprise Package
@@ -64,7 +63,6 @@
 - `POST /v1/enterprise/groups/{id}` — Enterprise Management / Add Member into Group
 - `DELETE /v1/enterprise/groups/{id}` — Enterprise Management / Delete Member in Group
 - `GET /v1/enterprise/roles/{id}/users/{pageNo}/{recordPerPage}` — Enterprise Management / Get Role Users
-- `PUT /v1/enterprise/electronic-seals` — Enterprise Management / Update Enterprise Electronic Seals
 - `POST /v1/account` — Account Management / Register Enterprise User (Free Trial)
 - `GET /v1/account` — Account Management / Get Account
 - `POST /v1/account/password/reset` — Account Management / Send Forgot Password Request
@@ -72,7 +70,6 @@
 - `GET /v1/settings/groups/{pageNo}/{recordPerPage}` — Account Management / Get Group
 - `PUT /v1/settings/profile/password` — Account Management / Change Password
 - `PUT /v1/settings/profile/security` — Account Management / Update Security Settings
-- `PUT /v1/settings/addressbook/{id}` — Personal Settings / Update Address Book
 - `PUT /v1/settings/addressbook` — Personal Settings / Add Contact into Address Book
 - `PUT /v1/settings/addressbook` — Personal Settings / Remove Contact in Address Book
 - `POST /v1/admin/authenticate/client_cert` — ADMIN APIs / Admin Authentication
@@ -84,7 +81,6 @@
 
 - `GET /v1/enterprise/electronic-seals/{pageNo}/{recordsPerPage}` — Enterprise Management / List Enterprise Electronic Seals
 - `GET /v1/enterprise/electronic-seals/{sealId}` — Enterprise Management / Get Enterprise Electronic Seal By Id
-- `PUT /v1/enterprise/electronic-seals/{sealId}` — Enterprise Management / Update Enterprise Electronic Seal By Id
 - `DELETE /v1/enterprise/electronic-seals/{sealId}` — Enterprise Management / Delete Enterprise Electronic Seal
 - `POST /v1/enterprise/electronic-seals` — Enterprise Management / Add Enterprise Electronic Seal
 - `POST /v1/enterprise/electronic-seals/verify-pin` — Enterprise Management / Verify Enterprise Electronic Seal PIN (draft)
@@ -123,7 +119,6 @@
 - `DELETE /v1/workflow/from-paper/{recordId}` — Document Workflow / Delete Paper Conversion
 - `POST /v1/workflow/from-paper/{recordId}/approve` — Document Workflow / Approve Paper Conversion
 - `GET /v1/connectors` — Connector / Get List Login Connector
-- `GET /v1/connectors/certificate-profile` — Connector / Get Certificate Profiles for Connector
 - `GET /v1/packages/SIGN/status` — RSSP Processing / Get Bulk Signing Status
 - `DELETE /v1/packages/SIGN/status` — RSSP Processing / Release Bulk Signing Management
 - `POST /v1/ras/request/cancel` — RSSP Processing / Cancel Authorize Signing Request
@@ -176,7 +171,6 @@
 - `POST /rss/webhook/{signingTransactionId}` — ADMIN APIs / RSS Webhook - Receive event start processing
 - `POST /billing/webhook` — ADMIN APIs / Trusted Billing Webhook
 - `POST /billing/webhook/{billingTransactionId}` — ADMIN APIs / Trusted Billing Webhook - Receive event processing
-- `POST /v1/settings/addressbook/{addressBookId}` — Personal Settings / Update AddressBook
 - `POST /v1/application/queue` — Application/Device Management / Add API Request Queue
 - `DELETE /v1/application/queue` — Application/Device Management / Add API Request Queue
 - `POST /v1/application/users-biometric` — Application/Device Management / Register Application User with Biometric
@@ -211,9 +205,6 @@
 ### Pre Login Authentication — `POST /v1/authenticate/pre`
 - headers only in doc: Authorization
 
-### Pre Upload Document — `POST /v1/packages/documents/pre`
-- headers only in doc: Content-Type
-
 ### Add Document Package — `POST /v1/packages`
 - request_fields only in spec: createdBy, hmac, package_id, type
 - response_fields only in spec: createdBy, hmac, package_name, type
@@ -224,7 +215,6 @@
 - headers only in doc: Content-Type
 
 ### Upload Document — `POST /v1/packages/{packageId}/documents`
-- headers only in doc: Content-Type
 - headers only in spec: x-preserve-form-field
 - response_fields only in spec: document_height, document_mimetype, document_name, document_pages, document_rotate, document_size, document_type, document_width, package_id
 
@@ -281,15 +271,11 @@
 - headers only in doc: Content-Type
 
 ### Update Document — `PUT /v1/packages/{packageId}/documents/{documentId}/update`
-- headers only in doc: Content-Type
 - headers only in spec: x-preserve-form-field, x-sort-order
 
 ### Update Document (base64) — `PUT /v1/packages/{packageId}/documents/{documentId}/update/base64`
 - headers only in spec: x-preserve-form-field
 - request_fields only in spec: document_order
-
-### Merge Document — `POST /v1/packages/{packageId}/documents/{documentId}/merge`
-- headers only in doc: Content-Type
 
 ### Apply Workflow Template — `POST /v1/packages/{packageId}/documents/{documentId}/template`
 - request_fields only in spec: template_id
@@ -336,6 +322,7 @@
 - response_fields only in spec: owner_email
 
 ### View Workflow — `POST /v1/workflow/{uuid}/view`
+- headers only in doc: Content-Type
 - headers only in spec: Authorization, x-coordinate-origin, x-dimension-unit
 - path_params only in doc: uuid
 - path_params only in spec: workflowUuid
@@ -407,9 +394,6 @@
 - path_params only in doc: transactionCode
 - path_params only in spec: importId
 
-### Upload Attachment — `POST /v1/packages/{packageId}/documents/{documentId}/attachments`
-- headers only in doc: Content-Type
-
 ### Get Attachments — `GET /v1/packages/{packageId}/documents/{documentId}/attachments`
 - headers only in doc: Content-Type
 
@@ -441,9 +425,6 @@
 
 ### Update Initial Field — `PUT /v1/packages/{packageId}/documents/{documentId}/fields/initials`
 - request_fields only in spec: field_security, lock_field_enabled, rotate, type
-
-### Delete Document Field — `DELETE /v1/packages/{packageId}/documents/{documentId}/fields`
-- headers only in doc: Content-Type
 
 ### Get Document Fields — `GET /v1/packages/{packageId}/documents/{documentId}/fields`
 - headers only in doc: Content-Type
@@ -597,6 +578,10 @@
 ### Get List Internal Signing Service Connector (ISS) — `GET /v1/connectors/iss`
 - headers only in doc: Content-Type, x-search-server
 
+### Get Certificate Profile of Connector — `GET /v1/connectors/certificate-profiles`
+- headers only in doc: Content-Type, x-search-server
+- headers only in spec: x-connector-name
+
 ### Get RSSP Information — `GET /v1/system/signing/servers`
 - headers only in doc: Content-Type
 
@@ -644,9 +629,6 @@
 - response_fields only in spec: SCAL, auth_mode, cert, fields, multisign
 
 ### Get Credential Registration Status — `GET /v1/csc/credentials/{transactionCode}/status`
-- headers only in doc: Content-Type
-
-### Cancel Issue Certificate — `POST /v1/ras/issue/cancel`
 - headers only in doc: Content-Type
 
 ### Register Enterprise User — `POST /v1/enterprise/users`
@@ -728,6 +710,12 @@
 - headers only in spec: x-search-text
 - response_fields only in doc: appearance, basic_information, detail, id
 - response_fields only in spec: seals
+
+### Update Enterprise Electronic Seals — `PUT /v1/enterprise/electronic-seals`
+- path_params only in spec: sealId
+- request_fields only in doc: appearance, basic_information, detail, id
+- request_fields only in spec: credential_configuration, is_default, metadata, name, role
+- response_fields only in spec: created_at, credential_configuration, id, is_default, metadata, name, role
 
 ### Get Enterprise TSA Configuration — `GET /v1/enterprise/settings/tsa`
 - headers only in doc: Content-Type
@@ -877,6 +865,10 @@
 ### Get Address Book — `GET /v1/settings/addressbook`
 - headers only in doc: Content-Type
 - headers only in spec: x-total-records
+
+### Update Address Book — `PUT /v1/settings/addressbook/{id}`
+- path_params only in doc: id
+- path_params only in spec: addressBookId
 
 ### Delete Address Book — `DELETE /v1/settings/addressbook/{id}`
 - headers only in doc: Content-Type
