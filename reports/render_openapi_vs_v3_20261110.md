@@ -137,6 +137,22 @@ python scripts/render_from_openapi.py <seed.docx> contract/from_openapi.json <ou
     --meta <doc-meta.yaml> --descriptions config/doc-descriptions.yaml --objects config/doc-objects.yaml
 ```
 
+## Bổ sung 2026-11-12: chương ENUMERATION đọc enum có tên từ `openapi.yaml`
+
+- Spec (backend, PR #467) có 13 enum được đặt tên, mỗi enum kèm `x-enumDescriptions`: mô tả từng giá trị,
+  lấy từ `EnumLabelRegistry` trong code. 29 chỗ dùng trỏ tới chúng.
+- Adapter xuất `enums` (giá trị + mô tả) và đánh dấu field dùng enum (`enum`). Kiểu của field vẫn hiện là
+  kiểu thuần (`String`).
+- Renderer dựng mục cho từng enum trong chương ENUMERATION:
+  - 3 enum điền vào mục V3 có sẵn theo `config/doc-objects.yaml` (`enums`): `ParticipantType` → Role,
+    `ProcessTypeOfWorkflow` → WorkflowMode, `SignaturePosition` → AnnotationPosition. Bảng của ba mục này
+    nay theo code: Role có thêm `PLACEHOLDER`, WorkflowMode có thêm `EXCEL`, lời mô tả theo code.
+  - 10 enum còn lại có mục mới ở cuối chương, đặt tên theo schema.
+- Field dùng enum mà mô tả chưa có link thì được thêm câu "Possible values are here" link tới mục đó.
+  Link tới chương ENUMERATION trong bảng: 68 (trước: 46).
+- 15 mục ENUMERATION còn lại của V3 **giữ nguyên từ seed**: spec chưa khai báo các enum đó (ví dụ
+  `LevelOfAssurance`, `LockAction`, `Color`, `FontName`), cần đối chiếu code trước khi đưa vào spec.
+
 ## Còn lại
 
 - **13 route chỉ có trong spec**: các route trùng tên đã gộp vào một section, đường dẫn của chúng được ghi trong
@@ -145,6 +161,6 @@ python scripts/render_from_openapi.py <seed.docx> contract/from_openapi.json <ou
   ngoài, repo không có schema DB nên không chứng minh được cột có NULL hay không. Spec để tuỳ chọn (O), là
   lựa chọn an toàn. Cần quyền đọc schema DB để chốt.
 - **Chưa mở bằng Microsoft Word thật**: mới kiểm tra qua PDF của LibreOffice.
-- **Chương ENUMERATION** vẫn lấy từ seed (xem trên).
+- **15 mục ENUMERATION** vẫn lấy từ seed (xem trên).
 - **Nội dung V3 khác code**: field V3 ghi M nhưng code không bắt buộc, field đã đổi tên.
   Renderer theo code; báo cáo chi tiết từng endpoint ở `reports/openapi_vs_v3_20261110.md`.
