@@ -344,6 +344,35 @@ def fix_request_frame(txbx, record, stats):
                 stats["Content-Type lines rewritten"] += 1
 
 
+def fix_response_media(txbx, record, stats):
+    """Make a cloned response frame's `Content-type` line state this endpoint's media type."""
+    media = record.get("response_media_types")
+    if media is None:
+        return
+    paras = txbx.findall(qn("p"))
+    found = frame_body(txbx)
+    for p in paras[1:found[1] if found else len(paras)]:
+        text = para_text(p).strip()
+        if not text.lower().startswith("content-type"):
+            continue
+        if not media:
+            txbx.remove(p)
+            stats["response Content-type lines removed"] += 1
+            continue
+        value = text.split(":", 1)[1].strip() if ":" in text else ""
+        runs = [r for r in p.findall(qn("r")) if r.find(qn("t")) is not None]
+        if value == media[0] or len(runs) < 2:
+            continue
+        # Keep the bold key run; rewrite only the value.
+        key = runs[0].find(qn("t")).text or ""
+        runs[0].find(qn("t")).text = key.split(":", 1)[0]
+        runs[1].find(qn("t")).text = ": %s" % media[0]
+        runs[1].find(qn("t")).set("{http://www.w3.org/XML/1998/namespace}space", "preserve")
+        for r in runs[2:]:
+            p.remove(r)
+        stats["response Content-type lines rewritten"] += 1
+
+
 def set_par_text(p, text):
     """Replace a paragraph's text, keeping its first text run's formatting."""
     runs = [r for r in p.findall(qn("r")) if r.find(qn("t")) is not None]
@@ -451,11 +480,78 @@ def category_end(body, category):
     return len(els)
 
 
+def snap_to_grid(tbl):
+    """Give every unmerged row the table's grid widths.
+
+    Some seed tables carry cell widths off their grid (TECHNICAL_DEBT); a new
+    section must not copy the defect.
+    """
+    grid = [gc.get(qn("w")) for gc in tbl.findall(qn("tblGrid") + "/" + qn("gridCol"))]
+    for tr in tbl.findall(qn("tr")):
+        cells = tr.findall(qn("tc"))
+        if len(cells) != len(grid):
+            continue
+        for tc, width in zip(cells, grid):
+            tcw = tc.find(qn("tcPr") + "/" + qn("tcW"))
+            if tcw is not None and width:
+                tcw.set(qn("w"), width)
+                tcw.set(qn("type"), "dxa")
+
+
+def table_kind(tbl):
+    trs = tbl.findall(qn("tr"))
+    title = " ".join(cell_text(tc) for tc in trs[0].findall(qn("tc"))).strip().lower() if trs else ""
+    return TABLE_KINDS.get(title)
+
+
+def is_error_frame(txbx):
+    lines = txbx.findall(qn("p"))
+    first = para_text(lines[0]).strip() if lines else ""
+    return frame_kind(txbx) is None and bool(HTTP_CODE_RE.match(first))
+
+
+def frame_text(txbx):
+    return "\n".join(para_text(p).strip() for p in txbx.findall(qn("p")))
+
+
+# The order attribute tables take inside a section.
+TABLE_ORDER = ("headers", "path_params", "request_fields", "response_headers", "response_fields")
+
+
+def find_donors(body):
+    """Parts a new section may lack in its template, taken from the seed.
+
+    `error`: a paragraph holding only the seed's shared error sample (the
+    frame most sections repeat). `tables`: per table kind, a table with a
+    plain data row and the spacer paragraph that precedes it.
+    """
+    texts = collections.Counter(frame_text(t) for t in body.iter(qn("txbxContent")) if is_error_frame(t))
+    shared = texts.most_common(1)[0][0] if texts else None
+    donors = {"error": None, "tables": {}}
+    prev = None
+    for el in body:
+        tag = etree.QName(el).localname
+        if tag == "p" and donors["error"] is None and shared is not None:
+            frames = list(el.iter(qn("txbxContent")))
+            if frames and all(is_error_frame(t) and frame_text(t) == shared for t in frames):
+                donors["error"] = el
+        elif tag == "tbl":
+            kind = table_kind(el)
+            rows = el.findall(qn("tr"))
+            if kind and kind not in donors["tables"] and any(plain_row(r) is not None for r in rows[2:]):
+                spacer = prev if (prev is not None and prev.tag == qn("p")
+                                  and not para_text(prev).strip()
+                                  and not list(prev.iter(qn("txbxContent")))) else None
+                donors["tables"][kind] = (el, spacer)
+        prev = el
+    return donors
+
+
 def body_kind(record):
     return bool(record["request_fields"]) or has_content_type(record)
 
 
-def build_section(template_els, record, ids, fallback, stats, linker=None):
+def build_section(template_els, record, ids, fallback, stats, linker=None, donors=None):
     """Clone a rendered section and fill it from `record`."""
     # Body-level bookmarks name the template's heading; a clone must not carry them.
     els = [copy.deepcopy(e) for e in template_els
@@ -483,7 +579,7 @@ def build_section(template_els, record, ids, fallback, stats, linker=None):
         else:
             drop.append(e)
 
-    seen = set()
+    seen, tables = set(), {}
     for e in els[1:]:
         tag = etree.QName(e).localname
         if tag == "p":
@@ -495,9 +591,7 @@ def build_section(template_els, record, ids, fallback, stats, linker=None):
             # together, so each error frame's own drawing run is removed.
             kept = []
             for txbx in frames:
-                lines = txbx.findall(qn("p"))
-                first = para_text(lines[0]).strip() if lines else ""
-                if frame_kind(txbx) is None and HTTP_CODE_RE.match(first):
+                if is_error_frame(txbx):
                     run = next((a for a in txbx.iterancestors() if a.tag == qn("r")), None)
                     if run is not None and run.getparent() is not None:
                         run.getparent().remove(run)
@@ -527,11 +621,10 @@ def build_section(template_els, record, ids, fallback, stats, linker=None):
                     lines = txbx.findall(qn("p"))
                     if lines:
                         set_par_text(lines[0], "Http Code: %s" % code)
+                    fix_response_media(txbx, record, stats)
                     rewrite_frame(txbx, record["response_fields"], stats, fresh=True)
         elif tag == "tbl":
-            trs = e.findall(qn("tr"))
-            title = " ".join(cell_text(tc) for tc in trs[0].findall(qn("tc"))).strip().lower() if trs else ""
-            kind = TABLE_KINDS.get(title)
+            kind = table_kind(e)
             if not kind or kind in seen:
                 continue
             seen.add(kind)
@@ -539,23 +632,49 @@ def build_section(template_els, record, ids, fallback, stats, linker=None):
                 drop.append(e)
                 continue
             rebuild_table(e, kind, record[kind], stats, fallback, fresh=True, linker=linker)
-            # Some seed tables carry cell widths off their grid (TECHNICAL_DEBT);
-            # a new section must not copy the defect, so every unmerged row
-            # takes the grid widths.
-            grid = [gc.get(qn("w")) for gc in e.findall(qn("tblGrid") + "/" + qn("gridCol"))]
-            for tr in e.findall(qn("tr")):
-                cells = tr.findall(qn("tc"))
-                if len(cells) != len(grid):
-                    continue
-                for tc, width in zip(cells, grid):
-                    tcw = tc.find(qn("tcPr") + "/" + qn("tcW"))
-                    if tcw is not None and width:
-                        tcw.set(qn("w"), width)
-                        tcw.set(qn("type"), "dxa")
-    for kind in TABLE_KINDS.values():
-        if record[kind] and kind not in seen:
+            snap_to_grid(e)
+            tables[kind] = e
+    out = [e for e in els if not any(e is d for d in drop)]
+    donors = donors or {"error": None, "tables": {}}
+
+    # The seed ends almost every Sample Response with one shared error sample
+    # (an unusable access token). An endpoint that takes a token gets it too.
+    if donors["error"] is not None and any(h["name"] == "Authorization" for h in record["headers"]):
+        anchor = None
+        for e in out:
+            if e.tag == qn("p") and any(frame_kind(t) == "response" for t in e.iter(qn("txbxContent"))):
+                anchor = e
+        if anchor is not None:
+            frame = copy.deepcopy(donors["error"])
+            ids.renumber(frame)
+            out.insert(next(i for i, e in enumerate(out) if e is anchor) + 1, frame)
+            stats["shared error frames added"] += 1
+
+    # A table kind the template section does not have comes from the seed.
+    for pos, kind in enumerate(TABLE_ORDER):
+        if not record[kind] or kind in tables:
+            continue
+        donor = donors["tables"].get(kind)
+        before = [tables[k] for k in TABLE_ORDER[:pos] if k in tables]
+        after = [tables[k] for k in TABLE_ORDER[pos + 1:] if k in tables]
+        if donor is None or not (before or after):
             stats["new sections missing a %s table" % kind] += 1
-    return [e for e in els if e not in drop]
+            continue
+        table = copy.deepcopy(donor[0])
+        ids.renumber(table)
+        rebuild_table(table, kind, record[kind], stats, fallback, fresh=True, linker=linker)
+        snap_to_grid(table)
+        new = [table]
+        if donor[1] is not None:
+            spacer = copy.deepcopy(donor[1])
+            ids.renumber(spacer)
+            new = [spacer, table] if before else [table, spacer]
+        at = (next(i for i, e in enumerate(out) if e is before[-1]) + 1 if before
+              else next(i for i, e in enumerate(out) if e is after[0]))
+        out[at:at] = new
+        tables[kind] = table
+        stats["tables added from the seed"] += 1
+    return out
 
 
 def pick_template(sections, record):
@@ -757,16 +876,7 @@ class ObjectLinker:
             self.strip_ids(table)
             set_cell_text(table.find(qn("tr")).find(qn("tc")), obj["label"])
             rebuild_table(table, "object", obj["fields"], stats, fallback, fresh=True, linker=self)
-            grid = [gc.get(qn("w")) for gc in table.findall(qn("tblGrid") + "/" + qn("gridCol"))]
-            for tr in table.findall(qn("tr")):
-                cells = tr.findall(qn("tc"))
-                if len(cells) != len(grid):
-                    continue
-                for tc, width in zip(cells, grid):
-                    tcw = tc.find(qn("tcPr") + "/" + qn("tcW"))
-                    if tcw is not None and width:
-                        tcw.set(qn("w"), width)
-                        tcw.set(qn("type"), "dxa")
+            snap_to_grid(table)
             new = [heading, table]
             if t_spacer is not None:
                 spacer = copy.deepcopy(t_spacer)
@@ -778,7 +888,7 @@ class ObjectLinker:
             stats["object sections added"] += 1
 
 
-def add_new_sections(body, spec, by_section, fallback, stats, ids, linker=None):
+def add_new_sections(body, spec, by_section, fallback, stats, ids, linker=None, donors=None):
     """Append a section for every spec record the seed does not document.
 
     Each new section clones the closest rendered section (same method and
@@ -810,7 +920,7 @@ def add_new_sections(body, spec, by_section, fallback, stats, ids, linker=None):
         if template is None or at is None:
             stats["new sections skipped (no template or category)"] += 1
             continue
-        for offset, el in enumerate(build_section(template["els"], record, ids, fallback, stats, linker)):
+        for offset, el in enumerate(build_section(template["els"], record, ids, fallback, stats, linker, donors)):
             body.insert(at + offset, el)
         stats["sections added"] += 1
 
@@ -893,7 +1003,7 @@ def render(seed, contract_path, out):
                 if rebuild_table(el, kind, current[kind], stats, fallback, linker=linker):
                     stats["tables rebuilt"] += 1
 
-    add_new_sections(body, spec, by_section, fallback, stats, IdAllocator(root), linker)
+    add_new_sections(body, spec, by_section, fallback, stats, IdAllocator(root), linker, find_donors(body))
     linker.flush(stats, fallback)
 
     xml = etree.tostring(root, xml_declaration=True, encoding="UTF-8", standalone=True)
