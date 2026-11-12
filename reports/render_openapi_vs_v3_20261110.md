@@ -64,16 +64,50 @@ Bảng của section mới lấy độ rộng cột theo lưới của bảng, n
 - **Tên mục object:** giữ tên schema. Chương RELATIVE OBJECT của V3 cũng đặt tên kiểu này
   (`NextSigner`, `SignatureFieldAttribute`, `UserOfEnterprise`). Muốn tên khác thì đặt `x-doc-type` trên schema.
 
-## Bổ sung 2026-11-12: trang bìa, History, Version
+## Bổ sung 2026-11-12: phần đầu tài liệu lấy từ `doc-meta.yaml`
 
-- Renderer tự ghi lần render lên tài liệu:
-  - trang bìa: `Version 3.1.261112` (major.minor của dòng History mới + ngày `yymmdd`) và năm;
-  - bảng History: thêm một dòng `3.1 | 20261112 | mô tả | GIATK`;
-  - thuộc tính file: ngày sửa cuối.
-- Mặc định: version = version cuối của seed + 0.1, ngày = hôm nay, tác giả = tác giả dòng cuối, mô tả sinh từ
-  số liệu của lần render (số API mới, số object mới, số API chưa triển khai).
-- Ghi đè bằng tham số: `--doc-version 3.1 --doc-date 20261112 --history "+ dòng mô tả" --author GIATK`
-  (`--history` lặp lại được cho nhiều dòng).
+Backend có thêm `docs/api/doc-meta.yaml`, đặt cạnh `openapi.yaml`. Renderer đọc file này (`--meta`) để dựng:
+
+| Phần | Khoá trong file |
+|---|---|
+| Trang bìa: tên, phụ đề, `Version 3.1.261112`, địa danh và năm | `document`, dòng cuối của `history.entries` |
+| INTRODUCTION, Target | `introduction.overview`, `introduction.target` |
+| Bảng Abbreviation | `abbreviations` |
+| Bảng System Connection Information | `connection` |
+| Bảng History (mọi dòng) | `history.entries` |
+
+- Seed chỉ còn cho mượn hình thức của các phần này. Ô nào nội dung không đổi thì giữ nguyên từng run.
+- Ràng buộc, kiểm tra trước khi ghi file (`scripts/doc_meta.py`): version `major.minor` tăng dần; ngày
+  `YYYYMMDD` có thật và không lùi; có tác giả; dòng mới hơn `3.0` tối đa 6 dòng, mỗi dòng tối đa 200 ký tự
+  (các dòng cũ giữ như đã phát hành).
+- **Thêm dòng History khi API đổi** (`scripts/propose_history.py`): mỗi version có một bản chụp API ở
+  `contract/openapi_history/<version>.json`. Script so spec hiện tại với bản chụp của dòng cuối, soạn dòng mới
+  (version + 0.1, ngày hôm nay, liệt kê API thêm / bỏ / sửa trong giới hạn ký tự); `--write` ghi vào cuối
+  `doc-meta.yaml` và lưu bản chụp mới. Sửa lời văn trong file nếu cần.
+- Renderer từ chối render khi API đã khác bản chụp của dòng History cuối (bỏ qua bằng `--allow-stale-history`).
+
+```bash
+python scripts/openapi_to_contract.py <openapi.yaml> -o contract/from_openapi.json
+python scripts/propose_history.py contract/from_openapi.json <doc-meta.yaml> --write   # khi API đổi
+python scripts/render_from_openapi.py <seed.docx> contract/from_openapi.json <out.docx> --meta <doc-meta.yaml>
+```
+
+## Bổ sung 2026-11-12: mô tả field lấy từ file mô tả, không lấy từ seed
+
+- `config/doc-descriptions.yaml` giữ lời văn của tài liệu cho 2.148 mô tả ở 230 section (sinh một lần bằng
+  `scripts/extract_doc_descriptions.py` từ V3, sau đó sửa tay). Khoá: nhóm API > section > loại bảng > field.
+- Renderer (`--descriptions`): field có mục trong file thì dùng mục đó, không có thì dùng mô tả trong
+  `openapi.yaml`. Xoá một mục là trả field đó về cho spec.
+- Mô tả trong `openapi.yaml` **không bị sửa**: chúng đã được đối chiếu với code, còn lời văn V3 thì chưa, nên
+  chép V3 đè lên spec sẽ làm spec kém chính xác. Hai nguồn nằm riêng: spec đúng theo code, file mô tả giữ lời
+  văn tài liệu.
+- So với bản render trước: 35 ô khác. 10 ô V3 để trống nay có mô tả của spec; 25 ô thuộc section mới trùng tên
+  với một section V3 nay dùng lời văn của section đó.
+
+```bash
+python scripts/render_from_openapi.py <seed.docx> contract/from_openapi.json <out.docx> \
+    --meta <doc-meta.yaml> --descriptions config/doc-descriptions.yaml
+```
 
 ## Còn lại
 
@@ -83,5 +117,7 @@ Bảng của section mới lấy độ rộng cột theo lưới của bảng, n
   ngoài, repo không có schema DB nên không chứng minh được cột có NULL hay không. Spec để tuỳ chọn (O), là
   lựa chọn an toàn. Cần quyền đọc schema DB để chốt.
 - **Chưa mở bằng Microsoft Word thật**: mới kiểm tra qua PDF của LibreOffice.
+- **Chương object và enumeration** vẫn lấy từ seed. Bảng đối chiếu tên mục V3 với schema:
+  `reports/object_mapping_20261112.md` (39/122 mục object đối chiếu được tự động, 18 enumeration chưa có schema).
 - **Nội dung V3 khác code**: field V3 ghi M nhưng code không bắt buộc, field đã đổi tên.
   Renderer theo code; báo cáo chi tiết từng endpoint ở `reports/openapi_vs_v3_20261110.md`.

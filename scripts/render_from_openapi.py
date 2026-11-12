@@ -18,25 +18,29 @@ Request, Response and Header Response tables are rebuilt from
 
 The seed file is never modified; the result is written to a new DOCX.
 
-The cover and the History table record the render: see `update_front_matter`.
+With `--meta`, the cover, introduction, abbreviations, connection table and
+History come from the backend's `doc-meta.yaml` (see `doc_meta.py`); without
+it they stay as the seed has them.
 
 Usage:
-    python scripts/render_from_openapi.py <seed.docx> <from_openapi.json> <out.docx>
-        [--doc-version 3.1] [--doc-date YYYYMMDD] [--history "+ line"]... [--author NAME]
+    python scripts/render_from_openapi.py <seed.docx> <from_openapi.json> <out.docx> [--meta doc-meta.yaml]
+        [--descriptions doc-descriptions.yaml] [--allow-stale-history]
 """
 import argparse
 import collections
 import copy
-import datetime
 import json
 import os
 import re
 import sys
 import zipfile
 
+import yaml
 from lxml import etree
 
 from compare_openapi_doc import ERROR_ROWS, pair
+from doc_meta import cover_version, load as load_meta
+from propose_history import read_snapshot, signatures
 from extract_doc_contract import TABLE_KINDS, cell_text, extract, para_text, qn, style_of, to_key
 
 W = "http://schemas.openxmlformats.org/wordprocessingml/2006/main"
@@ -93,12 +97,15 @@ def fallback_rows(body):
     return found
 
 
-def rebuild_table(tbl, kind, fields, stats, fallback, fresh=False, linker=None):
+def rebuild_table(tbl, kind, fields, stats, fallback, fresh=False, linker=None, wording=None):
     """Rebuild a table's data rows from `fields`.
 
     `fresh` is for a section cloned from another endpoint: its rows only lend
     their formatting, so no row keeps the template's name, type or wording.
     `linker` links a Type cell naming a component schema to its object section.
+    `wording` is this table's entry of the description file ({field: lines});
+    when given (even empty) the Description cells come from it, falling back
+    to the spec, and never from the seed.
     """
     trs = tbl.findall(qn("tr"))
     data = trs[2:]
@@ -148,12 +155,22 @@ def rebuild_table(tbl, kind, fields, stats, fallback, fresh=False, linker=None):
             linker.link(cells[2], f, stats)
         set_cell_text(cells[1], f["name"])
         set_cell_text(cells[3], f["presence"])
-        # The owner keeps the seed's wording for a field it already documents;
-        # only a new field takes the spec's description. The spec writes
-        # Markdown; the document shows plain text, so code markers are dropped.
-        if old is None:
-            set_cell_text(cells[4], f["description"].replace("`", ""))
+        spec_text = f["description"].replace("`", "")
+        if wording is not None:
+            # Description file first, the spec otherwise. An unchanged cell is
+            # left alone, so it keeps its runs.
+            lines = wording.get(f["name"]) or ([spec_text] if spec_text else [])
+            if not lines:
+                put(cells[4], "")
+            elif put_lines(cells[4], lines):
+                stats["descriptions written"] += 1
+            stats["descriptions from the description file" if f["name"] in wording
+                  else "descriptions from the spec"] += 1
+        elif old is None:
+            # The spec writes Markdown; the document shows plain text.
+            set_cell_text(cells[4], spec_text)
         else:
+            # No description file: a field the seed documents keeps its wording.
             stats["descriptions kept from seed"] += 1
         new_rows.append(tr)
     stats["rows removed"] += len([n for n in by_name if n not in {f["name"] for f in fields}])
@@ -555,7 +572,7 @@ def body_kind(record):
     return bool(record["request_fields"]) or has_content_type(record)
 
 
-def build_section(template_els, record, ids, fallback, stats, linker=None, donors=None):
+def build_section(template_els, record, ids, fallback, stats, linker=None, donors=None, wording=None):
     """Clone a rendered section and fill it from `record`."""
     # Body-level bookmarks name the template's heading; a clone must not carry them.
     els = [copy.deepcopy(e) for e in template_els
@@ -635,7 +652,8 @@ def build_section(template_els, record, ids, fallback, stats, linker=None, donor
             if not record[kind]:
                 drop.append(e)
                 continue
-            rebuild_table(e, kind, record[kind], stats, fallback, fresh=True, linker=linker)
+            rebuild_table(e, kind, record[kind], stats, fallback, fresh=True, linker=linker,
+                          wording=None if wording is None else wording.get(kind, {}))
             snap_to_grid(e)
             tables[kind] = e
     out = [e for e in els if not any(e is d for d in drop)]
@@ -666,7 +684,8 @@ def build_section(template_els, record, ids, fallback, stats, linker=None, donor
             continue
         table = copy.deepcopy(donor[0])
         ids.renumber(table)
-        rebuild_table(table, kind, record[kind], stats, fallback, fresh=True, linker=linker)
+        rebuild_table(table, kind, record[kind], stats, fallback, fresh=True, linker=linker,
+                      wording=None if wording is None else wording.get(kind, {}))
         snap_to_grid(table)
         new = [table]
         if donor[1] is not None:
@@ -892,7 +911,8 @@ class ObjectLinker:
             stats["object sections added"] += 1
 
 
-def add_new_sections(body, spec, by_section, fallback, stats, ids, linker=None, donors=None):
+def add_new_sections(body, spec, by_section, fallback, stats, ids, linker=None, donors=None,
+                     descriptions=None):
     """Append a section for every spec record the seed does not document.
 
     Each new section clones the closest rendered section (same method and
@@ -924,15 +944,11 @@ def add_new_sections(body, spec, by_section, fallback, stats, ids, linker=None, 
         if template is None or at is None:
             stats["new sections skipped (no template or category)"] += 1
             continue
-        for offset, el in enumerate(build_section(template["els"], record, ids, fallback, stats, linker, donors)):
+        for offset, el in enumerate(build_section(
+                template["els"], record, ids, fallback, stats, linker, donors,
+                None if descriptions is None else descriptions.get((category, name), {}))):
             body.insert(at + offset, el)
         stats["sections added"] += 1
-
-
-def next_version(last):
-    """`3.0` -> `3.1`: a regenerated document is a minor revision of its seed."""
-    m = re.match(r"\s*(\d+)\.(\d+)\s*$", last or "")
-    return "%s.%d" % (m.group(1), int(m.group(2)) + 1) if m else None
 
 
 def history_table(body):
@@ -944,72 +960,189 @@ def history_table(body):
     return None
 
 
-def update_front_matter(body, stats, version=None, date=None, lines=None, author=None):
-    """Record this render on the cover and in the History table.
+def cell_lines(tc):
+    """A cell's text as lines: one per paragraph, split again at line breaks."""
+    lines = []
+    for p in tc.findall(qn("p")):
+        text = ""
+        for node in p.iter():
+            if node.tag == qn("t"):
+                text += node.text or ""
+            elif node.tag == qn("br"):
+                text += "\n"
+        lines += [" ".join(part.split()) for part in text.split("\n") if part.strip()]
+    return lines
 
-    The cover shows `Version <major.minor>.<yymmdd>` and the year; History
-    gets one row. Defaults: the seed's last version plus one minor, today's
-    date, a description built from what the render changed, and the last
-    row's author. Returns the (version, date) written, or None when the seed
-    has no History table to continue.
-    """
-    # Checked before anything is written: a three-part version or an impossible
-    # date would be copied to the cover, History and the package properties.
-    if version is not None and not re.match(r"\d+\.\d+$", version):
-        raise ValueError("document version must be major.minor, got %r" % version)
-    if date is not None:
-        try:
-            if not re.match(r"\d{8}$", date):
-                raise ValueError
-            datetime.datetime.strptime(date, "%Y%m%d")
-        except ValueError:
-            raise ValueError("document date must be a real YYYYMMDD date, got %r" % date) from None
-    tbl = history_table(body)
-    rows = tbl.findall(qn("tr")) if tbl is not None else []
-    if len(rows) < 2 or len(rows[-1].findall(qn("tc"))) != 4:
-        stats["front matter skipped (no History table)"] += 1
-        return None
-    last = rows[-1]
-    version = version or next_version(cell_text(last.findall(qn("tc"))[0]))
-    if version is None:
-        stats["front matter skipped (last version not major.minor)"] += 1
-        return None
-    date = date or datetime.date.today().strftime("%Y%m%d")
-    if lines is None:
-        lines = ["+ Regenerate the documentation from the OpenAPI specification of the service"]
-        for key, text in (("sections added", "+ Add %d new APIs"),
-                          ("object sections added", "+ Add %d objects to RELATIVE OBJECT"),
-                          ("sections marked not implemented", "+ Mark %d APIs that are not implemented yet")):
-            if stats.get(key):
-                lines.append(text % stats[key])
 
-    row = copy.deepcopy(last)
-    ObjectLinker.strip_ids(row)
-    cells = row.findall(qn("tc"))
-    set_cell_text(cells[0], version)
-    set_cell_text(cells[1], date)
-    template = copy.deepcopy(cells[2].find(qn("p")))
-    for p in cells[2].findall(qn("p")):
-        cells[2].remove(p)
+def put(tc, text):
+    """Write a cell only when its text differs, so untouched cells keep every run."""
+    if " ".join(cell_text(tc).split()) != text:
+        set_cell_text(tc, text)
+        return True
+    return False
+
+
+def put_lines(tc, lines):
+    """Write a cell as one paragraph per line; unchanged cells are left alone."""
+    if cell_lines(tc) == lines:
+        return False
+    # The template paragraph keeps its properties and one text run; links,
+    # bookmarks and breaks of the old content must not be carried over.
+    template = copy.deepcopy(tc.find(qn("p")))
+    runs = template.findall(".//" + qn("r"))
+    run = next((r for r in runs if r.find(qn("t")) is not None), runs[0] if runs else None)
+    for child in list(template):
+        if etree.QName(child).localname != "pPr":
+            template.remove(child)
+    if run is None:
+        run = etree.Element(qn("r"))
+    for child in list(run):
+        if etree.QName(child).localname != "rPr":
+            run.remove(child)
+    rpr = run.find(qn("rPr"))
+    if rpr is not None:
+        for style in rpr.findall(qn("rStyle")):
+            rpr.remove(style)        # e.g. the Hyperlink character style
+    etree.SubElement(run, qn("t"))
+    template.append(run)
+    ObjectLinker.strip_ids(template)
+    for p in tc.findall(qn("p")):
+        tc.remove(p)
     for line in lines:
         p = copy.deepcopy(template)
-        set_par_text(p, line)
-        cells[2].append(p)
-    if author:
-        set_cell_text(cells[3], author)
-    last.addnext(row)
-    stats["history rows added"] += 1
+        t = p.find(qn("r")).find(qn("t"))
+        t.text = line
+        t.set("{http://www.w3.org/XML/1998/namespace}space", "preserve")
+        tc.append(p)
+    return True
 
-    for p in body.iter(qn("p")):
-        if style_of(p) != "MID-PageOverview-Small":
+
+def fill_rows(tbl, rows, first, stats, label):
+    """Make the table's data rows (from index `first`) show `rows` (lists of cell texts).
+
+    Rows are reused in place; a missing row clones the last data row and a
+    surplus row is removed. A cell value of None keeps the cell (row number).
+    """
+    trs = tbl.findall(qn("tr"))
+    data = trs[first:]
+    if not data:
+        stats["%s skipped (no data row to clone)" % label] += 1
+        return
+    for extra in data[len(rows):]:
+        tbl.remove(extra)
+        stats["%s rows removed" % label] += 1
+    data = data[:len(rows)]
+    while len(data) < len(rows):
+        row = copy.deepcopy(data[-1])
+        ObjectLinker.strip_ids(row)
+        data[-1].addnext(row)
+        data.append(row)
+        stats["%s rows added" % label] += 1
+    for tr, values in zip(data, rows):
+        cells = tr.findall(qn("tc"))
+        if len(cells) != len(values):
+            stats["%s rows skipped (unexpected cell count)" % label] += 1
             continue
-        text = para_text(p).strip()
-        if text.startswith("Version "):
-            set_par_text(p, "Version %s.%s" % (version, date[2:]))
-            stats["cover version updated"] += 1
-        elif re.search(r"- \d{4}$", text):
-            set_par_text(p, re.sub(r"\d{4}$", date[:4], text))
-    return version, date
+        changed = False
+        for tc, value in zip(cells, values):
+            if isinstance(value, list):
+                changed |= put_lines(tc, value)
+            elif value is not None:
+                changed |= put(tc, value)
+        if changed:
+            stats["%s rows written" % label] += 1
+
+
+def fill_paragraphs(els, texts, stats, label):
+    """Make the text paragraphs among `els` read `texts`, in order."""
+    paras = [e for e in els if e.tag == qn("p") and para_text(e).strip()
+             and not list(e.iter(qn("txbxContent")))]
+    if not paras:
+        stats["%s skipped (no paragraph to clone)" % label] += 1
+        return
+    for extra in paras[len(texts):]:
+        extra.getparent().remove(extra)
+    paras = paras[:len(texts)]
+    while len(paras) < len(texts):
+        p = copy.deepcopy(paras[-1])
+        ObjectLinker.strip_ids(p)
+        paras[-1].addnext(p)
+        paras.append(p)
+    for p, text in zip(paras, texts):
+        if " ".join(para_text(p).split()) != text:
+            set_par_text(p, text)
+            stats["%s paragraphs written" % label] += 1
+
+
+def block_after(body, style, title):
+    """Elements between the heading `title` and the next heading."""
+    els = list(body)
+    for i, el in enumerate(els):
+        if el.tag == qn("p") and style_of(el) == style and para_text(el).strip() == title:
+            out = []
+            for e in els[i + 1:]:
+                if e.tag == qn("p") and style_of(e).startswith("Heading"):
+                    break
+                out.append(e)
+            return out
+    return None
+
+
+def data_table(els):
+    """First table among `els` that has rows of its own."""
+    return next((e for e in els or [] if e.tag == qn("tbl") and e.findall(qn("tr"))), None)
+
+
+def apply_meta(body, meta, stats):
+    """Write the front matter from `doc-meta.yaml` (see `doc_meta.py`).
+
+    Cover, introduction, abbreviations, connection table and History come
+    from the file; the seed only lends their formatting. Returns the date of
+    the last history entry.
+    """
+    last = meta["history"]["entries"][-1]
+    doc = meta["document"]
+    for p in body.iter(qn("p")):
+        style = style_of(p)
+        text = " ".join(para_text(p).split())
+        want = None
+        if style == "MID-PageOverview-TitleBig" and text:
+            want = doc["title"]
+        elif style == "MID-PageOverView-TitleSmall" and text:
+            want = doc["subtitle"]
+        elif style == "MID-PageOverview-Small" and text.startswith("Version "):
+            want = "Version %s" % cover_version(meta)
+        elif style == "MID-PageOverview-Small" and re.search(r"- \d{4}$", text):
+            want = "%s - %s" % (doc["place"], last["date"][:4])
+        if want is not None and want != text:
+            set_par_text(p, want)
+            stats["cover lines written"] += 1
+
+    tbl = history_table(body)
+    if tbl is None:
+        stats["history skipped (no History table)"] += 1
+    else:
+        fill_rows(tbl, [[e["version"], e["date"], e["changes"], e["author"]]
+                        for e in meta["history"]["entries"]], 1, stats, "history")
+
+    intro = block_after(body, "Heading1", "INTRODUCTION")
+    if intro is not None:
+        fill_paragraphs(intro, meta["introduction"]["overview"], stats, "introduction")
+    target = block_after(body, "Heading2", "Target")
+    if target is not None:
+        fill_paragraphs(target, meta["introduction"]["target"], stats, "target")
+    abbr = data_table(block_after(body, "Heading2", "Abbreviation"))
+    if abbr is not None:
+        fill_rows(abbr, [[a["notation"], a["description"]] for a in meta["abbreviations"]], 1, stats,
+                  "abbreviation")
+    conn = block_after(body, "Heading2", "System Connection Information")
+    if conn is not None:
+        fill_paragraphs(conn, [meta["connection"]["intro"]], stats, "connection")
+        table = data_table(conn)
+        if table is not None:
+            fill_rows(table, [[str(i), c["name"], c["value"], c["description"]]
+                              for i, c in enumerate(meta["connection"]["parameters"], 1)], 1, stats, "connection")
+    return last["date"]
 
 
 def stamp_modified(core_xml, date):
@@ -1019,6 +1152,79 @@ def stamp_modified(core_xml, date):
     if el is not None:
         el.text = "%s-%s-%sT00:00:00Z" % (date[:4], date[4:6], date[6:8])
     return etree.tostring(root, xml_declaration=True, encoding="UTF-8", standalone=True)
+
+
+def section_title(parent, name):
+    """A section's key in the description file; a Heading 4 names its parent."""
+    return "%s > %s" % (parent, name) if parent else name
+
+
+def seed_descriptions(seed, contract):
+    """{category: {section: {table kind: {field: [lines]}}}} of a document's wording.
+
+    Only wording that differs from the spec is returned: the description of a
+    field the document shares with the spec record its section pairs with.
+    """
+    spec = contract["endpoints"]
+    pairs, _, _ = pair(spec, extract(seed))
+    by_section = {(d["category"], d["parent"], d["name"]): o for o, d in pairs if o["name"] == d["name"]}
+    with zipfile.ZipFile(seed) as z:
+        root = etree.fromstring(z.read("word/document.xml"), etree.XMLParser(huge_tree=True))
+    out = collections.OrderedDict()
+    heading = {2: "", 3: "", 4: ""}
+    current, key, seen = None, None, set()
+    for el in root.find(qn("body")):
+        tag = etree.QName(el).localname
+        if tag == "p":
+            m = re.match(r"Heading(\d)$", style_of(el))
+            if m and int(m.group(1)) in (2, 3, 4):
+                lv = int(m.group(1))
+                heading[lv] = para_text(el).strip()
+                for k in range(lv + 1, 5):
+                    heading[k] = ""
+                key = (heading[2], heading[3] if lv == 4 else "", heading[lv])
+                current = by_section.get(key) if lv in (3, 4) else None
+                seen = set()
+        elif tag == "tbl" and current is not None:
+            kind = table_kind(el)
+            if not kind or kind in seen:
+                continue
+            seen.add(kind)
+            spec_fields = {f["name"]: f for f in current[kind]}
+            for tr in el.findall(qn("tr"))[2:]:
+                cells = tr.findall(qn("tc"))
+                if len(cells) != 5:
+                    continue
+                name = cell_text(cells[1])
+                if name not in spec_fields or (kind == "response_fields" and name in ERROR_ROWS):
+                    continue
+                lines = cell_lines(cells[4])
+                spec_text = " ".join(spec_fields[name]["description"].replace("`", "").split())
+                if lines and lines != [spec_text]:
+                    (out.setdefault(key[0], collections.OrderedDict())
+                        .setdefault(section_title(key[1], key[2]), collections.OrderedDict())
+                        .setdefault(kind, collections.OrderedDict()))[name] = lines
+    return out
+
+
+def load_descriptions(path):
+    """Read the description file; a value is one line or a list of lines."""
+    with open(path, encoding="utf-8") as f:
+        data = yaml.safe_load(f) or {}
+    out = {}
+    for category, sections in (data.get("sections") or {}).items():
+        for title, tables in (sections or {}).items():
+            for kind, fields in (tables or {}).items():
+                if kind not in TABLE_KINDS.values():
+                    raise ValueError("descriptions: unknown table %r in %r" % (kind, title))
+                for name, text in (fields or {}).items():
+                    lines = [text] if isinstance(text, str) else text
+                    if not isinstance(lines, list) or not all(isinstance(x, str) and x.strip() for x in lines):
+                        raise ValueError("descriptions: %s / %s / %s must be text or a list of lines"
+                                         % (title, kind, name))
+                    out.setdefault((category, title), {}).setdefault(kind, {})[name] = [
+                        " ".join(x.split()) for x in lines]
+    return out
 
 
 def request_field_update(settings_xml):
@@ -1031,7 +1237,7 @@ def request_field_update(settings_xml):
     return etree.tostring(root, xml_declaration=True, encoding="UTF-8", standalone=True)
 
 
-def render(seed, contract_path, out, front=None):
+def render(seed, contract_path, out, meta=None, descriptions=None):
     with open(contract_path, encoding="utf-8") as f:
         contract = json.load(f)
     spec = contract["endpoints"]
@@ -1060,12 +1266,21 @@ def render(seed, contract_path, out, front=None):
     stats["sections paired"] = len(pairs)
     heading = {2: "", 3: "", 4: ""}
     current, seen = None, set()
+    lv_of = [3]
+
+    def wording_for(heading, lv, kind):
+        if descriptions is None:
+            return None
+        title = section_title(heading[3] if lv == 4 else "", heading[lv])
+        return descriptions.get((heading[2], title), {}).get(kind, {})
+
     for el in body:
         tag = etree.QName(el).localname
         if tag == "p":
             m = re.match(r"Heading(\d)$", style_of(el))
             if m and int(m.group(1)) in (2, 3, 4):
                 lv = int(m.group(1))
+                lv_of[0] = lv
                 heading[lv] = para_text(el).strip()
                 for k in range(lv + 1, 5):
                     heading[k] = ""
@@ -1096,12 +1311,14 @@ def render(seed, contract_path, out, front=None):
             kind = TABLE_KINDS.get(title)
             if kind and kind not in seen:
                 seen.add(kind)
-                if rebuild_table(el, kind, current[kind], stats, fallback, linker=linker):
+                if rebuild_table(el, kind, current[kind], stats, fallback, linker=linker,
+                                 wording=wording_for(heading, lv_of[0], kind)):
                     stats["tables rebuilt"] += 1
 
-    add_new_sections(body, spec, by_section, fallback, stats, IdAllocator(root), linker, find_donors(body))
+    add_new_sections(body, spec, by_section, fallback, stats, IdAllocator(root), linker, find_donors(body),
+                     descriptions)
     linker.flush(stats, fallback)
-    stamp = update_front_matter(body, stats, **(front or {}))
+    stamp = apply_meta(body, meta, stats) if meta else None
 
     xml = etree.tostring(root, xml_declaration=True, encoding="UTF-8", standalone=True)
     with zipfile.ZipFile(seed) as zin, zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED) as zout:
@@ -1109,7 +1326,7 @@ def render(seed, contract_path, out, front=None):
             if item.filename == "word/document.xml":
                 data = xml
             elif item.filename == "docProps/core.xml" and stamp:
-                data = stamp_modified(zin.read(item.filename), stamp[1])
+                data = stamp_modified(zin.read(item.filename), stamp)
             elif item.filename == "word/settings.xml":
                 data = request_field_update(zin.read(item.filename))
             else:
@@ -1123,19 +1340,40 @@ def main():
     parser.add_argument("seed")
     parser.add_argument("contract")
     parser.add_argument("out")
-    parser.add_argument("--doc-version", help="document version, e.g. 3.1 (default: the seed's last version + 0.1)")
-    parser.add_argument("--doc-date", help="render date as YYYYMMDD (default: today)")
-    parser.add_argument("--history", action="append",
-                        help="a line of the History description; repeat for more (default: built from the render)")
-    parser.add_argument("--author", help="History author (default: the last row's)")
+    parser.add_argument("--meta", help="doc-meta.yaml: cover, introduction, abbreviations, connection, history")
+    parser.add_argument("--descriptions",
+                        help="description file: document wording that overrides the spec's, per section and field")
+    parser.add_argument("--allow-stale-history", action="store_true",
+                        help="render although the API changed since the last history entry")
     args = parser.parse_args()
     if os.path.exists(args.out) and os.path.samefile(args.seed, args.out):
         sys.exit("Output must not be the seed document")
-    front = {"version": args.doc_version, "date": args.doc_date, "lines": args.history, "author": args.author}
-    try:
-        stats = render(args.seed, args.contract, args.out, front)
-    except ValueError as exc:
-        sys.exit(str(exc))
+    meta = None
+    if args.meta:
+        try:
+            meta = load_meta(args.meta)
+        except (ValueError, yaml.YAMLError) as exc:
+            sys.exit("invalid doc-meta: %s" % exc)
+        # History must describe the API being rendered: when the spec moved
+        # past the snapshot of the last entry, the entry for it is missing.
+        last = meta["history"]["entries"][-1]["version"]
+        snapshot = read_snapshot(last)
+        with open(args.contract, encoding="utf-8") as f:
+            current = signatures(json.load(f))
+        if snapshot is None and not args.allow_stale_history:
+            # Without a snapshot there is nothing to check the API against.
+            sys.exit("history %s has no API snapshot; store it with scripts/propose_history.py "
+                     "--snapshot, or pass --allow-stale-history" % last)
+        elif snapshot is not None and snapshot != current and not args.allow_stale_history:
+            sys.exit("the API changed since history %s; add an entry with "
+                     "scripts/propose_history.py --write, or pass --allow-stale-history" % last)
+    descriptions = None
+    if args.descriptions:
+        try:
+            descriptions = load_descriptions(args.descriptions)
+        except (ValueError, yaml.YAMLError) as exc:
+            sys.exit("invalid description file: %s" % exc)
+    stats = render(args.seed, args.contract, args.out, meta, descriptions)
     for k, v in stats.items():
         print("%-34s: %d" % (k, v))
     print("wrote %s" % args.out)
