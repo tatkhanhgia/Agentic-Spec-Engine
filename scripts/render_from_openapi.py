@@ -953,6 +953,17 @@ def update_front_matter(body, stats, version=None, date=None, lines=None, author
     row's author. Returns the (version, date) written, or None when the seed
     has no History table to continue.
     """
+    # Checked before anything is written: a three-part version or an impossible
+    # date would be copied to the cover, History and the package properties.
+    if version is not None and not re.match(r"\d+\.\d+$", version):
+        raise ValueError("document version must be major.minor, got %r" % version)
+    if date is not None:
+        try:
+            if not re.match(r"\d{8}$", date):
+                raise ValueError
+            datetime.datetime.strptime(date, "%Y%m%d")
+        except ValueError:
+            raise ValueError("document date must be a real YYYYMMDD date, got %r" % date) from None
     tbl = history_table(body)
     rows = tbl.findall(qn("tr")) if tbl is not None else []
     if len(rows) < 2 or len(rows[-1].findall(qn("tc"))) != 4:
@@ -1118,12 +1129,13 @@ def main():
                         help="a line of the History description; repeat for more (default: built from the render)")
     parser.add_argument("--author", help="History author (default: the last row's)")
     args = parser.parse_args()
-    if args.doc_date and not re.match(r"\d{8}$", args.doc_date):
-        sys.exit("--doc-date must be YYYYMMDD")
     if os.path.exists(args.out) and os.path.samefile(args.seed, args.out):
         sys.exit("Output must not be the seed document")
     front = {"version": args.doc_version, "date": args.doc_date, "lines": args.history, "author": args.author}
-    stats = render(args.seed, args.contract, args.out, front)
+    try:
+        stats = render(args.seed, args.contract, args.out, front)
+    except ValueError as exc:
+        sys.exit(str(exc))
     for k, v in stats.items():
         print("%-34s: %d" % (k, v))
     print("wrote %s" % args.out)
