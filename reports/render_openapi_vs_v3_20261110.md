@@ -92,6 +92,23 @@ python scripts/propose_history.py contract/from_openapi.json <doc-meta.yaml> --w
 python scripts/render_from_openapi.py <seed.docx> contract/from_openapi.json <out.docx> --meta <doc-meta.yaml>
 ```
 
+## Bổ sung 2026-11-12: mô tả field lấy từ file mô tả, không lấy từ seed
+
+- `config/doc-descriptions.yaml` giữ lời văn của tài liệu cho 2.148 mô tả ở 230 section (sinh một lần bằng
+  `scripts/extract_doc_descriptions.py` từ V3, sau đó sửa tay). Khoá: nhóm API > section > loại bảng > field.
+- Renderer (`--descriptions`): field có mục trong file thì dùng mục đó, không có thì dùng mô tả trong
+  `openapi.yaml`. Xoá một mục là trả field đó về cho spec.
+- Mô tả trong `openapi.yaml` **không bị sửa**: chúng đã được đối chiếu với code, còn lời văn V3 thì chưa, nên
+  chép V3 đè lên spec sẽ làm spec kém chính xác. Hai nguồn nằm riêng: spec đúng theo code, file mô tả giữ lời
+  văn tài liệu.
+- So với bản render trước: 35 ô khác. 10 ô V3 để trống nay có mô tả của spec; 25 ô thuộc section mới trùng tên
+  với một section V3 nay dùng lời văn của section đó.
+
+```bash
+python scripts/render_from_openapi.py <seed.docx> contract/from_openapi.json <out.docx> \
+    --meta <doc-meta.yaml> --descriptions config/doc-descriptions.yaml
+```
+
 ## Còn lại
 
 - **13 route chỉ có trong spec**: các route trùng tên đã gộp vào một section, đường dẫn của chúng được ghi trong
@@ -100,5 +117,7 @@ python scripts/render_from_openapi.py <seed.docx> contract/from_openapi.json <ou
   ngoài, repo không có schema DB nên không chứng minh được cột có NULL hay không. Spec để tuỳ chọn (O), là
   lựa chọn an toàn. Cần quyền đọc schema DB để chốt.
 - **Chưa mở bằng Microsoft Word thật**: mới kiểm tra qua PDF của LibreOffice.
+- **Chương object và enumeration** vẫn lấy từ seed. Bảng đối chiếu tên mục V3 với schema:
+  `reports/object_mapping_20261112.md` (39/122 mục object đối chiếu được tự động, 18 enumeration chưa có schema).
 - **Nội dung V3 khác code**: field V3 ghi M nhưng code không bắt buộc, field đã đổi tên.
   Renderer theo code; báo cáo chi tiết từng endpoint ở `reports/openapi_vs_v3_20261110.md`.

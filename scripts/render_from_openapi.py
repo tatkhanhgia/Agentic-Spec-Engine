@@ -23,7 +23,8 @@ History come from the backend's `doc-meta.yaml` (see `doc_meta.py`); without
 it they stay as the seed has them.
 
 Usage:
-    python scripts/render_from_openapi.py <seed.docx> <from_openapi.json> <out.docx> [--meta doc-meta.yaml] [--allow-stale-history]
+    python scripts/render_from_openapi.py <seed.docx> <from_openapi.json> <out.docx> [--meta doc-meta.yaml]
+        [--descriptions doc-descriptions.yaml] [--allow-stale-history]
 """
 import argparse
 import collections
@@ -96,12 +97,15 @@ def fallback_rows(body):
     return found
 
 
-def rebuild_table(tbl, kind, fields, stats, fallback, fresh=False, linker=None):
+def rebuild_table(tbl, kind, fields, stats, fallback, fresh=False, linker=None, wording=None):
     """Rebuild a table's data rows from `fields`.
 
     `fresh` is for a section cloned from another endpoint: its rows only lend
     their formatting, so no row keeps the template's name, type or wording.
     `linker` links a Type cell naming a component schema to its object section.
+    `wording` is this table's entry of the description file ({field: lines});
+    when given (even empty) the Description cells come from it, falling back
+    to the spec, and never from the seed.
     """
     trs = tbl.findall(qn("tr"))
     data = trs[2:]
@@ -151,12 +155,22 @@ def rebuild_table(tbl, kind, fields, stats, fallback, fresh=False, linker=None):
             linker.link(cells[2], f, stats)
         set_cell_text(cells[1], f["name"])
         set_cell_text(cells[3], f["presence"])
-        # The owner keeps the seed's wording for a field it already documents;
-        # only a new field takes the spec's description. The spec writes
-        # Markdown; the document shows plain text, so code markers are dropped.
-        if old is None:
-            set_cell_text(cells[4], f["description"].replace("`", ""))
+        spec_text = f["description"].replace("`", "")
+        if wording is not None:
+            # Description file first, the spec otherwise. An unchanged cell is
+            # left alone, so it keeps its runs.
+            lines = wording.get(f["name"]) or ([spec_text] if spec_text else [])
+            if not lines:
+                put(cells[4], "")
+            elif put_lines(cells[4], lines):
+                stats["descriptions written"] += 1
+            stats["descriptions from the description file" if f["name"] in wording
+                  else "descriptions from the spec"] += 1
+        elif old is None:
+            # The spec writes Markdown; the document shows plain text.
+            set_cell_text(cells[4], spec_text)
         else:
+            # No description file: a field the seed documents keeps its wording.
             stats["descriptions kept from seed"] += 1
         new_rows.append(tr)
     stats["rows removed"] += len([n for n in by_name if n not in {f["name"] for f in fields}])
@@ -558,7 +572,7 @@ def body_kind(record):
     return bool(record["request_fields"]) or has_content_type(record)
 
 
-def build_section(template_els, record, ids, fallback, stats, linker=None, donors=None):
+def build_section(template_els, record, ids, fallback, stats, linker=None, donors=None, wording=None):
     """Clone a rendered section and fill it from `record`."""
     # Body-level bookmarks name the template's heading; a clone must not carry them.
     els = [copy.deepcopy(e) for e in template_els
@@ -638,7 +652,8 @@ def build_section(template_els, record, ids, fallback, stats, linker=None, donor
             if not record[kind]:
                 drop.append(e)
                 continue
-            rebuild_table(e, kind, record[kind], stats, fallback, fresh=True, linker=linker)
+            rebuild_table(e, kind, record[kind], stats, fallback, fresh=True, linker=linker,
+                          wording=None if wording is None else wording.get(kind, {}))
             snap_to_grid(e)
             tables[kind] = e
     out = [e for e in els if not any(e is d for d in drop)]
@@ -669,7 +684,8 @@ def build_section(template_els, record, ids, fallback, stats, linker=None, donor
             continue
         table = copy.deepcopy(donor[0])
         ids.renumber(table)
-        rebuild_table(table, kind, record[kind], stats, fallback, fresh=True, linker=linker)
+        rebuild_table(table, kind, record[kind], stats, fallback, fresh=True, linker=linker,
+                      wording=None if wording is None else wording.get(kind, {}))
         snap_to_grid(table)
         new = [table]
         if donor[1] is not None:
@@ -895,7 +911,8 @@ class ObjectLinker:
             stats["object sections added"] += 1
 
 
-def add_new_sections(body, spec, by_section, fallback, stats, ids, linker=None, donors=None):
+def add_new_sections(body, spec, by_section, fallback, stats, ids, linker=None, donors=None,
+                     descriptions=None):
     """Append a section for every spec record the seed does not document.
 
     Each new section clones the closest rendered section (same method and
@@ -927,7 +944,9 @@ def add_new_sections(body, spec, by_section, fallback, stats, ids, linker=None, 
         if template is None or at is None:
             stats["new sections skipped (no template or category)"] += 1
             continue
-        for offset, el in enumerate(build_section(template["els"], record, ids, fallback, stats, linker, donors)):
+        for offset, el in enumerate(build_section(
+                template["els"], record, ids, fallback, stats, linker, donors,
+                None if descriptions is None else descriptions.get((category, name), {}))):
             body.insert(at + offset, el)
         stats["sections added"] += 1
 
@@ -967,15 +986,33 @@ def put_lines(tc, lines):
     """Write a cell as one paragraph per line; unchanged cells are left alone."""
     if cell_lines(tc) == lines:
         return False
+    # The template paragraph keeps its properties and one text run; links,
+    # bookmarks and breaks of the old content must not be carried over.
     template = copy.deepcopy(tc.find(qn("p")))
-    for br in list(template.iter(qn("br"))):
-        br.getparent().remove(br)
+    runs = template.findall(".//" + qn("r"))
+    run = next((r for r in runs if r.find(qn("t")) is not None), runs[0] if runs else None)
+    for child in list(template):
+        if etree.QName(child).localname != "pPr":
+            template.remove(child)
+    if run is None:
+        run = etree.Element(qn("r"))
+    for child in list(run):
+        if etree.QName(child).localname != "rPr":
+            run.remove(child)
+    rpr = run.find(qn("rPr"))
+    if rpr is not None:
+        for style in rpr.findall(qn("rStyle")):
+            rpr.remove(style)        # e.g. the Hyperlink character style
+    etree.SubElement(run, qn("t"))
+    template.append(run)
+    ObjectLinker.strip_ids(template)
     for p in tc.findall(qn("p")):
         tc.remove(p)
     for line in lines:
         p = copy.deepcopy(template)
-        ObjectLinker.strip_ids(p)
-        set_par_text(p, line)
+        t = p.find(qn("r")).find(qn("t"))
+        t.text = line
+        t.set("{http://www.w3.org/XML/1998/namespace}space", "preserve")
         tc.append(p)
     return True
 
@@ -1117,6 +1154,79 @@ def stamp_modified(core_xml, date):
     return etree.tostring(root, xml_declaration=True, encoding="UTF-8", standalone=True)
 
 
+def section_title(parent, name):
+    """A section's key in the description file; a Heading 4 names its parent."""
+    return "%s > %s" % (parent, name) if parent else name
+
+
+def seed_descriptions(seed, contract):
+    """{category: {section: {table kind: {field: [lines]}}}} of a document's wording.
+
+    Only wording that differs from the spec is returned: the description of a
+    field the document shares with the spec record its section pairs with.
+    """
+    spec = contract["endpoints"]
+    pairs, _, _ = pair(spec, extract(seed))
+    by_section = {(d["category"], d["parent"], d["name"]): o for o, d in pairs if o["name"] == d["name"]}
+    with zipfile.ZipFile(seed) as z:
+        root = etree.fromstring(z.read("word/document.xml"), etree.XMLParser(huge_tree=True))
+    out = collections.OrderedDict()
+    heading = {2: "", 3: "", 4: ""}
+    current, key, seen = None, None, set()
+    for el in root.find(qn("body")):
+        tag = etree.QName(el).localname
+        if tag == "p":
+            m = re.match(r"Heading(\d)$", style_of(el))
+            if m and int(m.group(1)) in (2, 3, 4):
+                lv = int(m.group(1))
+                heading[lv] = para_text(el).strip()
+                for k in range(lv + 1, 5):
+                    heading[k] = ""
+                key = (heading[2], heading[3] if lv == 4 else "", heading[lv])
+                current = by_section.get(key) if lv in (3, 4) else None
+                seen = set()
+        elif tag == "tbl" and current is not None:
+            kind = table_kind(el)
+            if not kind or kind in seen:
+                continue
+            seen.add(kind)
+            spec_fields = {f["name"]: f for f in current[kind]}
+            for tr in el.findall(qn("tr"))[2:]:
+                cells = tr.findall(qn("tc"))
+                if len(cells) != 5:
+                    continue
+                name = cell_text(cells[1])
+                if name not in spec_fields or (kind == "response_fields" and name in ERROR_ROWS):
+                    continue
+                lines = cell_lines(cells[4])
+                spec_text = " ".join(spec_fields[name]["description"].replace("`", "").split())
+                if lines and lines != [spec_text]:
+                    (out.setdefault(key[0], collections.OrderedDict())
+                        .setdefault(section_title(key[1], key[2]), collections.OrderedDict())
+                        .setdefault(kind, collections.OrderedDict()))[name] = lines
+    return out
+
+
+def load_descriptions(path):
+    """Read the description file; a value is one line or a list of lines."""
+    with open(path, encoding="utf-8") as f:
+        data = yaml.safe_load(f) or {}
+    out = {}
+    for category, sections in (data.get("sections") or {}).items():
+        for title, tables in (sections or {}).items():
+            for kind, fields in (tables or {}).items():
+                if kind not in TABLE_KINDS.values():
+                    raise ValueError("descriptions: unknown table %r in %r" % (kind, title))
+                for name, text in (fields or {}).items():
+                    lines = [text] if isinstance(text, str) else text
+                    if not isinstance(lines, list) or not all(isinstance(x, str) and x.strip() for x in lines):
+                        raise ValueError("descriptions: %s / %s / %s must be text or a list of lines"
+                                         % (title, kind, name))
+                    out.setdefault((category, title), {}).setdefault(kind, {})[name] = [
+                        " ".join(x.split()) for x in lines]
+    return out
+
+
 def request_field_update(settings_xml):
     """Ask Word to refresh fields on open, so the table of contents lists new sections."""
     root = etree.fromstring(settings_xml)
@@ -1127,7 +1237,7 @@ def request_field_update(settings_xml):
     return etree.tostring(root, xml_declaration=True, encoding="UTF-8", standalone=True)
 
 
-def render(seed, contract_path, out, meta=None):
+def render(seed, contract_path, out, meta=None, descriptions=None):
     with open(contract_path, encoding="utf-8") as f:
         contract = json.load(f)
     spec = contract["endpoints"]
@@ -1156,12 +1266,21 @@ def render(seed, contract_path, out, meta=None):
     stats["sections paired"] = len(pairs)
     heading = {2: "", 3: "", 4: ""}
     current, seen = None, set()
+    lv_of = [3]
+
+    def wording_for(heading, lv, kind):
+        if descriptions is None:
+            return None
+        title = section_title(heading[3] if lv == 4 else "", heading[lv])
+        return descriptions.get((heading[2], title), {}).get(kind, {})
+
     for el in body:
         tag = etree.QName(el).localname
         if tag == "p":
             m = re.match(r"Heading(\d)$", style_of(el))
             if m and int(m.group(1)) in (2, 3, 4):
                 lv = int(m.group(1))
+                lv_of[0] = lv
                 heading[lv] = para_text(el).strip()
                 for k in range(lv + 1, 5):
                     heading[k] = ""
@@ -1192,10 +1311,12 @@ def render(seed, contract_path, out, meta=None):
             kind = TABLE_KINDS.get(title)
             if kind and kind not in seen:
                 seen.add(kind)
-                if rebuild_table(el, kind, current[kind], stats, fallback, linker=linker):
+                if rebuild_table(el, kind, current[kind], stats, fallback, linker=linker,
+                                 wording=wording_for(heading, lv_of[0], kind)):
                     stats["tables rebuilt"] += 1
 
-    add_new_sections(body, spec, by_section, fallback, stats, IdAllocator(root), linker, find_donors(body))
+    add_new_sections(body, spec, by_section, fallback, stats, IdAllocator(root), linker, find_donors(body),
+                     descriptions)
     linker.flush(stats, fallback)
     stamp = apply_meta(body, meta, stats) if meta else None
 
@@ -1220,6 +1341,8 @@ def main():
     parser.add_argument("contract")
     parser.add_argument("out")
     parser.add_argument("--meta", help="doc-meta.yaml: cover, introduction, abbreviations, connection, history")
+    parser.add_argument("--descriptions",
+                        help="description file: document wording that overrides the spec's, per section and field")
     parser.add_argument("--allow-stale-history", action="store_true",
                         help="render although the API changed since the last history entry")
     args = parser.parse_args()
@@ -1242,7 +1365,13 @@ def main():
         elif snapshot != current and not args.allow_stale_history:
             sys.exit("the API changed since history %s; add an entry with "
                      "scripts/propose_history.py --write, or pass --allow-stale-history" % last)
-    stats = render(args.seed, args.contract, args.out, meta)
+    descriptions = None
+    if args.descriptions:
+        try:
+            descriptions = load_descriptions(args.descriptions)
+        except (ValueError, yaml.YAMLError) as exc:
+            sys.exit("invalid description file: %s" % exc)
+    stats = render(args.seed, args.contract, args.out, meta, descriptions)
     for k, v in stats.items():
         print("%-34s: %d" % (k, v))
     print("wrote %s" % args.out)
