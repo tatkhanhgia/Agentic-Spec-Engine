@@ -32,7 +32,10 @@ DEFAULT_LIMITS = {"max_lines": 6, "max_line_chars": 200, "applies_after": None}
 
 
 def version_key(version):
-    m = VERSION_RE.match(str(version))
+    # An unquoted 3.10 is the YAML float 3.1: only a string can be trusted.
+    if not isinstance(version, str):
+        raise ValueError("a version must be a quoted string such as \"3.10\", got %r" % (version,))
+    m = VERSION_RE.match(version)
     if not m:
         raise ValueError("history version must be major.minor, got %r" % (version,))
     return int(m.group(1)), int(m.group(2))
@@ -60,9 +63,9 @@ def validate_entry(entry, limits, where="history entry"):
     """Check one history entry on its own; returns it normalised."""
     if not isinstance(entry, dict):
         raise ValueError("%s must be a mapping" % where)
-    version = str(entry.get("version", ""))
-    where = "history %s" % (version or where)
+    version = entry.get("version", "")
     key = version_key(version)
+    where = "history %s" % version
     date = check_date(entry.get("date", ""))
     author = str(entry.get("author") or "").strip()
     if not author:
@@ -127,7 +130,6 @@ def validate(meta):
         if not isinstance(limits[key], int) or limits[key] < 1:
             raise ValueError("history.limits.%s must be a positive integer" % key)
     if limits["applies_after"] is not None:
-        limits["applies_after"] = str(limits["applies_after"])
         version_key(limits["applies_after"])
     entries = history.get("entries")
     if not isinstance(entries, list) or not entries:
@@ -147,9 +149,22 @@ def validate(meta):
     return out
 
 
+class UniqueKeyLoader(yaml.SafeLoader):
+    """SafeLoader that refuses a repeated mapping key instead of keeping the last one."""
+
+    def construct_mapping(self, node, deep=False):
+        seen = set()
+        for key_node, _ in node.value:
+            key = self.construct_object(key_node, deep=deep)
+            if key in seen:
+                raise ValueError("duplicate key %r at line %d" % (key, key_node.start_mark.line + 1))
+            seen.add(key)
+        return super().construct_mapping(node, deep=deep)
+
+
 def load(path):
     with open(path, encoding="utf-8") as f:
-        return validate(yaml.safe_load(f))
+        return validate(yaml.load(f, Loader=UniqueKeyLoader))
 
 
 def cover_version(meta):

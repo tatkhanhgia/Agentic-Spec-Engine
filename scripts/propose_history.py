@@ -5,7 +5,7 @@ Propose the next History entry of `doc-meta.yaml` from what changed in the API.
 
 Each history version has a snapshot of the API it documents, kept in
 `contract/openapi_history/<version>.json` (one signature per operation: its
-name, category and field names). This script compares the current
+name, category, and the name, type and presence of every field). This script compares the current
 `contract/from_openapi.json` with the snapshot of the last history entry:
 
   * no difference  -> nothing to add;
@@ -47,7 +47,8 @@ def signatures(contract):
         out[ident] = {
             "name": e["name"],
             "category": e["category"],
-            "fields": {t: sorted(f["name"] for f in e[t]) for t in TABLES},
+            # Lists, not tuples: a snapshot read back from JSON holds lists.
+            "fields": {t: sorted([f["name"], f["type"], f["presence"]] for f in e[t]) for t in TABLES},
             "status": e.get("status", ""),
         }
     return out
@@ -107,11 +108,15 @@ def propose(meta, old, new, date=None, author=None):
     major, minor = version_key(last["version"])
     lines = [name_line(verb, names, limits["max_line_chars"])
              for verb, names in (("Add", added), ("Remove", removed), ("Update", updated)) if names]
+    if len(lines) > limits["max_lines"]:
+        # Dropping a line would record a snapshot the entry does not describe.
+        raise ValueError("the change needs %d lines but history.limits.max_lines is %d"
+                         % (len(lines), limits["max_lines"]))
     entry = {
         "version": "%d.%d" % (major, minor + 1),
         "date": date or datetime.date.today().strftime("%Y%m%d"),
         "author": author or last["author"],
-        "changes": lines[:limits["max_lines"]],
+        "changes": lines,
     }
     if entry["date"] < last["date"]:
         raise ValueError("date %s is before the last entry's %s" % (entry["date"], last["date"]))
@@ -178,10 +183,16 @@ def main():
             return
         print(entry_text(entry), end="")
         if args.write:
-            append_entry(args.meta, entry)
+            # Snapshot first: an entry without its snapshot would block the
+            # next proposal, a snapshot without its entry is simply removed.
             write_snapshot(entry["version"], new)
+            try:
+                append_entry(args.meta, entry)
+            except (ValueError, yaml.YAMLError, OSError):
+                os.remove(snapshot_path(entry["version"]))
+                raise
             print("appended to %s and stored the snapshot of %s" % (args.meta, entry["version"]))
-    except (ValueError, yaml.YAMLError) as exc:
+    except (ValueError, yaml.YAMLError, OSError) as exc:
         sys.exit(str(exc))
 
 
