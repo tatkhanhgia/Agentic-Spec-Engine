@@ -8869,7 +8869,8 @@
           "name": "x-workflow-type",
           "type": "String",
           "presence": "O",
-          "description": "Workflow type filter; an unknown value is ignored."
+          "description": "Workflow type filter; an unknown value is ignored.",
+          "enum": "WorkflowType"
         },
         {
           "name": "x-from-date",
@@ -9446,7 +9447,8 @@
           "name": "x-workflow-type",
           "type": "String",
           "presence": "O",
-          "description": "Workflow type filter; an unknown value is ignored."
+          "description": "Workflow type filter; an unknown value is ignored.",
+          "enum": "WorkflowType"
         },
         {
           "name": "x-from-date",
@@ -9648,7 +9650,8 @@
           "name": "x-workflow-type",
           "type": "String",
           "presence": "O",
-          "description": "Workflow type filter; an unknown value is ignored."
+          "description": "Workflow type filter; an unknown value is ignored.",
+          "enum": "WorkflowType"
         },
         {
           "name": "x-from-date",
@@ -9844,7 +9847,8 @@
           "name": "x-workflow-type",
           "type": "String",
           "presence": "O",
-          "description": "Workflow type filter; an unknown value is ignored."
+          "description": "Workflow type filter; an unknown value is ignored.",
+          "enum": "WorkflowType"
         },
         {
           "name": "x-from-date",
@@ -10028,7 +10032,8 @@
           "name": "x-workflow-type",
           "type": "String",
           "presence": "O",
-          "description": "Workflow type filter; an unknown value is ignored."
+          "description": "Workflow type filter; an unknown value is ignored.",
+          "enum": "WorkflowType"
         },
         {
           "name": "x-from-date",
@@ -17038,6 +17043,7 @@
           "type": "String",
           "presence": "O",
           "description": "Owner kind. ENTERPRISE for enterprise users, APPLICATION otherwise. Response only.",
+          "enum": "PackageEntityType",
           "example": "ENTERPRISE"
         }
       ],
@@ -17080,6 +17086,7 @@
           "type": "String",
           "presence": "O",
           "description": "Owner kind. ENTERPRISE for enterprise users, APPLICATION otherwise. Response only.",
+          "enum": "PackageEntityType",
           "example": "ENTERPRISE"
         }
       ],
@@ -17457,6 +17464,7 @@
           "type": "String",
           "presence": "O",
           "description": "Owner kind. ENTERPRISE for enterprise users, APPLICATION otherwise. Response only.",
+          "enum": "PackageEntityType",
           "example": "ENTERPRISE"
         }
       ],
@@ -17822,6 +17830,7 @@
           "type": "String",
           "presence": "M",
           "description": "Status of the package.",
+          "enum": "PackageStatus",
           "example": "ENABLED"
         },
         {
@@ -23298,6 +23307,7 @@
           "type": "String",
           "presence": "M",
           "description": "Processing order of participants (case-insensitive).",
+          "enum": "ProcessTypeOfWorkflow",
           "example": "SERIAL"
         },
         {
@@ -23531,6 +23541,7 @@
           "type": "String",
           "presence": "O",
           "description": "Processing order of participants (case-insensitive).",
+          "enum": "ProcessTypeOfWorkflow",
           "example": "PARALLEL"
         },
         {
@@ -24180,7 +24191,8 @@
           "name": "x-workflow-type",
           "type": "String",
           "presence": "O",
-          "description": "Keep only workflows of this type; invalid values are ignored."
+          "description": "Keep only workflows of this type; invalid values are ignored.",
+          "enum": "WorkflowType"
         },
         {
           "name": "x-from-date",
@@ -26343,6 +26355,7 @@
           "type": "String",
           "presence": "M",
           "description": "Participant role. Required when adding; optional on update.",
+          "enum": "ParticipantType",
           "example": "SIGNER"
         },
         {
@@ -26602,6 +26615,7 @@
           "type": "String",
           "presence": "M",
           "description": "Participant role.",
+          "enum": "ParticipantType",
           "example": "SIGNER"
         },
         {
@@ -28892,6 +28906,7 @@
           "type": "String",
           "presence": "O",
           "description": "Automatic placement of the signature (SignaturePosition).",
+          "enum": "SignaturePosition",
           "example": "LAST_PAGE_BOTTOM"
         },
         {
@@ -29982,6 +29997,7 @@
           "type": "String",
           "presence": "O",
           "description": "Automatic placement of the signature (SignaturePosition).",
+          "enum": "SignaturePosition",
           "example": "LAST_PAGE_BOTTOM"
         },
         {
@@ -36376,6 +36392,7 @@
           "type": "String",
           "presence": "O",
           "description": "Automatic placement of the signature (SignaturePosition).",
+          "enum": "SignaturePosition",
           "example": "LAST_PAGE_BOTTOM"
         },
         {
@@ -37430,6 +37447,7 @@
           "type": "String",
           "presence": "O",
           "description": "Automatic placement of the signature (SignaturePosition).",
+          "enum": "SignaturePosition",
           "example": "LAST_PAGE_BOTTOM"
         },
         {
@@ -46616,11 +46634,18 @@
           "condition": "400: transactionCode empty"
         },
         {
+          "code": 45,
+          "sub_code": 56,
+          "code_constant": "WorkflowConstant.CODE_RSS",
+          "constant": "RSSEntityErrorSubCode.SUBCODE_RSS_CREDENTIAL_REGISTRATION_TRANSACTION_NOT_FOUND",
+          "condition": "404: transactionCode unknown, or released from the server cache after its time to live; RSS is not called"
+        },
+        {
           "code": -1,
           "sub_code": 220,
           "code_constant": "WorkflowConstant.CODE_EXCEPTION",
           "constant": "WorkflowConstant.EXCEPTION_RSS_CANNOT_GET_CREDENTIAL_STATUS",
-          "condition": "500: unknown transactionCode or unexpected failure"
+          "condition": "500: unexpected failure while asking RSS"
         },
         {
           "code": 15,
@@ -46630,7 +46655,7 @@
           "condition": "403: the caller lacks SIGNING_REMOTE_LIST; this route is remote signing only (RBAC enforce mode)"
         }
       ],
-      "needs_review": "An unknown transactionCode causes a null dereference (RAM bill-code map), reported as (-1.220) instead of a 4xx. The transaction is not checked against the caller. The data object comes from the RSS SDK; its keys are taken from DOCX, not verified in code. Connector lookup can return (1.<stored-procedure status>).\n",
+      "needs_review": "The transaction is not checked against the caller. The data object comes from the RSS SDK; its keys are taken from DOCX, not verified in code. Connector lookup can return (1.<stored-procedure status>).\n",
       "status": "",
       "media_types": [],
       "response_media_types": [
@@ -50777,6 +50802,7 @@
           "type": "String",
           "presence": "M",
           "description": "OCSP certificate status.",
+          "enum": "CertStatus",
           "example": "GOOD"
         }
       ],
@@ -51266,6 +51292,7 @@
           "type": "String",
           "presence": "O",
           "description": "Multipart routes only. Processing order stored in the template workflow.",
+          "enum": "ProcessTypeOfWorkflow",
           "example": "SERIAL"
         },
         {
@@ -52578,6 +52605,7 @@
           "type": "String",
           "presence": "O",
           "description": "Visibility as a TemplateType name.",
+          "enum": "TemplateType",
           "example": "PUBLIC"
         },
         {
@@ -52592,6 +52620,7 @@
           "type": "String",
           "presence": "O",
           "description": "Processing order stored in the template workflow.",
+          "enum": "ProcessTypeOfWorkflow",
           "example": "SERIAL"
         },
         {
@@ -53969,6 +53998,7 @@
           "type": "String",
           "presence": "O",
           "description": "Role of the user in the workflow (case-insensitive ParticipantType name).",
+          "enum": "ParticipantType",
           "example": "REVIEWER"
         },
         {
@@ -54049,6 +54079,7 @@
           "type": "String",
           "presence": "O",
           "description": "Role of the participant in the workflow.",
+          "enum": "ParticipantType",
           "example": "SIGNER"
         },
         {
@@ -54300,6 +54331,7 @@
           "type": "String",
           "presence": "O",
           "description": "Role of the placeholder (case-insensitive ParticipantType name).",
+          "enum": "ParticipantType",
           "example": "SIGNER"
         },
         {
@@ -54358,6 +54390,7 @@
           "type": "String",
           "presence": "O",
           "description": "Role of the participant in the workflow.",
+          "enum": "ParticipantType",
           "example": "SIGNER"
         },
         {
@@ -55400,7 +55433,8 @@
           "name": "x-coordinate-origin",
           "type": "String",
           "presence": "O",
-          "description": "Origin of the returned coordinates. Unknown values fall back to BOTTOM_LEFT."
+          "description": "Origin of the returned coordinates. Unknown values fall back to BOTTOM_LEFT.",
+          "enum": "CoordinateOrigin"
         }
       ],
       "path_params": [
@@ -58218,7 +58252,7 @@
       "category": "Account Management",
       "category_order": 9,
       "operation_id": "getListTermsOfService",
-      "description": "Lists the configured terms-of-service entries with absolute URLs to the terms and privacy-policy documents. Accepts any valid token.",
+      "description": "Lists the configured terms-of-service entries with absolute URLs to the terms and privacy-policy documents. Accepts any valid token. A stored URL that contains the {LANGUAGE} key gets it replaced with the X-Language-Name language code (en or vi); a missing or unsupported header falls back to en.",
       "method": "GET",
       "path": "{baseURL}/v1/system/terms-of-service",
       "key": "GET /v1/system/terms-of-service",
@@ -64575,6 +64609,7 @@
           "type": "String",
           "presence": "O",
           "description": "Validation policy. Default ADVANCED_QUALIFIED_SEALS.",
+          "enum": "ValidationPolicy",
           "example": "ADVANCED_QUALIFIED_SEALS"
         },
         {
@@ -66780,6 +66815,7 @@
           "type": "String",
           "presence": "M",
           "description": "SSO method. Only OAUTH2 is processed; the other values return (17.1).",
+          "enum": "MethodSSO",
           "example": "OAUTH2"
         },
         {
@@ -69042,6 +69078,7 @@
           "type": "String",
           "presence": "O",
           "description": "Invitation status.",
+          "enum": "EnterpriseUserInvitationStatus",
           "example": "PENDING"
         }
       ]
@@ -70513,6 +70550,7 @@
           "type": "String",
           "presence": "M",
           "description": "Workflow type.",
+          "enum": "WorkflowType",
           "example": "ECONTRACT"
         },
         {
@@ -73615,6 +73653,7 @@
           "type": "String",
           "presence": "O",
           "description": "Owner kind. ENTERPRISE for enterprise users, APPLICATION otherwise. Response only.",
+          "enum": "PackageEntityType",
           "example": "ENTERPRISE"
         }
       ]
@@ -73842,6 +73881,7 @@
           "type": "String",
           "presence": "M",
           "description": "Status of the package.",
+          "enum": "PackageStatus",
           "example": "ENABLED"
         },
         {
@@ -73957,6 +73997,7 @@
           "type": "String",
           "presence": "M",
           "description": "Status of the package.",
+          "enum": "PackageStatus",
           "example": "ENABLED"
         },
         {
@@ -74522,6 +74563,7 @@
           "type": "String",
           "presence": "M",
           "description": "Participant role. Required when adding; optional on update.",
+          "enum": "ParticipantType",
           "example": "SIGNER"
         },
         {
@@ -74583,6 +74625,7 @@
           "type": "String",
           "presence": "M",
           "description": "Processing order of participants (case-insensitive).",
+          "enum": "ProcessTypeOfWorkflow",
           "example": "SERIAL"
         },
         {
@@ -74680,6 +74723,7 @@
           "type": "String",
           "presence": "O",
           "description": "Processing order of participants (case-insensitive).",
+          "enum": "ProcessTypeOfWorkflow",
           "example": "PARALLEL"
         },
         {
@@ -74803,6 +74847,7 @@
           "type": "String",
           "presence": "M",
           "description": "Participant role.",
+          "enum": "ParticipantType",
           "example": "SIGNER"
         },
         {
@@ -76166,6 +76211,7 @@
           "type": "String",
           "presence": "O",
           "description": "Owner kind. ENTERPRISE for enterprise users, APPLICATION otherwise. Response only.",
+          "enum": "PackageEntityType",
           "example": "ENTERPRISE"
         }
       ]
@@ -76206,6 +76252,7 @@
           "type": "String",
           "presence": "O",
           "description": "Owner kind. ENTERPRISE for enterprise users, APPLICATION otherwise. Response only.",
+          "enum": "PackageEntityType",
           "example": "ENTERPRISE"
         }
       ]
@@ -76821,6 +76868,7 @@
           "type": "String",
           "presence": "O",
           "description": "Automatic placement of the signature (SignaturePosition).",
+          "enum": "SignaturePosition",
           "example": "LAST_PAGE_BOTTOM"
         },
         {
@@ -77219,6 +77267,7 @@
           "type": "String",
           "presence": "O",
           "description": "Automatic placement of the signature (SignaturePosition).",
+          "enum": "SignaturePosition",
           "example": "LAST_PAGE_BOTTOM"
         },
         {
@@ -79785,6 +79834,7 @@
           "type": "String",
           "presence": "O",
           "description": "Automatic placement of the signature (SignaturePosition).",
+          "enum": "SignaturePosition",
           "example": "LAST_PAGE_BOTTOM"
         },
         {
@@ -80183,6 +80233,7 @@
           "type": "String",
           "presence": "O",
           "description": "Automatic placement of the signature (SignaturePosition).",
+          "enum": "SignaturePosition",
           "example": "LAST_PAGE_BOTTOM"
         },
         {
@@ -84264,6 +84315,7 @@
           "type": "String",
           "presence": "M",
           "description": "OCSP certificate status.",
+          "enum": "CertStatus",
           "example": "GOOD"
         }
       ]
@@ -85104,6 +85156,7 @@
           "type": "String",
           "presence": "O",
           "description": "Multipart routes only. Processing order stored in the template workflow.",
+          "enum": "ProcessTypeOfWorkflow",
           "example": "SERIAL"
         },
         {
@@ -85986,6 +86039,7 @@
           "type": "String",
           "presence": "O",
           "description": "Role of the participant in the workflow.",
+          "enum": "ParticipantType",
           "example": "SIGNER"
         },
         {
@@ -86068,6 +86122,7 @@
           "type": "String",
           "presence": "O",
           "description": "Role of the user in the workflow (case-insensitive ParticipantType name).",
+          "enum": "ParticipantType",
           "example": "SIGNER"
         },
         {
@@ -86129,6 +86184,7 @@
           "type": "String",
           "presence": "O",
           "description": "Role of the placeholder in the workflow (case-insensitive ParticipantType name).",
+          "enum": "ParticipantType",
           "example": "SIGNER"
         },
         {
@@ -86176,6 +86232,7 @@
           "type": "String",
           "presence": "O",
           "description": "Role of the user in the workflow (case-insensitive ParticipantType name).",
+          "enum": "ParticipantType",
           "example": "REVIEWER"
         },
         {
@@ -86237,6 +86294,7 @@
           "type": "String",
           "presence": "O",
           "description": "Role of the placeholder (case-insensitive ParticipantType name).",
+          "enum": "ParticipantType",
           "example": "SIGNER"
         },
         {
@@ -86322,6 +86380,7 @@
           "type": "String",
           "presence": "O",
           "description": "Visibility as a TemplateType name.",
+          "enum": "TemplateType",
           "example": "PUBLIC"
         },
         {
@@ -86336,6 +86395,7 @@
           "type": "String",
           "presence": "O",
           "description": "Processing order stored in the template workflow.",
+          "enum": "ProcessTypeOfWorkflow",
           "example": "SERIAL"
         },
         {
@@ -87486,7 +87546,7 @@
           "name": "sub_quota_allow",
           "type": "List<TrustedBillingSubQuotaAllow>",
           "presence": "O",
-          "description": "Sub-quotas with their own prices.",
+          "description": "Sub-quotas of the package. A priced package lists a price or price rule per item; a count-based package (for example enterprise_freemium) lists a quantity per item.",
           "ref": "TrustedBillingSubQuotaAllow"
         },
         {
@@ -87521,6 +87581,13 @@
           "presence": "O",
           "description": "Unit price.",
           "example": 5000
+        },
+        {
+          "name": "quantity",
+          "type": "Integer",
+          "presence": "O",
+          "description": "Granted count. Present on a package that grants quotas by count (for example enterprise_freemium) instead of a price.",
+          "example": 50
         },
         {
           "name": "remark",
@@ -89857,6 +89924,7 @@
           "type": "String",
           "presence": "O",
           "description": "Validation policy. Default ADVANCED_QUALIFIED_SEALS.",
+          "enum": "ValidationPolicy",
           "example": "ADVANCED_QUALIFIED_SEALS"
         },
         {
@@ -89914,6 +89982,7 @@
           "type": "String",
           "presence": "O",
           "description": "Validation status.",
+          "enum": "ValidationStatus",
           "example": "VALID"
         },
         {
@@ -90574,6 +90643,7 @@
           "type": "String",
           "presence": "M",
           "description": "SSO method. Only OAUTH2 is processed; the other values return (17.1).",
+          "enum": "MethodSSO",
           "example": "OAUTH2"
         },
         {
@@ -90964,6 +91034,274 @@
           "presence": "M",
           "description": "Message to display to the end user.",
           "example": "Invalid client secret."
+        }
+      ]
+    }
+  },
+  "enums": {
+    "WorkflowType": {
+      "label": "WorkflowType",
+      "description": "Regulatory kind of a workflow.",
+      "values": [
+        {
+          "value": "ECONTRACT",
+          "description": "Electronic contract workflow governed by legal regulations requiring multi-party approval."
+        },
+        {
+          "value": "BASIC",
+          "description": "Standard document workflow without eContract regulatory constraints."
+        }
+      ]
+    },
+    "PackageStatus": {
+      "label": "PackageStatus",
+      "description": "Whether a document package can be used.",
+      "values": [
+        {
+          "value": "DISABLED",
+          "description": "Package is disabled and cannot be used to create new workflows."
+        },
+        {
+          "value": "ENABLED",
+          "description": "Package is active and available for workflow creation."
+        }
+      ]
+    },
+    "PackageEntityType": {
+      "label": "PackageEntityType",
+      "description": "Kind of owner of a document package.",
+      "values": [
+        {
+          "value": "APPLICATION",
+          "description": "Package is scoped to an application tenant."
+        },
+        {
+          "value": "ENTERPRISE",
+          "description": "Package is scoped to an enterprise tenant."
+        }
+      ]
+    },
+    "ParticipantType": {
+      "label": "ParticipantType",
+      "description": "Role of a participant in a workflow.",
+      "values": [
+        {
+          "value": "CARBON_COPY",
+          "description": "Participant receives a copy of the completed workflow but takes no action."
+        },
+        {
+          "value": "PLACEHOLDER",
+          "description": "Reserved participant slot to be filled in later before workflow execution."
+        },
+        {
+          "value": "INPERSON_HOST",
+          "description": "Host facilitating an in-person signing session for other participants."
+        },
+        {
+          "value": "EDITOR",
+          "description": "Participant who can edit document content and form fields."
+        },
+        {
+          "value": "REVIEWER",
+          "description": "Participant who reviews and approves the document without signing."
+        },
+        {
+          "value": "SIGNER",
+          "description": "Participant required to apply a digital or electronic signature to the document."
+        }
+      ]
+    },
+    "ProcessTypeOfWorkflow": {
+      "label": "ProcessTypeOfWorkflow",
+      "description": "Order in which the participants of a workflow act.",
+      "values": [
+        {
+          "value": "SERIAL",
+          "description": "Participants act one after another in a predefined order."
+        },
+        {
+          "value": "PARALLEL",
+          "description": "All participants can act simultaneously without ordering constraints."
+        },
+        {
+          "value": "INDIVIDUAL",
+          "description": "Each participant receives an independent workflow instance."
+        },
+        {
+          "value": "CUSTOM",
+          "description": "Custom ordering defined per participant through step configuration."
+        },
+        {
+          "value": "EXCEL",
+          "description": "Bulk workflow creation driven by an Excel import."
+        }
+      ]
+    },
+    "SignaturePosition": {
+      "label": "SignaturePosition",
+      "description": "Automatic placement of a signature on the document.",
+      "values": [
+        {
+          "value": "CUSTOM",
+          "description": "Signature is positioned using custom coordinates supplied by the caller."
+        },
+        {
+          "value": "FIRST_PAGE_TOP",
+          "description": "Signature is placed at the top of the first page."
+        },
+        {
+          "value": "FIRST_PAGE_BOTTOM",
+          "description": "Signature is placed at the bottom of the first page."
+        },
+        {
+          "value": "LAST_PAGE_TOP",
+          "description": "Signature is placed at the top of the last page."
+        },
+        {
+          "value": "LAST_PAGE_BOTTOM",
+          "description": "Signature is placed at the bottom of the last page."
+        }
+      ]
+    },
+    "CoordinateOrigin": {
+      "label": "CoordinateOrigin",
+      "description": "Corner of the page that field coordinates are measured from.",
+      "values": [
+        {
+          "value": "TOP_LEFT",
+          "description": "Coordinate origin is the top-left corner of the page."
+        },
+        {
+          "value": "BOTTOM_LEFT",
+          "description": "Coordinate origin is the bottom-left corner of the page (PDF default)."
+        }
+      ]
+    },
+    "TemplateType": {
+      "label": "TemplateType",
+      "description": "Visibility of a template.",
+      "values": [
+        {
+          "value": "PRIVATE",
+          "description": "Template visible only to the owning user or enterprise."
+        },
+        {
+          "value": "PUBLIC",
+          "description": "Template shared across the platform and reusable by other tenants."
+        }
+      ]
+    },
+    "ValidationPolicy": {
+      "label": "ValidationPolicy",
+      "description": "Policy a document validation applies.",
+      "values": [
+        {
+          "value": "ADVANCED_QUALIFIED_SEALS",
+          "description": "Signature validation against the Advanced Qualified Seals policy."
+        },
+        {
+          "value": "QUALIFIED_SEALS",
+          "description": "Signature validation against the Qualified Seals policy."
+        }
+      ]
+    },
+    "ValidationStatus": {
+      "label": "ValidationStatus",
+      "description": "Outcome of a document validation.",
+      "values": [
+        {
+          "value": "NOT_PROCESS",
+          "description": "Signature validation has not yet been performed."
+        },
+        {
+          "value": "NO_SIGNATURES_OR_SEALS_FOUND",
+          "description": "No signatures or seals were found in the document."
+        },
+        {
+          "value": "WARNING",
+          "description": "Validation completed with warnings; the result may not be fully trusted."
+        },
+        {
+          "value": "VALID",
+          "description": "All signatures and seals in the document are valid."
+        },
+        {
+          "value": "INVALID",
+          "description": "One or more signatures or seals failed validation."
+        },
+        {
+          "value": "PROCESSING",
+          "description": "Signature validation is currently in progress."
+        }
+      ]
+    },
+    "CertStatus": {
+      "label": "CertStatus",
+      "description": "Certificate status reported by OCSP.",
+      "values": [
+        {
+          "value": "GOOD",
+          "description": "Certificate is valid according to OCSP (RFC 6960)."
+        },
+        {
+          "value": "REVOKED",
+          "description": "Certificate has been revoked by the issuing CA."
+        },
+        {
+          "value": "UNKNOWN",
+          "description": "Certificate status could not be determined by OCSP."
+        }
+      ]
+    },
+    "MethodSSO": {
+      "label": "MethodSSO",
+      "description": "Single sign-on method.",
+      "values": [
+        {
+          "value": "OAUTH2",
+          "description": "Single sign-on using the OAuth 2.0 protocol."
+        },
+        {
+          "value": "OIDC",
+          "description": "Single sign-on using OpenID Connect on top of OAuth 2.0."
+        },
+        {
+          "value": "OFFICE_365",
+          "description": "Single sign-on using Microsoft Office 365 identity."
+        },
+        {
+          "value": "AZURE_ACTIVE_DIRECTORY",
+          "description": "Single sign-on using Microsoft Azure Active Directory (Entra ID)."
+        }
+      ]
+    },
+    "EnterpriseUserInvitationStatus": {
+      "label": "EnterpriseUserInvitationStatus",
+      "description": "Status of an invitation to join an enterprise.",
+      "values": [
+        {
+          "value": "PENDING",
+          "description": "Invitation is pending user acceptance; this is the default state."
+        },
+        {
+          "value": "ACCEPTED",
+          "description": "User has accepted the invitation and joined the enterprise."
+        },
+        {
+          "value": "REJECTED",
+          "description": "User has declined the invitation."
+        },
+        {
+          "value": "EXPIRED",
+          "description": "Invitation has expired based on its expiration timestamp."
+        },
+        {
+          "value": "CANCELLED",
+          "description": "Invitation was cancelled by the inviter before user response."
+        },
+        {
+          "value": "DIRECT_ASSIGNED",
+          "description": "User was added directly to the enterprise without the invitation workflow."
         }
       ]
     }

@@ -72,11 +72,12 @@ class Spec:
             return ""
         if "$ref" in schema:
             target = self.resolve(schema)
+            if self.is_enum(target):
+                # A named enumeration is a primitive to the reader; the field's
+                # `enum` entry carries the name.
+                return PRIMITIVE_NAMES.get(self.plain_type(target.get("type")), "String")
             return target.get("x-doc-type") or schema["$ref"].rsplit("/", 1)[-1]
-        t = schema.get("type")
-        if isinstance(t, list):
-            non_null = [x for x in t if x != "null"]
-            t = non_null[0] if len(non_null) == 1 else (non_null[0] if non_null else "null")
+        t = self.plain_type(schema.get("type"))
         if t == "array":
             return "List<%s>" % (self.type_name(schema.get("items") or {}) or "Object")
         # The document writes every integer width as "Integer", so int64 is not
@@ -84,14 +85,53 @@ class Spec:
         return PRIMITIVE_NAMES.get(t, t or "Object")
 
     @staticmethod
-    def ref_name(schema):
-        """Component schema a property points at (directly or as array items), or None."""
+    def plain_type(t):
+        """A schema `type` as one name: a nullable list gives its non-null type."""
+        if isinstance(t, list):
+            non_null = [x for x in t if x != "null"]
+            return non_null[0] if non_null else "null"
+        return t
+
+    def final_ref(self, node):
+        """Name of the component schema a `$ref` chain ends at, or None."""
+        name, seen = None, set()
+        while isinstance(node, dict) and "$ref" in node:
+            ref = node["$ref"]
+            if ref in seen or not ref.startswith("#/components/schemas/"):
+                break
+            seen.add(ref)
+            name = ref.rsplit("/", 1)[-1]
+            node = self.data["components"]["schemas"].get(name)
+        return name
+
+    @staticmethod
+    def is_enum(schema):
+        """A named enumeration: a component schema with values and no properties."""
+        return isinstance(schema, dict) and "enum" in schema and "properties" not in schema
+
+    def ref_name(self, schema):
+        """Object schema a property points at (directly or as array items), or None."""
         if not isinstance(schema, dict):
             return None
         target = schema.get("items") if "items" in schema else schema
         ref = (target or {}).get("$ref", "")
-        if ref.startswith("#/components/schemas/"):
+        if ref.startswith("#/components/schemas/") and not self.is_enum(self.resolve(target)):
             return ref.rsplit("/", 1)[-1]
+        return None
+
+    def enum_name(self, schema):
+        """Named enumeration a property takes its values from, or None.
+
+        The reference is the property itself, its array items, or an `allOf`
+        member (the form that keeps `type` beside the reference).
+        """
+        if not isinstance(schema, dict):
+            return None
+        target = schema.get("items") if "items" in schema else schema
+        for node in [target] + list((target or {}).get("allOf") or []):
+            if isinstance(node, dict) and "$ref" in node and self.is_enum(self.resolve(node)):
+                # The name the enumeration is exported under, past any alias.
+                return self.final_ref(node)
         return None
 
     def collect(self, schema, props, required, conditional, seen=None):
@@ -143,6 +183,9 @@ class Spec:
             ref = self.ref_name(prop)
             if ref:
                 row["ref"] = ref
+            enum = self.enum_name(prop)
+            if enum:
+                row["enum"] = enum
             example = prop.get("example", resolved.get("example"))
             if example is not None:
                 row["example"] = example
@@ -152,12 +195,16 @@ class Spec:
 
 def param_row(spec, param):
     p = spec.resolve(param)
-    return {
+    row = {
         "name": p.get("name", ""),
         "type": spec.type_name(p.get("schema") or {}),
         "presence": "M" if p.get("required") else "O",
         "description": " ".join(str(p.get("description", "")).split()),
-    }, p.get("in")
+    }
+    enum = spec.enum_name(p.get("schema") or {})
+    if enum:
+        row["enum"] = enum
+    return row, p.get("in")
 
 
 def json_content(node):
@@ -289,14 +336,27 @@ def convert(data):
     objects = {}
     for name, schema in ((data.get("components") or {}).get("schemas") or {}).items():
         rows, _ = spec.fields({"$ref": "#/components/schemas/%s" % name})
-        if rows:
+        if rows and not Spec.is_enum(schema):
             objects[name] = {"label": schema.get("x-doc-type") or name, "fields": rows}
+    # Named enumerations for the ENUMERATION chapter: values in declaration
+    # order, each with its meaning from `x-enumDescriptions`.
+    enums = {}
+    for name, schema in ((data.get("components") or {}).get("schemas") or {}).items():
+        if Spec.is_enum(schema):
+            described = schema.get("x-enumDescriptions") or {}
+            enums[name] = {
+                "label": schema.get("x-doc-type") or name,
+                "description": " ".join(str(schema.get("description", "")).split()),
+                "values": [{"value": str(v), "description": " ".join(str(described.get(v, "")).split())}
+                           for v in schema["enum"]],
+            }
     return {
         "source": "openapi",
         "version": (data.get("info") or {}).get("version", ""),
         "count": len(endpoints),
         "endpoints": endpoints,
         "objects": objects,
+        "enums": enums,
     }
 
 

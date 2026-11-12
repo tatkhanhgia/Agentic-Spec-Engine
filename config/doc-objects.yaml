@@ -6,6 +6,7 @@
 # section for every schema a documented field points at. A schema listed here
 # takes this title and chapter (REQUEST/RESPONSE OBJECT or RELATIVE OBJECT);
 # any other schema keeps its own name and goes to RELATIVE OBJECT.
+# The `enums` section at the end is written by hand.
 objects:
   AddUserToWorkflowRequestData:
     title: AddUserToWorkflowRequest
@@ -124,3 +125,11 @@ objects:
   ValidationFile:
     title: File(Validation)
     chapter: RELATIVE OBJECT
+
+# Section titles of named enumerations in the ENUMERATION chapter. An
+# enumeration listed here fills the approved section of that title; any other
+# enumeration gets a section named after its schema.
+enums:
+  ParticipantType: Role
+  ProcessTypeOfWorkflow: WorkflowMode
+  SignaturePosition: AnnotationPosition

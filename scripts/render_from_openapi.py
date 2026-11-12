@@ -170,7 +170,7 @@ def rebuild_table(tbl, kind, fields, stats, fallback, fresh=False, linker=None, 
         if wording is not None:
             # Description file first, the spec otherwise. An unchanged cell is
             # left alone, so it keeps its runs.
-            lines = wording.get(f["name"]) or ([spec_text] if spec_text else [])
+            lines = with_enum_link(wording.get(f["name"]) or ([spec_text] if spec_text else []), f)
             if not lines:
                 put(cells[4], "")
             elif put_lines(cells[4], lines):
@@ -179,7 +179,11 @@ def rebuild_table(tbl, kind, fields, stats, fallback, fresh=False, linker=None, 
                   else "descriptions from the spec"] += 1
         elif old is None:
             # The spec writes Markdown; the document shows plain text.
-            set_cell_text(cells[4], spec_text)
+            lines = with_enum_link([spec_text] if spec_text else [], f)
+            if lines:
+                put_lines(cells[4], lines)
+            else:
+                set_cell_text(cells[4], "")
         else:
             # No description file: a field the seed documents keeps its wording.
             stats["descriptions kept from seed"] += 1
@@ -1080,6 +1084,128 @@ def index_enumerations(body):
             pending = []
 
 
+ENUM_TITLES = {}        # schema name of a named enumeration -> its section title
+
+
+def render_enumerations(root, body, enums, titles, stats):
+    """Make the ENUMERATION chapter show the spec's named enumerations.
+
+    `titles` ({schema: section title}) names the section of an enumeration;
+    without an entry the section takes the schema name. A section the seed
+    already has under that title keeps its place and gets its rows from the
+    spec; any other enumeration gets a new section at the end of the chapter,
+    cloned from an existing one. Sections of the seed that no spec enumeration
+    claims are left as they are.
+    """
+    ENUM_TITLES.clear()
+    els = list(body)
+    sections, inside, end = collections.OrderedDict(), False, None     # title -> (heading, table)
+    for i, el in enumerate(els):
+        if etree.QName(el).localname != "p":
+            continue
+        st = style_of(el)
+        if st == "Heading1":
+            if inside:
+                end = el
+            inside = para_text(el).strip().upper() == "ENUMERATION"
+        elif inside and st == "Heading2":
+            table = next((e for e in els[i + 1:i + 3] if e.tag == qn("tbl")), None)
+            if table is not None:
+                sections.setdefault(para_text(el).strip(), (el, table, els.index(table)))
+    if not sections:
+        if enums:
+            stats["enumerations skipped (no ENUMERATION section to clone)"] += len(enums)
+        return
+    t_heading, t_table, t_at = next(iter(sections.values()))
+    spacer = els[t_at + 1] if t_at + 1 < len(els) and els[t_at + 1].tag == qn("p") else None
+    if spacer is not None and (style_of(spacer) or para_text(spacer).strip()):
+        spacer = None
+    template = (copy.deepcopy(t_heading), copy.deepcopy(t_table),
+                copy.deepcopy(spacer) if spacer is not None else None)
+    marks = {b.get(qn("name")) for b in root.iter(qn("bookmarkStart"))}
+    ids = [int(b.get(qn("id"))) for b in root.iter(qn("bookmarkStart")) if (b.get(qn("id")) or "").isdigit()]
+    next_id = max(ids or [0]) + 1
+
+    for schema, enum in enums.items():
+        title = (titles or {}).get(schema) or enum["label"]
+        ENUM_TITLES[schema] = title
+        rows = [[str(i), v["value"], v["description"]] for i, v in enumerate(enum["values"], 1)]
+        if title in sections:
+            plain_rows(sections[title][1])
+            fill_rows(sections[title][1], rows, 1, stats, "enumeration")
+            stats["enumeration sections rewritten"] += 1
+            continue
+        heading = copy.deepcopy(template[0])
+        for b in list(heading.iter(qn("bookmarkStart"))) + list(heading.iter(qn("bookmarkEnd"))):
+            b.getparent().remove(b)
+        ObjectLinker.strip_ids(heading)
+        set_par_text(heading, title)
+        anchor = "_ENUM_%s" % re.sub(r"[^A-Za-z0-9_]", "_", schema)
+        while anchor in marks:
+            anchor += "_"
+        marks.add(anchor)
+        start = etree.Element(qn("bookmarkStart"))
+        start.set(qn("id"), str(next_id))
+        start.set(qn("name"), anchor)
+        finish = etree.Element(qn("bookmarkEnd"))
+        finish.set(qn("id"), str(next_id))
+        next_id += 1
+        ppr = heading.find(qn("pPr"))
+        if ppr is not None:
+            ppr.addnext(start)
+        else:
+            heading.insert(0, start)
+        heading.append(finish)
+        table = copy.deepcopy(template[1])
+        ObjectLinker.strip_ids(table)
+        for b in list(table.iter(qn("bookmarkStart"))) + list(table.iter(qn("bookmarkEnd"))):
+            b.getparent().remove(b)
+        plain_rows(table)
+        fill_rows(table, rows, 1, stats, "enumeration")
+        new = [heading, table]
+        if template[2] is not None:
+            extra = copy.deepcopy(template[2])
+            ObjectLinker.strip_ids(extra)
+            new.append(extra)
+        # The end of the chapter: before the next Heading 1, else before the final sectPr.
+        anchor_el = end
+        if anchor_el is None:
+            last = body[-1] if len(body) else None
+            anchor_el = last if last is not None and etree.QName(last).localname == "sectPr" else None
+        for el in new:
+            if anchor_el is not None:
+                anchor_el.addprevious(el)
+            else:
+                body.append(el)
+        sections[title] = (heading, table, None)
+        stats["enumeration sections added"] += 1
+    index_enumerations(body)
+
+
+def plain_rows(tbl):
+    """Keep only the first data row of an enumeration table.
+
+    Every row is then cloned from it, so a row the seed marked up by hand
+    (a highlighted draft row) does not pass its marking on to spec values.
+    """
+    for extra in tbl.findall(qn("tr"))[2:]:
+        tbl.remove(extra)
+
+
+def with_enum_link(lines, field):
+    """Point a description at its enumeration when it does not link to one yet."""
+    title = ENUM_TITLES.get(field.get("enum") or "")
+    if not title or title not in ENUMS["anchor_of"]:
+        return lines
+    # A link to another enumeration does not stand in for this field's own.
+    if any(m.group(2) == title for x in lines for m in ENUM_LINK_RE.finditer(x)):
+        return lines
+    tail = "Possible values are [here](#%s)" % title
+    if not lines:
+        return [tail]
+    return lines[:-1] + ["%s %s" % (lines[-1] if lines[-1].endswith((".", ":", ";")) else lines[-1] + ".", tail)]
+
+
 def cell_lines(tc):
     """A cell's text as lines: one per paragraph, split again at line breaks.
 
@@ -1403,7 +1529,8 @@ def load_descriptions(path):
 
 
 def load_naming(path):
-    """Read the object naming file: {schema: {title, chapter}}."""
+    """Read the naming file: {schema: {title, chapter}} for objects, plus the
+    section titles of named enumerations under the key `__enums__`."""
     with open(path, encoding="utf-8") as f:
         data = yaml.load(f, Loader=UniqueKeyLoader) or {}
     out = {}
@@ -1416,6 +1543,12 @@ def load_naming(path):
         if chapter not in ObjectLinker.CHAPTERS:
             raise ValueError("objects: %s has unknown chapter %r" % (schema, entry.get("chapter")))
         out[schema] = {"title": title, "chapter": chapter}
+    # Section titles of named enumerations, kept apart from the object entries.
+    out["__enums__"] = {}
+    for schema, title in (data.get("enums") or {}).items():
+        if not isinstance(title, str) or not title.strip():
+            raise ValueError("enums: %s needs a title" % schema)
+        out["__enums__"][schema] = title.strip()
     return out
 
 
@@ -1557,12 +1690,14 @@ def render(seed, contract_path, out, meta=None, descriptions=None, naming=None):
     body = root.find(qn("body"))
     index_enumerations(body)
     fallback = fallback_rows(body)
+    enum_titles = (naming or {}).get("__enums__")
 
     stats = collections.Counter({k: 0 for k in ("sections paired", "sections rendered", "tables rebuilt", "rows kept",
                             "rows added", "rows removed", "types rewritten", "descriptions kept from seed",
                             "tables using a shared template row", "tables skipped (no template row)")})
     stats["sections paired"] = len(pairs)
     section_wording, object_wording = descriptions if descriptions is not None else (None, None)
+    render_enumerations(root, body, contract.get("enums") or {}, enum_titles, stats)
     linker = ObjectLinker(root, body, contract.get("objects") or {}, stats, naming, object_wording)
     heading = {2: "", 3: "", 4: ""}
     current, seen = None, set()
