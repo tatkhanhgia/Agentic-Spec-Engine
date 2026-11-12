@@ -1,0 +1,8795 @@
+{
+ "DELETE /v1/application/queue Add API Request Queue": {
+  "category": "Application/Device Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "createdBy",
+    "request"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Add API Request Queue",
+  "status": ""
+ },
+ "DELETE /v1/category/{p} Delete Category": {
+  "category": "Document Workflow",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [
+    "categoryId"
+   ],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Delete Category",
+  "status": ""
+ },
+ "DELETE /v1/enterprise/category/{p} Delete Enterprise Category": {
+  "category": "Document Workflow",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [
+    "categoryId"
+   ],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Delete Enterprise Category",
+  "status": ""
+ },
+ "DELETE /v1/enterprise/category/{p}/permission Revoke Category Permission": {
+  "category": "Document Workflow",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [
+    "categoryId"
+   ],
+   "request_fields": [
+    "access",
+    "enterprise_role_id",
+    "enterprise_user_id"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Revoke Category Permission",
+  "status": ""
+ },
+ "DELETE /v1/enterprise/custom_fields/{p} Delete Enterprise Custom Field": {
+  "category": "Enterprise Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [
+    "fieldId"
+   ],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Delete Enterprise Custom Field",
+  "status": ""
+ },
+ "DELETE /v1/enterprise/electronic-seals/{p} Delete Enterprise Electronic Seal": {
+  "category": "Enterprise Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [
+    "sealId"
+   ],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Delete Enterprise Electronic Seal",
+  "status": ""
+ },
+ "DELETE /v1/enterprise/invitations/{p} Cancel Enterprise User Invitation": {
+  "category": "Enterprise Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [
+    "invitationId"
+   ],
+   "request_fields": [
+    "user_email"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Cancel Enterprise User Invitation",
+  "status": ""
+ },
+ "DELETE /v1/enterprise/invitations/{p}/delete Delete Enterprise User Invitation": {
+  "category": "Enterprise Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [
+    "invitationId"
+   ],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Delete Enterprise User Invitation",
+  "status": ""
+ },
+ "DELETE /v1/enterprise/roles/{p} Delete Role": {
+  "category": "Enterprise Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [
+    "enterpriseRoleId"
+   ],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Delete Role",
+  "status": ""
+ },
+ "DELETE /v1/enterprise/users/{p} Delete Enterprise User": {
+  "category": "Enterprise Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [
+    "enterpriseUserId"
+   ],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Delete Enterprise User",
+  "status": ""
+ },
+ "DELETE /v1/packages/sign/status Release Bulk Signing Management": {
+  "category": "RSSP Processing",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Release Bulk Signing Management",
+  "status": ""
+ },
+ "DELETE /v1/packages/{p} Delete Package": {
+  "category": "Document Package",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [
+    "packageId"
+   ],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Delete Package",
+  "status": ""
+ },
+ "DELETE /v1/packages/{p}/comments/{p} Delete Workflow Comment/Message": {
+  "category": "Document Workflow",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [
+    "commentId",
+    "packageId"
+   ],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Delete Workflow Comment/Message",
+  "status": ""
+ },
+ "DELETE /v1/packages/{p}/documents/{p} Delete Document": {
+  "category": "Document Package",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [
+    "documentId",
+    "packageId"
+   ],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Delete Document",
+  "status": ""
+ },
+ "DELETE /v1/packages/{p}/documents/{p}/attachments/{p} Delete Attachment": {
+  "category": "Document Workflow",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [
+    "attachmentId",
+    "documentId",
+    "packageId"
+   ],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Delete Attachment",
+  "status": ""
+ },
+ "DELETE /v1/packages/{p}/documents/{p}/fields Delete Document Field": {
+  "category": "Document Preparation",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [
+    "documentId",
+    "packageId"
+   ],
+   "request_fields": [
+    "field_name"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Delete Document Field",
+  "status": ""
+ },
+ "DELETE /v1/packages/{p}/workflow Delete Workflow": {
+  "category": "Document Workflow",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [
+    "packageId"
+   ],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Delete Workflow",
+  "status": ""
+ },
+ "DELETE /v1/packages/{p}/workflow/{p} Delete Workflow User": {
+  "category": "Document Workflow",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [
+    "order",
+    "packageId"
+   ],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Delete Workflow User",
+  "status": ""
+ },
+ "DELETE /v1/settings/addressbook/{p} Delete Address Book": {
+  "category": "Personal Settings",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [
+    "addressBookId"
+   ],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Delete Address Book",
+  "status": ""
+ },
+ "DELETE /v1/settings/contacts/{p} Delete Personal Contact": {
+  "category": "Personal Settings",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [
+    "contactId"
+   ],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Delete Personal Contact",
+  "status": ""
+ },
+ "DELETE /v1/settings/signatures/{p} Delete Signature Appearance": {
+  "category": "Personal Settings",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [
+    "appearanceId"
+   ],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Delete Signature Appearance",
+  "status": ""
+ },
+ "DELETE /v1/system/cache Delete Cache Data": {
+  "category": "ADMIN APIs",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [],
+   "response_fields": [
+    "message",
+    "timestamp",
+    "type"
+   ],
+   "response_headers": []
+  },
+  "name": "Delete Cache Data",
+  "status": ""
+ },
+ "DELETE /v1/templates/{p} Delete Template": {
+  "category": "Template",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [
+    "templateId"
+   ],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Delete Template",
+  "status": ""
+ },
+ "DELETE /v1/templates/{p}/documents/{p}/fields Delete Template Field": {
+  "category": "Template",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [
+    "documentId",
+    "templateId"
+   ],
+   "request_fields": [
+    "field_name"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Delete Template Field",
+  "status": ""
+ },
+ "DELETE /v1/templates/{p}/workflow/{p} Delete Template Workflow Participant": {
+  "category": "Template",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [
+    "order",
+    "templateId"
+   ],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Delete Template Workflow Participant",
+  "status": ""
+ },
+ "DELETE /v1/tokens Revoke refresh token": {
+  "category": "Authenticate – Log in",
+  "fields": {
+   "headers": [
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "refresh_token",
+    "token_type_hint"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Revoke refresh token",
+  "status": ""
+ },
+ "DELETE /v1/validations/{p} Delete Validation": {
+  "category": "Validation Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [
+    "validationId"
+   ],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Delete Validation",
+  "status": ""
+ },
+ "DELETE /v1/workflow/from-paper/{p} Delete Paper Conversion": {
+  "category": "Document Workflow",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [
+    "recordId"
+   ],
+   "request_fields": [
+    "expected_version"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Delete Paper Conversion",
+  "status": ""
+ },
+ "GET /v1/account/activity-logs/{p}/{p} Get User Activity Logs": {
+  "category": "Account Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name",
+    "x-total-records"
+   ],
+   "path_params": [
+    "pageNo",
+    "recordsPerPage"
+   ],
+   "request_fields": [],
+   "response_fields": [
+    "items",
+    "page",
+    "records_per_page",
+    "total_count"
+   ],
+   "response_headers": [
+    "x-total-records"
+   ]
+  },
+  "name": "Get User Activity Logs",
+  "status": ""
+ },
+ "GET /v1/account/billings/payments/{p} Get Billing Payment Details": {
+  "category": "Account Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [
+    "billingPaymentId"
+   ],
+   "request_fields": [],
+   "response_fields": [
+    "billing",
+    "billing_payment",
+    "trusted_billing"
+   ],
+   "response_headers": []
+  },
+  "name": "Get Billing Payment Details",
+  "status": ""
+ },
+ "GET /v1/account/billings/{p}/{p} Get Billing Payment History": {
+  "category": "Account Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name",
+    "x-total-records"
+   ],
+   "path_params": [
+    "pageNo",
+    "recordsPerPage"
+   ],
+   "request_fields": [],
+   "response_fields": [
+    "items",
+    "pagination"
+   ],
+   "response_headers": [
+    "x-total-records"
+   ]
+  },
+  "name": "Get Billing Payment History",
+  "status": ""
+ },
+ "GET /v1/account/certificate-enrollments/{p}/{p}/{p} Get Certificate Enroll History": {
+  "category": "Account Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-ca-name",
+    "x-citizen-id",
+    "x-connector-name",
+    "x-criteria-status",
+    "x-from-date",
+    "x-language-name",
+    "x-to-date",
+    "x-total-records"
+   ],
+   "path_params": [
+    "pageNo",
+    "recordsPerPage",
+    "status"
+   ],
+   "request_fields": [],
+   "response_fields": [
+    "certificate_enrollments"
+   ],
+   "response_headers": [
+    "x-total-records"
+   ]
+  },
+  "name": "Get Certificate Enroll History",
+  "status": ""
+ },
+ "GET /v1/account/dashboard/activities/{p}/{p} Get Dashboard Activities": {
+  "category": "Account Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-asc",
+    "x-enterprise-mode",
+    "x-from-date",
+    "x-language-name",
+    "x-search-text",
+    "x-sort-by",
+    "x-to-date",
+    "x-total-records"
+   ],
+   "path_params": [
+    "pageNo",
+    "recordsPerPage"
+   ],
+   "request_fields": [],
+   "response_fields": [
+    "items",
+    "total_count"
+   ],
+   "response_headers": [
+    "x-total-records"
+   ]
+  },
+  "name": "Get Dashboard Activities",
+  "status": ""
+ },
+ "GET /v1/account/dashboard/categories Get Dashboard Categories": {
+  "category": "Account Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-asc",
+    "x-enterprise-mode",
+    "x-from-date",
+    "x-language-name",
+    "x-search-text",
+    "x-sort-by",
+    "x-to-date",
+    "x-total-records"
+   ],
+   "path_params": [],
+   "request_fields": [],
+   "response_fields": [
+    "categories",
+    "total_count"
+   ],
+   "response_headers": [
+    "x-total-records"
+   ]
+  },
+  "name": "Get Dashboard Categories",
+  "status": ""
+ },
+ "GET /v1/account/dashboard/documents Get Dashboard Documents": {
+  "category": "Account Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-asc",
+    "x-enterprise-mode",
+    "x-from-date",
+    "x-language-name",
+    "x-search-text",
+    "x-sort-by",
+    "x-to-date"
+   ],
+   "path_params": [],
+   "request_fields": [],
+   "response_fields": [
+    "approved",
+    "completed",
+    "declined",
+    "draft",
+    "expired",
+    "inprogress",
+    "pending",
+    "signed",
+    "updated"
+   ],
+   "response_headers": []
+  },
+  "name": "Get Dashboard Documents",
+  "status": ""
+ },
+ "GET /v1/account/dashboard/overdue-workflows/{p}/{p} Get Dashboard Overdue Workflows": {
+  "category": "Account Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-asc",
+    "x-enterprise-mode",
+    "x-from-date",
+    "x-language-name",
+    "x-search-text",
+    "x-sort-by",
+    "x-to-date",
+    "x-total-records"
+   ],
+   "path_params": [
+    "pageNo",
+    "recordsPerPage"
+   ],
+   "request_fields": [],
+   "response_fields": [
+    "items",
+    "total_count"
+   ],
+   "response_headers": [
+    "x-total-records"
+   ]
+  },
+  "name": "Get Dashboard Overdue Workflows",
+  "status": ""
+ },
+ "GET /v1/account/dashboard/quota Get Dashboard Quota": {
+  "category": "Account Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-asc",
+    "x-enterprise-mode",
+    "x-from-date",
+    "x-language-name",
+    "x-search-text",
+    "x-sort-by",
+    "x-to-date"
+   ],
+   "path_params": [],
+   "request_fields": [],
+   "response_fields": [
+    "signature",
+    "signature_vneid",
+    "template",
+    "users",
+    "validation",
+    "zalo_sms"
+   ],
+   "response_headers": []
+  },
+  "name": "Get Dashboard Quota",
+  "status": ""
+ },
+ "GET /v1/account/dashboard/recent-documents/{p}/{p} Get Dashboard Recent Documents": {
+  "category": "Account Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-asc",
+    "x-enterprise-mode",
+    "x-from-date",
+    "x-language-name",
+    "x-search-text",
+    "x-sort-by",
+    "x-to-date",
+    "x-total-records"
+   ],
+   "path_params": [
+    "pageNo",
+    "recordsPerPage"
+   ],
+   "request_fields": [],
+   "response_fields": [
+    "workflows"
+   ],
+   "response_headers": [
+    "x-total-records"
+   ]
+  },
+  "name": "Get Dashboard Recent Documents",
+  "status": ""
+ },
+ "GET /v1/account/dashboard/validations Get Dashboard Validations": {
+  "category": "Account Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-asc",
+    "x-enterprise-mode",
+    "x-from-date",
+    "x-language-name",
+    "x-search-text",
+    "x-sort-by",
+    "x-to-date"
+   ],
+   "path_params": [],
+   "request_fields": [],
+   "response_fields": [
+    "invalid",
+    "no_signatures_or_seals_found",
+    "not_process",
+    "processing",
+    "valid",
+    "warning"
+   ],
+   "response_headers": []
+  },
+  "name": "Get Dashboard Validations",
+  "status": ""
+ },
+ "GET /v1/account/dashboard/workflow-types Get Dashboard Workflow Types": {
+  "category": "Account Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-asc",
+    "x-enterprise-mode",
+    "x-from-date",
+    "x-language-name",
+    "x-search-text",
+    "x-sort-by",
+    "x-to-date",
+    "x-total-records"
+   ],
+   "path_params": [],
+   "request_fields": [],
+   "response_fields": [
+    "total_count",
+    "types"
+   ],
+   "response_headers": [
+    "x-total-records"
+   ]
+  },
+  "name": "Get Dashboard Workflow Types",
+  "status": ""
+ },
+ "GET /v1/account/dashboard/workflows Get Dashboard Workflows": {
+  "category": "Account Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-asc",
+    "x-enterprise-mode",
+    "x-from-date",
+    "x-language-name",
+    "x-search-text",
+    "x-sort-by",
+    "x-to-date"
+   ],
+   "path_params": [],
+   "request_fields": [],
+   "response_fields": [
+    "all",
+    "completed",
+    "declined",
+    "draft",
+    "expired",
+    "inprogress",
+    "pending"
+   ],
+   "response_headers": []
+  },
+  "name": "Get Dashboard Workflows",
+  "status": ""
+ },
+ "GET /v1/account/enterprises Get Account Enterprises": {
+  "category": "Account Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Get Account Enterprises",
+  "status": ""
+ },
+ "GET /v1/account/invitations/{p} Get Account Invitation By ID": {
+  "category": "Account Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [
+    "invitationReference"
+   ],
+   "request_fields": [],
+   "response_fields": [
+    "created_at",
+    "enterprise_id",
+    "enterprise_name",
+    "expired_at",
+    "invitation_id",
+    "invited_by_email",
+    "invited_user_email",
+    "invited_user_name",
+    "role_name",
+    "status"
+   ],
+   "response_headers": []
+  },
+  "name": "Get Account Invitation By ID",
+  "status": ""
+ },
+ "GET /v1/account/invitations/{p}/{p} Get Account Invitations": {
+  "category": "Account Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name",
+    "x-total-records"
+   ],
+   "path_params": [
+    "pageNo",
+    "recordsPerPage"
+   ],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": [
+    "x-total-records"
+   ]
+  },
+  "name": "Get Account Invitations",
+  "status": ""
+ },
+ "GET /v1/account/profiles Get Account Profiles": {
+  "category": "Account Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Get Account Profiles",
+  "status": ""
+ },
+ "GET /v1/account/reports/quota/consume-history/export Export Account Quota Consume History": {
+  "category": "Account Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-billing-id",
+    "x-export-format",
+    "x-from-date",
+    "x-language-name",
+    "x-to-date",
+    "x-type"
+   ],
+   "path_params": [],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": [
+    "x-export-truncated",
+    "x-file-name",
+    "x-total-records"
+   ]
+  },
+  "name": "Export Account Quota Consume History",
+  "status": ""
+ },
+ "GET /v1/account/reports/quota/consume-history/export/{p}/{p} Export Account Quota Consume History": {
+  "category": "Account Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-billing-id",
+    "x-export-format",
+    "x-from-date",
+    "x-language-name",
+    "x-to-date",
+    "x-total-records",
+    "x-type"
+   ],
+   "path_params": [
+    "pageNo",
+    "recordsPerPage"
+   ],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": [
+    "x-export-truncated",
+    "x-file-name",
+    "x-total-records"
+   ]
+  },
+  "name": "Export Account Quota Consume History",
+  "status": ""
+ },
+ "GET /v1/account/reports/quota/consume-history/{p}/{p} Get Account Quota Consume History": {
+  "category": "Account Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-billing-id",
+    "x-from-date",
+    "x-language-name",
+    "x-to-date",
+    "x-total-records",
+    "x-type"
+   ],
+   "path_params": [
+    "pageNo",
+    "recordsPerPage"
+   ],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": [
+    "x-total-records"
+   ]
+  },
+  "name": "Get Account Quota Consume History",
+  "status": ""
+ },
+ "GET /v1/account/signing-transactions/{p}/{p}/{p} Get Signing History": {
+  "category": "Account Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-app-name",
+    "x-ca-name",
+    "x-citizen-id",
+    "x-connector-name",
+    "x-credential-id",
+    "x-criteria-status",
+    "x-fe-method-name",
+    "x-from-date",
+    "x-language-name",
+    "x-provider-name",
+    "x-to-date",
+    "x-total-records",
+    "x-workflow-id"
+   ],
+   "path_params": [
+    "pageNo",
+    "recordsPerPage",
+    "status"
+   ],
+   "request_fields": [],
+   "response_fields": [
+    "signing_transactions"
+   ],
+   "response_headers": [
+    "x-total-records"
+   ]
+  },
+  "name": "Get Signing History",
+  "status": ""
+ },
+ "GET /v1/account/statistics/documents Document Statistics": {
+  "category": "Account Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-enterprise-mode",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [],
+   "response_fields": [
+    "all",
+    "approved",
+    "completed",
+    "declined",
+    "draft",
+    "expired",
+    "expiring_soon",
+    "inprogress",
+    "pending",
+    "signed",
+    "updated"
+   ],
+   "response_headers": []
+  },
+  "name": "Document Statistics",
+  "status": ""
+ },
+ "GET /v1/account/statistics/usage Account Usage Statistics": {
+  "category": "Account Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [],
+   "response_fields": [
+    "balance",
+    "elabor_contract",
+    "enterprise_quota",
+    "service_plan_duration",
+    "signature",
+    "storage",
+    "template",
+    "upload_size",
+    "user",
+    "validation",
+    "workflow"
+   ],
+   "response_headers": []
+  },
+  "name": "Account Usage Statistics",
+  "status": ""
+ },
+ "GET /v1/admin/system/refresh-packages Refresh Certificate Profiles": {
+  "category": "ADMIN APIs",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Refresh Certificate Profiles",
+  "status": ""
+ },
+ "GET /v1/admin/users Get User by Email or Citizen ID": {
+  "category": "ADMIN APIs",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name",
+    "x-user-citizen-id",
+    "x-user-email"
+   ],
+   "path_params": [],
+   "request_fields": [],
+   "response_fields": [
+    "accountType",
+    "citizenIdNumber",
+    "city",
+    "companyName",
+    "country",
+    "dateOfBirth",
+    "dateOfExpiry",
+    "dateOfIssue",
+    "eidAccountLevel",
+    "email",
+    "firstName",
+    "fullName",
+    "gender",
+    "id",
+    "lastName",
+    "mobile",
+    "permanentAddress",
+    "position",
+    "registrationCode",
+    "residentialAddress",
+    "status",
+    "verifyEnabled"
+   ],
+   "response_headers": []
+  },
+  "name": "Get User by Email or Citizen ID",
+  "status": ""
+ },
+ "GET /v1/authenticate/tse/status Check TSE Status": {
+  "category": "Authenticate – Log in",
+  "fields": {
+   "headers": [
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "relying_party_name",
+    "request_id"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Check TSE Status",
+  "status": "not-implemented"
+ },
+ "GET /v1/category Get list of Category": {
+  "category": "Document Workflow",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-enterprise-mode",
+    "x-language-name",
+    "x-total-records"
+   ],
+   "path_params": [],
+   "request_fields": [],
+   "response_fields": [
+    "categories"
+   ],
+   "response_headers": []
+  },
+  "name": "Get list of Category",
+  "status": ""
+ },
+ "GET /v1/connectors Get List Login Connector": {
+  "category": "Connector",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Get List Login Connector",
+  "status": ""
+ },
+ "GET /v1/connectors/certificate-profile Get Certificate Profile of Connector": {
+  "category": "Connector",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-connector-name",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [],
+   "response_fields": [
+    "certificate_profiles"
+   ],
+   "response_headers": []
+  },
+  "name": "Get Certificate Profile of Connector",
+  "status": ""
+ },
+ "GET /v1/connectors/iss Get List Internal Signing Service Connector (ISS)": {
+  "category": "Connector",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Get List Internal Signing Service Connector (ISS)",
+  "status": ""
+ },
+ "GET /v1/connectors/smartid Get List Smart-ID Connector": {
+  "category": "Connector",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Get List Smart-ID Connector",
+  "status": ""
+ },
+ "GET /v1/connectors/usbtoken Get List USB-Token Connector": {
+  "category": "Connector",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Get List USB-Token Connector",
+  "status": ""
+ },
+ "GET /v1/csc/credentials/{p}/status Get Credential Registration Status": {
+  "category": "Register Certificate Processing",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-connector-name",
+    "x-language-name"
+   ],
+   "path_params": [
+    "transactionCode"
+   ],
+   "request_fields": [],
+   "response_fields": [
+    "data",
+    "status"
+   ],
+   "response_headers": []
+  },
+  "name": "Get Credential Registration Status",
+  "status": ""
+ },
+ "GET /v1/csc/credentials/{p}/taxcode Get List Tax Codes": {
+  "category": "Register Certificate Processing",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-citizen-temp",
+    "x-language-name"
+   ],
+   "path_params": [
+    "sessionId"
+   ],
+   "request_fields": [],
+   "response_fields": [
+    "tax_informations"
+   ],
+   "response_headers": []
+  },
+  "name": "Get List Tax Codes",
+  "status": ""
+ },
+ "GET /v1/csc/signing/pending-sessions Get Pending Signing Sessions": {
+  "category": "RSSP Processing",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [],
+   "response_fields": [
+    "sessions",
+    "total"
+   ],
+   "response_headers": []
+  },
+  "name": "Get Pending Signing Sessions",
+  "status": ""
+ },
+ "GET /v1/csc/signing/{p}/status Get Signing Transaction Status": {
+  "category": "RSSP Processing",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-connector-name",
+    "x-language-name"
+   ],
+   "path_params": [
+    "transactionCode"
+   ],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Get Signing Transaction Status",
+  "status": ""
+ },
+ "GET /v1/documents/fields Get Field Types": {
+  "category": "Document Preparation",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [],
+   "response_fields": [
+    "field_types"
+   ],
+   "response_headers": []
+  },
+  "name": "Get Field Types",
+  "status": ""
+ },
+ "GET /v1/enterprise/category Get List Enterprise Categories": {
+  "category": "Document Workflow",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name",
+    "x-total-records"
+   ],
+   "path_params": [],
+   "request_fields": [],
+   "response_fields": [
+    "categories"
+   ],
+   "response_headers": []
+  },
+  "name": "Get List Enterprise Categories",
+  "status": ""
+ },
+ "GET /v1/enterprise/category/{p}/permission List Category Grants": {
+  "category": "Document Workflow",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [
+    "categoryId"
+   ],
+   "request_fields": [],
+   "response_fields": [
+    "grants"
+   ],
+   "response_headers": []
+  },
+  "name": "List Category Grants",
+  "status": ""
+ },
+ "GET /v1/enterprise/custom_fields/{p}/{p} Get Enterprise Custom Fields": {
+  "category": "Enterprise Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name",
+    "x-parent-type",
+    "x-search-type-name",
+    "x-total-records"
+   ],
+   "path_params": [
+    "pageNo",
+    "recordsPerPage"
+   ],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": [
+    "x-total-records"
+   ]
+  },
+  "name": "Get Enterprise Custom Fields",
+  "status": ""
+ },
+ "GET /v1/enterprise/electronic-seals Get Enterprise Electronic Seals": {
+  "category": "Enterprise Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name",
+    "x-search-text"
+   ],
+   "path_params": [],
+   "request_fields": [],
+   "response_fields": [
+    "seals"
+   ],
+   "response_headers": [
+    "x-total-records"
+   ]
+  },
+  "name": "Get Enterprise Electronic Seals",
+  "status": ""
+ },
+ "GET /v1/enterprise/electronic-seals/{p} Get Enterprise Electronic Seal By Id": {
+  "category": "Enterprise Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [
+    "sealId"
+   ],
+   "request_fields": [],
+   "response_fields": [
+    "created_at",
+    "credential_configuration",
+    "id",
+    "is_default",
+    "metadata",
+    "name",
+    "role"
+   ],
+   "response_headers": []
+  },
+  "name": "Get Enterprise Electronic Seal By Id",
+  "status": ""
+ },
+ "GET /v1/enterprise/electronic-seals/{p}/{p} List Enterprise Electronic Seals": {
+  "category": "Enterprise Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name",
+    "x-search-text"
+   ],
+   "path_params": [
+    "pageNo",
+    "recordsPerPage"
+   ],
+   "request_fields": [],
+   "response_fields": [
+    "seals"
+   ],
+   "response_headers": [
+    "x-total-records"
+   ]
+  },
+  "name": "List Enterprise Electronic Seals",
+  "status": ""
+ },
+ "GET /v1/enterprise/invitations/export Export Enterprise Invitations": {
+  "category": "Enterprise Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-asc",
+    "x-export-format",
+    "x-from-date",
+    "x-language-name",
+    "x-role-id",
+    "x-search-text",
+    "x-sort-by",
+    "x-to-date"
+   ],
+   "path_params": [],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": [
+    "Content-Disposition",
+    "x-file-name",
+    "x-total-records"
+   ]
+  },
+  "name": "Export Enterprise Invitations",
+  "status": ""
+ },
+ "GET /v1/enterprise/invitations/export/{p} Export Enterprise Invitations": {
+  "category": "Enterprise Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-asc",
+    "x-export-format",
+    "x-from-date",
+    "x-language-name",
+    "x-role-id",
+    "x-search-text",
+    "x-sort-by",
+    "x-to-date"
+   ],
+   "path_params": [
+    "status"
+   ],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": [
+    "Content-Disposition",
+    "x-file-name",
+    "x-total-records"
+   ]
+  },
+  "name": "Export Enterprise Invitations",
+  "status": ""
+ },
+ "GET /v1/enterprise/invitations/export/{p}/{p} Export Enterprise Invitations": {
+  "category": "Enterprise Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-asc",
+    "x-export-format",
+    "x-from-date",
+    "x-language-name",
+    "x-role-id",
+    "x-search-text",
+    "x-sort-by",
+    "x-to-date",
+    "x-total-records"
+   ],
+   "path_params": [
+    "pageNo",
+    "recordsPerPage"
+   ],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": [
+    "Content-Disposition",
+    "x-file-name",
+    "x-total-records"
+   ]
+  },
+  "name": "Export Enterprise Invitations",
+  "status": ""
+ },
+ "GET /v1/enterprise/invitations/export/{p}/{p}/{p} Export Enterprise Invitations": {
+  "category": "Enterprise Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-asc",
+    "x-export-format",
+    "x-from-date",
+    "x-language-name",
+    "x-role-id",
+    "x-search-text",
+    "x-sort-by",
+    "x-to-date",
+    "x-total-records"
+   ],
+   "path_params": [
+    "pageNo",
+    "recordsPerPage",
+    "status"
+   ],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": [
+    "Content-Disposition",
+    "x-file-name",
+    "x-total-records"
+   ]
+  },
+  "name": "Export Enterprise Invitations",
+  "status": ""
+ },
+ "GET /v1/enterprise/invitations/{p}/{p} Get Enterprise Invitations": {
+  "category": "Enterprise Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name",
+    "x-search-text",
+    "x-total-records"
+   ],
+   "path_params": [
+    "pageNo",
+    "recordsPerPage"
+   ],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": [
+    "x-total-records"
+   ]
+  },
+  "name": "Get Enterprise Invitations",
+  "status": ""
+ },
+ "GET /v1/enterprise/permissions Get Permission Catalog": {
+  "category": "Enterprise Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [],
+   "response_fields": [
+    "feature_definition_version",
+    "features",
+    "groups",
+    "ungrouped_permissions"
+   ],
+   "response_headers": []
+  },
+  "name": "Get Permission Catalog",
+  "status": ""
+ },
+ "GET /v1/enterprise/reports/quota/statistics/{p}/{p} Get Enterprise Quota Statistics": {
+  "category": "Enterprise Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-from-date",
+    "x-language-name",
+    "x-search-text",
+    "x-to-date"
+   ],
+   "path_params": [
+    "pageNo",
+    "recordsPerPage"
+   ],
+   "request_fields": [],
+   "response_fields": [
+    "enterprise_code",
+    "enterprise_name",
+    "quota",
+    "total_count",
+    "utilization"
+   ],
+   "response_headers": [
+    "x-total-records"
+   ]
+  },
+  "name": "Get Enterprise Quota Statistics",
+  "status": ""
+ },
+ "GET /v1/enterprise/reports/workflows/statistics/export Export Enterprise Workflow Statistics": {
+  "category": "Enterprise Management",
+  "fields": {
+   "headers": [
+    "Accept-Language",
+    "Authorization",
+    "x-asc",
+    "x-export-format",
+    "x-from-date",
+    "x-language-name",
+    "x-search-text",
+    "x-sort-by",
+    "x-to-date",
+    "x-vn-moha-compliance",
+    "x-workflow-ids",
+    "x-workflow-type"
+   ],
+   "path_params": [],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": [
+    "Content-Disposition",
+    "x-file-name",
+    "x-total-records"
+   ]
+  },
+  "name": "Export Enterprise Workflow Statistics",
+  "status": ""
+ },
+ "GET /v1/enterprise/reports/workflows/statistics/export/{p} Export Enterprise Workflow Statistics": {
+  "category": "Enterprise Management",
+  "fields": {
+   "headers": [
+    "Accept-Language",
+    "Authorization",
+    "x-asc",
+    "x-export-format",
+    "x-from-date",
+    "x-language-name",
+    "x-search-text",
+    "x-sort-by",
+    "x-to-date",
+    "x-vn-moha-compliance",
+    "x-workflow-ids",
+    "x-workflow-type"
+   ],
+   "path_params": [
+    "status"
+   ],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": [
+    "Content-Disposition",
+    "x-file-name",
+    "x-total-records"
+   ]
+  },
+  "name": "Export Enterprise Workflow Statistics",
+  "status": ""
+ },
+ "GET /v1/enterprise/reports/workflows/statistics/export/{p}/{p} Export Enterprise Workflow Statistics": {
+  "category": "Enterprise Management",
+  "fields": {
+   "headers": [
+    "Accept-Language",
+    "Authorization",
+    "x-asc",
+    "x-export-format",
+    "x-from-date",
+    "x-language-name",
+    "x-search-text",
+    "x-sort-by",
+    "x-to-date",
+    "x-total-records",
+    "x-vn-moha-compliance",
+    "x-workflow-ids",
+    "x-workflow-type"
+   ],
+   "path_params": [
+    "pageNo",
+    "recordsPerPage"
+   ],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": [
+    "Content-Disposition",
+    "x-file-name",
+    "x-total-records"
+   ]
+  },
+  "name": "Export Enterprise Workflow Statistics",
+  "status": ""
+ },
+ "GET /v1/enterprise/reports/workflows/statistics/export/{p}/{p}/{p} Export Enterprise Workflow Statistics": {
+  "category": "Enterprise Management",
+  "fields": {
+   "headers": [
+    "Accept-Language",
+    "Authorization",
+    "x-asc",
+    "x-export-format",
+    "x-from-date",
+    "x-language-name",
+    "x-search-text",
+    "x-sort-by",
+    "x-to-date",
+    "x-total-records",
+    "x-vn-moha-compliance",
+    "x-workflow-ids",
+    "x-workflow-type"
+   ],
+   "path_params": [
+    "pageNo",
+    "recordsPerPage",
+    "status"
+   ],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": [
+    "Content-Disposition",
+    "x-file-name",
+    "x-total-records"
+   ]
+  },
+  "name": "Export Enterprise Workflow Statistics",
+  "status": ""
+ },
+ "GET /v1/enterprise/reports/{p}/{p} Get Enterprise Report List": {
+  "category": "Enterprise Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-from-date",
+    "x-language-name",
+    "x-to-date",
+    "x-total-records"
+   ],
+   "path_params": [
+    "pageNo",
+    "recordsPerPage"
+   ],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": [
+    "x-total-records"
+   ]
+  },
+  "name": "Get Enterprise Report List",
+  "status": ""
+ },
+ "GET /v1/enterprise/roles/{p}/permissions Get Role Permissions": {
+  "category": "Enterprise Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [
+    "enterpriseRoleId"
+   ],
+   "request_fields": [],
+   "response_fields": [
+    "enterprise_role_id",
+    "feature_definition_version",
+    "features",
+    "groups",
+    "remark",
+    "remark_en",
+    "role_id",
+    "role_name",
+    "ungrouped_permissions"
+   ],
+   "response_headers": []
+  },
+  "name": "Get Role Permissions",
+  "status": ""
+ },
+ "GET /v1/enterprise/roles/{p}/{p} Get Roles": {
+  "category": "Enterprise Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name",
+    "x-total-records"
+   ],
+   "path_params": [
+    "pageNo",
+    "recordsPerPage"
+   ],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": [
+    "x-total-records"
+   ]
+  },
+  "name": "Get Roles",
+  "status": ""
+ },
+ "GET /v1/enterprise/settings/download-link Get Enterprise Download Link Setting": {
+  "category": "Enterprise Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [],
+   "response_fields": [
+    "default_days",
+    "download_link_expiry_days",
+    "max_days",
+    "min_days",
+    "source"
+   ],
+   "response_headers": []
+  },
+  "name": "Get Enterprise Download Link Setting",
+  "status": ""
+ },
+ "GET /v1/enterprise/settings/tsa Get Enterprise TSA Configuration": {
+  "category": "Enterprise Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [],
+   "response_fields": [
+    "authentication",
+    "hash_algorithm",
+    "policy_oid",
+    "retry_count",
+    "timeout",
+    "tsa_uri"
+   ],
+   "response_headers": []
+  },
+  "name": "Get Enterprise TSA Configuration",
+  "status": ""
+ },
+ "GET /v1/enterprise/users/export Export Enterprise Users": {
+  "category": "Enterprise Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-export-format",
+    "x-from-date",
+    "x-language-name",
+    "x-role-id",
+    "x-search-text",
+    "x-to-date"
+   ],
+   "path_params": [],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": [
+    "Content-Disposition",
+    "x-file-name",
+    "x-total-records"
+   ]
+  },
+  "name": "Export Enterprise Users",
+  "status": ""
+ },
+ "GET /v1/enterprise/users/export/{p}/{p} Export Enterprise Users": {
+  "category": "Enterprise Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-export-format",
+    "x-from-date",
+    "x-language-name",
+    "x-role-id",
+    "x-search-text",
+    "x-to-date",
+    "x-total-records"
+   ],
+   "path_params": [
+    "pageNo",
+    "recordsPerPage"
+   ],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": [
+    "Content-Disposition",
+    "x-file-name",
+    "x-total-records"
+   ]
+  },
+  "name": "Export Enterprise Users",
+  "status": ""
+ },
+ "GET /v1/enterprise/users/statistics Get Enterprise User Management Statistics": {
+  "category": "Enterprise Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [],
+   "response_fields": [
+    "document_storage",
+    "enterprise_users",
+    "pending_invitations",
+    "signature_used",
+    "storage_used"
+   ],
+   "response_headers": []
+  },
+  "name": "Get Enterprise User Management Statistics",
+  "status": ""
+ },
+ "GET /v1/enterprise/users/{p}/quota Get Enterprise User Quota": {
+  "category": "Enterprise Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [
+    "enterpriseUserId"
+   ],
+   "request_fields": [],
+   "response_fields": [
+    "enterprise_id",
+    "quota",
+    "user_id"
+   ],
+   "response_headers": []
+  },
+  "name": "Get Enterprise User Quota",
+  "status": ""
+ },
+ "GET /v1/enterprise/users/{p}/{p} Get Enterprise Users": {
+  "category": "Enterprise Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name",
+    "x-search-text",
+    "x-total-records"
+   ],
+   "path_params": [
+    "pageNo",
+    "recordsPerPage"
+   ],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": [
+    "x-total-records"
+   ]
+  },
+  "name": "Get Enterprise Users",
+  "status": ""
+ },
+ "GET /v1/enterprise/workflows/{p}/{p}/{p} Get Enterprise Workflows": {
+  "category": "Enterprise Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-from-date",
+    "x-language-name",
+    "x-search-text",
+    "x-to-date",
+    "x-total-records",
+    "x-workflow-ids",
+    "x-workflow-type"
+   ],
+   "path_params": [
+    "pageNo",
+    "recordsPerPage",
+    "status"
+   ],
+   "request_fields": [],
+   "response_fields": [
+    "workflows"
+   ],
+   "response_headers": [
+    "x-total-records"
+   ]
+  },
+  "name": "Get Enterprise Workflows",
+  "status": ""
+ },
+ "GET /v1/info Get Information": {
+  "category": "Authenticate – Log in",
+  "fields": {
+   "headers": [
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [],
+   "response_fields": [
+    "gopaperless.workflow.app.authType",
+    "gopaperless.workflow.app.dateformat",
+    "gopaperless.workflow.app.description",
+    "gopaperless.workflow.app.langs",
+    "gopaperless.workflow.app.logo",
+    "gopaperless.workflow.app.methods",
+    "gopaperless.workflow.app.name",
+    "gopaperless.workflow.app.region",
+    "gopaperless.workflow.app.version",
+    "gopaperless.workflow.login",
+    "gopaperless.workflow.url",
+    "server_timestamp"
+   ],
+   "response_headers": []
+  },
+  "name": "Get Information",
+  "status": ""
+ },
+ "GET /v1/packages/sign/status Get Bulk Signing Status": {
+  "category": "RSSP Processing",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [],
+   "response_fields": [
+    "package_fail",
+    "package_inprogress",
+    "package_success",
+    "packages",
+    "percentage",
+    "status",
+    "total_package",
+    "workflows"
+   ],
+   "response_headers": []
+  },
+  "name": "Get Bulk Signing Status",
+  "status": ""
+ },
+ "GET /v1/packages/{p} Download Package": {
+  "category": "Document Package",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [
+    "packageId"
+   ],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Download Package",
+  "status": ""
+ },
+ "GET /v1/packages/{p}/base64 Download Package (base64)": {
+  "category": "Document Package",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [
+    "packageId"
+   ],
+   "request_fields": [],
+   "response_fields": [
+    "file_data"
+   ],
+   "response_headers": []
+  },
+  "name": "Download Package (base64)",
+  "status": ""
+ },
+ "GET /v1/packages/{p}/comments Get Workflow Comment/Message": {
+  "category": "Document Workflow",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name",
+    "x-total-records"
+   ],
+   "path_params": [
+    "packageId"
+   ],
+   "request_fields": [],
+   "response_fields": [
+    "comments"
+   ],
+   "response_headers": [
+    "x-total-records"
+   ]
+  },
+  "name": "Get Workflow Comment/Message",
+  "status": ""
+ },
+ "GET /v1/packages/{p}/details Get Package Details": {
+  "category": "Document Package",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [
+    "packageId"
+   ],
+   "request_fields": [],
+   "response_fields": [
+    "document_status",
+    "documents",
+    "name",
+    "owner"
+   ],
+   "response_headers": []
+  },
+  "name": "Get Package Details",
+  "status": ""
+ },
+ "GET /v1/packages/{p}/documents/{p} Download Document": {
+  "category": "Document Package",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name",
+    "x-original-file"
+   ],
+   "path_params": [
+    "documentId",
+    "packageId"
+   ],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Download Document",
+  "status": ""
+ },
+ "GET /v1/packages/{p}/documents/{p}/attachments Get Attachments": {
+  "category": "Document Workflow",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [
+    "documentId",
+    "packageId"
+   ],
+   "request_fields": [],
+   "response_fields": [
+    "attachments"
+   ],
+   "response_headers": []
+  },
+  "name": "Get Attachments",
+  "status": ""
+ },
+ "GET /v1/packages/{p}/documents/{p}/attachments/{p} Download Attachment": {
+  "category": "Document Workflow",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [
+    "attachmentId",
+    "documentId",
+    "packageId"
+   ],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Download Attachment",
+  "status": ""
+ },
+ "GET /v1/packages/{p}/documents/{p}/base64 Download Document (base64)": {
+  "category": "Document Package",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name",
+    "x-original-file"
+   ],
+   "path_params": [
+    "documentId",
+    "packageId"
+   ],
+   "request_fields": [],
+   "response_fields": [
+    "file_data"
+   ],
+   "response_headers": []
+  },
+  "name": "Download Document (base64)",
+  "status": ""
+ },
+ "GET /v1/packages/{p}/documents/{p}/details Get Document Details": {
+  "category": "Document Package",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [
+    "documentId",
+    "packageId"
+   ],
+   "request_fields": [],
+   "response_fields": [
+    "created_at",
+    "created_by",
+    "document_height",
+    "document_id",
+    "document_name",
+    "document_order",
+    "document_pages",
+    "document_type",
+    "document_width",
+    "form_field",
+    "lock_form_fields",
+    "modified_at",
+    "modified_by"
+   ],
+   "response_headers": []
+  },
+  "name": "Get Document Details",
+  "status": ""
+ },
+ "GET /v1/packages/{p}/documents/{p}/fields Get Document Fields": {
+  "category": "Document Preparation",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-coordinate-origin",
+    "x-dimension-unit",
+    "x-language-name"
+   ],
+   "path_params": [
+    "documentId",
+    "packageId"
+   ],
+   "request_fields": [],
+   "response_fields": [
+    "attachment",
+    "camera",
+    "checkbox",
+    "checkboxV2",
+    "combobox",
+    "datetime",
+    "hyperlink",
+    "initial",
+    "inperson",
+    "qr",
+    "qrypto",
+    "radiobox",
+    "radioboxV2",
+    "redaction",
+    "signature",
+    "stamp",
+    "stepper",
+    "textbox",
+    "toggle",
+    "vneid_field"
+   ],
+   "response_headers": []
+  },
+  "name": "Get Document Fields",
+  "status": ""
+ },
+ "GET /v1/packages/{p}/documents/{p}/images/{p} Get Document Image": {
+  "category": "Document Package",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-image-type",
+    "x-language-name",
+    "x-original-file",
+    "x-page-height",
+    "x-page-width"
+   ],
+   "path_params": [
+    "documentId",
+    "packageId",
+    "pageNo"
+   ],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": [
+    "x-image-type"
+   ]
+  },
+  "name": "Get Document Image",
+  "status": ""
+ },
+ "GET /v1/packages/{p}/documents/{p}/images/{p}/base64 Get Document Image Base64": {
+  "category": "Document Package",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-image-type",
+    "x-language-name",
+    "x-page-height",
+    "x-page-width"
+   ],
+   "path_params": [
+    "documentId",
+    "packageId",
+    "pageNo"
+   ],
+   "request_fields": [],
+   "response_fields": [
+    "file_data",
+    "image_format"
+   ],
+   "response_headers": []
+  },
+  "name": "Get Document Image Base64",
+  "status": ""
+ },
+ "GET /v1/packages/{p}/documents/{p}/signature-summary Download Signature Summary": {
+  "category": "Document Package",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [
+    "documentId",
+    "packageId"
+   ],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Download Signature Summary",
+  "status": ""
+ },
+ "GET /v1/packages/{p}/documents/{p}/signature-summary/base64 Download Signature Summary (base64)": {
+  "category": "Document Package",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [
+    "documentId",
+    "packageId"
+   ],
+   "request_fields": [],
+   "response_fields": [
+    "file_data"
+   ],
+   "response_headers": []
+  },
+  "name": "Download Signature Summary (base64)",
+  "status": ""
+ },
+ "GET /v1/packages/{p}/documents/{p}/verification Get Document Verification": {
+  "category": "Document Package",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [
+    "documentId",
+    "packageId"
+   ],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Get Document Verification",
+  "status": ""
+ },
+ "GET /v1/packages/{p}/log/{p}/{p} Get Workflow History": {
+  "category": "Document Workflow",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name",
+    "x-total-records"
+   ],
+   "path_params": [
+    "packageId",
+    "pageNo",
+    "recordsPerPage"
+   ],
+   "request_fields": [],
+   "response_fields": [
+    "actions",
+    "workflow_id"
+   ],
+   "response_headers": [
+    "x-total-records"
+   ]
+  },
+  "name": "Get Workflow History",
+  "status": ""
+ },
+ "GET /v1/packages/{p}/workflow Get Workflow Details": {
+  "category": "Document Workflow",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-catch-event",
+    "x-enterprise-mode",
+    "x-language-name"
+   ],
+   "path_params": [
+    "packageId"
+   ],
+   "request_fields": [],
+   "response_fields": [
+    "created_at",
+    "created_by",
+    "documents",
+    "modified_at",
+    "modified_by",
+    "next_signer",
+    "owner_email",
+    "owner_name",
+    "package_id",
+    "package_name",
+    "package_owner",
+    "package_status",
+    "users",
+    "workflow"
+   ],
+   "response_headers": []
+  },
+  "name": "Get Workflow Details",
+  "status": ""
+ },
+ "GET /v1/packages/{p}/workflow/users Get Workflow Users": {
+  "category": "Document Workflow",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [
+    "packageId"
+   ],
+   "request_fields": [],
+   "response_fields": [
+    "users"
+   ],
+   "response_headers": []
+  },
+  "name": "Get Workflow Users",
+  "status": ""
+ },
+ "GET /v1/packages/{p}/{p}/{p} Get All Packages": {
+  "category": "Document Package",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name",
+    "x-number-records"
+   ],
+   "path_params": [
+    "packageStatus",
+    "pageNo",
+    "pageSize"
+   ],
+   "request_fields": [],
+   "response_fields": [
+    "packages"
+   ],
+   "response_headers": [
+    "x-total-records"
+   ]
+  },
+  "name": "Get All Packages",
+  "status": ""
+ },
+ "GET /v1/providers Get List Providers": {
+  "category": "Register Certificate Processing",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [],
+   "response_fields": [
+    "providers"
+   ],
+   "response_headers": []
+  },
+  "name": "Get List Providers",
+  "status": ""
+ },
+ "GET /v1/settings/addressbook Get Address Book": {
+  "category": "Personal Settings",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name",
+    "x-total-records"
+   ],
+   "path_params": [],
+   "request_fields": [],
+   "response_fields": [
+    "address_books"
+   ],
+   "response_headers": [
+    "x-total-records"
+   ]
+  },
+  "name": "Get Address Book",
+  "status": ""
+ },
+ "GET /v1/settings/contacts/{p}/{p} Get Contacts": {
+  "category": "Personal Settings",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name",
+    "x-total-records"
+   ],
+   "path_params": [
+    "pageNo",
+    "recordsPerPage"
+   ],
+   "request_fields": [],
+   "response_fields": [
+    "contacts"
+   ],
+   "response_headers": [
+    "x-total-records"
+   ]
+  },
+  "name": "Get Contacts",
+  "status": ""
+ },
+ "GET /v1/settings/profile Get General Profile Information": {
+  "category": "Personal Settings",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [],
+   "response_fields": [
+    "application",
+    "enterprise",
+    "feature_permissions",
+    "general",
+    "locale",
+    "permissions",
+    "security",
+    "service_plan",
+    "tbs"
+   ],
+   "response_headers": []
+  },
+  "name": "Get General Profile Information",
+  "status": ""
+ },
+ "GET /v1/settings/signatures Get Signature Settings": {
+  "category": "Personal Settings",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [],
+   "response_fields": [
+    "signatures"
+   ],
+   "response_headers": []
+  },
+  "name": "Get Signature Settings",
+  "status": ""
+ },
+ "GET /v1/settings/templates/{p}/{p} Get List Template": {
+  "category": "Template",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-enterprise-mode",
+    "x-language-name",
+    "x-search-text",
+    "x-total-records"
+   ],
+   "path_params": [
+    "pageNo",
+    "recordsPerPage"
+   ],
+   "request_fields": [],
+   "response_fields": [
+    "templates"
+   ],
+   "response_headers": [
+    "x-total-records"
+   ]
+  },
+  "name": "Get List Template",
+  "status": ""
+ },
+ "GET /v1/settings/templates/{p}/{p}/{p} Get List Template": {
+  "category": "Template",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name",
+    "x-search-text",
+    "x-total-records"
+   ],
+   "path_params": [
+    "pageNo",
+    "recordPerPage",
+    "templateType"
+   ],
+   "request_fields": [],
+   "response_fields": [
+    "templates"
+   ],
+   "response_headers": [
+    "x-total-records"
+   ]
+  },
+  "name": "Get List Template",
+  "status": ""
+ },
+ "GET /v1/settings/templates/{p}/{p}/{p} Get Templates": {
+  "category": "Template",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name",
+    "x-search-text",
+    "x-total-records"
+   ],
+   "path_params": [
+    "pageNo",
+    "recordsPerPage",
+    "templateType"
+   ],
+   "request_fields": [],
+   "response_fields": [
+    "templates"
+   ],
+   "response_headers": [
+    "x-total-records"
+   ]
+  },
+  "name": "Get Templates",
+  "status": ""
+ },
+ "GET /v1/system/billing/catalog Get Billing Catalog": {
+  "category": "Enterprise Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [],
+   "response_fields": [
+    "billing_models",
+    "currency",
+    "document_pricing",
+    "payment_methods",
+    "tax"
+   ],
+   "response_headers": []
+  },
+  "name": "Get Billing Catalog",
+  "status": ""
+ },
+ "GET /v1/system/cache Get Cache Data": {
+  "category": "ADMIN APIs",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [],
+   "response_fields": [
+    "data",
+    "metadata",
+    "timestamp"
+   ],
+   "response_headers": []
+  },
+  "name": "Get Cache Data",
+  "status": ""
+ },
+ "GET /v1/system/file/{p} Download file system": {
+  "category": "Document Processing",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [
+    "linkSegment"
+   ],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": [
+    "Content-Disposition"
+   ]
+  },
+  "name": "Download file system",
+  "status": ""
+ },
+ "GET /v1/system/logs/{p}/details Get System Log Details": {
+  "category": "ADMIN APIs",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [
+    "systemLogId"
+   ],
+   "request_fields": [],
+   "response_fields": [
+    "attributes",
+    "log"
+   ],
+   "response_headers": []
+  },
+  "name": "Get System Log Details",
+  "status": ""
+ },
+ "GET /v1/system/logs/{p}/{p} List System Logs": {
+  "category": "ADMIN APIs",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [
+    "offset",
+    "rowcount"
+   ],
+   "request_fields": [],
+   "response_fields": [
+    "data",
+    "total"
+   ],
+   "response_headers": []
+  },
+  "name": "List System Logs",
+  "status": ""
+ },
+ "GET /v1/system/serviceplans Get All Service Plans": {
+  "category": "Enterprise Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-asc",
+    "x-billing-type",
+    "x-currency",
+    "x-id",
+    "x-language-name",
+    "x-search-text",
+    "x-sort-by",
+    "x-total-records",
+    "x-type"
+   ],
+   "path_params": [],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Get All Service Plans",
+  "status": ""
+ },
+ "GET /v1/system/serviceplans/{p}/billing/catalog Get Service Plan Billing Catalog": {
+  "category": "Enterprise Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [
+    "servicePlanId"
+   ],
+   "request_fields": [],
+   "response_fields": [
+    "catalog_source",
+    "feature",
+    "service_plan_id"
+   ],
+   "response_headers": []
+  },
+  "name": "Get Service Plan Billing Catalog",
+  "status": ""
+ },
+ "GET /v1/system/serviceplans/{p}/{p} Get All Service Plans": {
+  "category": "Enterprise Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-asc",
+    "x-billing-type",
+    "x-currency",
+    "x-id",
+    "x-language-name",
+    "x-search-text",
+    "x-sort-by",
+    "x-total-records",
+    "x-type"
+   ],
+   "path_params": [
+    "pageNo",
+    "recordsPerPage"
+   ],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Get All Service Plans",
+  "status": ""
+ },
+ "GET /v1/system/signing/apps Get App Name Mapping List": {
+  "category": "Document Processing",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [],
+   "response_fields": [
+    "app_names"
+   ],
+   "response_headers": []
+  },
+  "name": "Get App Name Mapping List",
+  "status": ""
+ },
+ "GET /v1/system/signing/servers Get RSSP Information": {
+  "category": "RSSP Processing",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name",
+    "x-search-server"
+   ],
+   "path_params": [],
+   "request_fields": [],
+   "response_fields": [
+    "signing_servers"
+   ],
+   "response_headers": []
+  },
+  "name": "Get RSSP Information",
+  "status": ""
+ },
+ "GET /v1/system/tax-info Get Tax Company Name": {
+  "category": "Enterprise Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name",
+    "x-tax-code"
+   ],
+   "path_params": [],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Get Tax Company Name",
+  "status": ""
+ },
+ "GET /v1/system/tbs/bank-accounts Get Trusted Billing Bank Accounts": {
+  "category": "Enterprise Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [],
+   "response_fields": [
+    "data"
+   ],
+   "response_headers": []
+  },
+  "name": "Get Trusted Billing Bank Accounts",
+  "status": ""
+ },
+ "GET /v1/system/terms-of-service Get List Terms of Service": {
+  "category": "Account Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [],
+   "response_fields": [
+    "terms_of_service"
+   ],
+   "response_headers": []
+  },
+  "name": "Get List Terms of Service",
+  "status": ""
+ },
+ "GET /v1/system/terms-of-service/{p} Download Terms of Service File": {
+  "category": "Account Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [
+    "termsOfServiceUuid"
+   ],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Download Terms of Service File",
+  "status": ""
+ },
+ "GET /v1/templates/{p} Get Template By ID": {
+  "category": "Template",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [
+    "templateId"
+   ],
+   "request_fields": [],
+   "response_fields": [
+    "created_at",
+    "description",
+    "documents",
+    "enterprise",
+    "lifecycle_state",
+    "name",
+    "public",
+    "read_only"
+   ],
+   "response_headers": []
+  },
+  "name": "Get Template By ID",
+  "status": ""
+ },
+ "GET /v1/templates/{p}/details Get Template Details": {
+  "category": "Template",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [
+    "templateId"
+   ],
+   "request_fields": [],
+   "response_fields": [
+    "documents",
+    "template",
+    "template_id",
+    "users",
+    "workflow"
+   ],
+   "response_headers": []
+  },
+  "name": "Get Template Details",
+  "status": ""
+ },
+ "GET /v1/templates/{p}/documents/{p}/fields Get Template Fields": {
+  "category": "Template",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-coordinate-origin",
+    "x-dimension-unit",
+    "x-language-name"
+   ],
+   "path_params": [
+    "documentId",
+    "templateId"
+   ],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Get Template Fields",
+  "status": ""
+ },
+ "GET /v1/templates/{p}/file Get Template File": {
+  "category": "Template",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [
+    "templateId"
+   ],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": [
+    "Content-Disposition"
+   ]
+  },
+  "name": "Get Template File",
+  "status": ""
+ },
+ "GET /v1/templates/{p}/workflow/users Get Template Workflow Users": {
+  "category": "Template",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [
+    "templateId"
+   ],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Get Template Workflow Users",
+  "status": ""
+ },
+ "GET /v1/terms Get List Terms of Service": {
+  "category": "Account Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [],
+   "response_fields": [
+    "terms_of_service"
+   ],
+   "response_headers": []
+  },
+  "name": "Get List Terms of Service",
+  "status": ""
+ },
+ "GET /v1/validations/reports/{p}/{p} Download Reports": {
+  "category": "Validation Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [
+    "reportId",
+    "reportType"
+   ],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": [
+    "Content-disposition"
+   ]
+  },
+  "name": "Download Reports",
+  "status": ""
+ },
+ "GET /v1/validations/{p}/reports Get Report of Validation": {
+  "category": "Validation Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [
+    "validationId"
+   ],
+   "request_fields": [],
+   "response_fields": [
+    "details",
+    "file",
+    "overview",
+    "seals",
+    "signatures"
+   ],
+   "response_headers": []
+  },
+  "name": "Get Report of Validation",
+  "status": ""
+ },
+ "GET /v1/validations/{p}/{p} Get List Validation": {
+  "category": "Validation Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name",
+    "x-search-text",
+    "x-total-records"
+   ],
+   "path_params": [
+    "pageNo",
+    "recordsPerPage"
+   ],
+   "request_fields": [],
+   "response_fields": [
+    "validations"
+   ],
+   "response_headers": [
+    "x-total-records"
+   ]
+  },
+  "name": "Get List Validation",
+  "status": ""
+ },
+ "GET /v1/workflow/from-paper/bulk/{p} Get Bulk Workflow From Paper": {
+  "category": "Document Workflow",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [
+    "batchId"
+   ],
+   "request_fields": [],
+   "response_fields": [
+    "batch_id",
+    "completed",
+    "failed",
+    "in_progress",
+    "items",
+    "status",
+    "total_items"
+   ],
+   "response_headers": []
+  },
+  "name": "Get Bulk Workflow From Paper",
+  "status": ""
+ },
+ "GET /v1/workflow/from-paper/{p} Get Paper Conversion": {
+  "category": "Document Workflow",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [
+    "recordId"
+   ],
+   "request_fields": [],
+   "response_fields": [
+    "contract",
+    "created_at",
+    "document",
+    "employee",
+    "employer",
+    "last_error_code",
+    "last_stage",
+    "package_name",
+    "record_id",
+    "result",
+    "retryable",
+    "status",
+    "sync_to_state",
+    "version"
+   ],
+   "response_headers": []
+  },
+  "name": "Get Paper Conversion",
+  "status": ""
+ },
+ "GET /v1/workflow/from-paper/{p}/{p}/{p} List Paper Conversions": {
+  "category": "Document Workflow",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name",
+    "x-total-records"
+   ],
+   "path_params": [
+    "pageNo",
+    "recordsPerPage",
+    "status"
+   ],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": [
+    "x-total-records"
+   ]
+  },
+  "name": "List Paper Conversions",
+  "status": ""
+ },
+ "GET /v1/workflow/{p} Get Workflow Details by UUID": {
+  "category": "Document Workflow",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-catch-event",
+    "x-language-name"
+   ],
+   "path_params": [
+    "workflowUuid"
+   ],
+   "request_fields": [],
+   "response_fields": [
+    "created_at",
+    "created_by",
+    "documents",
+    "modified_at",
+    "modified_by",
+    "next_signer",
+    "owner_email",
+    "owner_name",
+    "package_id",
+    "package_name",
+    "package_owner",
+    "package_status",
+    "users",
+    "workflow"
+   ],
+   "response_headers": []
+  },
+  "name": "Get Workflow Details by UUID",
+  "status": ""
+ },
+ "GET /v1/workflow/{p}/import Get Status of Import Excel": {
+  "category": "Document Workflow",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [
+    "importId"
+   ],
+   "request_fields": [],
+   "response_fields": [
+    "percentage",
+    "status",
+    "total_workflows",
+    "workflow_fail",
+    "workflow_inprogress",
+    "workflow_success",
+    "workflows"
+   ],
+   "response_headers": []
+  },
+  "name": "Get Status of Import Excel",
+  "status": ""
+ },
+ "GET /v1/workflow/{p}/{p}/{p} Get All Workflow": {
+  "category": "Document Workflow",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-category-id",
+    "x-category-mode",
+    "x-enterprise-mode",
+    "x-filter-field-type",
+    "x-from-date",
+    "x-language-name",
+    "x-search-text",
+    "x-to-date",
+    "x-total-records",
+    "x-workflow-type"
+   ],
+   "path_params": [
+    "criteria",
+    "pageNo",
+    "recordsPerPage"
+   ],
+   "request_fields": [],
+   "response_fields": [
+    "workflows"
+   ],
+   "response_headers": [
+    "x-total-records"
+   ]
+  },
+  "name": "Get All Workflow",
+  "status": ""
+ },
+ "POST /billing/webhook Trusted Billing Webhook": {
+  "category": "ADMIN APIs",
+  "fields": {
+   "headers": [
+    "Content-Type",
+    "x-hmac-signature",
+    "x-language-name",
+    "x-webhook-signature"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "bank_account_id",
+    "bill_code_id",
+    "client_id",
+    "company_id",
+    "customer_id",
+    "data",
+    "id",
+    "is_personal",
+    "postback_url",
+    "request_ip",
+    "rp_name",
+    "service_name",
+    "tb_id",
+    "url",
+    "webhook_event"
+   ],
+   "response_fields": [
+    "message"
+   ],
+   "response_headers": []
+  },
+  "name": "Trusted Billing Webhook",
+  "status": ""
+ },
+ "POST /billing/webhook/{p} Trusted Billing Webhook - Receive event processing": {
+  "category": "ADMIN APIs",
+  "fields": {
+   "headers": [
+    "Content-Type",
+    "x-hmac-signature",
+    "x-language-name",
+    "x-webhook-signature"
+   ],
+   "path_params": [
+    "billingTransactionId"
+   ],
+   "request_fields": [
+    "bank_account_id",
+    "bill_code_id",
+    "client_id",
+    "company_id",
+    "customer_id",
+    "data",
+    "id",
+    "is_personal",
+    "postback_url",
+    "request_ip",
+    "rp_name",
+    "service_name",
+    "tb_id",
+    "url",
+    "webhook_event"
+   ],
+   "response_fields": [
+    "message"
+   ],
+   "response_headers": []
+  },
+  "name": "Trusted Billing Webhook - Receive event processing",
+  "status": ""
+ },
+ "POST /rss/webhook RSS Webhook": {
+  "category": "ADMIN APIs",
+  "fields": {
+   "headers": [
+    "Content-Type",
+    "x-billcode-id",
+    "x-hmac-signature",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "data",
+    "description",
+    "status"
+   ],
+   "response_fields": [
+    "message"
+   ],
+   "response_headers": []
+  },
+  "name": "RSS Webhook",
+  "status": ""
+ },
+ "POST /rss/webhook/{p} RSS Webhook - Receive event start processing": {
+  "category": "ADMIN APIs",
+  "fields": {
+   "headers": [
+    "Content-Type",
+    "x-billcode-id",
+    "x-hmac-signature",
+    "x-language-name"
+   ],
+   "path_params": [
+    "signingTransactionId"
+   ],
+   "request_fields": [
+    "data",
+    "description",
+    "status"
+   ],
+   "response_fields": [
+    "message"
+   ],
+   "response_headers": []
+  },
+  "name": "RSS Webhook - Receive event start processing",
+  "status": ""
+ },
+ "POST /v1/account/billings/initialize Initialize Billing": {
+  "category": "Account Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "bank_account_id",
+    "discount_code",
+    "referral_code",
+    "service_plan_billing_id",
+    "service_plan_id",
+    "webhook_url"
+   ],
+   "response_fields": [
+    "account_number",
+    "amount",
+    "billing_id",
+    "billing_payment_id",
+    "core_processing_available",
+    "correlation_id",
+    "currency",
+    "deeplink",
+    "expires_at",
+    "message_key",
+    "payment_url",
+    "qr_code",
+    "status",
+    "transaction_id",
+    "va_number"
+   ],
+   "response_headers": []
+  },
+  "name": "Initialize Billing",
+  "status": ""
+ },
+ "POST /v1/account/identity Add Identity for a User": {
+  "category": "Account Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "async",
+    "citizen_id",
+    "metadata",
+    "package_id",
+    "sync_user_from_connector",
+    "webhook_url"
+   ],
+   "response_fields": [
+    "billcode_id",
+    "message",
+    "transaction_code",
+    "transaction_id",
+    "validity_period"
+   ],
+   "response_headers": []
+  },
+  "name": "Add Identity for a User",
+  "status": ""
+ },
+ "POST /v1/account/invitations/accept Accept Account Invitation": {
+  "category": "Account Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "invitation_token"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Accept Account Invitation",
+  "status": ""
+ },
+ "POST /v1/account/invitations/reject Reject Account Invitation": {
+  "category": "Account Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "invitation_token"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Reject Account Invitation",
+  "status": ""
+ },
+ "POST /v1/account/remove Remove Account Request": {
+  "category": "Personal Settings",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "password",
+    "userEmail"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Remove Account Request",
+  "status": ""
+ },
+ "POST /v1/account/switch Switch Enterprise Context": {
+  "category": "Authenticate – Log in",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "enterprise_id",
+    "profile_id"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Switch Enterprise Context",
+  "status": ""
+ },
+ "POST /v1/admin/accounts Create Account": {
+  "category": "ADMIN APIs",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "address",
+    "company_name",
+    "contact_address",
+    "contact_email",
+    "enterprise_name",
+    "industry_type",
+    "invoice_address",
+    "invoice_email",
+    "job_title",
+    "mobile_number",
+    "notifications",
+    "security_answer",
+    "security_question",
+    "service_agreements",
+    "service_plan_id",
+    "tax_code",
+    "user_email",
+    "user_first_name",
+    "user_last_name",
+    "user_password"
+   ],
+   "response_fields": [
+    "message"
+   ],
+   "response_headers": [
+    "x-profile-id"
+   ]
+  },
+  "name": "Create Account",
+  "status": ""
+ },
+ "POST /v1/admin/accounts-personal Create Personal Account": {
+  "category": "ADMIN APIs",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "email",
+    "email_notification",
+    "first_name",
+    "last_name",
+    "mobile_number",
+    "password",
+    "permanent_address",
+    "residential_address",
+    "service_plan_billing_id",
+    "service_plan_id",
+    "user_national_id"
+   ],
+   "response_fields": [
+    "account_number",
+    "amount",
+    "billing_id",
+    "billing_payment_id",
+    "core_processing_available",
+    "correlation_id",
+    "currency",
+    "deeplink",
+    "expires_at",
+    "message_key",
+    "payment_url",
+    "qr_code",
+    "status",
+    "transaction_id",
+    "va_number"
+   ],
+   "response_headers": []
+  },
+  "name": "Create Personal Account",
+  "status": ""
+ },
+ "POST /v1/admin/billing-webhooks/redrive Re-drive Trusted Billing Payment Webhook": {
+  "category": "ADMIN APIs",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "bill_id",
+    "company_id",
+    "owner_override_enterprise_id",
+    "owner_override_user_id",
+    "reason"
+   ],
+   "response_fields": [
+    "bill_id",
+    "billing_id",
+    "link_status",
+    "outcome"
+   ],
+   "response_headers": []
+  },
+  "name": "Re-drive Trusted Billing Payment Webhook",
+  "status": ""
+ },
+ "POST /v1/admin/enterprises-tools Create Enterprise Account": {
+  "category": "ADMIN APIs",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "address",
+    "contact_address",
+    "email_notification",
+    "enterprise_name",
+    "industry_type",
+    "invoice_address",
+    "mobile_number",
+    "owner_email",
+    "owner_first_name",
+    "owner_last_name",
+    "owner_mobile_number",
+    "owner_password",
+    "owner_permanent_address",
+    "owner_residential_address",
+    "service_plan_billing_id",
+    "service_plan_id",
+    "tax_code"
+   ],
+   "response_fields": [
+    "account_number",
+    "amount",
+    "billing_id",
+    "billing_payment_id",
+    "core_processing_available",
+    "correlation_id",
+    "currency",
+    "deeplink",
+    "expires_at",
+    "message_key",
+    "payment_url",
+    "qr_code",
+    "status",
+    "transaction_id",
+    "va_number"
+   ],
+   "response_headers": []
+  },
+  "name": "Create Enterprise Account",
+  "status": ""
+ },
+ "POST /v1/admin/enterprises-tools/lookup Lookup Enterprise By Tax Code For Tools": {
+  "category": "ADMIN APIs",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "tax_code"
+   ],
+   "response_fields": [
+    "address",
+    "contact_address",
+    "contact_email",
+    "created_at",
+    "created_by",
+    "domain",
+    "id",
+    "industry_type",
+    "invoice_address",
+    "invoice_email",
+    "logo",
+    "mobile_number",
+    "modified_at",
+    "modified_by",
+    "name",
+    "notification_email",
+    "owner_id",
+    "status",
+    "subdomain",
+    "tax_code",
+    "type"
+   ],
+   "response_headers": []
+  },
+  "name": "Lookup Enterprise By Tax Code For Tools",
+  "status": ""
+ },
+ "POST /v1/application/queue Add API Request Queue": {
+  "category": "Application/Device Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "createdBy",
+    "request"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Add API Request Queue",
+  "status": ""
+ },
+ "POST /v1/application/users Register Application User": {
+  "category": "Application/Device Management",
+  "fields": {
+   "headers": [
+    "Content-Type",
+    "x-client-id",
+    "x-client-secret",
+    "x-language-name",
+    "x-skip-login"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "account_type",
+    "company_name",
+    "date_of_birth",
+    "date_of_expiry",
+    "date_of_issue",
+    "eid_account_level",
+    "full_name",
+    "gender",
+    "job_title",
+    "mobile_number",
+    "notifications",
+    "permanent_address",
+    "residential_address",
+    "security_answer",
+    "security_question",
+    "service_agreements",
+    "service_plan",
+    "user_email",
+    "user_first_name",
+    "user_last_name",
+    "user_national_id",
+    "user_password"
+   ],
+   "response_fields": [
+    "access_token",
+    "expires_in",
+    "refresh_expires_in",
+    "refresh_token",
+    "token_type"
+   ],
+   "response_headers": []
+  },
+  "name": "Register Application User",
+  "status": ""
+ },
+ "POST /v1/application/users-biometric Register Application User with Biometric": {
+  "category": "Application/Device Management",
+  "fields": {
+   "headers": [
+    "Content-Type",
+    "x-client-id",
+    "x-client-secret",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "citizen_id",
+    "jwt",
+    "otp",
+    "password",
+    "service_plan",
+    "user_email"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Register Application User with Biometric",
+  "status": ""
+ },
+ "POST /v1/application/users/check Check User Existed in KeyCloak": {
+  "category": "Application/Device Management",
+  "fields": {
+   "headers": [
+    "Content-Type",
+    "x-client-id",
+    "x-client-secret",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "user_email",
+    "user_name"
+   ],
+   "response_fields": [
+    "status"
+   ],
+   "response_headers": []
+  },
+  "name": "Check User Existed in KeyCloak",
+  "status": ""
+ },
+ "POST /v1/authenticate grant_type is client_credential": {
+  "category": "Authenticate – Log in",
+  "fields": {
+   "headers": [
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "client_id",
+    "client_secret",
+    "grant_type",
+    "password",
+    "refresh_token",
+    "remember_me_enabled",
+    "scope",
+    "username"
+   ],
+   "response_fields": [
+    "access_token",
+    "expires_in",
+    "refresh_expires_in",
+    "refresh_token",
+    "token_type"
+   ],
+   "response_headers": []
+  },
+  "name": "Client Credentials Authentication",
+  "status": ""
+ },
+ "POST /v1/authenticate grant_type is password": {
+  "category": "Authenticate – Log in",
+  "fields": {
+   "headers": [
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "client_id",
+    "client_secret",
+    "grant_type",
+    "password",
+    "refresh_token",
+    "remember_me_enabled",
+    "scope",
+    "username"
+   ],
+   "response_fields": [
+    "access_token",
+    "expires_in",
+    "refresh_expires_in",
+    "refresh_token",
+    "token_type"
+   ],
+   "response_headers": []
+  },
+  "name": "Password Authentication",
+  "status": ""
+ },
+ "POST /v1/authenticate/pre Pre Login Authentication": {
+  "category": "Authenticate – Log in",
+  "fields": {
+   "headers": [
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "email"
+   ],
+   "response_fields": [
+    "status"
+   ],
+   "response_headers": []
+  },
+  "name": "Pre Login Authentication",
+  "status": ""
+ },
+ "POST /v1/authenticate/sso Single Sign On Authentication": {
+  "category": "Authenticate – Log in",
+  "fields": {
+   "headers": [
+    "Content-Type",
+    "x-client-id",
+    "x-client-secret",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "code",
+    "method",
+    "profile_id",
+    "profile_name",
+    "redirect_uri",
+    "scope",
+    "token"
+   ],
+   "response_fields": [
+    "access_token",
+    "expires_in",
+    "refresh_expires_in",
+    "refresh_token",
+    "token_type"
+   ],
+   "response_headers": []
+  },
+  "name": "Single Sign On Authentication",
+  "status": ""
+ },
+ "POST /v1/authenticate/tse Login TSE": {
+  "category": "Authenticate – Log in",
+  "fields": {
+   "headers": [
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "relying_party_name",
+    "user_type",
+    "username"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Login TSE",
+  "status": "not-implemented"
+ },
+ "POST /v1/authenticate/tse/status Check TSE Status": {
+  "category": "Authenticate – Log in",
+  "fields": {
+   "headers": [
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "relying_party_name",
+    "request_id"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Check TSE Status",
+  "status": "not-implemented"
+ },
+ "POST /v1/category Create new Category": {
+  "category": "Document Workflow",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "category_icon",
+    "category_name",
+    "category_parent_id",
+    "scope"
+   ],
+   "response_fields": [
+    "category_id"
+   ],
+   "response_headers": []
+  },
+  "name": "Create new Category",
+  "status": ""
+ },
+ "POST /v1/csc/credentials/authorization RSSP Credential Authorization": {
+  "category": "RSSP Processing",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "credential_id",
+    "document_id",
+    "face_image",
+    "field_name",
+    "otp",
+    "package_id",
+    "pin"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "RSSP Credential Authorization",
+  "status": ""
+ },
+ "POST /v1/csc/credentials/document/details Get Information of Citizen card": {
+  "category": "Register Certificate Processing",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "value"
+   ],
+   "response_fields": [
+    "personal_informations"
+   ],
+   "response_headers": []
+  },
+  "name": "Get Information of Citizen card",
+  "status": ""
+ },
+ "POST /v1/csc/credentials/info Get Credentials Info": {
+  "category": "RSSP Processing",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-citizen-id",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "certificate_encoded",
+    "connector_name",
+    "credential_id",
+    "signing_server"
+   ],
+   "response_fields": [
+    "SCAL",
+    "auth_mode",
+    "cert",
+    "fields",
+    "multisign"
+   ],
+   "response_headers": []
+  },
+  "name": "Get Credentials Info",
+  "status": ""
+ },
+ "POST /v1/csc/credentials/list Get Filtered Credential List": {
+  "category": "RSSP Processing",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-credential-id",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "connector_name",
+    "document_type",
+    "signing_server",
+    "user_name",
+    "user_type",
+    "value"
+   ],
+   "response_fields": [
+    "credentialIDs"
+   ],
+   "response_headers": []
+  },
+  "name": "Get Filtered Credential List",
+  "status": ""
+ },
+ "POST /v1/csc/credentials/manage Open Trusted SIC Management View": {
+  "category": "RSSP Processing",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-citizen-id",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "connector_name",
+    "credential_id"
+   ],
+   "response_fields": [
+    "expires_in",
+    "transaction_code",
+    "view_url"
+   ],
+   "response_headers": []
+  },
+  "name": "Open Trusted SIC Management View",
+  "status": ""
+ },
+ "POST /v1/csc/credentials/ocsp-check Check OCSP Certificate Status": {
+  "category": "RSSP Processing",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "certificate",
+    "connector_name",
+    "credential_id"
+   ],
+   "response_fields": [
+    "cert_status",
+    "message",
+    "valid"
+   ],
+   "response_headers": []
+  },
+  "name": "Check OCSP Certificate Status",
+  "status": ""
+ },
+ "POST /v1/csc/credentials/register Register Certificate via RSSP": {
+  "category": "Register Certificate Processing",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "certificate_profile",
+    "data",
+    "document_extraction_connector",
+    "document_type",
+    "enrollment_connector",
+    "face_image",
+    "issuing_provider",
+    "level_of_assurance",
+    "metadata",
+    "mobile_number",
+    "signing_server",
+    "value"
+   ],
+   "response_fields": [
+    "is_email_verified",
+    "is_mobile_veriried",
+    "session_id",
+    "taxcode_enabled"
+   ],
+   "response_headers": []
+  },
+  "name": "Register Certificate via RSSP",
+  "status": ""
+ },
+ "POST /v1/csc/credentials/send-otp Send OTP via RSSP": {
+  "category": "RSSP Processing",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "notification_template",
+    "signing_transaction_id"
+   ],
+   "response_fields": [
+    "error",
+    "error_code",
+    "error_description",
+    "remark",
+    "user_email",
+    "validity_period"
+   ],
+   "response_headers": []
+  },
+  "name": "Send OTP via RSSP",
+  "status": ""
+ },
+ "POST /v1/csc/credentials/{p}/finish Finish Register Certificate": {
+  "category": "Register Certificate Processing",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [
+    "sessionId"
+   ],
+   "request_fields": [
+    "auth_mode",
+    "certificate_profile",
+    "issuing_provider",
+    "metadata",
+    "operation_mode",
+    "tax_code",
+    "webhook_url"
+   ],
+   "response_fields": [
+    "SCAL",
+    "auth_mode",
+    "cert",
+    "fields",
+    "multisign"
+   ],
+   "response_headers": []
+  },
+  "name": "Finish Register Certificate",
+  "status": ""
+ },
+ "POST /v1/csc/credentials/{p}/send-otp Send OTP for Certificate Registration": {
+  "category": "Register Certificate Processing",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [
+    "sessionId"
+   ],
+   "request_fields": [
+    "email",
+    "mobile"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Send OTP for Certificate Registration",
+  "status": ""
+ },
+ "POST /v1/csc/credentials/{p}/verify Verify OTP for Certificate Registration": {
+  "category": "Register Certificate Processing",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [
+    "sessionId"
+   ],
+   "request_fields": [
+    "otp"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Verify OTP for Certificate Registration",
+  "status": ""
+ },
+ "POST /v1/csc/packages/sign/status Get Signing Status (TSE MID)": {
+  "category": "RSSP Processing",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "notification_template",
+    "signing_transaction_id"
+   ],
+   "response_fields": [
+    "status"
+   ],
+   "response_headers": []
+  },
+  "name": "Get Signing Status (TSE MID)",
+  "status": ""
+ },
+ "POST /v1/csc/packages/{p}/documents/{p}/sign_rssp Sign Document via RSSP Directly": {
+  "category": "RSSP Processing",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-browser-name",
+    "x-client-ip",
+    "x-language-name",
+    "x-os-name"
+   ],
+   "path_params": [
+    "documentId",
+    "packageId"
+   ],
+   "request_fields": [
+    "appearance_design",
+    "citizen_id",
+    "connector_name",
+    "contact_information",
+    "credential_id",
+    "field_name",
+    "hand_signature_image",
+    "hashing_algo",
+    "is_redirect_app_enabled",
+    "metadata",
+    "notification_template",
+    "rssp_operation_mode",
+    "signing_algo",
+    "signing_location",
+    "signing_reason",
+    "signing_server",
+    "skip_verification"
+   ],
+   "response_fields": [
+    "error",
+    "error_code",
+    "error_description",
+    "mobile_number",
+    "remark",
+    "signing_transaction_id",
+    "status",
+    "transaction_id",
+    "user_email",
+    "validity_period",
+    "vc_code"
+   ],
+   "response_headers": []
+  },
+  "name": "Sign Document via RSSP Directly",
+  "status": ""
+ },
+ "POST /v1/csc/signatures/sign-hash Get Sign Hash From Service": {
+  "category": "RSSP Processing",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "citizen_id",
+    "connector_name",
+    "credential_id",
+    "documents",
+    "hashing_algo",
+    "is_redirect_app_enabled",
+    "metadata",
+    "operation_mode",
+    "signing_algo"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Get Sign Hash From Service",
+  "status": ""
+ },
+ "POST /v1/enterprise/category Create Enterprise Category": {
+  "category": "Document Workflow",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "category_icon",
+    "category_name",
+    "category_parent_id",
+    "scope"
+   ],
+   "response_fields": [
+    "category_id"
+   ],
+   "response_headers": []
+  },
+  "name": "Create Enterprise Category",
+  "status": ""
+ },
+ "POST /v1/enterprise/category/{p}/permission Grant Category Permission": {
+  "category": "Document Workflow",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [
+    "categoryId"
+   ],
+   "request_fields": [
+    "access",
+    "effect",
+    "enterprise_role_id",
+    "enterprise_user_id"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Grant Category Permission",
+  "status": ""
+ },
+ "POST /v1/enterprise/custom_fields Create Enterprise Custom Field": {
+  "category": "Enterprise Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "created_at",
+    "date",
+    "description",
+    "field_name",
+    "format_type",
+    "id",
+    "modified_at",
+    "parent_type",
+    "place_holder",
+    "suffix",
+    "type_name"
+   ],
+   "response_fields": [
+    "created_at",
+    "date",
+    "description",
+    "field_name",
+    "format_type",
+    "id",
+    "modified_at",
+    "parent_type",
+    "place_holder",
+    "suffix",
+    "type_name"
+   ],
+   "response_headers": []
+  },
+  "name": "Create Enterprise Custom Field",
+  "status": ""
+ },
+ "POST /v1/enterprise/electronic-seals Add Enterprise Electronic Seal": {
+  "category": "Enterprise Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "credential_configuration",
+    "is_default",
+    "metadata",
+    "name",
+    "role"
+   ],
+   "response_fields": [
+    "id"
+   ],
+   "response_headers": []
+  },
+  "name": "Add Enterprise Electronic Seal",
+  "status": ""
+ },
+ "POST /v1/enterprise/electronic-seals/verify-pin Verify Enterprise Electronic Seal PIN (draft)": {
+  "category": "Enterprise Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "credential_configuration",
+    "seal_id"
+   ],
+   "response_fields": [
+    "result"
+   ],
+   "response_headers": []
+  },
+  "name": "Verify Enterprise Electronic Seal PIN (draft)",
+  "status": ""
+ },
+ "POST /v1/enterprise/electronic-seals/{p}/verify-pin Verify Saved Enterprise Electronic Seal PIN": {
+  "category": "Enterprise Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [
+    "sealId"
+   ],
+   "request_fields": [],
+   "response_fields": [
+    "result"
+   ],
+   "response_headers": []
+  },
+  "name": "Verify Saved Enterprise Electronic Seal PIN",
+  "status": ""
+ },
+ "POST /v1/enterprise/invitations Invite Enterprise User": {
+  "category": "Enterprise Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "enterprise_role",
+    "expired_time",
+    "user_email",
+    "user_first_name",
+    "user_last_name",
+    "user_name"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Invite Enterprise User",
+  "status": ""
+ },
+ "POST /v1/enterprise/invitations/{p}/resend Resend Enterprise User Invitation": {
+  "category": "Enterprise Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [
+    "invitationId"
+   ],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Resend Enterprise User Invitation",
+  "status": ""
+ },
+ "POST /v1/enterprise/roles Add Role": {
+  "category": "Enterprise Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "feature",
+    "feature_definition_version",
+    "features",
+    "name",
+    "permissions",
+    "remark"
+   ],
+   "response_fields": [
+    "assign_enabled",
+    "default_enabled",
+    "enterprise_role_id",
+    "name",
+    "permissions",
+    "permissions_granted",
+    "role_id"
+   ],
+   "response_headers": []
+  },
+  "name": "Add Role",
+  "status": ""
+ },
+ "POST /v1/enterprise/settings/tsa Add Enterprise TSA Setting": {
+  "category": "Enterprise Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "authentication",
+    "hash_algorithm",
+    "is_default",
+    "name",
+    "policy_oid",
+    "timeout",
+    "tsa_users",
+    "url"
+   ],
+   "response_fields": [
+    "authentication_type",
+    "created_on",
+    "hash_algorithm",
+    "id",
+    "is_default",
+    "name",
+    "status",
+    "url"
+   ],
+   "response_headers": []
+  },
+  "name": "Add Enterprise TSA Setting",
+  "status": ""
+ },
+ "POST /v1/enterprise/settings/tsa/test-connection Test Connection Enterprise TSA Configuration": {
+  "category": "Enterprise Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "authentication",
+    "hash_algorithm",
+    "policy_oid",
+    "retry_count",
+    "timeout",
+    "tsa_uri",
+    "tsa_users"
+   ],
+   "response_fields": [
+    "credentials",
+    "endpoint",
+    "error_subcode",
+    "message",
+    "status"
+   ],
+   "response_headers": []
+  },
+  "name": "Test Connection Enterprise TSA Configuration",
+  "status": ""
+ },
+ "POST /v1/enterprise/templates Create Enterprise Template": {
+  "category": "Template",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-file-name",
+    "x-language-name",
+    "x-preserve-form-field"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "description",
+    "file",
+    "metadata",
+    "name",
+    "public",
+    "read_only"
+   ],
+   "response_fields": [
+    "documents",
+    "id",
+    "lifecycle_state",
+    "template_id"
+   ],
+   "response_headers": []
+  },
+  "name": "Create Enterprise Template",
+  "status": ""
+ },
+ "POST /v1/enterprise/users Register Enterprise User": {
+  "category": "Enterprise Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "city",
+    "common_name",
+    "company_name",
+    "country",
+    "email_notification",
+    "enterprise_role",
+    "expired_time",
+    "job_title",
+    "language",
+    "mobile_number",
+    "security_answer",
+    "security_question",
+    "time_zone",
+    "user_csc_id",
+    "user_email",
+    "user_first_name",
+    "user_last_name",
+    "user_name",
+    "user_national_id",
+    "user_password"
+   ],
+   "response_fields": [
+    "created_at",
+    "id"
+   ],
+   "response_headers": []
+  },
+  "name": "Register Enterprise User",
+  "status": ""
+ },
+ "POST /v1/enterprise/users/agent-invite Agent Invite Enterprise User": {
+  "category": "Enterprise Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "enterprise_role",
+    "expired_time",
+    "user_email",
+    "user_first_name",
+    "user_last_name",
+    "user_name"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Agent Invite Enterprise User",
+  "status": ""
+ },
+ "POST /v1/identity Facial Matching": {
+  "category": "Account Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "citizen_id",
+    "extraction_connector",
+    "face_image",
+    "subject_id"
+   ],
+   "response_fields": [
+    "performResult",
+    "processType"
+   ],
+   "response_headers": []
+  },
+  "name": "Facial Matching",
+  "status": ""
+ },
+ "POST /v1/identity/verification/email-otp Send Email OTP": {
+  "category": "Account Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "citizen_id",
+    "connector_extract_document",
+    "jwt",
+    "user_email"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Send Email OTP",
+  "status": ""
+ },
+ "POST /v1/packages Add Document Package": {
+  "category": "Document Package",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "createdBy",
+    "hmac",
+    "package_id",
+    "package_name",
+    "type"
+   ],
+   "response_fields": [
+    "createdBy",
+    "hmac",
+    "package_id",
+    "package_name",
+    "type"
+   ],
+   "response_headers": []
+  },
+  "name": "Add Document Package",
+  "status": ""
+ },
+ "POST /v1/packages/add-to/bulk Add Packages To Category (Bulk)": {
+  "category": "Document Workflow",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "category_id",
+    "package_ids"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Add Packages To Category (Bulk)",
+  "status": ""
+ },
+ "POST /v1/packages/documents/pre Pre Upload Document": {
+  "category": "Document Package",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "file_data"
+   ],
+   "response_fields": [
+    "document_status",
+    "document_status_name"
+   ],
+   "response_headers": []
+  },
+  "name": "Pre Upload Document",
+  "status": ""
+ },
+ "POST /v1/packages/remove-from/bulk Remove Packages From Category (Bulk)": {
+  "category": "Document Workflow",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "category_id",
+    "package_ids"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Remove Packages From Category (Bulk)",
+  "status": ""
+ },
+ "POST /v1/packages/sign Bulk Sign Packages": {
+  "category": "RSSP Processing",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "appearance_design",
+    "contact_information",
+    "hand_signature_image",
+    "hand_signature_initials_image",
+    "hand_signature_initials_method",
+    "hand_signature_method",
+    "ids",
+    "signing_capacity",
+    "signing_location",
+    "signing_reason",
+    "signing_server",
+    "transaction_id",
+    "webhook_url"
+   ],
+   "response_fields": [
+    "status",
+    "transaction_id"
+   ],
+   "response_headers": []
+  },
+  "name": "Bulk Sign Packages",
+  "status": ""
+ },
+ "POST /v1/packages/{p}/add_to Add Package To Category": {
+  "category": "Document Workflow",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [
+    "packageId"
+   ],
+   "request_fields": [
+    "category_id",
+    "package_ids"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Add Package To Category",
+  "status": ""
+ },
+ "POST /v1/packages/{p}/approve Approve Document": {
+  "category": "Document Processing",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [
+    "packageId"
+   ],
+   "request_fields": [
+    "reason"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Approve Document",
+  "status": ""
+ },
+ "POST /v1/packages/{p}/comments Add Workflow Comment/Message": {
+  "category": "Document Workflow",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [
+    "packageId"
+   ],
+   "request_fields": [
+    "order",
+    "send_to_owner",
+    "text"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Add Workflow Comment/Message",
+  "status": ""
+ },
+ "POST /v1/packages/{p}/decline Decline Document": {
+  "category": "Document Processing",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [
+    "packageId"
+   ],
+   "request_fields": [
+    "reason"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Decline Document",
+  "status": ""
+ },
+ "POST /v1/packages/{p}/documents Upload Document": {
+  "category": "Document Package",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-file-name",
+    "x-language-name",
+    "x-preserve-form-field"
+   ],
+   "path_params": [
+    "packageId"
+   ],
+   "request_fields": [],
+   "response_fields": [
+    "document_height",
+    "document_id",
+    "document_mimetype",
+    "document_name",
+    "document_pages",
+    "document_rotate",
+    "document_size",
+    "document_type",
+    "document_width",
+    "package_id"
+   ],
+   "response_headers": []
+  },
+  "name": "Upload Document",
+  "status": ""
+ },
+ "POST /v1/packages/{p}/documents/base64 Upload Document (base64)": {
+  "category": "Document Package",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-file-name",
+    "x-language-name",
+    "x-preserve-form-field"
+   ],
+   "path_params": [
+    "packageId"
+   ],
+   "request_fields": [
+    "document"
+   ],
+   "response_fields": [
+    "document_height",
+    "document_id",
+    "document_mimetype",
+    "document_name",
+    "document_pages",
+    "document_rotate",
+    "document_size",
+    "document_type",
+    "document_width",
+    "package_id"
+   ],
+   "response_headers": []
+  },
+  "name": "Upload Document (base64)",
+  "status": ""
+ },
+ "POST /v1/packages/{p}/documents/{p}/attachments Upload Attachment": {
+  "category": "Document Workflow",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-file-name",
+    "x-language-name"
+   ],
+   "path_params": [
+    "documentId",
+    "packageId"
+   ],
+   "request_fields": [],
+   "response_fields": [
+    "attachment_id"
+   ],
+   "response_headers": []
+  },
+  "name": "Upload Attachment",
+  "status": ""
+ },
+ "POST /v1/packages/{p}/documents/{p}/embed_signature Embed Signature": {
+  "category": "Document Processing",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [
+    "documentId",
+    "packageId"
+   ],
+   "request_fields": [
+    "certificate_chain",
+    "field_name",
+    "hash_value",
+    "signature_value",
+    "skip_verification"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Embed Signature",
+  "status": ""
+ },
+ "POST /v1/packages/{p}/documents/{p}/fields/attachment Add Attachment Field": {
+  "category": "Document Preparation",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-dimension-unit",
+    "x-language-name"
+   ],
+   "path_params": [
+    "documentId",
+    "packageId"
+   ],
+   "request_fields": [
+    "apply_to_all",
+    "dimension",
+    "field_name",
+    "field_security",
+    "file",
+    "image",
+    "lock_field_enabled",
+    "page",
+    "place_holder",
+    "remark",
+    "renamed_as",
+    "replicate_all_pages",
+    "replicate_pages",
+    "required",
+    "rotate",
+    "show_icon_enabled",
+    "suffix",
+    "tool_tip_text",
+    "type",
+    "visible_enabled"
+   ],
+   "response_fields": [
+    "field_name"
+   ],
+   "response_headers": []
+  },
+  "name": "Add Attachment Field",
+  "status": ""
+ },
+ "POST /v1/packages/{p}/documents/{p}/fields/camera Add Camera Field": {
+  "category": "Document Preparation",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-dimension-unit",
+    "x-language-name"
+   ],
+   "path_params": [
+    "documentId",
+    "packageId"
+   ],
+   "request_fields": [
+    "apply_to_all",
+    "camera",
+    "dimension",
+    "field_name",
+    "field_security",
+    "image",
+    "lock_field_enabled",
+    "page",
+    "place_holder",
+    "remark",
+    "renamed_as",
+    "replicate_all_pages",
+    "replicate_pages",
+    "required",
+    "rotate",
+    "show_icon_enabled",
+    "suffix",
+    "tool_tip_text",
+    "type",
+    "visible_enabled"
+   ],
+   "response_fields": [
+    "field_name"
+   ],
+   "response_headers": []
+  },
+  "name": "Add Camera Field",
+  "status": ""
+ },
+ "POST /v1/packages/{p}/documents/{p}/fields/checkbox Add CheckBox Field": {
+  "category": "Document Preparation",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-dimension-unit",
+    "x-language-name"
+   ],
+   "path_params": [
+    "documentId",
+    "packageId"
+   ],
+   "request_fields": [
+    "align_option",
+    "check_box_type",
+    "checked",
+    "dimension",
+    "field_name",
+    "field_security",
+    "font",
+    "group_name",
+    "lock_field_enabled",
+    "multiple_checked",
+    "page",
+    "read_only",
+    "remark",
+    "renamed_as",
+    "required",
+    "rotate",
+    "suffix",
+    "tool_tip_text",
+    "type",
+    "value",
+    "visible_enabled"
+   ],
+   "response_fields": [
+    "field_name"
+   ],
+   "response_headers": []
+  },
+  "name": "Add CheckBox Field",
+  "status": ""
+ },
+ "POST /v1/packages/{p}/documents/{p}/fields/checkboxv2 Add CheckBox Field Version 2": {
+  "category": "Document Preparation",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-dimension-unit",
+    "x-language-name"
+   ],
+   "path_params": [
+    "documentId",
+    "packageId"
+   ],
+   "request_fields": [
+    "align_option",
+    "checkbox_frame",
+    "checked",
+    "dimension",
+    "field_name",
+    "field_security",
+    "font",
+    "group_name",
+    "lock_field_enabled",
+    "multiple_checked",
+    "page",
+    "remark",
+    "renamed_as",
+    "required",
+    "rotate",
+    "suffix",
+    "text_next_to",
+    "tool_tip_text",
+    "type",
+    "uncheckbox_frame",
+    "visible_enabled"
+   ],
+   "response_fields": [
+    "field_name"
+   ],
+   "response_headers": []
+  },
+  "name": "Add CheckBox Field Version 2",
+  "status": ""
+ },
+ "POST /v1/packages/{p}/documents/{p}/fields/combobox Add ComboBox Field": {
+  "category": "Document Preparation",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-dimension-unit",
+    "x-language-name"
+   ],
+   "path_params": [
+    "documentId",
+    "packageId"
+   ],
+   "request_fields": [
+    "align_option",
+    "color",
+    "combo_item",
+    "dimension",
+    "field_name",
+    "field_security",
+    "font",
+    "format_type",
+    "lock_action",
+    "lock_field_enabled",
+    "max_length",
+    "multiline",
+    "page",
+    "place_holder",
+    "read_only",
+    "remark",
+    "renamed_as",
+    "required",
+    "rotate",
+    "suffix",
+    "tool_tip_text",
+    "type",
+    "value",
+    "visible_enabled"
+   ],
+   "response_fields": [
+    "field_name"
+   ],
+   "response_headers": []
+  },
+  "name": "Add ComboBox Field",
+  "status": ""
+ },
+ "POST /v1/packages/{p}/documents/{p}/fields/datetime Add Datetime Field": {
+  "category": "Document Preparation",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-dimension-unit",
+    "x-language-name"
+   ],
+   "path_params": [
+    "documentId",
+    "packageId"
+   ],
+   "request_fields": [
+    "align_option",
+    "color",
+    "date",
+    "dimension",
+    "field_name",
+    "field_security",
+    "font",
+    "format_type",
+    "lock_action",
+    "lock_field_enabled",
+    "max_length",
+    "multiline",
+    "page",
+    "place_holder",
+    "read_only",
+    "remark",
+    "renamed_as",
+    "required",
+    "rotate",
+    "suffix",
+    "tool_tip_text",
+    "type",
+    "value",
+    "visible_enabled"
+   ],
+   "response_fields": [
+    "field_name"
+   ],
+   "response_headers": []
+  },
+  "name": "Add Datetime Field",
+  "status": ""
+ },
+ "POST /v1/packages/{p}/documents/{p}/fields/elabor Add Elabor Field": {
+  "category": "Document Preparation",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-dimension-unit",
+    "x-language-name"
+   ],
+   "path_params": [
+    "documentId",
+    "packageId"
+   ],
+   "request_fields": [
+    "alignment",
+    "color",
+    "dimension",
+    "field_name",
+    "field_security",
+    "font",
+    "lock_field_enabled",
+    "maxLength",
+    "multiline",
+    "page",
+    "readOnly",
+    "remark",
+    "renamed_as",
+    "required",
+    "rotate",
+    "suffix",
+    "type",
+    "visible_enabled"
+   ],
+   "response_fields": [
+    "field_name"
+   ],
+   "response_headers": []
+  },
+  "name": "Add Elabor Field",
+  "status": ""
+ },
+ "POST /v1/packages/{p}/documents/{p}/fields/hyperlink Add Hyperlink Field": {
+  "category": "Document Preparation",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-dimension-unit",
+    "x-language-name"
+   ],
+   "path_params": [
+    "documentId",
+    "packageId"
+   ],
+   "request_fields": [
+    "address",
+    "align_option",
+    "color",
+    "dimension",
+    "field_name",
+    "field_security",
+    "font",
+    "format_type",
+    "lock_action",
+    "lock_field_enabled",
+    "max_length",
+    "multiline",
+    "page",
+    "place_holder",
+    "read_only",
+    "remark",
+    "renamed_as",
+    "required",
+    "rotate",
+    "suffix",
+    "tool_tip_text",
+    "type",
+    "value",
+    "visible_enabled"
+   ],
+   "response_fields": [
+    "field_name"
+   ],
+   "response_headers": []
+  },
+  "name": "Add Hyperlink Field",
+  "status": ""
+ },
+ "POST /v1/packages/{p}/documents/{p}/fields/in_person_signature Add In-person Field": {
+  "category": "Document Preparation",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-dimension-unit",
+    "x-language-name"
+   ],
+   "path_params": [
+    "documentId",
+    "packageId"
+   ],
+   "request_fields": [
+    "annotation_position",
+    "appearance_design",
+    "coordinate_space",
+    "dimension",
+    "field_name",
+    "field_security",
+    "form",
+    "keyword_placement",
+    "level_of_assurance",
+    "lock_field_enabled",
+    "order",
+    "page",
+    "remark",
+    "renamed_as",
+    "required",
+    "rotate",
+    "suffix",
+    "type",
+    "visible_enabled"
+   ],
+   "response_fields": [
+    "field_name"
+   ],
+   "response_headers": []
+  },
+  "name": "Add In-person Field",
+  "status": ""
+ },
+ "POST /v1/packages/{p}/documents/{p}/fields/initials Add Initial Field": {
+  "category": "Document Preparation",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-dimension-unit",
+    "x-language-name"
+   ],
+   "path_params": [
+    "documentId",
+    "packageId"
+   ],
+   "request_fields": [
+    "apply_to_all",
+    "dimension",
+    "field_name",
+    "field_security",
+    "image",
+    "lock_field_enabled",
+    "page",
+    "remark",
+    "renamed_as",
+    "replicate_all_pages",
+    "replicate_pages",
+    "required",
+    "rotate",
+    "suffix",
+    "type",
+    "visible_enabled"
+   ],
+   "response_fields": [
+    "field_name"
+   ],
+   "response_headers": []
+  },
+  "name": "Add Initial Field",
+  "status": ""
+ },
+ "POST /v1/packages/{p}/documents/{p}/fields/numeric_stepper Add Numeric Stepper Field": {
+  "category": "Document Preparation",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-dimension-unit",
+    "x-language-name"
+   ],
+   "path_params": [
+    "documentId",
+    "packageId"
+   ],
+   "request_fields": [
+    "align_option",
+    "auto_increment_enabled",
+    "color",
+    "dimension",
+    "field_name",
+    "field_security",
+    "font",
+    "format_type",
+    "lock_action",
+    "lock_field_enabled",
+    "max_length",
+    "multiline",
+    "numeric_stepper",
+    "padding_enabled",
+    "page",
+    "place_holder",
+    "read_only",
+    "remark",
+    "renamed_as",
+    "required",
+    "rotate",
+    "suffix",
+    "tool_tip_text",
+    "type",
+    "value",
+    "visible_enabled"
+   ],
+   "response_fields": [
+    "field_name"
+   ],
+   "response_headers": []
+  },
+  "name": "Add Numeric Stepper Field",
+  "status": ""
+ },
+ "POST /v1/packages/{p}/documents/{p}/fields/qrcode Add QR Field": {
+  "category": "Document Preparation",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-dimension-unit",
+    "x-language-name"
+   ],
+   "path_params": [
+    "documentId",
+    "packageId"
+   ],
+   "request_fields": [
+    "allow_unauthenticated_workflow_view",
+    "custom_url",
+    "dimension",
+    "field_name",
+    "field_security",
+    "image_qr",
+    "lock_field_enabled",
+    "page",
+    "remark",
+    "renamed_as",
+    "required",
+    "rotate",
+    "suffix",
+    "transparent",
+    "type",
+    "value",
+    "visible_enabled"
+   ],
+   "response_fields": [
+    "field_name"
+   ],
+   "response_headers": []
+  },
+  "name": "Add QR Field",
+  "status": ""
+ },
+ "POST /v1/packages/{p}/documents/{p}/fields/radiobox Add RadioBox Field": {
+  "category": "Document Preparation",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-dimension-unit",
+    "x-language-name"
+   ],
+   "path_params": [
+    "documentId",
+    "packageId"
+   ],
+   "request_fields": [
+    "align_option",
+    "checkbox_frame",
+    "checked",
+    "dimension",
+    "field_name",
+    "field_security",
+    "font",
+    "group_name",
+    "lock_field_enabled",
+    "multiple_checked",
+    "page",
+    "remark",
+    "renamed_as",
+    "required",
+    "rotate",
+    "suffix",
+    "text_next_to",
+    "tool_tip_text",
+    "type",
+    "uncheckbox_frame",
+    "value",
+    "visible_enabled"
+   ],
+   "response_fields": [
+    "field_name"
+   ],
+   "response_headers": []
+  },
+  "name": "Add RadioBox Field",
+  "status": ""
+ },
+ "POST /v1/packages/{p}/documents/{p}/fields/radioboxv2 Add RadioBox Field Version 2": {
+  "category": "Document Preparation",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-dimension-unit",
+    "x-language-name"
+   ],
+   "path_params": [
+    "documentId",
+    "packageId"
+   ],
+   "request_fields": [
+    "align_option",
+    "checkbox_frame",
+    "checked",
+    "dimension",
+    "field_name",
+    "field_security",
+    "font",
+    "group_name",
+    "lock_field_enabled",
+    "page",
+    "remark",
+    "renamed_as",
+    "required",
+    "rotate",
+    "suffix",
+    "text_next_to",
+    "tool_tip_text",
+    "type",
+    "uncheckbox_frame",
+    "visible_enabled"
+   ],
+   "response_fields": [
+    "field_name"
+   ],
+   "response_headers": []
+  },
+  "name": "Add RadioBox Field Version 2",
+  "status": ""
+ },
+ "POST /v1/packages/{p}/documents/{p}/fields/redaction Add Redact Field": {
+  "category": "Document Preparation",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-dimension-unit",
+    "x-language-name"
+   ],
+   "path_params": [
+    "documentId",
+    "packageId"
+   ],
+   "request_fields": [
+    "dimension",
+    "field_name",
+    "field_security",
+    "lock_field_enabled",
+    "page",
+    "redact_policy",
+    "remark",
+    "renamed_as",
+    "required",
+    "rotate",
+    "suffix",
+    "type",
+    "visible_enabled"
+   ],
+   "response_fields": [
+    "field_name"
+   ],
+   "response_headers": []
+  },
+  "name": "Add Redact Field",
+  "status": ""
+ },
+ "POST /v1/packages/{p}/documents/{p}/fields/signature Add Digital Signature Field": {
+  "category": "Document Preparation",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-dimension-unit",
+    "x-language-name"
+   ],
+   "path_params": [
+    "documentId",
+    "packageId"
+   ],
+   "request_fields": [
+    "annotation_position",
+    "appearance_design",
+    "coordinate_space",
+    "dimension",
+    "field_name",
+    "field_security",
+    "form",
+    "keyword_placement",
+    "level_of_assurance",
+    "lock_field_enabled",
+    "page",
+    "remark",
+    "renamed_as",
+    "required",
+    "rotate",
+    "suffix",
+    "type",
+    "visible_enabled"
+   ],
+   "response_fields": [
+    "field_name"
+   ],
+   "response_headers": []
+  },
+  "name": "Add Digital Signature Field",
+  "status": ""
+ },
+ "POST /v1/packages/{p}/documents/{p}/fields/stamp Add Stamp Field": {
+  "category": "Document Preparation",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-dimension-unit",
+    "x-language-name"
+   ],
+   "path_params": [
+    "documentId",
+    "packageId"
+   ],
+   "request_fields": [
+    "apply_to_all",
+    "dimension",
+    "field_name",
+    "field_security",
+    "image",
+    "lock_field_enabled",
+    "page",
+    "remark",
+    "renamed_as",
+    "replicate_all_pages",
+    "replicate_pages",
+    "required",
+    "rotate",
+    "suffix",
+    "type",
+    "visible_enabled"
+   ],
+   "response_fields": [
+    "field_name"
+   ],
+   "response_headers": []
+  },
+  "name": "Add Stamp Field",
+  "status": ""
+ },
+ "POST /v1/packages/{p}/documents/{p}/fields/text Add TextBox Field": {
+  "category": "Document Preparation",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-dimension-unit",
+    "x-language-name"
+   ],
+   "path_params": [
+    "documentId",
+    "packageId"
+   ],
+   "request_fields": [
+    "align_option",
+    "color",
+    "dimension",
+    "field_name",
+    "field_security",
+    "font",
+    "format_type",
+    "lock_action",
+    "lock_field_enabled",
+    "max_length",
+    "multiline",
+    "page",
+    "place_holder",
+    "read_only",
+    "remark",
+    "renamed_as",
+    "required",
+    "rotate",
+    "suffix",
+    "tool_tip_text",
+    "type",
+    "value",
+    "visible_enabled"
+   ],
+   "response_fields": [
+    "field_name"
+   ],
+   "response_headers": []
+  },
+  "name": "Add TextBox Field",
+  "status": ""
+ },
+ "POST /v1/packages/{p}/documents/{p}/fields/toggle Add Toggle Field": {
+  "category": "Document Preparation",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-dimension-unit",
+    "x-language-name"
+   ],
+   "path_params": [
+    "documentId",
+    "packageId"
+   ],
+   "request_fields": [
+    "align_option",
+    "color",
+    "dimension",
+    "field_name",
+    "field_security",
+    "font",
+    "format_type",
+    "lock_action",
+    "lock_field_enabled",
+    "max_length",
+    "multiline",
+    "page",
+    "place_holder",
+    "read_only",
+    "remark",
+    "renamed_as",
+    "required",
+    "rotate",
+    "suffix",
+    "toggle_item",
+    "tool_tip_text",
+    "type",
+    "value",
+    "visible_enabled"
+   ],
+   "response_fields": [
+    "field_name"
+   ],
+   "response_headers": []
+  },
+  "name": "Add Toggle Field",
+  "status": ""
+ },
+ "POST /v1/packages/{p}/documents/{p}/fields/vneid Add VNeID Field": {
+  "category": "Document Preparation",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-dimension-unit",
+    "x-language-name"
+   ],
+   "path_params": [
+    "documentId",
+    "packageId"
+   ],
+   "request_fields": [
+    "align_option",
+    "color",
+    "date",
+    "dimension",
+    "field_name",
+    "field_security",
+    "font",
+    "format_type",
+    "loaded_from_vneid",
+    "lock_field_enabled",
+    "max_length",
+    "multiline",
+    "page",
+    "place_holder",
+    "read_only",
+    "remark",
+    "renamed_as",
+    "required",
+    "rotate",
+    "suffix",
+    "tool_tip_text",
+    "type",
+    "value",
+    "visible_enabled"
+   ],
+   "response_fields": [
+    "field_name"
+   ],
+   "response_headers": []
+  },
+  "name": "Add VNeID Field",
+  "status": ""
+ },
+ "POST /v1/packages/{p}/documents/{p}/hash Get Document Hash": {
+  "category": "Document Processing",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [
+    "documentId",
+    "packageId"
+   ],
+   "request_fields": [
+    "appearance_design",
+    "certificate_chain",
+    "contact_information",
+    "field_name",
+    "hand_signature_image",
+    "hashing_algo",
+    "signing_algo",
+    "signing_location",
+    "signing_reason"
+   ],
+   "response_fields": [
+    "hash_value"
+   ],
+   "response_headers": []
+  },
+  "name": "Get Document Hash",
+  "status": ""
+ },
+ "POST /v1/packages/{p}/documents/{p}/initial Fill Initials": {
+  "category": "Document Processing",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-handle-transaction",
+    "x-language-name"
+   ],
+   "path_params": [
+    "documentId",
+    "packageId"
+   ],
+   "request_fields": [
+    "apply_to_all",
+    "field_name",
+    "image",
+    "initial_field"
+   ],
+   "response_fields": [],
+   "response_headers": [
+    "x-handle-transaction"
+   ]
+  },
+  "name": "Fill Initials",
+  "status": ""
+ },
+ "POST /v1/packages/{p}/documents/{p}/merge Merge Document": {
+  "category": "Document Package",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-append-to-top",
+    "x-language-name"
+   ],
+   "path_params": [
+    "documentId",
+    "packageId"
+   ],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Merge Document",
+  "status": ""
+ },
+ "POST /v1/packages/{p}/documents/{p}/paper Convert Document to Paper": {
+  "category": "Document Package",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [
+    "documentId",
+    "packageId"
+   ],
+   "request_fields": [
+    "converter_display_name"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Convert Document to Paper",
+  "status": ""
+ },
+ "POST /v1/packages/{p}/documents/{p}/sign Sign Document": {
+  "category": "Document Processing",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [
+    "documentId",
+    "packageId"
+   ],
+   "request_fields": [
+    "contact_information",
+    "field_name",
+    "hand_signature_image",
+    "signing_location",
+    "signing_reason",
+    "skip_verification",
+    "time_zone"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Sign Document",
+  "status": ""
+ },
+ "POST /v1/packages/{p}/documents/{p}/sign_eseal Sign Eseal": {
+  "category": "Document Processing",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [
+    "documentId",
+    "packageId"
+   ],
+   "request_fields": [
+    "contact_information",
+    "field_name",
+    "hand_signature_image",
+    "signing_location",
+    "signing_reason",
+    "skip_verification",
+    "time_zone"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Sign Eseal",
+  "status": ""
+ },
+ "POST /v1/packages/{p}/documents/{p}/template Apply Workflow Template": {
+  "category": "Document Package",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [
+    "documentId",
+    "packageId"
+   ],
+   "request_fields": [
+    "apply_to_all",
+    "template_id",
+    "template_name"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Apply Workflow Template",
+  "status": ""
+ },
+ "POST /v1/packages/{p}/remove_from Remove Package From Category": {
+  "category": "Document Workflow",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [
+    "packageId"
+   ],
+   "request_fields": [
+    "category_id",
+    "package_ids"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Remove Package From Category",
+  "status": ""
+ },
+ "POST /v1/packages/{p}/submit Submit Document": {
+  "category": "Document Processing",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [
+    "packageId"
+   ],
+   "request_fields": [
+    "reason"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Submit Document",
+  "status": ""
+ },
+ "POST /v1/packages/{p}/template Save Workflow as Template": {
+  "category": "Template",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [
+    "packageId"
+   ],
+   "request_fields": [
+    "allow_signing_after_deadline",
+    "categories",
+    "continue_on_decline",
+    "deadline_at",
+    "description",
+    "filter_level",
+    "is_econtract",
+    "is_enterprise",
+    "message",
+    "name",
+    "no_auth_required_participants",
+    "public",
+    "read_only",
+    "workflow_mode"
+   ],
+   "response_fields": [
+    "id"
+   ],
+   "response_headers": []
+  },
+  "name": "Save Workflow as Template",
+  "status": ""
+ },
+ "POST /v1/packages/{p}/workflow Start new Workflow": {
+  "category": "Document Workflow",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [
+    "packageId"
+   ],
+   "request_fields": [
+    "categories",
+    "category_id",
+    "deadline_at",
+    "is_econtract",
+    "message",
+    "workflow_mode"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Start new Workflow",
+  "status": ""
+ },
+ "POST /v1/packages/{p}/workflow/placeholder Add Placeholder to Workflow": {
+  "category": "Document Workflow",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [
+    "packageId"
+   ],
+   "request_fields": [
+    "placeholders"
+   ],
+   "response_fields": [
+    "users"
+   ],
+   "response_headers": []
+  },
+  "name": "Add Placeholder to Workflow",
+  "status": ""
+ },
+ "POST /v1/packages/{p}/workflow/share Share Workflow": {
+  "category": "Document Workflow",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [
+    "packageId"
+   ],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Share Workflow",
+  "status": ""
+ },
+ "POST /v1/packages/{p}/workflow/users Add User to Workflow": {
+  "category": "Document Workflow",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [
+    "packageId"
+   ],
+   "request_fields": [
+    "users"
+   ],
+   "response_fields": [
+    "users"
+   ],
+   "response_headers": []
+  },
+  "name": "Add User to Workflow",
+  "status": ""
+ },
+ "POST /v1/packages/{p}/workflow/{p}/import Import Excel to Clone Workflow": {
+  "category": "Document Workflow",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-coordinate-origin",
+    "x-dimension-unit",
+    "x-language-name"
+   ],
+   "path_params": [
+    "order",
+    "packageId"
+   ],
+   "request_fields": [
+    "items",
+    "share_enabled",
+    "webhook_url"
+   ],
+   "response_fields": [
+    "status",
+    "transaction_id"
+   ],
+   "response_headers": []
+  },
+  "name": "Import Excel to Clone Workflow",
+  "status": ""
+ },
+ "POST /v1/packages/{p}/workflow/{p}/remind Send Reminder": {
+  "category": "Document Workflow",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [
+    "order",
+    "packageId"
+   ],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Send Reminder",
+  "status": ""
+ },
+ "POST /v1/ras/issue/cancel Cancel Issue Certificate": {
+  "category": "Register Certificate Processing",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "session_id"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Cancel Issue Certificate",
+  "status": ""
+ },
+ "POST /v1/ras/request/cancel Cancel Authorize Signing Request": {
+  "category": "RSSP Processing",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name",
+    "x-workflow-id"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "signing_transaction_id"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Cancel Authorize Signing Request",
+  "status": ""
+ },
+ "POST /v1/settings/addressbook Add Address Book": {
+  "category": "Personal Settings",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "address_book_name",
+    "description"
+   ],
+   "response_fields": [
+    "address_book_id"
+   ],
+   "response_headers": []
+  },
+  "name": "Add Address Book",
+  "status": ""
+ },
+ "POST /v1/settings/addressbook/{p} Update Address Book": {
+  "category": "Personal Settings",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [
+    "addressBookId"
+   ],
+   "request_fields": [
+    "address_book_name",
+    "description"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Update Address Book",
+  "status": ""
+ },
+ "POST /v1/settings/contacts Add Personal Contact": {
+  "category": "Personal Settings",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "address_book_ids",
+    "address_book_name",
+    "company_name",
+    "contact_id",
+    "created_at",
+    "enterprise_id",
+    "mobile_number",
+    "national_id",
+    "personal_code",
+    "position",
+    "user_email",
+    "user_first_name",
+    "user_last_name"
+   ],
+   "response_fields": [
+    "contact_id"
+   ],
+   "response_headers": []
+  },
+  "name": "Add Personal Contact",
+  "status": ""
+ },
+ "POST /v1/settings/signatures Add Signature Appearance": {
+  "category": "Personal Settings",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "credential_configuration",
+    "metadata"
+   ],
+   "response_fields": [
+    "appearance_id"
+   ],
+   "response_headers": []
+  },
+  "name": "Add Signature Appearance",
+  "status": ""
+ },
+ "POST /v1/settings/templates Create Personal Template": {
+  "category": "Template",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-file-name",
+    "x-language-name",
+    "x-preserve-form-field"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "description",
+    "file",
+    "metadata",
+    "name",
+    "public",
+    "read_only"
+   ],
+   "response_fields": [
+    "documents",
+    "id",
+    "lifecycle_state",
+    "template_id"
+   ],
+   "response_headers": []
+  },
+  "name": "Create Personal Template",
+  "status": ""
+ },
+ "POST /v1/system/reload Reload System Resources": {
+  "category": "ADMIN APIs",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [],
+   "response_fields": [
+    "message",
+    "rbac_cache",
+    "timestamp"
+   ],
+   "response_headers": []
+  },
+  "name": "Reload System Resources",
+  "status": ""
+ },
+ "POST /v1/system/response-codes Add Response Code": {
+  "category": "ADMIN APIs",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "enError",
+    "engMess",
+    "responseCode",
+    "vnError",
+    "vnMess"
+   ],
+   "response_fields": [
+    "message",
+    "responseCode",
+    "timestamp"
+   ],
+   "response_headers": []
+  },
+  "name": "Add Response Code",
+  "status": ""
+ },
+ "POST /v1/system/serviceplans/sync Sync Service Plans": {
+  "category": "ADMIN APIs",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "dry_run",
+    "only_item_codes"
+   ],
+   "response_fields": [
+    "items",
+    "summary"
+   ],
+   "response_headers": []
+  },
+  "name": "Sync Service Plans",
+  "status": ""
+ },
+ "POST /v1/templates/{p} Save Template": {
+  "category": "Template",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-language-name"
+   ],
+   "path_params": [
+    "templateId"
+   ],
+   "request_fields": [],
+   "response_fields": [
+    "lifecycle_state",
+    "template_id"
+   ],
+   "response_headers": []
+  },
+  "name": "Save Template",
+  "status": ""
+ },
+ "POST /v1/templates/{p}/clone Clone Template": {
+  "category": "Template",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [
+    "templateId"
+   ],
+   "request_fields": [
+    "description",
+    "name",
+    "public",
+    "read_only"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Clone Template",
+  "status": ""
+ },
+ "POST /v1/templates/{p}/documents/{p}/fields/{p} Add Template Field": {
+  "category": "Template",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-dimension-unit",
+    "x-language-name"
+   ],
+   "path_params": [
+    "documentId",
+    "fieldType",
+    "templateId"
+   ],
+   "request_fields": [
+    "dimension",
+    "field_name",
+    "page",
+    "renamed_as",
+    "required",
+    "type_name",
+    "visible_enabled"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Add Template Field",
+  "status": ""
+ },
+ "POST /v1/templates/{p}/workflow/placeholder Add Template Workflow Placeholder": {
+  "category": "Template",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [
+    "templateId"
+   ],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Add Template Workflow Placeholder",
+  "status": ""
+ },
+ "POST /v1/templates/{p}/workflow/users Add Template Workflow Users": {
+  "category": "Template",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [
+    "templateId"
+   ],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Add Template Workflow Users",
+  "status": ""
+ },
+ "POST /v1/trusted-billing/bills Create Trusted Billing Bill": {
+  "category": "Enterprise Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "accountNumber",
+    "bankAccountPrefixVa",
+    "bankName",
+    "billDate",
+    "billNo",
+    "billTitle",
+    "billType",
+    "companyId",
+    "currency",
+    "customerGroupId",
+    "customerId",
+    "discount",
+    "draft",
+    "due_date",
+    "due_date_type",
+    "due_date_value",
+    "einvoice",
+    "enabledReminder",
+    "exchangeRate",
+    "folderId",
+    "invoice_auto_sign",
+    "invoice_serial",
+    "invoice_template",
+    "is_effective_immediately",
+    "issue_date",
+    "items",
+    "language",
+    "note",
+    "paymentType",
+    "recurring",
+    "reference",
+    "referral_code",
+    "relatedBillId",
+    "remark",
+    "sendingMethodEmail",
+    "sourceId",
+    "sourceType",
+    "status",
+    "subTotal",
+    "taxTotal",
+    "total"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Create Trusted Billing Bill",
+  "status": ""
+ },
+ "POST /v1/trusted-billing/customers Create Trusted Billing Customer": {
+  "category": "Enterprise Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "address",
+    "addressEn",
+    "buyer_full_name",
+    "citizen_id",
+    "companyId",
+    "company_name",
+    "customerGroupId",
+    "customerKey",
+    "customer_type",
+    "email",
+    "emailNotify",
+    "fullName",
+    "fullNameEn",
+    "gender",
+    "messageLanguage",
+    "mobileSmsNotify",
+    "note",
+    "phoneNumber",
+    "profilePicture",
+    "sendPaymentConfirmation",
+    "status",
+    "taxId",
+    "zaloNotify"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Create Trusted Billing Customer",
+  "status": ""
+ },
+ "POST /v1/validations Add Validation": {
+  "category": "Validation Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "file",
+    "liability_level",
+    "name",
+    "validation_policy"
+   ],
+   "response_fields": [
+    "validation_id"
+   ],
+   "response_headers": []
+  },
+  "name": "Add Validation",
+  "status": ""
+ },
+ "POST /v1/verification/email-otp Send Email OTP": {
+  "category": "Account Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "user_email"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Send Email OTP",
+  "status": ""
+ },
+ "POST /v1/workflow/from-paper Create Workflow From Paper": {
+  "category": "Document Workflow",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "contract",
+    "document",
+    "employee",
+    "employer",
+    "package_name",
+    "sync_to_state"
+   ],
+   "response_fields": [
+    "contract",
+    "created_at",
+    "document",
+    "employee",
+    "employer",
+    "last_error_code",
+    "last_stage",
+    "package_name",
+    "record_id",
+    "result",
+    "retryable",
+    "status",
+    "sync_to_state",
+    "version"
+   ],
+   "response_headers": []
+  },
+  "name": "Create Workflow From Paper",
+  "status": ""
+ },
+ "POST /v1/workflow/from-paper/bulk Create Bulk Workflow From Paper": {
+  "category": "Document Workflow",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "Idempotency-Key",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "employer",
+    "items",
+    "sync_to_state"
+   ],
+   "response_fields": [
+    "batch_id",
+    "completed",
+    "failed",
+    "in_progress",
+    "items",
+    "status",
+    "total_items"
+   ],
+   "response_headers": []
+  },
+  "name": "Create Bulk Workflow From Paper",
+  "status": ""
+ },
+ "POST /v1/workflow/from-paper/{p}/approve Approve Paper Conversion": {
+  "category": "Document Workflow",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [
+    "recordId"
+   ],
+   "request_fields": [
+    "expected_version"
+   ],
+   "response_fields": [
+    "contract",
+    "created_at",
+    "document",
+    "employee",
+    "employer",
+    "last_error_code",
+    "last_stage",
+    "package_name",
+    "record_id",
+    "result",
+    "retryable",
+    "status",
+    "sync_to_state",
+    "version"
+   ],
+   "response_headers": []
+  },
+  "name": "Approve Paper Conversion",
+  "status": ""
+ },
+ "POST /v1/workflow/from-template Create Workflow From Template": {
+  "category": "Document Workflow",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "package_name",
+    "template_id"
+   ],
+   "response_fields": [
+    "document_ids",
+    "package_id",
+    "template_id",
+    "workflow_id"
+   ],
+   "response_headers": []
+  },
+  "name": "Create Workflow From Template",
+  "status": ""
+ },
+ "POST /v1/workflow/{p}/view View Workflow": {
+  "category": "Document Workflow",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "x-coordinate-origin",
+    "x-dimension-unit",
+    "x-language-name"
+   ],
+   "path_params": [
+    "workflowUuid"
+   ],
+   "request_fields": [],
+   "response_fields": [
+    "created_at",
+    "created_by",
+    "documents",
+    "modified_at",
+    "modified_by",
+    "next_signer_email",
+    "owner_email",
+    "owner_name",
+    "package_id",
+    "package_name",
+    "package_owner",
+    "package_status",
+    "users",
+    "workflow"
+   ],
+   "response_headers": []
+  },
+  "name": "View Workflow",
+  "status": ""
+ },
+ "PUT /v1/category/{p} Update Category": {
+  "category": "Document Workflow",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [
+    "categoryId"
+   ],
+   "request_fields": [
+    "category_icon",
+    "category_name",
+    "category_parent_id",
+    "scope"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Update Category",
+  "status": ""
+ },
+ "PUT /v1/enterprise/category/{p} Update Enterprise Category": {
+  "category": "Document Workflow",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [
+    "categoryId"
+   ],
+   "request_fields": [
+    "category_icon",
+    "category_name",
+    "category_parent_id",
+    "scope"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Update Enterprise Category",
+  "status": ""
+ },
+ "PUT /v1/enterprise/custom_fields/{p} Update Enterprise Custom Field": {
+  "category": "Enterprise Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [
+    "fieldId"
+   ],
+   "request_fields": [
+    "created_at",
+    "date",
+    "description",
+    "field_name",
+    "format_type",
+    "id",
+    "modified_at",
+    "parent_type",
+    "place_holder",
+    "suffix",
+    "type_name"
+   ],
+   "response_fields": [
+    "created_at",
+    "date",
+    "description",
+    "field_name",
+    "format_type",
+    "id",
+    "modified_at",
+    "parent_type",
+    "place_holder",
+    "suffix",
+    "type_name"
+   ],
+   "response_headers": []
+  },
+  "name": "Update Enterprise Custom Field",
+  "status": ""
+ },
+ "PUT /v1/enterprise/electronic-seals/{p} Update Enterprise Electronic Seals": {
+  "category": "Enterprise Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [
+    "sealId"
+   ],
+   "request_fields": [
+    "credential_configuration",
+    "is_default",
+    "metadata",
+    "name",
+    "role"
+   ],
+   "response_fields": [
+    "created_at",
+    "credential_configuration",
+    "id",
+    "is_default",
+    "metadata",
+    "name",
+    "role"
+   ],
+   "response_headers": []
+  },
+  "name": "Update Enterprise Electronic Seals",
+  "status": ""
+ },
+ "PUT /v1/enterprise/profile Update Enterprise Profile": {
+  "category": "Enterprise Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "address",
+    "contact_address",
+    "contact_email",
+    "domain",
+    "industry_type",
+    "invoice_address",
+    "invoice_email",
+    "logo",
+    "mobile_number",
+    "name",
+    "notification_email",
+    "subdomain"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Update Enterprise Profile",
+  "status": ""
+ },
+ "PUT /v1/enterprise/roles/{p}/basic Update Enterprise Role Basic": {
+  "category": "Enterprise Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [
+    "enterpriseRoleId"
+   ],
+   "request_fields": [
+    "assign_enabled",
+    "default",
+    "description",
+    "name"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Update Enterprise Role Basic",
+  "status": ""
+ },
+ "PUT /v1/enterprise/roles/{p}/permissions Update Role Permissions": {
+  "category": "Enterprise Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [
+    "enterpriseRoleId"
+   ],
+   "request_fields": [
+    "changes",
+    "default",
+    "description",
+    "feature",
+    "feature_definition_version",
+    "features",
+    "group_changes",
+    "name",
+    "remark"
+   ],
+   "response_fields": [
+    "affected_features",
+    "applied",
+    "cache_reloaded",
+    "cache_state",
+    "cache_version",
+    "changes",
+    "enterprise_role_id",
+    "failure",
+    "feature_changes",
+    "group_changes"
+   ],
+   "response_headers": []
+  },
+  "name": "Update Role Permissions",
+  "status": ""
+ },
+ "PUT /v1/enterprise/settings/download-link Update Enterprise Download Link Setting": {
+  "category": "Enterprise Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "download_link_expiry_days"
+   ],
+   "response_fields": [
+    "default_days",
+    "download_link_expiry_days",
+    "max_days",
+    "min_days",
+    "source"
+   ],
+   "response_headers": []
+  },
+  "name": "Update Enterprise Download Link Setting",
+  "status": ""
+ },
+ "PUT /v1/enterprise/settings/tsa Update Enterprise TSA Configuration": {
+  "category": "Enterprise Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "authentication",
+    "hash_algorithm",
+    "policy_oid",
+    "retry_count",
+    "timeout",
+    "tsa_uri",
+    "tsa_users"
+   ],
+   "response_fields": [
+    "authentication",
+    "hash_algorithm",
+    "policy_oid",
+    "retry_count",
+    "timeout",
+    "tsa_uri"
+   ],
+   "response_headers": []
+  },
+  "name": "Update Enterprise TSA Configuration",
+  "status": ""
+ },
+ "PUT /v1/enterprise/users/{p} Update Enterprise User Role": {
+  "category": "Enterprise Management",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [
+    "enterpriseUserId"
+   ],
+   "request_fields": [
+    "enterprise_role_id"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Update Enterprise User Role",
+  "status": ""
+ },
+ "PUT /v1/packages/{p} Rename Package": {
+  "category": "Document Package",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [
+    "packageId"
+   ],
+   "request_fields": [
+    "createdBy",
+    "hmac",
+    "package_id",
+    "package_name",
+    "type"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Rename Package",
+  "status": ""
+ },
+ "PUT /v1/packages/{p}/documents/{p} Rename Document": {
+  "category": "Document Package",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [
+    "documentId",
+    "packageId"
+   ],
+   "request_fields": [
+    "document_height",
+    "document_id",
+    "document_mimetype",
+    "document_name",
+    "document_pages",
+    "document_rotate",
+    "document_size",
+    "document_type",
+    "document_width",
+    "package_id"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Rename Document",
+  "status": ""
+ },
+ "PUT /v1/packages/{p}/documents/{p}/fields Fill Form Fields": {
+  "category": "Document Processing",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-handle-transaction",
+    "x-idempotency-skip-error",
+    "x-language-name"
+   ],
+   "path_params": [
+    "documentId",
+    "packageId"
+   ],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": [
+    "x-handle-transaction"
+   ]
+  },
+  "name": "Fill Form Fields",
+  "status": ""
+ },
+ "PUT /v1/packages/{p}/documents/{p}/fields/assign Assign Document Field": {
+  "category": "Document Preparation",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [
+    "documentId",
+    "packageId"
+   ],
+   "request_fields": [
+    "fields_assign"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Assign Document Field",
+  "status": ""
+ },
+ "PUT /v1/packages/{p}/documents/{p}/fields/attachment Update Attachment Field": {
+  "category": "Document Preparation",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-dimension-unit",
+    "x-language-name"
+   ],
+   "path_params": [
+    "documentId",
+    "packageId"
+   ],
+   "request_fields": [
+    "apply_to_all",
+    "dimension",
+    "field_name",
+    "field_security",
+    "file",
+    "image",
+    "lock_field_enabled",
+    "page",
+    "place_holder",
+    "remark",
+    "renamed_as",
+    "replicate_all_pages",
+    "replicate_pages",
+    "required",
+    "rotate",
+    "show_icon_enabled",
+    "suffix",
+    "tool_tip_text",
+    "type",
+    "visible_enabled"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Update Attachment Field",
+  "status": ""
+ },
+ "PUT /v1/packages/{p}/documents/{p}/fields/camera Update Camera Field": {
+  "category": "Document Preparation",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-dimension-unit",
+    "x-language-name"
+   ],
+   "path_params": [
+    "documentId",
+    "packageId"
+   ],
+   "request_fields": [
+    "apply_to_all",
+    "camera",
+    "dimension",
+    "field_name",
+    "field_security",
+    "image",
+    "lock_field_enabled",
+    "page",
+    "place_holder",
+    "remark",
+    "renamed_as",
+    "replicate_all_pages",
+    "replicate_pages",
+    "required",
+    "rotate",
+    "show_icon_enabled",
+    "suffix",
+    "tool_tip_text",
+    "type",
+    "visible_enabled"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Update Camera Field",
+  "status": ""
+ },
+ "PUT /v1/packages/{p}/documents/{p}/fields/checkbox Update CheckBox Field": {
+  "category": "Document Preparation",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-dimension-unit",
+    "x-language-name"
+   ],
+   "path_params": [
+    "documentId",
+    "packageId"
+   ],
+   "request_fields": [
+    "align_option",
+    "check_box_type",
+    "checked",
+    "dimension",
+    "field_name",
+    "field_security",
+    "font",
+    "group_name",
+    "lock_field_enabled",
+    "multiple_checked",
+    "page",
+    "read_only",
+    "remark",
+    "renamed_as",
+    "required",
+    "rotate",
+    "suffix",
+    "tool_tip_text",
+    "type",
+    "value",
+    "visible_enabled"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Update CheckBox Field",
+  "status": ""
+ },
+ "PUT /v1/packages/{p}/documents/{p}/fields/checkboxv2 Update CheckBox Field Version 2": {
+  "category": "Document Preparation",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-dimension-unit",
+    "x-language-name"
+   ],
+   "path_params": [
+    "documentId",
+    "packageId"
+   ],
+   "request_fields": [
+    "align_option",
+    "checkbox_frame",
+    "checked",
+    "dimension",
+    "field_name",
+    "field_security",
+    "font",
+    "group_name",
+    "lock_field_enabled",
+    "multiple_checked",
+    "page",
+    "remark",
+    "renamed_as",
+    "required",
+    "rotate",
+    "suffix",
+    "text_next_to",
+    "tool_tip_text",
+    "type",
+    "uncheckbox_frame",
+    "visible_enabled"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Update CheckBox Field Version 2",
+  "status": ""
+ },
+ "PUT /v1/packages/{p}/documents/{p}/fields/combobox Update ComboBox Field": {
+  "category": "Document Preparation",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-dimension-unit",
+    "x-language-name"
+   ],
+   "path_params": [
+    "documentId",
+    "packageId"
+   ],
+   "request_fields": [
+    "align_option",
+    "color",
+    "combo_item",
+    "dimension",
+    "field_name",
+    "field_security",
+    "font",
+    "format_type",
+    "lock_action",
+    "lock_field_enabled",
+    "max_length",
+    "multiline",
+    "page",
+    "place_holder",
+    "read_only",
+    "remark",
+    "renamed_as",
+    "required",
+    "rotate",
+    "suffix",
+    "tool_tip_text",
+    "type",
+    "value",
+    "visible_enabled"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Update ComboBox Field",
+  "status": ""
+ },
+ "PUT /v1/packages/{p}/documents/{p}/fields/datetime Update Datetime Field": {
+  "category": "Document Preparation",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-dimension-unit",
+    "x-language-name"
+   ],
+   "path_params": [
+    "documentId",
+    "packageId"
+   ],
+   "request_fields": [
+    "align_option",
+    "color",
+    "date",
+    "dimension",
+    "field_name",
+    "field_security",
+    "font",
+    "format_type",
+    "lock_action",
+    "lock_field_enabled",
+    "max_length",
+    "multiline",
+    "page",
+    "place_holder",
+    "read_only",
+    "remark",
+    "renamed_as",
+    "required",
+    "rotate",
+    "suffix",
+    "tool_tip_text",
+    "type",
+    "value",
+    "visible_enabled"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Update Datetime Field",
+  "status": ""
+ },
+ "PUT /v1/packages/{p}/documents/{p}/fields/elabor Update Elabor Field": {
+  "category": "Document Preparation",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-dimension-unit",
+    "x-language-name"
+   ],
+   "path_params": [
+    "documentId",
+    "packageId"
+   ],
+   "request_fields": [
+    "alignment",
+    "color",
+    "dimension",
+    "field_name",
+    "field_security",
+    "font",
+    "lock_field_enabled",
+    "maxLength",
+    "multiline",
+    "page",
+    "readOnly",
+    "remark",
+    "renamed_as",
+    "required",
+    "rotate",
+    "suffix",
+    "type",
+    "visible_enabled"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Update Elabor Field",
+  "status": ""
+ },
+ "PUT /v1/packages/{p}/documents/{p}/fields/hyperlink Update Hyperlink Field": {
+  "category": "Document Preparation",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-dimension-unit",
+    "x-language-name"
+   ],
+   "path_params": [
+    "documentId",
+    "packageId"
+   ],
+   "request_fields": [
+    "address",
+    "align_option",
+    "color",
+    "dimension",
+    "field_name",
+    "field_security",
+    "font",
+    "format_type",
+    "lock_action",
+    "lock_field_enabled",
+    "max_length",
+    "multiline",
+    "page",
+    "place_holder",
+    "read_only",
+    "remark",
+    "renamed_as",
+    "required",
+    "rotate",
+    "suffix",
+    "tool_tip_text",
+    "type",
+    "value",
+    "visible_enabled"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Update Hyperlink Field",
+  "status": ""
+ },
+ "PUT /v1/packages/{p}/documents/{p}/fields/in_person_signature Update In-person Field": {
+  "category": "Document Preparation",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-dimension-unit",
+    "x-language-name"
+   ],
+   "path_params": [
+    "documentId",
+    "packageId"
+   ],
+   "request_fields": [
+    "annotation_position",
+    "appearance_design",
+    "coordinate_space",
+    "dimension",
+    "field_name",
+    "field_security",
+    "form",
+    "keyword_placement",
+    "level_of_assurance",
+    "lock_field_enabled",
+    "order",
+    "page",
+    "remark",
+    "renamed_as",
+    "required",
+    "rotate",
+    "suffix",
+    "type",
+    "visible_enabled"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Update In-person Field",
+  "status": ""
+ },
+ "PUT /v1/packages/{p}/documents/{p}/fields/initials Update Initial Field": {
+  "category": "Document Preparation",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-dimension-unit",
+    "x-language-name"
+   ],
+   "path_params": [
+    "documentId",
+    "packageId"
+   ],
+   "request_fields": [
+    "apply_to_all",
+    "dimension",
+    "field_name",
+    "field_security",
+    "image",
+    "lock_field_enabled",
+    "page",
+    "remark",
+    "renamed_as",
+    "replicate_all_pages",
+    "replicate_pages",
+    "required",
+    "rotate",
+    "suffix",
+    "type",
+    "visible_enabled"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Update Initial Field",
+  "status": ""
+ },
+ "PUT /v1/packages/{p}/documents/{p}/fields/numeric_stepper Update Numeric Stepper Field": {
+  "category": "Document Preparation",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-dimension-unit",
+    "x-language-name"
+   ],
+   "path_params": [
+    "documentId",
+    "packageId"
+   ],
+   "request_fields": [
+    "align_option",
+    "auto_increment_enabled",
+    "color",
+    "dimension",
+    "field_name",
+    "field_security",
+    "font",
+    "format_type",
+    "lock_action",
+    "lock_field_enabled",
+    "max_length",
+    "multiline",
+    "numeric_stepper",
+    "padding_enabled",
+    "page",
+    "place_holder",
+    "read_only",
+    "remark",
+    "renamed_as",
+    "required",
+    "rotate",
+    "suffix",
+    "tool_tip_text",
+    "type",
+    "value",
+    "visible_enabled"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Update Numeric Stepper Field",
+  "status": ""
+ },
+ "PUT /v1/packages/{p}/documents/{p}/fields/qrcode Update QR Field": {
+  "category": "Document Preparation",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-dimension-unit",
+    "x-language-name"
+   ],
+   "path_params": [
+    "documentId",
+    "packageId"
+   ],
+   "request_fields": [
+    "allow_unauthenticated_workflow_view",
+    "custom_url",
+    "dimension",
+    "field_name",
+    "field_security",
+    "image_qr",
+    "lock_field_enabled",
+    "page",
+    "remark",
+    "renamed_as",
+    "required",
+    "rotate",
+    "suffix",
+    "transparent",
+    "type",
+    "value",
+    "visible_enabled"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Update QR Field",
+  "status": ""
+ },
+ "PUT /v1/packages/{p}/documents/{p}/fields/radiobox Update RadioBox Field": {
+  "category": "Document Preparation",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-dimension-unit",
+    "x-language-name"
+   ],
+   "path_params": [
+    "documentId",
+    "packageId"
+   ],
+   "request_fields": [
+    "align_option",
+    "checkbox_frame",
+    "checked",
+    "dimension",
+    "field_name",
+    "field_security",
+    "font",
+    "group_name",
+    "lock_field_enabled",
+    "multiple_checked",
+    "page",
+    "remark",
+    "renamed_as",
+    "required",
+    "rotate",
+    "suffix",
+    "text_next_to",
+    "tool_tip_text",
+    "type",
+    "uncheckbox_frame",
+    "value",
+    "visible_enabled"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Update RadioBox Field",
+  "status": ""
+ },
+ "PUT /v1/packages/{p}/documents/{p}/fields/radioboxv2 Update RadioBox Field Version 2": {
+  "category": "Document Preparation",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-dimension-unit",
+    "x-language-name"
+   ],
+   "path_params": [
+    "documentId",
+    "packageId"
+   ],
+   "request_fields": [
+    "align_option",
+    "checkbox_frame",
+    "checked",
+    "dimension",
+    "field_name",
+    "field_security",
+    "font",
+    "group_name",
+    "lock_field_enabled",
+    "page",
+    "remark",
+    "renamed_as",
+    "required",
+    "rotate",
+    "suffix",
+    "text_next_to",
+    "tool_tip_text",
+    "type",
+    "uncheckbox_frame",
+    "visible_enabled"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Update RadioBox Field Version 2",
+  "status": ""
+ },
+ "PUT /v1/packages/{p}/documents/{p}/fields/redaction Update Redact Field": {
+  "category": "Document Preparation",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-dimension-unit",
+    "x-language-name"
+   ],
+   "path_params": [
+    "documentId",
+    "packageId"
+   ],
+   "request_fields": [
+    "dimension",
+    "field_name",
+    "field_security",
+    "lock_field_enabled",
+    "page",
+    "redact_policy",
+    "remark",
+    "renamed_as",
+    "required",
+    "rotate",
+    "suffix",
+    "type",
+    "visible_enabled"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Update Redact Field",
+  "status": ""
+ },
+ "PUT /v1/packages/{p}/documents/{p}/fields/signature Update Digital Signature Field": {
+  "category": "Document Preparation",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-dimension-unit",
+    "x-language-name"
+   ],
+   "path_params": [
+    "documentId",
+    "packageId"
+   ],
+   "request_fields": [
+    "annotation_position",
+    "appearance_design",
+    "coordinate_space",
+    "dimension",
+    "field_name",
+    "field_security",
+    "form",
+    "keyword_placement",
+    "level_of_assurance",
+    "lock_field_enabled",
+    "page",
+    "remark",
+    "renamed_as",
+    "required",
+    "rotate",
+    "suffix",
+    "type",
+    "visible_enabled"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Update Digital Signature Field",
+  "status": ""
+ },
+ "PUT /v1/packages/{p}/documents/{p}/fields/stamp Update Stamp Field": {
+  "category": "Document Preparation",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-dimension-unit",
+    "x-language-name"
+   ],
+   "path_params": [
+    "documentId",
+    "packageId"
+   ],
+   "request_fields": [
+    "apply_to_all",
+    "dimension",
+    "field_name",
+    "field_security",
+    "image",
+    "lock_field_enabled",
+    "page",
+    "remark",
+    "renamed_as",
+    "replicate_all_pages",
+    "replicate_pages",
+    "required",
+    "rotate",
+    "suffix",
+    "type",
+    "visible_enabled"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Update Stamp Field",
+  "status": ""
+ },
+ "PUT /v1/packages/{p}/documents/{p}/fields/text Update TextBox Field": {
+  "category": "Document Preparation",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-dimension-unit",
+    "x-language-name"
+   ],
+   "path_params": [
+    "documentId",
+    "packageId"
+   ],
+   "request_fields": [
+    "align_option",
+    "color",
+    "dimension",
+    "field_name",
+    "field_security",
+    "font",
+    "format_type",
+    "lock_action",
+    "lock_field_enabled",
+    "max_length",
+    "multiline",
+    "page",
+    "place_holder",
+    "read_only",
+    "remark",
+    "renamed_as",
+    "required",
+    "rotate",
+    "suffix",
+    "tool_tip_text",
+    "type",
+    "value",
+    "visible_enabled"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Update TextBox Field",
+  "status": ""
+ },
+ "PUT /v1/packages/{p}/documents/{p}/fields/toggle Update Toggle Field": {
+  "category": "Document Preparation",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-dimension-unit",
+    "x-language-name"
+   ],
+   "path_params": [
+    "documentId",
+    "packageId"
+   ],
+   "request_fields": [
+    "align_option",
+    "color",
+    "dimension",
+    "field_name",
+    "field_security",
+    "font",
+    "format_type",
+    "lock_action",
+    "lock_field_enabled",
+    "max_length",
+    "multiline",
+    "page",
+    "place_holder",
+    "read_only",
+    "remark",
+    "renamed_as",
+    "required",
+    "rotate",
+    "suffix",
+    "toggle_item",
+    "tool_tip_text",
+    "type",
+    "value",
+    "visible_enabled"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Update Toggle Field",
+  "status": ""
+ },
+ "PUT /v1/packages/{p}/documents/{p}/fields/vneid Update VNeID Field": {
+  "category": "Document Preparation",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-dimension-unit",
+    "x-language-name"
+   ],
+   "path_params": [
+    "documentId",
+    "packageId"
+   ],
+   "request_fields": [
+    "align_option",
+    "color",
+    "date",
+    "dimension",
+    "field_name",
+    "field_security",
+    "font",
+    "format_type",
+    "loaded_from_vneid",
+    "lock_field_enabled",
+    "max_length",
+    "multiline",
+    "page",
+    "place_holder",
+    "read_only",
+    "remark",
+    "renamed_as",
+    "required",
+    "rotate",
+    "suffix",
+    "tool_tip_text",
+    "type",
+    "value",
+    "visible_enabled"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Update VNeID Field",
+  "status": ""
+ },
+ "PUT /v1/packages/{p}/documents/{p}/update Update Document": {
+  "category": "Document Package",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-file-name",
+    "x-language-name",
+    "x-preserve-form-field",
+    "x-sort-order"
+   ],
+   "path_params": [
+    "documentId",
+    "packageId"
+   ],
+   "request_fields": [],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Update Document",
+  "status": ""
+ },
+ "PUT /v1/packages/{p}/documents/{p}/update/base64 Update Document (base64)": {
+  "category": "Document Package",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-file-name",
+    "x-language-name",
+    "x-preserve-form-field"
+   ],
+   "path_params": [
+    "documentId",
+    "packageId"
+   ],
+   "request_fields": [
+    "document",
+    "document_order"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Update Document (base64)",
+  "status": ""
+ },
+ "PUT /v1/packages/{p}/workflow Update Workflow Details": {
+  "category": "Document Workflow",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name",
+    "x-time-zone"
+   ],
+   "path_params": [
+    "packageId"
+   ],
+   "request_fields": [
+    "categories",
+    "category_id",
+    "comments",
+    "continue_on_decline",
+    "deadline_at",
+    "is_econtract",
+    "message",
+    "workflow_mode"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Update Workflow Details",
+  "status": ""
+ },
+ "PUT /v1/packages/{p}/workflow/{p}/placeholder Update Placeholder in Workflow": {
+  "category": "Document Workflow",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [
+    "order",
+    "packageId"
+   ],
+   "request_fields": [
+    "email",
+    "email_language_code",
+    "email_notification",
+    "guest_user",
+    "mobile_number",
+    "placeholder",
+    "role",
+    "signing_order"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Update Placeholder in Workflow",
+  "status": ""
+ },
+ "PUT /v1/packages/{p}/workflow/{p}/tos-acceptance Accept Terms of Service (ECONTRACT)": {
+  "category": "Document Workflow",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [
+    "packageId",
+    "participantId"
+   ],
+   "request_fields": [
+    "act",
+    "ip",
+    "ts",
+    "ua"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Accept Terms of Service (ECONTRACT)",
+  "status": ""
+ },
+ "PUT /v1/packages/{p}/workflow/{p}/user Update Workflow User": {
+  "category": "Document Workflow",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [
+    "order",
+    "packageId"
+   ],
+   "request_fields": [
+    "company_name",
+    "country",
+    "email_language_code",
+    "email_notification",
+    "guest_user",
+    "mobile_number",
+    "reason",
+    "role",
+    "signing_order",
+    "user_email",
+    "user_first_name",
+    "user_last_name",
+    "user_name",
+    "user_national_id"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Update Workflow User",
+  "status": ""
+ },
+ "PUT /v1/settings/contacts/{p} Update Personal Contact": {
+  "category": "Personal Settings",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [
+    "contactId"
+   ],
+   "request_fields": [
+    "address_book_ids",
+    "address_book_name",
+    "company_name",
+    "contact_id",
+    "created_at",
+    "enterprise_id",
+    "mobile_number",
+    "national_id",
+    "personal_code",
+    "position",
+    "user_email",
+    "user_first_name",
+    "user_last_name"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Update Personal Contact",
+  "status": ""
+ },
+ "PUT /v1/settings/profile/general Update General Profile Information": {
+  "category": "Personal Settings",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [],
+   "request_fields": [
+    "account_type",
+    "company_name",
+    "date_of_birth",
+    "date_of_expiry",
+    "date_of_issue",
+    "eid_account_level",
+    "full_name",
+    "gender",
+    "job_title",
+    "mobile_number",
+    "notifications",
+    "permanent_address",
+    "residential_address",
+    "security_answer",
+    "security_question",
+    "service_agreements",
+    "service_plan",
+    "user_email",
+    "user_first_name",
+    "user_last_name",
+    "user_national_id",
+    "user_password"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Update General Profile Information",
+  "status": ""
+ },
+ "PUT /v1/settings/signatures/{p} Update Signature Appearance": {
+  "category": "Personal Settings",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [
+    "appearanceId"
+   ],
+   "request_fields": [
+    "credential_configuration",
+    "metadata"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Update Signature Appearance",
+  "status": ""
+ },
+ "PUT /v1/templates/{p} Update Template": {
+  "category": "Template",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [
+    "templateId"
+   ],
+   "request_fields": [
+    "allow_signing_after_deadline",
+    "categories",
+    "continue_on_decline",
+    "deadline_at",
+    "description",
+    "filter_level",
+    "is_econtract",
+    "message",
+    "name",
+    "no_auth_required_participants",
+    "public",
+    "read_only",
+    "workflow_mode"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Update Template",
+  "status": ""
+ },
+ "PUT /v1/templates/{p}/documents/{p}/fields/{p} Update Template Field": {
+  "category": "Template",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-dimension-unit",
+    "x-language-name"
+   ],
+   "path_params": [
+    "documentId",
+    "fieldType",
+    "templateId"
+   ],
+   "request_fields": [
+    "dimension",
+    "field_name",
+    "page",
+    "renamed_as",
+    "required",
+    "type_name",
+    "visible_enabled"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Update Template Field",
+  "status": ""
+ },
+ "PUT /v1/templates/{p}/workflow/{p}/placeholder Update Template Workflow Placeholder": {
+  "category": "Template",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [
+    "order",
+    "templateId"
+   ],
+   "request_fields": [
+    "email_notification",
+    "guest_enabled",
+    "placeholder",
+    "role",
+    "signing_order"
+   ],
+   "response_fields": [
+    "delivery_method",
+    "email_language_code",
+    "email_notification",
+    "guest_user",
+    "logged_in_user",
+    "mobile_number",
+    "order",
+    "placeholder",
+    "role",
+    "signing_order",
+    "user_email",
+    "user_name"
+   ],
+   "response_headers": []
+  },
+  "name": "Update Template Workflow Placeholder",
+  "status": ""
+ },
+ "PUT /v1/templates/{p}/workflow/{p}/reorder Reorder Template Workflow Participant": {
+  "category": "Template",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [
+    "order",
+    "templateId"
+   ],
+   "request_fields": [
+    "order"
+   ],
+   "response_fields": [],
+   "response_headers": []
+  },
+  "name": "Reorder Template Workflow Participant",
+  "status": ""
+ },
+ "PUT /v1/templates/{p}/workflow/{p}/user Update Template Workflow User": {
+  "category": "Template",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [
+    "order",
+    "templateId"
+   ],
+   "request_fields": [
+    "delivery_method",
+    "email_language_code",
+    "email_notification",
+    "guest_enabled",
+    "mobile_number",
+    "role",
+    "signing_order",
+    "user_email",
+    "user_name"
+   ],
+   "response_fields": [
+    "delivery_method",
+    "email_language_code",
+    "email_notification",
+    "guest_user",
+    "logged_in_user",
+    "mobile_number",
+    "order",
+    "placeholder",
+    "role",
+    "signing_order",
+    "user_email",
+    "user_name"
+   ],
+   "response_headers": []
+  },
+  "name": "Update Template Workflow User",
+  "status": ""
+ },
+ "PUT /v1/workflow/from-paper/{p} Update Paper Conversion": {
+  "category": "Document Workflow",
+  "fields": {
+   "headers": [
+    "Authorization",
+    "Content-Type",
+    "x-language-name"
+   ],
+   "path_params": [
+    "recordId"
+   ],
+   "request_fields": [
+    "contract",
+    "document",
+    "employee",
+    "employer",
+    "expected_version",
+    "package_name",
+    "sync_to_state"
+   ],
+   "response_fields": [
+    "contract",
+    "created_at",
+    "document",
+    "employee",
+    "employer",
+    "last_error_code",
+    "last_stage",
+    "package_name",
+    "record_id",
+    "result",
+    "retryable",
+    "status",
+    "sync_to_state",
+    "version"
+   ],
+   "response_headers": []
+  },
+  "name": "Update Paper Conversion",
+  "status": ""
+ }
+}
