@@ -64,6 +64,17 @@ Bảng của section mới lấy độ rộng cột theo lưới của bảng, n
 - **Tên mục object:** giữ tên schema. Chương RELATIVE OBJECT của V3 cũng đặt tên kiểu này
   (`NextSigner`, `SignatureFieldAttribute`, `UserOfEnterprise`). Muốn tên khác thì đặt `x-doc-type` trên schema.
 
+## Bổ sung 2026-11-12: trang bìa, History, Version
+
+- Renderer tự ghi lần render lên tài liệu:
+  - trang bìa: `Version 3.1.261112` (major.minor của dòng History mới + ngày `yymmdd`) và năm;
+  - bảng History: thêm một dòng `3.1 | 20261112 | mô tả | GIATK`;
+  - thuộc tính file: ngày sửa cuối.
+- Mặc định: version = version cuối của seed + 0.1, ngày = hôm nay, tác giả = tác giả dòng cuối, mô tả sinh từ
+  số liệu của lần render (số API mới, số object mới, số API chưa triển khai).
+- Ghi đè bằng tham số: `--doc-version 3.1 --doc-date 20261112 --history "+ dòng mô tả" --author GIATK`
+  (`--history` lặp lại được cho nhiều dòng).
+
 ## Còn lại
 
 - **13 route chỉ có trong spec**: các route trùng tên đã gộp vào một section, đường dẫn của chúng được ghi trong
@@ -72,6 +83,5 @@ Bảng của section mới lấy độ rộng cột theo lưới của bảng, n
   ngoài, repo không có schema DB nên không chứng minh được cột có NULL hay không. Spec để tuỳ chọn (O), là
   lựa chọn an toàn. Cần quyền đọc schema DB để chốt.
 - **Chưa mở bằng Microsoft Word thật**: mới kiểm tra qua PDF của LibreOffice.
-- **Trang bìa / History / Version**: owner tạm hoãn.
 - **Nội dung V3 khác code**: field V3 ghi M nhưng code không bắt buộc, field đã đổi tên.
   Renderer theo code; báo cáo chi tiết từng endpoint ở `reports/openapi_vs_v3_20261110.md`.

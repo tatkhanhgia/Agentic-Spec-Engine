@@ -4,8 +4,8 @@
 Render the attribute tables of a seed specification DOCX from the OpenAPI contract.
 
 The seed (normally the latest formatted V3) supplies everything the spec does
-not hold: cover, history, introduction, object chapters, sample frames, and
-the table styling. For every documented endpoint that pairs with a spec record
+not hold: cover, earlier history, introduction, object chapters, sample
+frames, and the table styling. For every documented endpoint that pairs with a spec record
 (see `compare_openapi_doc.pair`), the data rows of its Header Request, Path,
 Request, Response and Header Response tables are rebuilt from
 `contract/from_openapi.json`:
@@ -16,14 +16,18 @@ Request, Response and Header Response tables are rebuilt from
   * a new field clones a plain-text row of the same table;
   * the shared error rows that end every Response table stay as they are.
 
-Endpoints with no spec record, and sample frames, are left untouched. The
-seed file is never modified; the result is written to a new DOCX.
+The seed file is never modified; the result is written to a new DOCX.
+
+The cover and the History table record the render: see `update_front_matter`.
 
 Usage:
     python scripts/render_from_openapi.py <seed.docx> <from_openapi.json> <out.docx>
+        [--doc-version 3.1] [--doc-date YYYYMMDD] [--history "+ line"]... [--author NAME]
 """
+import argparse
 import collections
 import copy
+import datetime
 import json
 import os
 import re
@@ -925,6 +929,87 @@ def add_new_sections(body, spec, by_section, fallback, stats, ids, linker=None, 
         stats["sections added"] += 1
 
 
+def next_version(last):
+    """`3.0` -> `3.1`: a regenerated document is a minor revision of its seed."""
+    m = re.match(r"\s*(\d+)\.(\d+)\s*$", last or "")
+    return "%s.%d" % (m.group(1), int(m.group(2)) + 1) if m else None
+
+
+def history_table(body):
+    """The table under the `History` title, or None."""
+    els = list(body)
+    for i, el in enumerate(els):
+        if el.tag == qn("p") and style_of(el) == "Title" and para_text(el).strip() == "History":
+            return next((e for e in els[i + 1:i + 4] if e.tag == qn("tbl")), None)
+    return None
+
+
+def update_front_matter(body, stats, version=None, date=None, lines=None, author=None):
+    """Record this render on the cover and in the History table.
+
+    The cover shows `Version <major.minor>.<yymmdd>` and the year; History
+    gets one row. Defaults: the seed's last version plus one minor, today's
+    date, a description built from what the render changed, and the last
+    row's author. Returns the (version, date) written, or None when the seed
+    has no History table to continue.
+    """
+    tbl = history_table(body)
+    rows = tbl.findall(qn("tr")) if tbl is not None else []
+    if len(rows) < 2 or len(rows[-1].findall(qn("tc"))) != 4:
+        stats["front matter skipped (no History table)"] += 1
+        return None
+    last = rows[-1]
+    version = version or next_version(cell_text(last.findall(qn("tc"))[0]))
+    if version is None:
+        stats["front matter skipped (last version not major.minor)"] += 1
+        return None
+    date = date or datetime.date.today().strftime("%Y%m%d")
+    if lines is None:
+        lines = ["+ Regenerate the documentation from the OpenAPI specification of the service"]
+        for key, text in (("sections added", "+ Add %d new APIs"),
+                          ("object sections added", "+ Add %d objects to RELATIVE OBJECT"),
+                          ("sections marked not implemented", "+ Mark %d APIs that are not implemented yet")):
+            if stats.get(key):
+                lines.append(text % stats[key])
+
+    row = copy.deepcopy(last)
+    ObjectLinker.strip_ids(row)
+    cells = row.findall(qn("tc"))
+    set_cell_text(cells[0], version)
+    set_cell_text(cells[1], date)
+    template = copy.deepcopy(cells[2].find(qn("p")))
+    for p in cells[2].findall(qn("p")):
+        cells[2].remove(p)
+    for line in lines:
+        p = copy.deepcopy(template)
+        set_par_text(p, line)
+        cells[2].append(p)
+    if author:
+        set_cell_text(cells[3], author)
+    last.addnext(row)
+    stats["history rows added"] += 1
+
+    for p in body.iter(qn("p")):
+        if style_of(p) != "MID-PageOverview-Small":
+            continue
+        text = para_text(p).strip()
+        if text.startswith("Version "):
+            set_par_text(p, "Version %s.%s" % (version, date[2:]))
+            stats["cover version updated"] += 1
+        elif re.search(r"- \d{4}$", text):
+            set_par_text(p, re.sub(r"\d{4}$", date[:4], text))
+    return version, date
+
+
+def stamp_modified(core_xml, date):
+    """Set the package's last-modified date to the render date."""
+    root = etree.fromstring(core_xml)
+    el = root.find("{http://purl.org/dc/terms/}modified")
+    if el is not None:
+        el.text = "%s-%s-%sT00:00:00Z" % (date[:4], date[4:6], date[6:8])
+    return etree.tostring(root, xml_declaration=True, encoding="UTF-8", standalone=True)
+
+
 def request_field_update(settings_xml):
     """Ask Word to refresh fields on open, so the table of contents lists new sections."""
     root = etree.fromstring(settings_xml)
@@ -935,7 +1020,7 @@ def request_field_update(settings_xml):
     return etree.tostring(root, xml_declaration=True, encoding="UTF-8", standalone=True)
 
 
-def render(seed, contract_path, out):
+def render(seed, contract_path, out, front=None):
     with open(contract_path, encoding="utf-8") as f:
         contract = json.load(f)
     spec = contract["endpoints"]
@@ -1005,12 +1090,15 @@ def render(seed, contract_path, out):
 
     add_new_sections(body, spec, by_section, fallback, stats, IdAllocator(root), linker, find_donors(body))
     linker.flush(stats, fallback)
+    stamp = update_front_matter(body, stats, **(front or {}))
 
     xml = etree.tostring(root, xml_declaration=True, encoding="UTF-8", standalone=True)
     with zipfile.ZipFile(seed) as zin, zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED) as zout:
         for item in zin.infolist():
             if item.filename == "word/document.xml":
                 data = xml
+            elif item.filename == "docProps/core.xml" and stamp:
+                data = stamp_modified(zin.read(item.filename), stamp[1])
             elif item.filename == "word/settings.xml":
                 data = request_field_update(zin.read(item.filename))
             else:
@@ -1020,16 +1108,25 @@ def render(seed, contract_path, out):
 
 
 def main():
-    if len(sys.argv) != 4:
-        print(__doc__)
-        sys.exit(2)
-    seed, contract_path, out = sys.argv[1:]
-    if os.path.exists(out) and os.path.samefile(seed, out):
+    parser = argparse.ArgumentParser(description="Render the specification DOCX from the OpenAPI contract.")
+    parser.add_argument("seed")
+    parser.add_argument("contract")
+    parser.add_argument("out")
+    parser.add_argument("--doc-version", help="document version, e.g. 3.1 (default: the seed's last version + 0.1)")
+    parser.add_argument("--doc-date", help="render date as YYYYMMDD (default: today)")
+    parser.add_argument("--history", action="append",
+                        help="a line of the History description; repeat for more (default: built from the render)")
+    parser.add_argument("--author", help="History author (default: the last row's)")
+    args = parser.parse_args()
+    if args.doc_date and not re.match(r"\d{8}$", args.doc_date):
+        sys.exit("--doc-date must be YYYYMMDD")
+    if os.path.exists(args.out) and os.path.samefile(args.seed, args.out):
         sys.exit("Output must not be the seed document")
-    stats = render(seed, contract_path, out)
+    front = {"version": args.doc_version, "date": args.doc_date, "lines": args.history, "author": args.author}
+    stats = render(args.seed, args.contract, args.out, front)
     for k, v in stats.items():
         print("%-34s: %d" % (k, v))
-    print("wrote %s" % out)
+    print("wrote %s" % args.out)
 
 
 if __name__ == "__main__":
