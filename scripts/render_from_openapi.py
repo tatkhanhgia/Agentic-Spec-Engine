@@ -1360,9 +1360,11 @@ def main():
         snapshot = read_snapshot(last)
         with open(args.contract, encoding="utf-8") as f:
             current = signatures(json.load(f))
-        if snapshot is None:
-            print("note: history %s has no API snapshot (scripts/propose_history.py --snapshot)" % last)
-        elif snapshot != current and not args.allow_stale_history:
+        if snapshot is None and not args.allow_stale_history:
+            # Without a snapshot there is nothing to check the API against.
+            sys.exit("history %s has no API snapshot; store it with scripts/propose_history.py "
+                     "--snapshot, or pass --allow-stale-history" % last)
+        elif snapshot is not None and snapshot != current and not args.allow_stale_history:
             sys.exit("the API changed since history %s; add an entry with "
                      "scripts/propose_history.py --write, or pass --allow-stale-history" % last)
     descriptions = None
