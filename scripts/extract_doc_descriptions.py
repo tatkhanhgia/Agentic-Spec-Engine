@@ -91,7 +91,8 @@ def main():
         for out in outs:
             if os.path.exists(out) and os.path.samefile(path, out):
                 sys.exit("Output must not refer to an input")
-    if len(outs) == 2 and os.path.realpath(outs[0]) == os.path.realpath(outs[1]):
+    if len(outs) == 2 and (os.path.realpath(outs[0]) == os.path.realpath(outs[1])
+                           or (all(os.path.exists(o) for o in outs) and os.path.samefile(*outs))):
         sys.exit("The description file and the object naming file must be different files")
     with open(args.contract, encoding="utf-8") as f:
         contract = json.load(f)
