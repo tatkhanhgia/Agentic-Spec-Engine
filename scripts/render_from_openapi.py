@@ -170,7 +170,10 @@ def rebuild_table(tbl, kind, fields, stats, fallback, fresh=False, linker=None, 
         if wording is not None:
             # Description file first, the spec otherwise. An unchanged cell is
             # left alone, so it keeps its runs.
-            lines = with_enum_link(wording.get(f["name"]) or ([spec_text] if spec_text else []), f)
+            lines = wording.get(f["name"]) or ([spec_text] if spec_text else [])
+            if ENUM_TITLES:
+                lines = own_links(lines, f, stats)
+            lines = with_enum_link(lines, f)
             if not lines:
                 put(cells[4], "")
             elif put_lines(cells[4], lines):
@@ -1094,8 +1097,10 @@ def render_enumerations(root, body, enums, titles, stats):
     without an entry the section takes the schema name. A section the seed
     already has under that title keeps its place and gets its rows from the
     spec; any other enumeration gets a new section at the end of the chapter,
-    cloned from an existing one. Sections of the seed that no spec enumeration
-    claims are left as they are.
+    cloned from an existing one. A section of the seed that no spec enumeration
+    claims is removed: the chapter lists what the API declares, and a link to
+    a removed section becomes plain text. With no enumeration in the contract
+    the chapter is left as the seed has it.
     """
     ENUM_TITLES.clear()
     els = list(body)
@@ -1179,6 +1184,26 @@ def render_enumerations(root, body, enums, titles, stats):
                 body.append(el)
         sections[title] = (heading, table, None)
         stats["enumeration sections added"] += 1
+
+    if enums:
+        claimed = set(ENUM_TITLES.values())
+        doomed, inside, dropping = [], False, False
+        for el in body:
+            tag = etree.QName(el).localname
+            st = style_of(el) if tag == "p" else ""
+            if st == "Heading1":
+                inside, dropping = para_text(el).strip().upper() == "ENUMERATION", False
+                continue
+            if not inside or tag == "sectPr":
+                continue
+            if st == "Heading2":
+                dropping = para_text(el).strip() not in claimed
+                if dropping:
+                    stats["enumeration sections removed (not in the spec)"] += 1
+            if dropping:
+                doomed.append(el)
+        for el in doomed:
+            body.remove(el)
     index_enumerations(body)
 
 
@@ -1190,6 +1215,25 @@ def plain_rows(tbl):
     """
     for extra in tbl.findall(qn("tr"))[2:]:
         tbl.remove(extra)
+
+
+def own_links(lines, field, stats):
+    """Keep a description's enumeration link only when the field declares that enumeration.
+
+    The description file carries links the approved document had. A section
+    now lists what the spec declares, so a link from a field that does not
+    use that enumeration would promise values the field does not take; its
+    label stays as plain text.
+    """
+    title = ENUM_TITLES.get(field.get("enum") or "")
+
+    def keep(m):
+        if m.group(2) == title:
+            return m.group(0)
+        stats["enumeration links dropped (field does not declare it)"] += 1
+        return m.group(1)
+
+    return [ENUM_LINK_RE.sub(keep, x) for x in lines]
 
 
 def with_enum_link(lines, field):
@@ -1282,10 +1326,13 @@ def put_lines(tc, lines):
         at = 0
         for m in ENUM_LINK_RE.finditer(line):
             anchor = ENUMS["anchor_of"].get(m.group(2))
-            if anchor is None:
-                continue                      # unknown section: left as written
             if m.start() > at:
                 p.append(piece(line[at:m.start()]))
+            if anchor is None:
+                # The section is not in the document: the label stays, unlinked.
+                p.append(piece(m.group(1)))
+                at = m.end()
+                continue
             link = etree.SubElement(p, qn("hyperlink"))
             link.set(qn("anchor"), anchor)
             link.set(qn("history"), "1")

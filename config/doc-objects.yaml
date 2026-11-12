@@ -133,3 +133,9 @@ enums:
   ParticipantType: Role
   ProcessTypeOfWorkflow: WorkflowMode
   SignaturePosition: AnnotationPosition
+  WorkflowCriteria: WorkflowStatus
+  WorkflowStatus: WorkflowState
+  AppearanceSignatureAlignment: AppearanceAlignment
+  CredentialDocumentType: DocumentType
+  IdentityDocumentType: DocumentTypeForEID
+  TsaHashAlgorithm: HashingAlgorithm

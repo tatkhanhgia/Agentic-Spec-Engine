@@ -153,6 +153,28 @@ python scripts/render_from_openapi.py <seed.docx> contract/from_openapi.json <ou
 - 15 mục ENUMERATION còn lại của V3 **giữ nguyên từ seed**: spec chưa khai báo các enum đó (ví dụ
   `LevelOfAssurance`, `LockAction`, `Color`, `FontName`), cần đối chiếu code trước khi đưa vào spec.
 
+## Bổ sung 2026-11-12: chương ENUMERATION theo code hoàn toàn (cách A của owner)
+
+- Spec (backend, PR #469) đặt tên thêm 8 enum: tổng cộng 21 enum có tên.
+- Chương ENUMERATION nay chỉ gồm các enum spec khai báo: **21 mục** (11 mục V3 được điền lại theo code, 10 mục
+  mới). Tên mục V3 ↔ tên enum nằm ở `config/doc-objects.yaml`, mục `enums`.
+
+| Mục V3 | Enum trong spec | Thay đổi |
+|---|---|---|
+| WorkflowStatus | `WorkflowCriteria` | 13 giá trị theo code; 8 giá trị giữ mô tả V3, 5 giá trị mới chưa có mô tả |
+| WorkflowState | `WorkflowStatus` | mô tả theo code |
+| LevelOfAssurance | `LevelOfAssurance` | 5 giá trị theo code, chưa có mô tả (giá trị V3 không phải của code) |
+| DocumentType | `CredentialDocumentType` | giá trị viết gạch dưới theo code (`PERSONAL_ID`), mô tả V3 |
+| HashingAlgorithm | `TsaHashAlgorithm` | bỏ `SHA1` |
+| AppearanceDesign, AppearanceAlignment, DocumentTypeForEID | cùng tên / `AppearanceSignatureAlignment` / `IdentityDocumentType` | giữ nguyên giá trị và mô tả V3 |
+
+- **7 mục V3 bị bỏ** vì spec không khai báo enum cho chúng: LockAction, LockPermission, SigningAlgorithm,
+  FieldTypes, AuthorizeMode, Color, FontName.
+- **Link tới enum chỉ giữ khi field khai báo đúng enum đó.** 27 mô tả lấy từ V3 có câu "Possible values are
+  here" nhưng field không khai báo enum: chữ "here" còn lại, không còn là link. Muốn gọn thì sửa lời văn trong
+  `config/doc-descriptions.yaml`, hoặc khai báo enum cho field trong spec.
+- Link tới chương ENUMERATION trong bảng: 53. Không có link hỏng trong bảng; `check_frame_format.py` 515.
+
 ## Còn lại
 
 - **13 route chỉ có trong spec**: các route trùng tên đã gộp vào một section, đường dẫn của chúng được ghi trong
@@ -161,6 +183,5 @@ python scripts/render_from_openapi.py <seed.docx> contract/from_openapi.json <ou
   ngoài, repo không có schema DB nên không chứng minh được cột có NULL hay không. Spec để tuỳ chọn (O), là
   lựa chọn an toàn. Cần quyền đọc schema DB để chốt.
 - **Chưa mở bằng Microsoft Word thật**: mới kiểm tra qua PDF của LibreOffice.
-- **15 mục ENUMERATION** vẫn lấy từ seed (xem trên).
 - **Nội dung V3 khác code**: field V3 ghi M nhưng code không bắt buộc, field đã đổi tên.
   Renderer theo code; báo cáo chi tiết từng endpoint ở `reports/openapi_vs_v3_20261110.md`.

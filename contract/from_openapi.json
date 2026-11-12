@@ -2555,6 +2555,7 @@
           "type": "String",
           "presence": "M",
           "description": "Hash algorithm.",
+          "enum": "TsaHashAlgorithm",
           "example": "SHA256"
         },
         {
@@ -2716,6 +2717,7 @@
           "type": "String",
           "presence": "O",
           "description": "Hash algorithm, case-insensitive. Default SHA256.",
+          "enum": "TsaHashAlgorithm",
           "example": "SHA256"
         },
         {
@@ -3033,6 +3035,7 @@
           "type": "String",
           "presence": "O",
           "description": "Hash algorithm, case-insensitive.",
+          "enum": "TsaHashAlgorithm",
           "example": "SHA256"
         },
         {
@@ -3091,6 +3094,7 @@
           "type": "String",
           "presence": "O",
           "description": "Hash algorithm.",
+          "enum": "TsaHashAlgorithm",
           "example": "SHA256"
         },
         {
@@ -3316,6 +3320,7 @@
           "type": "String",
           "presence": "O",
           "description": "Hash algorithm, case-insensitive.",
+          "enum": "TsaHashAlgorithm",
           "example": "SHA256"
         },
         {
@@ -8896,7 +8901,8 @@
           "name": "status",
           "type": "String",
           "presence": "M",
-          "description": "Workflow criteria, case-insensitive. SIGNED, EXPIRING, SEAL_ONLY and SIGNATURE_ONLY have no stored status and return all statuses."
+          "description": "Workflow criteria, case-insensitive. SIGNED, EXPIRING, SEAL_ONLY and SIGNATURE_ONLY have no stored status and return all statuses.",
+          "enum": "WorkflowCriteria"
         },
         {
           "name": "pageNo",
@@ -9504,7 +9510,8 @@
           "name": "status",
           "type": "String",
           "presence": "M",
-          "description": "Workflow criteria, case-insensitive; an unknown value falls back to ALL."
+          "description": "Workflow criteria, case-insensitive; an unknown value falls back to ALL.",
+          "enum": "WorkflowCriteria"
         },
         {
           "name": "pageNo",
@@ -9898,7 +9905,8 @@
           "name": "status",
           "type": "String",
           "presence": "M",
-          "description": "Workflow criteria, case-insensitive; an unknown value falls back to ALL."
+          "description": "Workflow criteria, case-insensitive; an unknown value falls back to ALL.",
+          "enum": "WorkflowCriteria"
         }
       ],
       "request_fields": [],
@@ -19899,6 +19907,7 @@
           "type": "String",
           "presence": "O",
           "description": "Appearance template of the signature. Matched case-insensitively.",
+          "enum": "AppearanceDesign",
           "example": "ADVANCED_ELECTRONIC_SIGNATURE"
         }
       ],
@@ -24218,7 +24227,8 @@
           "name": "criteria",
           "type": "String",
           "presence": "M",
-          "description": "Workflow filter; any URL segment matching a WorkflowCriteria name is used."
+          "description": "Workflow filter; any URL segment matching a WorkflowCriteria name is used.",
+          "enum": "WorkflowCriteria"
         },
         {
           "name": "pageNo",
@@ -28914,6 +28924,7 @@
           "type": "String",
           "presence": "O",
           "description": "Signature appearance (AppearanceDesign).",
+          "enum": "AppearanceDesign",
           "example": "ADVANCED_ELECTRONIC_SIGNATURE"
         },
         {
@@ -30005,6 +30016,7 @@
           "type": "String",
           "presence": "O",
           "description": "Signature appearance (AppearanceDesign).",
+          "enum": "AppearanceDesign",
           "example": "ADVANCED_ELECTRONIC_SIGNATURE"
         },
         {
@@ -36400,6 +36412,7 @@
           "type": "String",
           "presence": "O",
           "description": "Signature appearance (AppearanceDesign).",
+          "enum": "AppearanceDesign",
           "example": "ADVANCED_ELECTRONIC_SIGNATURE"
         },
         {
@@ -37455,6 +37468,7 @@
           "type": "String",
           "presence": "O",
           "description": "Signature appearance (AppearanceDesign).",
+          "enum": "AppearanceDesign",
           "example": "ADVANCED_ELECTRONIC_SIGNATURE"
         },
         {
@@ -47695,6 +47709,7 @@
           "type": "String",
           "presence": "O",
           "description": "User type of value; `-` is accepted for `_`. Either document_type or user_type is required.",
+          "enum": "CredentialDocumentType",
           "example": "CITIZEN_IDENTITY_CARD"
         },
         {
@@ -48010,6 +48025,7 @@
           "type": "String",
           "presence": "O",
           "description": "Appearance of the signature frame.",
+          "enum": "AppearanceDesign",
           "example": "ADVANCED_ELECTRONIC_SIGNATURE"
         },
         {
@@ -49226,6 +49242,7 @@
           "type": "String",
           "presence": "M",
           "description": "Level of assurance of the certificate.",
+          "enum": "LevelOfAssurance",
           "example": "ADVANCED_ELECTRONIC_SIGNATURE"
         },
         {
@@ -49233,6 +49250,7 @@
           "type": "String",
           "presence": "M",
           "description": "Identity document type.",
+          "enum": "IdentityDocumentType",
           "example": "CITIZEN_CARD"
         },
         {
@@ -50352,6 +50370,7 @@
           "type": "String",
           "presence": "O",
           "description": "Appearance of the signature frame.",
+          "enum": "AppearanceDesign",
           "example": "ADVANCED_ELECTRONIC_SIGNATURE"
         },
         {
@@ -68288,6 +68307,7 @@
           "type": "String",
           "presence": "M",
           "description": "Hash algorithm.",
+          "enum": "TsaHashAlgorithm",
           "example": "SHA256"
         },
         {
@@ -68368,6 +68388,7 @@
           "type": "String",
           "presence": "O",
           "description": "Hash algorithm, case-insensitive.",
+          "enum": "TsaHashAlgorithm",
           "example": "SHA256"
         },
         {
@@ -68474,6 +68495,7 @@
           "type": "String",
           "presence": "O",
           "description": "Hash algorithm.",
+          "enum": "TsaHashAlgorithm",
           "example": "SHA256"
         },
         {
@@ -68554,6 +68576,7 @@
           "type": "String",
           "presence": "O",
           "description": "Hash algorithm, case-insensitive. Default SHA256.",
+          "enum": "TsaHashAlgorithm",
           "example": "SHA256"
         },
         {
@@ -70558,6 +70581,7 @@
           "type": "String",
           "presence": "M",
           "description": "Workflow status name.",
+          "enum": "WorkflowStatus",
           "example": "COMPLETED"
         },
         {
@@ -70883,6 +70907,7 @@
           "type": "String",
           "presence": "O",
           "description": "Alignment of the appearance content. Case-insensitive.",
+          "enum": "AppearanceSignatureAlignment",
           "example": "LEFT"
         },
         {
@@ -74315,6 +74340,7 @@
           "type": "String",
           "presence": "O",
           "description": "Appearance template of the signature. Matched case-insensitively.",
+          "enum": "AppearanceDesign",
           "example": "ADVANCED_ELECTRONIC_SIGNATURE"
         }
       ]
@@ -75484,6 +75510,7 @@
           "type": "String",
           "presence": "M",
           "description": "Stored workflow status.",
+          "enum": "WorkflowStatus",
           "example": "INPROGRESS"
         },
         {
@@ -76876,6 +76903,7 @@
           "type": "String",
           "presence": "O",
           "description": "Signature appearance (AppearanceDesign).",
+          "enum": "AppearanceDesign",
           "example": "ADVANCED_ELECTRONIC_SIGNATURE"
         },
         {
@@ -77275,6 +77303,7 @@
           "type": "String",
           "presence": "O",
           "description": "Signature appearance (AppearanceDesign).",
+          "enum": "AppearanceDesign",
           "example": "ADVANCED_ELECTRONIC_SIGNATURE"
         },
         {
@@ -79842,6 +79871,7 @@
           "type": "String",
           "presence": "O",
           "description": "Signature appearance (AppearanceDesign).",
+          "enum": "AppearanceDesign",
           "example": "ADVANCED_ELECTRONIC_SIGNATURE"
         },
         {
@@ -80241,6 +80271,7 @@
           "type": "String",
           "presence": "O",
           "description": "Signature appearance (AppearanceDesign).",
+          "enum": "AppearanceDesign",
           "example": "ADVANCED_ELECTRONIC_SIGNATURE"
         },
         {
@@ -84403,6 +84434,7 @@
           "type": "String",
           "presence": "O",
           "description": "User type of value; `-` is accepted for `_`. Either document_type or user_type is required.",
+          "enum": "CredentialDocumentType",
           "example": "CITIZEN_IDENTITY_CARD"
         },
         {
@@ -84499,6 +84531,7 @@
           "type": "String",
           "presence": "O",
           "description": "Appearance of the signature frame.",
+          "enum": "AppearanceDesign",
           "example": "ADVANCED_ELECTRONIC_SIGNATURE"
         },
         {
@@ -84706,6 +84739,7 @@
           "type": "String",
           "presence": "M",
           "description": "Level of assurance of the certificate.",
+          "enum": "LevelOfAssurance",
           "example": "ADVANCED_ELECTRONIC_SIGNATURE"
         },
         {
@@ -84713,6 +84747,7 @@
           "type": "String",
           "presence": "M",
           "description": "Identity document type.",
+          "enum": "IdentityDocumentType",
           "example": "CITIZEN_CARD"
         },
         {
@@ -84923,6 +84958,7 @@
           "type": "String",
           "presence": "O",
           "description": "Appearance of the signature frame.",
+          "enum": "AppearanceDesign",
           "example": "ADVANCED_ELECTRONIC_SIGNATURE"
         },
         {
@@ -91302,6 +91338,254 @@
         {
           "value": "DIRECT_ASSIGNED",
           "description": "User was added directly to the enterprise without the invitation workflow."
+        }
+      ]
+    },
+    "WorkflowStatus": {
+      "label": "WorkflowStatus",
+      "description": "Stored state of a workflow.",
+      "values": [
+        {
+          "value": "DRAFT",
+          "description": "Workflow is being prepared and has not yet been sent to participants."
+        },
+        {
+          "value": "PENDING",
+          "description": "Workflow has been sent and is awaiting action from the first participant."
+        },
+        {
+          "value": "INPROGRESS",
+          "description": "At least one participant has completed an action; the workflow is still active."
+        },
+        {
+          "value": "COMPLETED",
+          "description": "All required participants have completed their actions successfully."
+        },
+        {
+          "value": "DECLINED",
+          "description": "A participant has declined the workflow, terminating its progression."
+        },
+        {
+          "value": "TERMINATED",
+          "description": "Workflow was cancelled by the owner before completion."
+        }
+      ]
+    },
+    "WorkflowCriteria": {
+      "label": "WorkflowCriteria",
+      "description": "Filter of a workflow list by the caller's view of the workflow.",
+      "values": [
+        {
+          "value": "ALL",
+          "description": ""
+        },
+        {
+          "value": "DRAFT",
+          "description": "A preliminary version of the workflow that is still under development or review."
+        },
+        {
+          "value": "SIGNED",
+          "description": "The workflow has been signed by this user"
+        },
+        {
+          "value": "COMPLETED",
+          "description": "The workflow has been fully executed and all required actions have been completed. All participants have signed and the workflow has reached its final state."
+        },
+        {
+          "value": "DECLINED",
+          "description": "The workflow has been rejected and will not proceed further."
+        },
+        {
+          "value": "EXPIRED",
+          "description": "This status indicates that the workflow has been prematurely ended due to an issue or problem."
+        },
+        {
+          "value": "EXPIRING",
+          "description": "The workflow will expire in 7 days."
+        },
+        {
+          "value": "INPROGRESS",
+          "description": "The workflow is being processed by other participant."
+        },
+        {
+          "value": "PENDING",
+          "description": "The workflow is pending user action (signing, approval, etc.)."
+        },
+        {
+          "value": "UPDATED",
+          "description": ""
+        },
+        {
+          "value": "APPROVED",
+          "description": ""
+        },
+        {
+          "value": "SEAL_ONLY",
+          "description": ""
+        },
+        {
+          "value": "SIGNATURE_ONLY",
+          "description": ""
+        }
+      ]
+    },
+    "AppearanceDesign": {
+      "label": "AppearanceDesign",
+      "description": "Appearance of a signature frame, by kind of credential.",
+      "values": [
+        {
+          "value": "ADVANCED_ELECTRONIC_SIGNATURE",
+          "description": "Type of the credential is Advanced electronic signature"
+        },
+        {
+          "value": "ELECTRONIC_SEAL",
+          "description": "Type of the credential is Electronic Seal"
+        },
+        {
+          "value": "QUALIFIED_ELECTRONIC_SIGNATURE",
+          "description": "Type of the credential is Qualified Electronic Signature"
+        },
+        {
+          "value": "QUALIFIED_ELECTRONIC_SEAL",
+          "description": "Type of the credential is Qualified Electronic Seal"
+        }
+      ]
+    },
+    "LevelOfAssurance": {
+      "label": "LevelOfAssurance",
+      "description": "Level of assurance of a certificate to register.",
+      "values": [
+        {
+          "value": "ADVANCED_ELECTRONIC_SIGNATURE",
+          "description": ""
+        },
+        {
+          "value": "ELECTRONIC_SEAL",
+          "description": ""
+        },
+        {
+          "value": "QUALIFIED_ELECTRONIC_SEAL",
+          "description": ""
+        },
+        {
+          "value": "ADVANCED_ELECTRONIC",
+          "description": ""
+        },
+        {
+          "value": "QUALIFIED_ELECTRONIC_SIGNATURE",
+          "description": ""
+        }
+      ]
+    },
+    "AppearanceSignatureAlignment": {
+      "label": "AppearanceSignatureAlignment",
+      "description": "Alignment of the text in a signature appearance.",
+      "values": [
+        {
+          "value": "LEFT",
+          "description": "The text of appearance will align left"
+        },
+        {
+          "value": "AUTO",
+          "description": "The text of appearance will align auto"
+        },
+        {
+          "value": "RIGHT",
+          "description": "The text of appearance will align right"
+        }
+      ]
+    },
+    "CredentialDocumentType": {
+      "label": "CredentialDocumentType",
+      "description": "Kind of identifier used to look up credentials on the RSSP.",
+      "values": [
+        {
+          "value": "PHONE",
+          "description": "Type PHONE in RSSP"
+        },
+        {
+          "value": "USB_TOKEN",
+          "description": "Type USB-TOKEN in RSSP"
+        },
+        {
+          "value": "USERNAME",
+          "description": "Type USERNAME in RSSP"
+        },
+        {
+          "value": "PERSONAL_ID",
+          "description": "Type PERSONAL-ID in RSSP"
+        },
+        {
+          "value": "PASSPORT_ID",
+          "description": "Type PASSPORT-ID in RSSP"
+        },
+        {
+          "value": "CITIZEN_IDENTITY_CARD",
+          "description": "Type CITIZEN-IDENTITY-CARD in RSSP"
+        },
+        {
+          "value": "BUDGET_CODE",
+          "description": "Type BUDGET-CODE in RSSP"
+        },
+        {
+          "value": "TAX_CODE",
+          "description": "Type TAX-CODE in RSSP"
+        },
+        {
+          "value": "UUID",
+          "description": "Type UUID in RSSP"
+        }
+      ]
+    },
+    "IdentityDocumentType": {
+      "label": "IdentityDocumentType",
+      "description": "Kind of identity document presented to the EID service.",
+      "values": [
+        {
+          "value": "CITIZEN_CARD",
+          "description": "Type Citizen card in EID"
+        },
+        {
+          "value": "PASSPORT",
+          "description": "Type Passport in EID"
+        },
+        {
+          "value": "DRIVER_LICENSE",
+          "description": "Type Driver license in EID"
+        },
+        {
+          "value": "IDENTITY_CARD",
+          "description": "Type Identity card in EID"
+        },
+        {
+          "value": "FACE_SCAN",
+          "description": "Type Face scan in EID"
+        },
+        {
+          "value": "FACE_FRAME",
+          "description": "Type Face frame in EID"
+        },
+        {
+          "value": "IDENTIFICATION",
+          "description": "Type Identification in EID"
+        }
+      ]
+    },
+    "TsaHashAlgorithm": {
+      "label": "TsaHashAlgorithm",
+      "description": "Hash algorithm of an enterprise time-stamp (TSA) configuration.",
+      "values": [
+        {
+          "value": "SHA256",
+          "description": "SHA256 Hashing Algorithm"
+        },
+        {
+          "value": "SHA384",
+          "description": "SHA384 Hashing Algorithm"
+        },
+        {
+          "value": "SHA512",
+          "description": "SHA512 Hashing Algorithm"
         }
       ]
     }
