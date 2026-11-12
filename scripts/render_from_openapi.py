@@ -40,7 +40,7 @@ import yaml
 from lxml import etree
 
 from compare_openapi_doc import ERROR_ROWS, pair
-from doc_meta import cover_version, load as load_meta
+from doc_meta import UniqueKeyLoader, cover_version, load as load_meta
 from propose_history import read_snapshot, signatures
 from extract_doc_contract import TABLE_KINDS, cell_text, extract, para_text, qn, style_of, to_key
 
@@ -1385,7 +1385,7 @@ def text_lines(value, where):
 def load_descriptions(path):
     """Read the description file: (section wording, object wording)."""
     with open(path, encoding="utf-8") as f:
-        data = yaml.safe_load(f) or {}
+        data = yaml.load(f, Loader=UniqueKeyLoader) or {}
     sections = {}
     for category, titles in (data.get("sections") or {}).items():
         for title, tables in (titles or {}).items():
@@ -1405,7 +1405,7 @@ def load_descriptions(path):
 def load_naming(path):
     """Read the object naming file: {schema: {title, chapter}}."""
     with open(path, encoding="utf-8") as f:
-        data = yaml.safe_load(f) or {}
+        data = yaml.load(f, Loader=UniqueKeyLoader) or {}
     out = {}
     for schema, entry in (data.get("objects") or {}).items():
         entry = entry or {}
