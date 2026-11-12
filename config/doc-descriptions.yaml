@@ -5,7 +5,8 @@
 # The renderer (scripts/render_from_openapi.py --descriptions) shows the entry
 # when a field has one, and the description in openapi.yaml otherwise. Delete
 # an entry to hand the field back to the spec. A value is one line, or a list
-# of lines shown as separate paragraphs.
+# of lines shown as separate paragraphs. `[label](#Title)` links the label to
+# the ENUMERATION section with that title.
 sections:
   Authenticate – Log in:
     Client Credentials Authentication:
@@ -523,7 +524,7 @@ sections:
       path_params:
         packageId: This is the ID of the package that was created. Using this ID to Interact with that document package.
       request_fields:
-        workflow_mode: Mode of the workflow. Possible values in here
+        workflow_mode: Mode of the workflow. Possible values in [here](#WorkflowMode)
         deadline_at: Deadline of the workflow
     Create Workflow From Template:
       headers:
@@ -589,7 +590,7 @@ sections:
         - 'Note 2: Default value of this parameter is 100.'
         x-category-id: Category to find the workflow
       path_params:
-        criteria: Filter by workflow status. Possible values are here
+        criteria: Filter by workflow status. Possible values are [here](#WorkflowStatus)
       response_headers:
         x-total-records: The length of the list of records
       response_fields:
@@ -611,7 +612,7 @@ sections:
       path_params:
         packageId: This is the ID of the package that was created. Using this ID to Interact with that document package.
       request_fields:
-        workflow_mode: Mode of the workflow. Possible values are in here
+        workflow_mode: Mode of the workflow. Possible values are in [here](#WorkflowMode)
         continue_on_decline: True, if workflow needs to continue even if any recipient declines the document. If no value is provided, old value will be retained.
         message: A custom string message from the document owner to every recipient, this message appears in the sharing email as well as on the screen. If no value is provided, old value will be retained.
         comments: Allow comments
@@ -743,7 +744,7 @@ sections:
         user_name: User name of the user
         email_notification: If set as true, GoPaperless Workflow will send notifications to the user via email as per the document owner and user notification settings. A value of false means no notifications will be sent to user throughout the workflow.
         mobile_number: Mobile number of the user
-        role: Role of the participant. Possible values are here
+        role: Role of the participant. Possible values are [here](#Role)
         signing_order: Order of the recipient in the workflow. This signing order is mandatory when workflow type is "CUSTOM".
         email_language_code: Parameter to define language in email.
     Delete Workflow User:
@@ -942,7 +943,7 @@ sections:
       request_fields:
         placeholder: Placeholder name
         email_notification: If set as true, GoPaperless Workflow will send notifications to the user via email as per the document owner and user notification settings. A value of false means no notifications will be sent to user throughout the workflow.
-        role: Role of the participant. Possible values are here
+        role: Role of the participant. Possible values are [here](#Role)
         signing_order: Order of the recipient in the workflow. This signing order is mandatory when workflow type is "CUSTOM".
     Import Excel to Clone Workflow:
       headers:
@@ -1064,12 +1065,12 @@ sections:
         field_name: Name of the field that is to be added. If not provided, the system will assign a unique auto-generated name to the field.
         dimension: Location of the field
         visible_enabled: True if the field is visible
-        level_of_assurance: Level Of Assurance to be added. Possible Values are here
+        level_of_assurance: Level Of Assurance to be added. Possible Values are [here](#LevelOfAssurance)
         required: The object to show required in your application.
         suffix: Suffix of the field.
         remark: Remark in your application
-        annotation_position: Position of the signature. Possible values are here
-        appearance_design: The appearance of Signature frame. Possible values are here
+        annotation_position: Position of the signature. Possible values are [here](#AnnotationPosition)
+        appearance_design: The appearance of Signature frame. Possible values are [here](#AppearanceDesign)
       response_fields:
         field_name: Name of the field
     Update Digital Signature Field:
@@ -1096,12 +1097,12 @@ sections:
         field_name: Name of the field that is to be added. If not provided, the system will assign a unique auto-generated name to the field.
         dimension: Location of the field
         visible_enabled: True if the field is visible
-        level_of_assurance: Level Of Assurance to be added. Possible Values are here
+        level_of_assurance: Level Of Assurance to be added. Possible Values are [here](#LevelOfAssurance)
         required: The object to show required in your application.
         suffix: Suffix of the field.
         remark: Remark in your application
-        annotation_position: Position of the signature. Possible values are here
-        appearance_design: The appearance of Signature frame. Possible values are here
+        annotation_position: Position of the signature. Possible values are [here](#AnnotationPosition)
+        appearance_design: The appearance of Signature frame. Possible values are [here](#AppearanceDesign)
     Add TextBox Field:
       headers:
         x-language-name:
@@ -1126,7 +1127,7 @@ sections:
         dimension: Location of the field
         visible_enabled: True if the field is visible
         read_only: The flag to define if the field can be interacted with. Default is true
-        color: Color of the text. Possible values are here
+        color: Color of the text. Possible values are [here](#Color)
         align_option: Alignment object to show the position of the text.
         value: Data of the field.
         multiline: The flag to define if the field can have multiple line. Default is false.
@@ -1142,7 +1143,7 @@ sections:
         font: Font of the text in the field.
         place_holder: Place holder of the field.
         tool_tip_text: To show tool tip text of the field.
-        type: The type of the text field. Possible values are here
+        type: The type of the text field. Possible values are [here](#FieldTypes)
         required: The object to show required in your application.
         suffix: Suffix of the field.
         remark: Remark in your application
@@ -1173,7 +1174,7 @@ sections:
         dimension: Location of the field
         visible_enabled: True if the field is visible
         read_only: The flag to define if the field can be interacted with. Default is true
-        color: Color of the text. Possible values are here
+        color: Color of the text. Possible values are [here](#Color)
         align_option: Alignment object to show the position of the text.
         value: Data of the field.
         multiline: The flag to define if the field can have multiple line. Default is false.
@@ -1353,12 +1354,12 @@ sections:
         field_name: Name of the field that is to be added. If not provided, the system will assign a unique auto-generated name to the field.
         dimension: Location of the field
         visible_enabled: True if the field is visible
-        level_of_assurance: Level Of Assurance to be added. Possible Values are here
+        level_of_assurance: Level Of Assurance to be added. Possible Values are [here](#LevelOfAssurance)
         required: The object to show required in your application.
         suffix: Suffix of the field.
         remark: Remark in your application
-        annotation_position: Position of the signature. Possible values are here
-        appearance_design: The appearance of Signature frame. Possible values are here
+        annotation_position: Position of the signature. Possible values are [here](#AnnotationPosition)
+        appearance_design: The appearance of Signature frame. Possible values are [here](#AppearanceDesign)
         order: Order id of the participant.
       response_fields:
         field_name: Name of the field
@@ -1386,12 +1387,12 @@ sections:
         field_name: Name of the field that is to be added. If not provided, the system will assign a unique auto-generated name to the field.
         dimension: Location of the field
         visible_enabled: True if the field is visible
-        level_of_assurance: Level Of Assurance to be added. Possible Values are here
+        level_of_assurance: Level Of Assurance to be added. Possible Values are [here](#LevelOfAssurance)
         required: The object to show required in your application.
         suffix: Suffix of the field.
         remark: Remark in your application
-        annotation_position: Position of the signature. Possible values are here
-        appearance_design: The appearance of Signature frame. Possible values are here
+        annotation_position: Position of the signature. Possible values are [here](#AnnotationPosition)
+        appearance_design: The appearance of Signature frame. Possible values are [here](#AppearanceDesign)
         order: Order id of the participant.
     Add Datetime Field:
       headers:
@@ -1417,7 +1418,7 @@ sections:
         dimension: Location of the field
         visible_enabled: True if the field is visible
         read_only: The flag to define if the field can be interacted with. Default is true
-        color: Color of the text. Possible values are here
+        color: Color of the text. Possible values are [here](#Color)
         align_option: Alignment object to show the position of the text.
         value: Data of the field.
         multiline: The flag to define if the field can have multiple line. Default is false.
@@ -1464,7 +1465,7 @@ sections:
         dimension: Location of the field
         visible_enabled: True if the field is visible
         read_only: The flag to define if the field can be interacted with. Default is true
-        color: Color of the text. Possible values are here
+        color: Color of the text. Possible values are [here](#Color)
         align_option: Alignment object to show the position of the text.
         value: Data of the field.
         multiline: The flag to define if the field can have multiple line. Default is false.
@@ -1727,7 +1728,7 @@ sections:
         required: The object to show required in your application.
         suffix: Suffix of the field.
         remark: Remark in your application
-        color: Color of the text. Possible values are here
+        color: Color of the text. Possible values are [here](#Color)
         align_option: Alignment object to show the position of the text.
         value: Data of the field.
         multiline: The flag to define if the field can have multiple line. Default is false.
@@ -1774,7 +1775,7 @@ sections:
         required: The object to show required in your application.
         suffix: Suffix of the field.
         remark: Remark in your application
-        color: Color of the text. Possible values are here
+        color: Color of the text. Possible values are [here](#Color)
         align_option: Alignment object to show the position of the text.
         value: Data of the field.
         multiline: The flag to define if the field can have multiple line. Default is false.
@@ -1818,7 +1819,7 @@ sections:
         required: The object to show required in your application.
         suffix: Suffix of the field.
         remark: Remark in your application
-        color: Color of the text. Possible values are here
+        color: Color of the text. Possible values are [here](#Color)
         align_option: Alignment object to show the position of the text.
         value: Data of the field.
         multiline: The flag to define if the field can have multiple line. Default is false.
@@ -1865,7 +1866,7 @@ sections:
         required: The object to show required in your application.
         suffix: Suffix of the field.
         remark: Remark in your application
-        color: Color of the text. Possible values are here
+        color: Color of the text. Possible values are [here](#Color)
         align_option: Alignment object to show the position of the text.
         value: Data of the field.
         multiline: The flag to define if the field can have multiple line. Default is false.
@@ -1909,7 +1910,7 @@ sections:
         required: The object to show required in your application.
         suffix: Suffix of the field.
         remark: Remark in your application
-        color: Color of the text. Possible values are here
+        color: Color of the text. Possible values are [here](#Color)
         align_option: Alignment object to show the position of the text.
         value: Data of the field.
         multiline: The flag to define if the field can have multiple line. Default is false.
@@ -1955,7 +1956,7 @@ sections:
         required: The object to show required in your application.
         suffix: Suffix of the field.
         remark: Remark in your application
-        color: Color of the text. Possible values are here
+        color: Color of the text. Possible values are [here](#Color)
         align_option: Alignment object to show the position of the text.
         value: Data of the field.
         multiline: The flag to define if the field can have multiple line. Default is false.
@@ -1998,7 +1999,7 @@ sections:
         required: The object to show required in your application.
         suffix: Suffix of the field.
         remark: Remark in your application
-        color: Color of the text. Possible values are here
+        color: Color of the text. Possible values are [here](#Color)
         align_option: Alignment object to show the position of the text.
         value: Data of the field.
         multiline: The flag to define if the field can have multiple line. Default is false.
@@ -2045,7 +2046,7 @@ sections:
         required: The object to show required in your application.
         suffix: Suffix of the field.
         remark: Remark in your application
-        color: Color of the text. Possible values are here
+        color: Color of the text. Possible values are [here](#Color)
         align_option: Alignment object to show the position of the text.
         value: Data of the field.
         multiline: The flag to define if the field can have multiple line. Default is false.
@@ -2411,7 +2412,7 @@ sections:
         dimension: Location of the field
         visible_enabled: True if the field is visible
         read_only: The flag to define if the field can be interacted with. Default is true
-        color: Color of the text. Possible values are here
+        color: Color of the text. Possible values are [here](#Color)
         align_option: Alignment object to show the position of the text.
         value: Data of the field.
         multiline: The flag to define if the field can have multiple line. Default is false.
@@ -2459,7 +2460,7 @@ sections:
         dimension: Location of the field
         visible_enabled: True if the field is visible
         read_only: The flag to define if the field can be interacted with. Default is true
-        color: Color of the text. Possible values are here
+        color: Color of the text. Possible values are [here](#Color)
         align_option: Alignment object to show the position of the text.
         value: Data of the field.
         multiline: The flag to define if the field can have multiple line. Default is false.
@@ -2560,7 +2561,7 @@ sections:
         field_name: Name of the field that is to be added. If not provided, the system will assign a unique auto-generated name to the field.
         dimension: Location of the field
         visible_enabled: True if the field is visible
-        color: Color of the text. Possible values are here
+        color: Color of the text. Possible values are [here](#Color)
         alignment: Alignment object to show the position of the text.
         multiline: The flag to define if the field can have multiple line. Default is false.
         font: Font of the text in the field.
@@ -2594,7 +2595,7 @@ sections:
         field_name: Name of the field that is to be added. If not provided, the system will assign a unique auto-generated name to the field.
         dimension: Location of the field
         visible_enabled: True if the field is visible
-        color: Color of the text. Possible values are here
+        color: Color of the text. Possible values are [here](#Color)
         alignment: Alignment object to show the position of the text.
         multiline: The flag to define if the field can have multiple line. Default is false.
         font: Font of the text in the field.
@@ -2693,9 +2694,9 @@ sections:
       request_fields:
         field_name: Field name to determine which field will be processed
         hand_signature_image: Base64 Encoded string image of the visible signature appearance
-        signing_algo: The algorithm to be signed. Possible values are here
+        signing_algo: The algorithm to be signed. Possible values are [here](#SigningAlgorithm)
         contact_information: The contact name of the signature
-        hashing_algo: The algorithm to hash data to be sign. Possible values are here
+        hashing_algo: The algorithm to hash data to be sign. Possible values are [here](#HashingAlgorithm)
         signing_reason: The reason of the signature
         signing_location: The location of the signature
         certificate_chain:
@@ -2858,7 +2859,7 @@ sections:
         Content-Type: The MIME type of the request body. Usually application/json
       request_fields:
         signing_server: Name of the RSSP Provider. This parameter will be contained when this API returns an error type “Too many Relying Parties have the same name”.
-        document_type: Type of the document. Possible values are here
+        document_type: Type of the document. Possible values are [here](#DocumentType)
         value:
         - 'Data of the user. Example:'
         - + Usertype = “USERNAME” => user_type = “giatk”
@@ -2887,14 +2888,14 @@ sections:
       request_fields:
         field_name: Field name to determine which field will be processed
         hand_signature_image: Base64 Encoded string image of the visible signature appearance
-        signing_algo: The algorithm to be signed. Possible values are here
+        signing_algo: The algorithm to be signed. Possible values are [here](#SigningAlgorithm)
         contact_information: Contact information of the signer, for example an email address. If omitted, the email of the current workflow participant is used.
-        hashing_algo: The algorithm to hash data to be sign. Possible values are here
+        hashing_algo: The algorithm to hash data to be sign. Possible values are [here](#HashingAlgorithm)
         signing_reason: The reason of the signature
         signing_location: The location of the signature
         skip_verification: If true, show the verification of signature when processed successfully
         credential_id: Credential id of the signer. Get it from “Get Filtered Credential List”
-        appearance_design: The appearance of Signature frame. Possible values are here
+        appearance_design: The appearance of Signature frame. Possible values are [here](#AppearanceDesign)
         connector_name: Name of the Connector that returned in API “Get RSSP Information”
         signing_server: Name of the signing server used to disambiguate the connector.
         citizen_id: Citizen identity number of the signer, forwarded to the signing provider.
@@ -3070,7 +3071,7 @@ sections:
         enrollment_connector: Connector used to enroll the certificate.
         signing_server: Signing server that contains connector
         level_of_assurance: 'Level of Assurance that the user wants to create. Possible values are: + ADVANCED_ELECTRONIC_SIGNATURE + ELECTRONIC_SEAL + QUALIFIED_ELECTRONIC_SEAL + ADVANCED_ELECTRONIC + QUALIFIED_ELECTRONIC_SIGNATURE'
-        document_type: Document Type. Possible values are here
+        document_type: Document Type. Possible values are [here](#DocumentTypeForEID)
         value: Value of the Document
         face_image: Facial Image of the user
         document_extraction_connector: Connector used to extract the identity document information.
@@ -4468,3 +4469,257 @@ sections:
         security_answer: Security answer of the new user
         service_agreements: User consent terms of service and privacy policies for account registration
         user_last_name: Last name of the user
+objects:
+  AddUserToWorkflowRequestData:
+    user_email: Email of the user
+    user_first_name: First name of the recipient to be added in the workflow.
+    user_last_name: Last name of the recipient to be added in the workflow.
+    email_notification: If set as true, GoPaperless Workflow will send notifications to the user via email as per the document owner and user notification settings. A value of false means no notifications will be sent to user throughout the workflow.
+    role: Role of the participant. Possible values are [here](#Role)
+    signing_order: Order of the recipient in the workflow. This signing order is mandatory when workflow type is "CUSTOM".
+    reason: Define the reason of the participant to perform the signing process
+    company_name: Name of the company
+  AssignDocumentFieldRequestAssignElement:
+    field_name: Name of the signature field that is to be assigned.
+    order: The order of the user in workflow, to which the field is being assigned.
+  WorkflowListItem:
+    package_id: The ID of the package
+    package_name: The name of the package
+    package_owner: Defines the email of user
+    owner_name: The name of the user who created this package.
+    workflow_state: Overall state of the workflow
+    workflow_status: Status of the Workflow based on user.
+    created_at: Date of the package to know when it was workflow in ISO format
+    created_by: Name of the user who created this workflow
+    modified_at: Date of the package to know when it was workflow in ISO format
+    modified_by: Name of the user who modified this workflow
+    access_duration: The object show the duration to access to this workflow.
+    decline: The object show the decline of the workflow.
+    total_comments: Total comments in workflow
+  AddPlaceholderRequestPlaceholder:
+    placeholder: Placeholder name
+    email_notification: If set as true, GoPaperless Workflow will send notifications to the user via email as per the document owner and user notification settings. A value of false means no notifications will be sent to user throughout the workflow.
+    role: Role of the participant. Possible values are [here](#Role)
+    signing_order: Order of the recipient in the workflow. This signing order is mandatory when workflow type is "CUSTOM".
+  AttachmentListItem:
+    attachment_id: ID of the attachment
+    attachment_name: Name of the attachment
+  TemplateDocumentSummary:
+    id: The ID of the document inside the template.
+    document_id: The ID of the document. Carries the same value as id.
+    name: File name of the document.
+  PackageListItem:
+    package_id: The ID of the package
+    package_name: The name of the package
+    package_owner: Defines the email of user
+    owner_email: Email of the user who owns this package.
+    owner_name: The name of the user who created this package.
+    package_status:
+    - 'Status of the package. Possible values are:'
+    - + ENABLED
+    - + DISABLED
+    next_signer_email: List of email of the participant
+    created_at: Date of the package to know when it was created in ISO format
+    created_by: Name of the user who created this package
+    modified_at: Date of the package to know when it was modified in ISO format
+    modified_by: Name of the user who modified this package
+    access_duration: The object show the duration to access to this package.
+    decline: The object show the decline of the package.
+  PackageAccessDuration:
+    date_from: Date of the package to show when it valid.
+    date_to: Date of the package to show when it invalid.
+  PackageDecline:
+    reason: The reason of the package to show why it was declined.
+    declined_by: Defines the email of the user who declined this package.
+  WorkflowParticipantItem:
+    order: Order of the recipient in the workflow.
+    user_name: Name of the recipient if recipient is not a group. If recipient is a placeholder it will contain the name of the placeholder.
+    user_email: Email address of the recipient if recipient is not a group or placeholder.
+    role: Role of the recipient i.e., "SIGNER", "REVIEWER", "EDITOR","CARBON_COPY" or "INPERSON_HOST".
+    process_status: Document processing status for the recipient. Possible values are "UN_PROCESSED", "IN_PROGRESS", "SIGNED", "REVIEWED", "DECLINED", "EDITED" or "INVALID"
+    processed_on: Date and time on which the document was processed.
+    reason: Reason provided by the user when declining, approving or submitting a document
+    placeholder: Placeholder text if the recipient is a placeholder.
+    signing_order: Order in which the workflow will be signed by the recipients. This signing order is important when workflow type is set to "CUSTOM".
+    user_national_id: National identity number of the user. This helps to identify user in the workflow
+    guest_user: True if this user is a guest
+    email_language_code: Email language code
+    invitation_time: Date time when the user has been invited into Workflow
+    assigned_field: The array of assigned field belongs to the user
+  WorkflowHistoryAction:
+    log_id: ID of an action performed on the document
+    date_time: Date and time when the action was performed.
+    information: Data information
+  WorkflowCommentItem:
+    id: Id of the Comment
+    text: Workflow Comment text
+    date: Date when the comment has been created
+    sender: Define who send the message
+  FieldDimension:
+    x: Left location of the field in pixel.
+    y: Top location of the field in pixel.
+    width: Width of the field in pixel
+    height: Height of the field in pixel.
+  FieldFont:
+    name: Name of the font selected for the text field. Possible values are here
+    size: Size of the font selected for the text field. Possible values are 8, 10, 12, 14, 16, 18, 20
+    embedded_size: Size of the font in the original PDF document.
+  FieldAlignment:
+    horizontal_alignment:
+    - 'Horizontal alignment of the field or the text. Possible values are:'
+    - + LEFT
+    - + CENTER
+    - + RIGHT
+    vertical_alignment:
+    - 'Vertical alignment of the field or the text. Possible values are:'
+    - + TOP
+    - + MIDDLE
+    - + BOTTOM
+    alignment:
+    - 'Both Horizontal and Vertical. Format like this:'
+    - '{vertical}_{horizontal }'
+    - 'Example:'
+    - + MIDDLE_LEFT
+    - + TOP_CENTER
+    - 'Note: If you change any parameter inside Alignment Option => The new variable will be generated to fit (alignment is priority)'
+  PackageDetailsOwner:
+    name: Name of the owner
+    email: Email of the owner
+  PackageDetailsDocument:
+    id: ID of the document
+    name: Name of the document
+    uploaded_on: Date and time when the document was uploaded.
+    uploaded_by: Name of the user who uploaded this document.
+    modified_at: Date and time when the document was last modified in ISO format
+    modified_by: Name of the user who modified this document
+    size: Size of the document in bytes
+    type: Type of the document e.g. “PDF”.
+    source: Identifies where the document was uploaded
+  ProfileEnterprise:
+    enterprise_id: Id of the enterprise to which the user belongs.
+    enterprise_name: Name of the enterprise to which the user belongs.
+    owner: Name of enterprise owner.
+    owner_email: Email address of the enterprise owner.
+    mobile_number: Mobile number used for contacting enterprise.
+  UsageMetric:
+    consumed: Consumed quota by the account so far.
+    allowed: Total allowed quota by the service plan.
+  ProfileGeneral:
+    user_email: Email address of the logged in user
+    user_name: User name of the logged in user
+    job_title: Job title of the logged in user
+    company_name: Company name of the logged in user
+    enterprise_role: Name of the enterprise role that the logged in user belongs to
+  AddContactRequest:
+    user_first_name: First name of the contact
+    user_email: Email address of the contact.
+    contact_id: ID of the contact.
+    user_last_name: Last name of the contact
+    position: Position of the contact
+    company_name: Company name of the contact
+    personal_code: Personal code of the contact
+    mobile_number: Mobile number of the contact
+  GetListCategoriesResponse:
+    category_id: Id of the category
+    category_name: Name of the category
+    category_icon: Color of the icon
+    category_parent_id: Parent id of the cat
+  SignatureAppearanceItem:
+    appearance_id: Id of the appearance
+    metadata: Metadata of the appearance
+    credential_configuration: Data of signature of the appearance
+  SignatureAppearanceMetadata:
+    signing_reason: Reason to show in appearance
+    signing_location: Location to show in appearance
+    signer_name: Name of the signer to show in appearance
+    signing_date: Data to show in appearance
+    signing_logo: Logo to show in appearance
+    signing_distinguished_name: Distinguished name to show in appearance
+    itext_version: Version of iText to show in appearance
+    signing_labels: Labels to show in appearance
+    align_option: Alignment of the text in appearance. Possible values are [here](#AppearanceAlignment)
+    remark: Remark
+    hand_signature_image: Hand signature image of the appearance
+  SignatureCredentialConfiguration:
+    signing_server: Name of the signing Server
+    connector_name: Name of the connector
+    document_type: Type of the document. Possible values are [here](#DocumentType)
+    value: Value of the document
+    credential_id: Credential id of the signer
+    appearance_design: Appearance Design of the Credential. Possible values are [here](#AppearanceDesign)
+    icon: Icon of the title
+  FieldComboItems:
+    default_item: Default item of the Field
+    items: List of the item in Field
+  FieldComboItem:
+    text: Text of the item
+    value: Value of the item
+  FieldDateOptions:
+    maximum_date: Maximum date of the field
+    date_format: Format date of the field
+    default_date: Default date of the field
+    minimum_date: Minimum date of the field
+    default_date_enabled: True if the field using default Date
+  FieldAttachmentFile:
+    file_extension: Extension of the file/image
+    file_data: Image/File info in base64 format
+    file_name: Name of the file
+  FieldCheckboxFrame:
+    background_rgbcode: Color Code of the background
+    border_rgbcode: Color Code of the Border
+    checked_rgbcode: Color Code of the Checked
+  FieldCameraImage:
+    image: Image data in base64 format
+    format: Format of the image
+  FieldRedactPolicy:
+    creator: Redaction behaviour applied to the owner of the workflow.
+    others: Redaction behaviour applied to every other participant.
+  FieldRedactPolicyRule:
+    pre_process: Behaviour applied before the field is processed. Possible values are SHOW, REDACT, SHOW_ALL and REDACT_ALL.
+    post_process: Behaviour applied after the field is processed. Possible values are SHOW, REDACT, SHOW_ALL and REDACT_ALL.
+    remark: Remark in your application.
+  FieldTypeGroup:
+    group: Name of the group. Possible values are COMMON, SYSTEM and INDIVIDUAL.
+    items: Field types that belong to the group.
+  ValidationListItem:
+    validation_name: Name of the validation provided when it was created.
+    validation_status: 'Status of the validation. Possible values are: + NOT_PROCESS + NO_SIGNATURES_OR_SEALS_FOUND + WARNING + VALID + INVALID + PROCESSING'
+    validation_date: Date and time of the validation in UTC.
+    total_valid_signatures: Number of valid signatures found in the document.
+    total_valid_seals: Number of valid seals found in the document.
+    total_signatures: Total number of signatures found in the document.
+    total_seals: Total number of seals found in the document.
+    detailed_validation_report: Relative link to download the detailed validation report. Null until the validation has finished.
+  ValidationOverview:
+    total_signatures: Total number of signatures found in the document.
+    total_valid_signatures: Number of valid signatures found in the document.
+    total_seals: Total number of seals found in the document.
+    total_valid_seals: Number of valid seals found in the document.
+    validation_time: Time of the validation reported by the validation service.
+    validation_policy: 'Validation policy applied to the document. Possible values are: + ADVANCED_QUALIFIED_SEALS + QUALIFIED_SEALS'
+    final_accepted: True when the overall validation result is accepted.
+    validation_mode: Validation mode reported by the validation service.
+    multi_signature_policy: Multi-signature policy applied by the validation service.
+    target_signature_id: Identifier of the signature targeted by the validation, when a specific signature is validated.
+    liability_level: 'Liability level applied to the validation. Possible values are: + BASIC + ADVANCED'
+  ValidationSignature:
+    id: Identifier of the signature in the validation report.
+    field_name: Name of the signature field in the PDF.
+    indication: Main validation indication of the signature.
+    sub_indication: Sub indication detailing the validation indication.
+    signing_time: Signing time recorded in the signature.
+    signature_valid: True when the cryptographic signature is valid.
+    qualification: Qualification level of the signature.
+    page: Page number of the signature field.
+  ValidationDetails:
+    validation_detail_report_id: Identifier of the detailed report. Used as reportId to download the detailed and diagnostic reports.
+    validated_detail_document_hash: Hash of the validated document recorded with the detailed report.
+    validation_basic_report_id: Identifier of the simple report. Used as reportId to download the simple report.
+    validated_basic_document_hash: Hash of the validated document recorded with the simple report.
+    detailed_validation_report: Relative link to download the detailed validation report (PDF).
+    diagnostic_data: Relative link to download the diagnostic data (XML).
+    basic_validation_report: Relative link to download the simple validation report (PDF).
+  ValidationFile:
+    original_file_data: Base64 encoded content of the validated document.
+    original_file_name: File name of the validated document.
+    xml_diagnostic: Raw diagnostic data of the validation in XML format.

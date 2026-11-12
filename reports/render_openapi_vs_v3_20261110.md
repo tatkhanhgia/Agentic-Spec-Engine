@@ -109,6 +109,34 @@ python scripts/render_from_openapi.py <seed.docx> contract/from_openapi.json <ou
     --meta <doc-meta.yaml> --descriptions config/doc-descriptions.yaml
 ```
 
+## Bổ sung 2026-11-12: chương object sinh từ `openapi.yaml`
+
+- Renderer xoá toàn bộ mục của hai chương REQUEST/RESPONSE OBJECT và RELATIVE OBJECT trong seed (122 mục) rồi
+  dựng lại từ spec: mỗi schema mà một field trong tài liệu trỏ tới (trực tiếp hoặc qua object lồng nhau) có một
+  mục. Kết quả: **124 mục** (6 + 118), 371 link từ cột Type.
+- **83 mục V3 không API nào dùng đã bỏ** theo quyết định của owner.
+- `config/doc-objects.yaml` (`--objects`): tên và chương trong tài liệu của 39 schema ghép được với mục V3
+  (ví dụ `PackageListItem` → `Package`, `PackageDetailsOwner` → `Owner(Package Details)`). Schema không có trong
+  file dùng tên schema và nằm ở RELATIVE OBJECT.
+- Lời văn V3 của các object đó (197 mô tả) nằm trong `config/doc-descriptions.yaml`, mục `objects`.
+- **Cột Type theo spec:** field trỏ tới schema thì link tới mục của schema đó, nhãn là tên mục
+  (`List<Package>`). 34 field V3 từng link tới object nhưng spec không khai báo schema nay hiện kiểu thuần.
+- **Link tới chương ENUMERATION** nằm trong mô tả ("Possible values are here"). File mô tả ghi chúng dạng
+  `[here](#WorkflowMode)`, renderer dựng lại thành link. Còn 46 link (V3 có 64; 18 link nằm trong các mục
+  object đã bỏ).
+- 32 link trong các section không render (chưa triển khai) trỏ tới object đã bỏ được chuyển thành chữ thường,
+  nên tài liệu không còn link hỏng trong bảng (V3 có 14).
+- Chương **ENUMERATION vẫn lấy từ seed** (18 mục). Bảng của nó có cột mô tả cho từng giá trị, mà spec chỉ có
+  danh sách giá trị; muốn sinh từ spec cần đặt tên enum thành schema và thêm mô tả từng giá trị trong
+  `openapi.yaml`.
+- Kiểm tra: `check_frame_format.py` 515 (V3: 518, ba lỗi cũ nằm trong mục object đã bỏ); không có bookmark lẻ
+  đôi, id trùng hay link hỏng trong bảng; xem chương object qua PDF của LibreOffice.
+
+```bash
+python scripts/render_from_openapi.py <seed.docx> contract/from_openapi.json <out.docx> \
+    --meta <doc-meta.yaml> --descriptions config/doc-descriptions.yaml --objects config/doc-objects.yaml
+```
+
 ## Còn lại
 
 - **13 route chỉ có trong spec**: các route trùng tên đã gộp vào một section, đường dẫn của chúng được ghi trong
@@ -117,7 +145,6 @@ python scripts/render_from_openapi.py <seed.docx> contract/from_openapi.json <ou
   ngoài, repo không có schema DB nên không chứng minh được cột có NULL hay không. Spec để tuỳ chọn (O), là
   lựa chọn an toàn. Cần quyền đọc schema DB để chốt.
 - **Chưa mở bằng Microsoft Word thật**: mới kiểm tra qua PDF của LibreOffice.
-- **Chương object và enumeration** vẫn lấy từ seed. Bảng đối chiếu tên mục V3 với schema:
-  `reports/object_mapping_20261112.md` (39/122 mục object đối chiếu được tự động, 18 enumeration chưa có schema).
+- **Chương ENUMERATION** vẫn lấy từ seed (xem trên).
 - **Nội dung V3 khác code**: field V3 ghi M nhưng code không bắt buộc, field đã đổi tên.
   Renderer theo code; báo cáo chi tiết từng endpoint ở `reports/openapi_vs_v3_20261110.md`.

@@ -24,7 +24,8 @@ it they stay as the seed has them.
 
 Usage:
     python scripts/render_from_openapi.py <seed.docx> <from_openapi.json> <out.docx> [--meta doc-meta.yaml]
-        [--descriptions doc-descriptions.yaml] [--allow-stale-history]
+        [--descriptions doc-descriptions.yaml] [--objects doc-objects.yaml]
+        [--allow-stale-history]
 """
 import argparse
 import collections
@@ -148,11 +149,21 @@ def rebuild_table(tbl, kind, fields, stats, fallback, fresh=False, linker=None, 
             set_cell_text(cells[2], f["type"])
         else:
             stats["rows kept"] += 1
-            if not has_link(cells[2]) and cell_text(cells[2]) != f["type"]:
-                set_cell_text(cells[2], f["type"])
-                stats["types rewritten"] += 1
-        if linker is not None and f.get("ref") and not has_link(cells[2]):
+        # The Type cell follows the spec: a field that points at a component
+        # schema links to that schema's object section. Any other link the seed
+        # had goes, except one into the ENUMERATION chapter, which the spec
+        # cannot express yet.
+        if linker is not None and f.get("ref") and linker.can_link(f["ref"]):
             linker.link(cells[2], f, stats)
+        elif old is not None and has_link(cells[2]):
+            if linker is not None and linker.keeps_link(cells[2]):
+                stats["enumeration links kept"] += 1
+            else:
+                set_cell_text(cells[2], f["type"])
+                stats["object links dropped (no schema in the spec)"] += 1
+        elif old is not None and cell_text(cells[2]) != f["type"]:
+            set_cell_text(cells[2], f["type"])
+            stats["types rewritten"] += 1
         set_cell_text(cells[1], f["name"])
         set_cell_text(cells[3], f["presence"])
         spec_text = f["description"].replace("`", "")
@@ -725,52 +736,94 @@ def pick_template(sections, record):
 
 
 class ObjectLinker:
-    """Links composite Type cells to object sections in the RELATIVE OBJECT chapter.
+    """Builds the object chapters from the spec and links Type cells to them.
 
-    A Type cell that names a component schema becomes a `w:hyperlink` whose
-    anchor is a bookmark on the object's Heading 2 (the document's convention).
-    When the seed already links the same label to exactly one existing object,
-    that anchor is reused; otherwise an object section is created from the
-    spec at the end of the chapter, cloned from an existing object section.
+    The seed's REQUEST/RESPONSE OBJECT and RELATIVE OBJECT sections are
+    removed; one of them lends its heading and table as the template. Every
+    component schema a rendered field points at (directly or through another
+    object) gets a section: Heading 2 with a bookmark, and an attribute table.
+    A Type cell naming the schema becomes a `w:hyperlink` to that bookmark
+    (the document's convention).
+
+    `naming` ({schema: {title, chapter}}) gives a section its document name
+    and chapter; a schema without an entry keeps its own name and goes to
+    RELATIVE OBJECT. `wording` ({schema: {field: lines}}) is the object part
+    of the description file.
     """
 
-    CHAPTER = "RELATIVE OBJECT"
+    CHAPTERS = ("REQUEST/RESPONSE OBJECT", "RELATIVE OBJECT")
+    DEFAULT = "RELATIVE OBJECT"
+    ENUMERATION = "ENUMERATION"
 
-    def __init__(self, root, body, objects):
+    def __init__(self, root, body, objects, stats, naming=None, wording=None):
         self.body = body
         self.objects = objects
+        self.naming = naming or {}
+        self.wording = wording
         self.created = collections.OrderedDict()   # schema name -> anchor
         self.queue = []
-        self.marks = {b.get(qn("name")) for b in root.iter(qn("bookmarkStart"))}
         ids = [int(b.get(qn("id"))) for b in root.iter(qn("bookmarkStart"))
                if (b.get(qn("id")) or "").isdigit()]
         self.next_id = max(ids or [0]) + 1
-        # Labels the seed already links, by the name inside List<...>.
-        seen = collections.defaultdict(set)
-        for tr in root.iter(qn("tr")):
-            cells = tr.findall(qn("tc"))
-            if len(cells) != 5:
+        self.enum_anchors = self.chapter_anchors(self.ENUMERATION)
+        self.parts = self.template()
+        self.can_create = self.parts is not None and self.chapter_end(self.DEFAULT) is not None
+        if self.can_create:
+            self.clear_chapters(stats)
+        self.marks = {b.get(qn("name")) for b in root.iter(qn("bookmarkStart"))}
+
+    def chapter_anchors(self, chapter):
+        """Bookmark names on (or just before) the Heading 2 paragraphs of a chapter."""
+        names, inside, pending = set(), False, []
+        for el in self.body:
+            tag = etree.QName(el).localname
+            if tag == "bookmarkStart":
+                pending.append(el.get(qn("name")))
                 continue
-            link = cells[2].find(".//" + qn("hyperlink"))
-            if link is not None and link.get(qn("anchor")) in self.marks:
-                seen[self.inner(cell_text(cells[2]))].add(link.get(qn("anchor")))
-        self.seed_anchor = {label: next(iter(a)) for label, a in seen.items() if len(a) == 1}
-        self.can_create = self.template() is not None and self.chapter_end() is not None
+            if tag == "p":
+                st = style_of(el)
+                if st == "Heading1":
+                    inside = para_text(el).strip().upper() == chapter
+                elif inside and st == "Heading2":
+                    names.update(pending)
+                    names.update(b.get(qn("name")) for b in el.iter(qn("bookmarkStart")))
+            if tag != "bookmarkEnd":
+                pending = []
+        return names
+
+    def clear_chapters(self, stats):
+        """Remove every section of the object chapters; the Heading 1 and its lead-in stay."""
+        chapter, started = None, False
+        for el in list(self.body):
+            tag = etree.QName(el).localname
+            if tag == "p" and style_of(el) == "Heading1":
+                name = para_text(el).strip().upper()
+                chapter, started = (name if name in self.CHAPTERS else None), False
+                continue
+            if chapter is None or tag == "sectPr":
+                continue
+            if tag == "p" and style_of(el) == "Heading2":
+                started = True
+                stats["seed object sections removed"] += 1
+            if started:
+                self.body.remove(el)
+
+    def title(self, ref):
+        return (self.naming.get(ref) or {}).get("title") or self.objects[ref]["label"]
+
+    def can_link(self, ref):
+        return ref in self.objects and self.can_create
+
+    def keeps_link(self, tc):
+        link = tc.find(".//" + qn("hyperlink"))
+        return link is not None and link.get(qn("anchor")) in self.enum_anchors
 
     @staticmethod
     def inner(label):
         m = re.match(r"\s*List<(.*)>\s*$", label)
         return (m.group(1) if m else label).strip()
 
-    def anchor_for(self, ref, label, stats):
-        inner = self.inner(label)
-        if inner in self.seed_anchor:
-            stats["type links to existing objects"] += 1
-            return self.seed_anchor[inner]
-        # No link without a destination: a new object section needs a template
-        # to clone and a chapter to go into.
-        if ref not in self.objects or not self.can_create:
-            return None
+    def anchor_for(self, ref, stats):
         if ref not in self.created:
             anchor = "_OBJ_%s" % re.sub(r"[^A-Za-z0-9_]", "_", ref)
             while anchor in self.marks:
@@ -778,19 +831,17 @@ class ObjectLinker:
             self.marks.add(anchor)
             self.created[ref] = anchor
             self.queue.append(ref)
-        stats["type links to new objects"] += 1
+        stats["type links to objects"] += 1
         return self.created[ref]
 
     def link(self, tc, field, stats):
-        """Turn a plain Type cell into `List<` + hyperlink + `>` (or a bare hyperlink)."""
-        label = field["type"]
-        anchor = self.anchor_for(field["ref"], label, stats)
-        if anchor is None:
-            return
-        set_cell_text(tc, label)
+        """Write a Type cell as `List<` + hyperlink + `>` (or a bare hyperlink)."""
+        anchor = self.anchor_for(field["ref"], stats)
+        title = self.title(field["ref"])
+        is_list = field["type"].strip().startswith("List<")
+        set_cell_text(tc, title)
         p = tc.find(qn("p"))
         run = p.find(qn("r"))
-        is_list = label.strip().startswith("List<")
 
         def piece(text):
             r = copy.deepcopy(run)
@@ -800,12 +851,14 @@ class ObjectLinker:
         link = etree.Element(qn("hyperlink"))
         link.set(qn("anchor"), anchor)
         link.set(qn("history"), "1")
-        linked = piece(self.inner(label))
+        linked = piece(title)
         rpr = linked.find(qn("rPr"))
         if rpr is None:
             rpr = etree.Element(qn("rPr"))
             linked.insert(0, rpr)
-        # The seed's Type links use the Hyperlink character style in black.
+        # The document's Type links use the Hyperlink character style in black.
+        for style in rpr.findall(qn("rStyle")):
+            rpr.remove(style)
         style = etree.Element(qn("rStyle"))
         style.set(qn("val"), "Hyperlink")
         rpr.insert(0, style)
@@ -827,7 +880,7 @@ class ObjectLinker:
             p.append(piece(">"))
 
     def template(self):
-        """(heading, table, spacer) of an existing object section with a plain data row."""
+        """Copies of (heading, table, spacer) of a seed object section with a plain data row."""
         els = list(self.body)
         inside = False
         for i, el in enumerate(els):
@@ -835,24 +888,25 @@ class ObjectLinker:
                 continue
             st = style_of(el)
             if st == "Heading1":
-                inside = para_text(el).strip().upper() == self.CHAPTER
+                inside = para_text(el).strip().upper() == self.DEFAULT
             elif inside and st == "Heading2" and i + 1 < len(els) and els[i + 1].tag == qn("tbl"):
                 rows = els[i + 1].findall(qn("tr"))
                 if len(rows) > 2 and any(plain_row(r) is not None for r in rows[2:]):
                     spacer = els[i + 2] if i + 2 < len(els) and els[i + 2].tag == qn("p") else None
                     if spacer is not None and (style_of(spacer) or para_text(spacer).strip()):
                         spacer = None
-                    return el, els[i + 1], spacer
+                    return (copy.deepcopy(el), copy.deepcopy(els[i + 1]),
+                            copy.deepcopy(spacer) if spacer is not None else None)
         return None
 
-    def chapter_end(self):
+    def chapter_end(self, chapter):
         els = list(self.body)
         inside = False
         for i, el in enumerate(els):
             if etree.QName(el).localname == "p" and style_of(el) == "Heading1":
                 if inside:
                     return i
-                inside = para_text(el).strip().upper() == self.CHAPTER
+                inside = para_text(el).strip().upper() == chapter
         if not inside:
             return None
         # The chapter is the last one: insert before the body's final sectPr.
@@ -868,20 +922,23 @@ class ObjectLinker:
 
     def flush(self, stats, fallback):
         """Create the queued object sections; their own fields may queue more."""
-        found = self.template()
-        at = self.chapter_end()
-        if found is None or at is None:
+        if not self.can_create:
             stats["object sections skipped (no template or chapter)"] += len(self.queue)
             return
-        t_heading, t_table, t_spacer = found
+        t_heading, t_table, t_spacer = self.parts
         while self.queue:
             ref = self.queue.pop(0)
             obj = self.objects[ref]
+            title = self.title(ref)
+            chapter = ((self.naming.get(ref) or {}).get("chapter") or self.DEFAULT).upper()
+            at = self.chapter_end(chapter)
+            if at is None:
+                at = self.chapter_end(self.DEFAULT)
             heading = copy.deepcopy(t_heading)
             for b in list(heading.iter(qn("bookmarkStart"))) + list(heading.iter(qn("bookmarkEnd"))):
                 b.getparent().remove(b)
             self.strip_ids(heading)
-            set_par_text(heading, obj["label"])
+            set_par_text(heading, title)
             start = etree.Element(qn("bookmarkStart"))
             start.set(qn("id"), str(self.next_id))
             start.set(qn("name"), self.created[ref])
@@ -897,8 +954,9 @@ class ObjectLinker:
 
             table = copy.deepcopy(t_table)
             self.strip_ids(table)
-            set_cell_text(table.find(qn("tr")).find(qn("tc")), obj["label"])
-            rebuild_table(table, "object", obj["fields"], stats, fallback, fresh=True, linker=self)
+            set_cell_text(table.find(qn("tr")).find(qn("tc")), title)
+            rebuild_table(table, "object", obj["fields"], stats, fallback, fresh=True, linker=self,
+                          wording=None if self.wording is None else self.wording.get(ref, {}))
             snap_to_grid(table)
             new = [heading, table]
             if t_spacer is not None:
@@ -909,6 +967,39 @@ class ObjectLinker:
                 self.body.insert(at, el)
                 at += 1
             stats["object sections added"] += 1
+
+
+def drop_half_bookmarks(root, stats):
+    """Remove a bookmark start or end whose other half went with rewritten content."""
+    starts = {b.get(qn("id")) for b in root.iter(qn("bookmarkStart"))}
+    ends = {b.get(qn("id")) for b in root.iter(qn("bookmarkEnd"))}
+    for b in list(root.iter(qn("bookmarkStart"), qn("bookmarkEnd"))):
+        if b.get(qn("id")) not in (ends if b.tag == qn("bookmarkStart") else starts):
+            b.getparent().remove(b)
+            stats["half bookmarks removed"] += 1
+
+
+def unlink_dangling(root, stats):
+    """Turn a table-cell link whose bookmark no longer exists into plain text.
+
+    Sections the render leaves alone (documented but not implemented) can
+    still point at an object section that was removed; the seed also carries
+    a few links that were broken before.
+    """
+    marks = {b.get(qn("name")) for b in root.iter(qn("bookmarkStart"))}
+    for link in list(root.iter(qn("hyperlink"))):
+        anchor = link.get(qn("anchor"))
+        if not anchor or anchor in marks or not any(a.tag == qn("tc") for a in link.iterancestors()):
+            continue
+        parent = link.getparent()
+        at = parent.index(link)
+        for run in list(link):
+            for style in run.findall(qn("rPr") + "/" + qn("rStyle")):
+                style.getparent().remove(style)
+            parent.insert(at, run)
+            at += 1
+        parent.remove(link)
+        stats["dangling links unlinked"] += 1
 
 
 def add_new_sections(body, spec, by_section, fallback, stats, ids, linker=None, donors=None,
@@ -960,17 +1051,59 @@ def history_table(body):
     return None
 
 
+# Links into the ENUMERATION chapter are written `[label](#Section title)` in
+# description text, so a description file can carry them without a bookmark name.
+ENUM_LINK_RE = re.compile(r"\[([^\]]+)\]\(#([^)]+)\)")
+ENUMS = {"title_of": {}, "anchor_of": {}}
+
+
+def index_enumerations(body):
+    """Record the ENUMERATION chapter's sections: bookmark name <-> title."""
+    ENUMS["title_of"].clear()
+    ENUMS["anchor_of"].clear()
+    inside, pending = False, []
+    for el in body:
+        tag = etree.QName(el).localname
+        if tag == "bookmarkStart":
+            pending.append(el.get(qn("name")))
+            continue
+        if tag == "p":
+            st = style_of(el)
+            if st == "Heading1":
+                inside = para_text(el).strip().upper() == "ENUMERATION"
+            elif inside and st == "Heading2":
+                title = para_text(el).strip()
+                for name in pending + [b.get(qn("name")) for b in el.iter(qn("bookmarkStart"))]:
+                    ENUMS["title_of"][name] = title
+                    ENUMS["anchor_of"].setdefault(title, name)
+        if tag != "bookmarkEnd":
+            pending = []
+
+
 def cell_lines(tc):
-    """A cell's text as lines: one per paragraph, split again at line breaks."""
+    """A cell's text as lines: one per paragraph, split again at line breaks.
+
+    A link into the ENUMERATION chapter reads `[label](#Section title)`.
+    """
+    def text_of(node):
+        out = ""
+        for child in node:
+            tag = etree.QName(child).localname
+            if tag == "t":
+                out += child.text or ""
+            elif tag == "br":
+                out += "\n"
+            elif tag == "hyperlink":
+                label = text_of(child)
+                title = ENUMS["title_of"].get(child.get(qn("anchor")))
+                out += "[%s](#%s)" % (label, title) if title and label.strip() else label
+            elif tag not in ("pPr", "rPr"):
+                out += text_of(child)
+        return out
+
     lines = []
     for p in tc.findall(qn("p")):
-        text = ""
-        for node in p.iter():
-            if node.tag == qn("t"):
-                text += node.text or ""
-            elif node.tag == qn("br"):
-                text += "\n"
-        lines += [" ".join(part.split()) for part in text.split("\n") if part.strip()]
+        lines += [" ".join(part.split()) for part in text_of(p).split("\n") if part.strip()]
     return lines
 
 
@@ -1008,11 +1141,45 @@ def put_lines(tc, lines):
     ObjectLinker.strip_ids(template)
     for p in tc.findall(qn("p")):
         tc.remove(p)
+    space = "{http://www.w3.org/XML/1998/namespace}space"
     for line in lines:
         p = copy.deepcopy(template)
-        t = p.find(qn("r")).find(qn("t"))
-        t.text = line
-        t.set("{http://www.w3.org/XML/1998/namespace}space", "preserve")
+        base = p.find(qn("r"))
+        p.remove(base)
+
+        def piece(text):
+            r = copy.deepcopy(base)
+            r.find(qn("t")).text = text
+            r.find(qn("t")).set(space, "preserve")
+            return r
+
+        at = 0
+        for m in ENUM_LINK_RE.finditer(line):
+            anchor = ENUMS["anchor_of"].get(m.group(2))
+            if anchor is None:
+                continue                      # unknown section: left as written
+            if m.start() > at:
+                p.append(piece(line[at:m.start()]))
+            link = etree.SubElement(p, qn("hyperlink"))
+            link.set(qn("anchor"), anchor)
+            link.set(qn("history"), "1")
+            run = piece(m.group(1))
+            rpr = run.find(qn("rPr"))
+            if rpr is None:
+                rpr = etree.Element(qn("rPr"))
+                run.insert(0, rpr)
+            style = etree.Element(qn("rStyle"))
+            style.set(qn("val"), "Hyperlink")
+            rpr.insert(0, style)
+            if rpr.find(qn("color")) is None:
+                color = etree.Element(qn("color"))
+                color.set(qn("val"), "000000")
+                fonts = rpr.find(qn("rFonts"))
+                (fonts if fonts is not None else style).addnext(color)
+            link.append(run)
+            at = m.end()
+        if at < len(line) or at == 0:
+            p.append(piece(line[at:]))
         tc.append(p)
     return True
 
@@ -1173,6 +1340,7 @@ def seed_descriptions(seed, contract):
     out = collections.OrderedDict()
     heading = {2: "", 3: "", 4: ""}
     current, key, seen = None, None, set()
+    index_enumerations(root.find(qn("body")))
     for el in root.find(qn("body")):
         tag = etree.QName(el).localname
         if tag == "p":
@@ -1207,23 +1375,153 @@ def seed_descriptions(seed, contract):
     return out
 
 
+def text_lines(value, where):
+    lines = [value] if isinstance(value, str) else value
+    if not isinstance(lines, list) or not all(isinstance(x, str) and x.strip() for x in lines):
+        raise ValueError("descriptions: %s must be text or a list of lines" % where)
+    return [" ".join(x.split()) for x in lines]
+
+
 def load_descriptions(path):
-    """Read the description file; a value is one line or a list of lines."""
+    """Read the description file: (section wording, object wording)."""
     with open(path, encoding="utf-8") as f:
         data = yaml.safe_load(f) or {}
-    out = {}
-    for category, sections in (data.get("sections") or {}).items():
-        for title, tables in (sections or {}).items():
+    sections = {}
+    for category, titles in (data.get("sections") or {}).items():
+        for title, tables in (titles or {}).items():
             for kind, fields in (tables or {}).items():
                 if kind not in TABLE_KINDS.values():
                     raise ValueError("descriptions: unknown table %r in %r" % (kind, title))
                 for name, text in (fields or {}).items():
-                    lines = [text] if isinstance(text, str) else text
-                    if not isinstance(lines, list) or not all(isinstance(x, str) and x.strip() for x in lines):
-                        raise ValueError("descriptions: %s / %s / %s must be text or a list of lines"
-                                         % (title, kind, name))
-                    out.setdefault((category, title), {}).setdefault(kind, {})[name] = [
-                        " ".join(x.split()) for x in lines]
+                    sections.setdefault((category, title), {}).setdefault(kind, {})[name] = text_lines(
+                        text, "%s / %s / %s" % (title, kind, name))
+    objects = {}
+    for schema, fields in (data.get("objects") or {}).items():
+        for name, text in (fields or {}).items():
+            objects.setdefault(schema, {})[name] = text_lines(text, "object %s / %s" % (schema, name))
+    return sections, objects
+
+
+def load_naming(path):
+    """Read the object naming file: {schema: {title, chapter}}."""
+    with open(path, encoding="utf-8") as f:
+        data = yaml.safe_load(f) or {}
+    out = {}
+    for schema, entry in (data.get("objects") or {}).items():
+        entry = entry or {}
+        title = str(entry.get("title") or "").strip()
+        chapter = str(entry.get("chapter") or ObjectLinker.DEFAULT).strip().upper()
+        if not title:
+            raise ValueError("objects: %s needs a title" % schema)
+        if chapter not in ObjectLinker.CHAPTERS:
+            raise ValueError("objects: %s has unknown chapter %r" % (schema, entry.get("chapter")))
+        out[schema] = {"title": title, "chapter": chapter}
+    return out
+
+
+def seed_objects(seed, contract):
+    """Map a document's object sections to the spec's schemas.
+
+    A Type cell links to an object section; the same field in the spec points
+    at a schema. Following those pairs from every section that pairs with a
+    spec record, and then through the object tables themselves, gives
+    {schema: {title, chapter, wording}}: the section's heading and chapter,
+    and its descriptions where they differ from the spec's. An object section
+    no such field reaches has no schema and is not returned.
+    """
+    objects = contract.get("objects") or {}
+    pairs, _, _ = pair(contract["endpoints"], extract(seed))
+    by_section = {(d["category"], d["parent"], d["name"]): o for o, d in pairs if o["name"] == d["name"]}
+    with zipfile.ZipFile(seed) as z:
+        root = etree.fromstring(z.read("word/document.xml"), etree.XMLParser(huge_tree=True))
+    els = list(root.find(qn("body")))
+    index_enumerations(root.find(qn("body")))
+
+    target, table_of, order = {}, {}, []     # anchor -> section; section -> its table
+    chapter, pending = None, []
+    for i, el in enumerate(els):
+        tag = etree.QName(el).localname
+        if tag == "bookmarkStart":
+            pending.append(el.get(qn("name")))
+            continue
+        if tag == "p":
+            st = style_of(el)
+            if st == "Heading1":
+                chapter = para_text(el).strip().upper()
+            elif st == "Heading2" and chapter in ObjectLinker.CHAPTERS:
+                key = (chapter, para_text(el).strip())
+                order.append(key)
+                for name in pending + [b.get(qn("name")) for b in el.iter(qn("bookmarkStart"))]:
+                    target[name] = key
+                if i + 1 < len(els) and els[i + 1].tag == qn("tbl"):
+                    table_of.setdefault(key, els[i + 1])
+        if tag != "bookmarkEnd":
+            pending = []
+
+    votes = collections.defaultdict(collections.Counter)
+
+    def scan(tbl, fields):
+        spec_fields = {f["name"]: f for f in fields}
+        for tr in tbl.findall(qn("tr"))[2:]:
+            cells = tr.findall(qn("tc"))
+            if len(cells) != 5:
+                continue
+            f = spec_fields.get(cell_text(cells[1]))
+            link = cells[2].find(".//" + qn("hyperlink"))
+            if f is None or link is None or not f.get("ref"):
+                continue
+            key = target.get(link.get(qn("anchor")))
+            if key is not None:
+                votes[key][f["ref"]] += 1
+
+    heading = {2: "", 3: "", 4: ""}
+    current, seen = None, set()
+    for el in els:
+        tag = etree.QName(el).localname
+        if tag == "p":
+            m = re.match(r"Heading(\d)$", style_of(el))
+            if m and int(m.group(1)) in (2, 3, 4):
+                lv = int(m.group(1))
+                heading[lv] = para_text(el).strip()
+                for k in range(lv + 1, 5):
+                    heading[k] = ""
+                current = by_section.get((heading[2], heading[3] if lv == 4 else "", heading[lv])) \
+                    if lv in (3, 4) else None
+                seen = set()
+        elif tag == "tbl" and current is not None:
+            kind = table_kind(el)
+            if kind and kind not in seen:
+                seen.add(kind)
+                scan(el, current[kind])
+    done = set()
+    while True:
+        todo = [k for k in votes if k not in done and k in table_of]
+        if not todo:
+            break
+        for key in todo:
+            done.add(key)
+            schema = votes[key].most_common(1)[0][0]
+            if schema in objects:
+                scan(table_of[key], objects[schema]["fields"])
+
+    out = collections.OrderedDict()
+    for key in order:                 # document order; the first section wins a schema
+        if key not in votes:
+            continue
+        schema = votes[key].most_common(1)[0][0]
+        if schema in out or schema not in objects:
+            continue
+        wording = collections.OrderedDict()
+        spec_fields = {f["name"]: f for f in objects[schema]["fields"]}
+        for tr in (table_of[key].findall(qn("tr"))[2:] if key in table_of else []):
+            cells = tr.findall(qn("tc"))
+            if len(cells) != 5 or cell_text(cells[1]) not in spec_fields:
+                continue
+            lines = cell_lines(cells[4])
+            spec_text = " ".join(spec_fields[cell_text(cells[1])]["description"].replace("`", "").split())
+            if lines and lines != [spec_text]:
+                wording[cell_text(cells[1])] = lines
+        out[schema] = {"title": key[1], "chapter": key[0], "wording": wording}
     return out
 
 
@@ -1237,7 +1535,7 @@ def request_field_update(settings_xml):
     return etree.tostring(root, xml_declaration=True, encoding="UTF-8", standalone=True)
 
 
-def render(seed, contract_path, out, meta=None, descriptions=None):
+def render(seed, contract_path, out, meta=None, descriptions=None, naming=None):
     with open(contract_path, encoding="utf-8") as f:
         contract = json.load(f)
     spec = contract["endpoints"]
@@ -1257,22 +1555,24 @@ def render(seed, contract_path, out, meta=None, descriptions=None):
     with zipfile.ZipFile(seed) as z:
         root = etree.fromstring(z.read("word/document.xml"), etree.XMLParser(huge_tree=True))
     body = root.find(qn("body"))
+    index_enumerations(body)
     fallback = fallback_rows(body)
-    linker = ObjectLinker(root, body, contract.get("objects") or {})
 
     stats = collections.Counter({k: 0 for k in ("sections paired", "sections rendered", "tables rebuilt", "rows kept",
                             "rows added", "rows removed", "types rewritten", "descriptions kept from seed",
                             "tables using a shared template row", "tables skipped (no template row)")})
     stats["sections paired"] = len(pairs)
+    section_wording, object_wording = descriptions if descriptions is not None else (None, None)
+    linker = ObjectLinker(root, body, contract.get("objects") or {}, stats, naming, object_wording)
     heading = {2: "", 3: "", 4: ""}
     current, seen = None, set()
     lv_of = [3]
 
     def wording_for(heading, lv, kind):
-        if descriptions is None:
+        if section_wording is None:
             return None
         title = section_title(heading[3] if lv == 4 else "", heading[lv])
-        return descriptions.get((heading[2], title), {}).get(kind, {})
+        return section_wording.get((heading[2], title), {}).get(kind, {})
 
     for el in body:
         tag = etree.QName(el).localname
@@ -1316,8 +1616,10 @@ def render(seed, contract_path, out, meta=None, descriptions=None):
                     stats["tables rebuilt"] += 1
 
     add_new_sections(body, spec, by_section, fallback, stats, IdAllocator(root), linker, find_donors(body),
-                     descriptions)
+                     section_wording)
     linker.flush(stats, fallback)
+    drop_half_bookmarks(root, stats)
+    unlink_dangling(root, stats)
     stamp = apply_meta(body, meta, stats) if meta else None
 
     xml = etree.tostring(root, xml_declaration=True, encoding="UTF-8", standalone=True)
@@ -1343,6 +1645,8 @@ def main():
     parser.add_argument("--meta", help="doc-meta.yaml: cover, introduction, abbreviations, connection, history")
     parser.add_argument("--descriptions",
                         help="description file: document wording that overrides the spec's, per section and field")
+    parser.add_argument("--objects",
+                        help="object naming file: document title and chapter of a schema's object section")
     parser.add_argument("--allow-stale-history", action="store_true",
                         help="render although the API changed since the last history entry")
     args = parser.parse_args()
@@ -1373,7 +1677,13 @@ def main():
             descriptions = load_descriptions(args.descriptions)
         except (ValueError, yaml.YAMLError) as exc:
             sys.exit("invalid description file: %s" % exc)
-    stats = render(args.seed, args.contract, args.out, meta, descriptions)
+    naming = None
+    if args.objects:
+        try:
+            naming = load_naming(args.objects)
+        except (ValueError, yaml.YAMLError) as exc:
+            sys.exit("invalid object naming file: %s" % exc)
+    stats = render(args.seed, args.contract, args.out, meta, descriptions, naming)
     for k, v in stats.items():
         print("%-34s: %d" % (k, v))
     print("wrote %s" % args.out)
