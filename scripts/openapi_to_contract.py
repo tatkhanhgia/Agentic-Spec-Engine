@@ -281,6 +281,7 @@ def convert(data):
                 "needs_review": op.get("x-needs-review") or [],
                 "status": op.get("x-doc-status", ""),
                 "media_types": list((body.get("content") or {}).keys()),
+                "response_media_types": list((resp.get("content") or {}).keys()),
             }
             endpoints.extend(expand_sections(spec, base, op.get("x-doc-sections")))
     # Object definitions for the RELATIVE OBJECT chapter: every component

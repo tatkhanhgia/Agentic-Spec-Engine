@@ -51,11 +51,27 @@ Khi mở file trong Word, chọn **Yes** ở hộp thoại hỏi cập nhật fi
 Bảng của section mới lấy độ rộng cột theo lưới của bảng, nên không chép lại lỗi độ rộng mà một số bảng V3
 đang có (mục H).
 
+## Bổ sung 2026-11-12: section mới đủ khung lỗi và đủ bảng
+
+- **Khung sample lỗi:** 80 section mới (mọi API nhận access token) có thêm khung lỗi dùng chung của V3
+  (`Http Code: 400`, token không thuộc hệ thống), là khung mà 502/532 section V3 đang dùng. API không cần token
+  (webhook, đăng ký) không có khung này.
+- **Bảng thiếu:** khi section mẫu không có một loại bảng, renderer lấy bảng loại đó từ seed và đặt đúng thứ tự
+  (Header Request, Path, Request, Header Response, Response). 12 bảng được thêm, không còn section mới nào
+  thiếu bảng.
+- **Dòng `Content-type` của Sample Response** trong section mới theo đúng media type của spec
+  (`application/octet-stream`, `application/pdf`...); response không có body thì bỏ dòng này.
+- **Tên mục object:** giữ tên schema. Chương RELATIVE OBJECT của V3 cũng đặt tên kiểu này
+  (`NextSigner`, `SignatureFieldAttribute`, `UserOfEnterprise`). Muốn tên khác thì đặt `x-doc-type` trên schema.
+
 ## Còn lại
 
 - **13 route chỉ có trong spec**: các route trùng tên đã gộp vào một section, đường dẫn của chúng được ghi trong
   mô tả của section đó.
-- **12 bảng thiếu trong section mới**: section mẫu không có bảng loại đó, chủ yếu là bảng Header Response cho
-  `x-total-records`. Muốn có thì cần một section mẫu chứa bảng ấy.
+- **301 thuộc tính response chưa xác định bắt buộc hay không** (65 schema): giá trị lấy từ cột DB hoặc dịch vụ
+  ngoài, repo không có schema DB nên không chứng minh được cột có NULL hay không. Spec để tuỳ chọn (O), là
+  lựa chọn an toàn. Cần quyền đọc schema DB để chốt.
+- **Chưa mở bằng Microsoft Word thật**: mới kiểm tra qua PDF của LibreOffice.
+- **Trang bìa / History / Version**: owner tạm hoãn.
 - **Nội dung V3 khác code**: field V3 ghi M nhưng code không bắt buộc, field đã đổi tên.
   Renderer theo code; báo cáo chi tiết từng endpoint ở `reports/openapi_vs_v3_20261110.md`.
