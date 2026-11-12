@@ -1,0 +1,126 @@
+# Document name and chapter of object sections, per component schema.
+# Generated once by scripts/extract_doc_descriptions.py from the approved
+# document; edited by hand afterwards.
+#
+# The renderer (scripts/render_from_openapi.py --objects) builds one object
+# section for every schema a documented field points at. A schema listed here
+# takes this title and chapter (REQUEST/RESPONSE OBJECT or RELATIVE OBJECT);
+# any other schema keeps its own name and goes to RELATIVE OBJECT.
+objects:
+  AddUserToWorkflowRequestData:
+    title: AddUserToWorkflowRequest
+    chapter: REQUEST/RESPONSE OBJECT
+  AssignDocumentFieldRequestAssignElement:
+    title: AssignDocumentRequest
+    chapter: REQUEST/RESPONSE OBJECT
+  WorkflowListItem:
+    title: GetListWorkflowResponse
+    chapter: REQUEST/RESPONSE OBJECT
+  AddPlaceholderRequestPlaceholder:
+    title: AddPlaceholderToWorkflowRequest
+    chapter: REQUEST/RESPONSE OBJECT
+  AttachmentListItem:
+    title: GetAttachmentsResponse
+    chapter: REQUEST/RESPONSE OBJECT
+  TemplateDocumentSummary:
+    title: TemplateDocumentResponse
+    chapter: REQUEST/RESPONSE OBJECT
+  PackageListItem:
+    title: Package
+    chapter: RELATIVE OBJECT
+  PackageAccessDuration:
+    title: Access_duration_1 (Get Packages request)
+    chapter: RELATIVE OBJECT
+  PackageDecline:
+    title: Decline
+    chapter: RELATIVE OBJECT
+  WorkflowParticipantItem:
+    title: User
+    chapter: RELATIVE OBJECT
+  WorkflowHistoryAction:
+    title: Action
+    chapter: RELATIVE OBJECT
+  WorkflowCommentItem:
+    title: Comment/Message
+    chapter: RELATIVE OBJECT
+  FieldDimension:
+    title: Dimension
+    chapter: RELATIVE OBJECT
+  FieldFont:
+    title: Font
+    chapter: RELATIVE OBJECT
+  FieldAlignment:
+    title: AlignmentOption
+    chapter: RELATIVE OBJECT
+  PackageDetailsOwner:
+    title: Owner(Package Details)
+    chapter: RELATIVE OBJECT
+  PackageDetailsDocument:
+    title: Document(Package Details)
+    chapter: RELATIVE OBJECT
+  ProfileEnterprise:
+    title: Enterprise
+    chapter: RELATIVE OBJECT
+  UsageMetric:
+    title: Consumer
+    chapter: RELATIVE OBJECT
+  ProfileGeneral:
+    title: General
+    chapter: RELATIVE OBJECT
+  AddContactRequest:
+    title: Contact
+    chapter: RELATIVE OBJECT
+  GetListCategoriesResponse:
+    title: Category
+    chapter: RELATIVE OBJECT
+  SignatureAppearanceItem:
+    title: SignatureAppearance
+    chapter: RELATIVE OBJECT
+  SignatureAppearanceMetadata:
+    title: MetadataSignature
+    chapter: RELATIVE OBJECT
+  SignatureCredentialConfiguration:
+    title: CredentialConfiguration
+    chapter: RELATIVE OBJECT
+  FieldComboItems:
+    title: ChooseItems
+    chapter: RELATIVE OBJECT
+  FieldComboItem:
+    title: ChooseItem
+    chapter: RELATIVE OBJECT
+  FieldDateOptions:
+    title: Date
+    chapter: RELATIVE OBJECT
+  FieldAttachmentFile:
+    title: File
+    chapter: RELATIVE OBJECT
+  FieldCheckboxFrame:
+    title: Frame
+    chapter: RELATIVE OBJECT
+  FieldCameraImage:
+    title: Image
+    chapter: RELATIVE OBJECT
+  FieldRedactPolicy:
+    title: RedactPolicy
+    chapter: RELATIVE OBJECT
+  FieldRedactPolicyRule:
+    title: RedactionRule
+    chapter: RELATIVE OBJECT
+  FieldTypeGroup:
+    title: FieldTypeGroup
+    chapter: RELATIVE OBJECT
+  ValidationListItem:
+    title: Validation
+    chapter: RELATIVE OBJECT
+  ValidationOverview:
+    title: Overview(Validation)
+    chapter: RELATIVE OBJECT
+  ValidationSignature:
+    title: Signature(Validation)
+    chapter: RELATIVE OBJECT
+  ValidationDetails:
+    title: Details(Validation)
+    chapter: RELATIVE OBJECT
+  ValidationFile:
+    title: File(Validation)
+    chapter: RELATIVE OBJECT
