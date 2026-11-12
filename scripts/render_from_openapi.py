@@ -179,7 +179,11 @@ def rebuild_table(tbl, kind, fields, stats, fallback, fresh=False, linker=None, 
                   else "descriptions from the spec"] += 1
         elif old is None:
             # The spec writes Markdown; the document shows plain text.
-            set_cell_text(cells[4], spec_text)
+            lines = with_enum_link([spec_text] if spec_text else [], f)
+            if lines:
+                put_lines(cells[4], lines)
+            else:
+                set_cell_text(cells[4], "")
         else:
             # No description file: a field the seed documents keeps its wording.
             stats["descriptions kept from seed"] += 1
@@ -1191,7 +1195,10 @@ def plain_rows(tbl):
 def with_enum_link(lines, field):
     """Point a description at its enumeration when it does not link to one yet."""
     title = ENUM_TITLES.get(field.get("enum") or "")
-    if not title or title not in ENUMS["anchor_of"] or any(ENUM_LINK_RE.search(x) for x in lines):
+    if not title or title not in ENUMS["anchor_of"]:
+        return lines
+    # A link to another enumeration does not stand in for this field's own.
+    if any(m.group(2) == title for x in lines for m in ENUM_LINK_RE.finditer(x)):
         return lines
     tail = "Possible values are [here](#%s)" % title
     if not lines:
