@@ -75,17 +75,34 @@ class Spec:
             if self.is_enum(target):
                 # A named enumeration is a primitive to the reader; the field's
                 # `enum` entry carries the name.
-                return PRIMITIVE_NAMES.get(target.get("type"), "String")
+                return PRIMITIVE_NAMES.get(self.plain_type(target.get("type")), "String")
             return target.get("x-doc-type") or schema["$ref"].rsplit("/", 1)[-1]
-        t = schema.get("type")
-        if isinstance(t, list):
-            non_null = [x for x in t if x != "null"]
-            t = non_null[0] if len(non_null) == 1 else (non_null[0] if non_null else "null")
+        t = self.plain_type(schema.get("type"))
         if t == "array":
             return "List<%s>" % (self.type_name(schema.get("items") or {}) or "Object")
         # The document writes every integer width as "Integer", so int64 is not
         # rendered as "Long" here.
         return PRIMITIVE_NAMES.get(t, t or "Object")
+
+    @staticmethod
+    def plain_type(t):
+        """A schema `type` as one name: a nullable list gives its non-null type."""
+        if isinstance(t, list):
+            non_null = [x for x in t if x != "null"]
+            return non_null[0] if non_null else "null"
+        return t
+
+    def final_ref(self, node):
+        """Name of the component schema a `$ref` chain ends at, or None."""
+        name, seen = None, set()
+        while isinstance(node, dict) and "$ref" in node:
+            ref = node["$ref"]
+            if ref in seen or not ref.startswith("#/components/schemas/"):
+                break
+            seen.add(ref)
+            name = ref.rsplit("/", 1)[-1]
+            node = self.data["components"]["schemas"].get(name)
+        return name
 
     @staticmethod
     def is_enum(schema):
@@ -112,9 +129,9 @@ class Spec:
             return None
         target = schema.get("items") if "items" in schema else schema
         for node in [target] + list((target or {}).get("allOf") or []):
-            ref = (node or {}).get("$ref", "") if isinstance(node, dict) else ""
-            if ref.startswith("#/components/schemas/") and self.is_enum(self.resolve(node)):
-                return ref.rsplit("/", 1)[-1]
+            if isinstance(node, dict) and "$ref" in node and self.is_enum(self.resolve(node)):
+                # The name the enumeration is exported under, past any alias.
+                return self.final_ref(node)
         return None
 
     def collect(self, schema, props, required, conditional, seen=None):
