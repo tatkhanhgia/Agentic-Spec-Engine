@@ -32,7 +32,7 @@ import sys
 
 import yaml
 
-from doc_meta import load as load_meta, validate_entry, version_key
+from doc_meta import UniqueKeyLoader, load as load_meta, validate, validate_entry, version_key
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SNAPSHOT_DIR = os.path.join(ROOT, "contract", "openapi_history")
@@ -135,21 +135,26 @@ def entry_text(entry):
 
 
 def append_entry(meta_path, entry):
-    """Append to the file's text and prove the result still loads; else restore."""
+    """Append the entry to the file's text.
+
+    The new text is validated in memory first and then replaces the file in
+    one step, so the file is either the old one or a valid new one.
+    """
     with open(meta_path, encoding="utf-8") as f:
         original = f.read()
-    text = original if original.endswith("\n") else original + "\n"
-    with open(meta_path, "w", encoding="utf-8") as f:
-        f.write(text + entry_text(entry))
+    text = (original if original.endswith("\n") else original + "\n") + entry_text(entry)
+    after = validate(yaml.load(text, Loader=UniqueKeyLoader))
+    if after["history"]["entries"][-1] != entry:
+        raise ValueError("the appended entry would not be the last history entry; "
+                         "keep history.entries the last key of the file")
+    staged = meta_path + ".tmp"
     try:
-        after = load_meta(meta_path)
-        if after["history"]["entries"][-1] != entry:
-            raise ValueError("the appended entry did not become the last history entry; "
-                             "keep history.entries the last key of the file")
-    except (ValueError, yaml.YAMLError):
-        with open(meta_path, "w", encoding="utf-8") as f:
-            f.write(original)
-        raise
+        with open(staged, "w", encoding="utf-8") as f:
+            f.write(text)
+        os.replace(staged, meta_path)
+    finally:
+        if os.path.exists(staged):
+            os.remove(staged)
 
 
 def main():
