@@ -178,7 +178,7 @@ sections:
     presence: O
     description: True, if the reminder settings are to be applied to all the recipients in the workflow.
   - name: enabled
-    type: Integer
+    type: Boolean
     presence: M
     description: True, if reminder settings are to be enabled.
   - name: frequency
@@ -1181,7 +1181,7 @@ sections:
     presence: M
     description: Security question used to reset password if user forgets his password.
   - name: security_answer
-    type: Boolean
+    type: String
     presence: O
     description: Security answer used to reset the password if user forgets his password.
   - name: enterprise_role
@@ -1189,7 +1189,7 @@ sections:
     presence: M
     description: The enterprise role to be assigned to this user
   - name: email_notification
-    type: String
+    type: Boolean
     presence: M
     description: This defines whether enterprise user would get an email notification about the account creation. Default value is 'false'.
   - name: certificate_id
@@ -1248,7 +1248,7 @@ sections:
     security_answer: String
     enterprise_role: String
     email_notification: true
-    certificate_id: 1
+    certificate_id: '1'
     job_title: String
     company_name: String
     mobile_number: String
@@ -1279,15 +1279,15 @@ sections:
     description: 'The authentication token (accessToken) required to access the API. Must be provided in the format: Bearer {accessToken}'
   response_fields:
   - name: user_email
-    type: Boolean
+    type: String
     presence: M
     description: Email address of the user.
   - name: user_name
-    type: Object
+    type: String
     presence: O
     description: Name of user for which the authentication token is provided.
   - name: created_on
-    type: Boolean
+    type: String
     presence: M
     description: Account created on.
   - name: enabled

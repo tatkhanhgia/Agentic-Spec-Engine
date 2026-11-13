@@ -101,3 +101,17 @@ valid JSON (`},{{}`); it is stored as `{"users": [{...}, {}]}`.
 Checks after the change: 348 sections, 315 spec sections paired (313 with no
 difference), `check_frame_format.py` 4 problems (unchanged), section order
 unchanged.
+
+## Update: three type corrections in the planned sections
+
+V3 declared types that contradict its own samples. The owner asked to follow
+the code. The APIs themselves have no code, so the type is the one the code
+gives the same field in the APIs that exist:
+
+| Section | Field | V3 | Now | Basis |
+|---|---|---|---|---|
+| Register Enterprise User (Free Trial) | `security_answer` | Boolean | String | `RegisterEnterpriseUserRequest.securityAnswer` is `String` |
+| Register Enterprise User (Free Trial) | `email_notification` | String | Boolean | `RegisterEnterpriseUserRequest.emailNotification` is `Boolean` |
+| Register Enterprise User (Free Trial) | `certificate_id` (sample) | `1` | `"1"` | type stays String, as `certificate_id` is in `GetEnterpriseEsealSettingResponse`; the sample now agrees |
+| Get Account | `user_email`, `user_name`, `created_on` | Boolean, Object, Boolean | String | String in every spec operation that has them |
+| Update Workflow Reminders | `enabled` | Integer | Boolean | no reminder-settings code exists; from its description ("True, if ...") and sample (`true`) |
