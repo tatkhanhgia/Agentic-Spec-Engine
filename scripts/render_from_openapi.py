@@ -253,8 +253,12 @@ def merged_body(seed_body, fields):
     return out
 
 
-def rewrite_frame(txbx, fields, stats, fresh=False):
-    """Rewrite a frame's JSON body. `fresh` ignores the seed's values (cloned section)."""
+def rewrite_frame(txbx, fields, stats, fresh=False, example=None):
+    """Rewrite a frame's JSON body. `fresh` ignores the seed's values (cloned section).
+
+    `example` is the operation's own sample body; a fresh frame shows it
+    as written, and falls back to the fields' examples without one.
+    """
     found = frame_body(txbx)
     if found is None:
         return
@@ -268,15 +272,16 @@ def rewrite_frame(txbx, fields, stats, fresh=False):
             stats["frames skipped (seed body not JSON)"] += 1
             return
         seed_body = {}
+    use_example = fresh and isinstance(example, (dict, list)) and bool(example)
     if fresh:
-        if not fields:
+        if not fields and not use_example:
             # The new endpoint has no JSON body: drop the template's.
             for p in body_paras:
                 txbx.remove(p)
             stats["frame bodies removed (no body in spec)"] += 1
             return
         seed_body = {} if isinstance(seed_body, dict) else seed_body
-    new_body = merged_body(seed_body if not fresh else {}, fields)
+    new_body = example if use_example else merged_body(seed_body if not fresh else {}, fields)
     if new_body is None:
         stats["frames left as is (no object body or no fields)"] += 1
         return
@@ -602,8 +607,10 @@ def build_section(template_els, record, ids, fallback, stats, linker=None, donor
     if record.get("status") == "not-implemented":
         mark_not_implemented(heading, stats)
 
-    # Description: the text between the heading and "Sample Request".
+    # Description: the text between the heading and "Sample Request". The
+    # description file may word it, one paragraph per line.
     described, drop = False, []
+    more_prose, prose_anchor = [], None
     for e in els[1:]:
         if etree.QName(e).localname != "p":
             continue
@@ -613,7 +620,14 @@ def build_section(template_els, record, ids, fallback, stats, linker=None, donor
         if not text:
             continue
         if not described:
-            set_par_text(e, record["description"].replace("`", "") or record["name"])
+            prose = (wording or {}).get("description") or [record["description"].replace("`", "")
+                                                           or record["name"]]
+            set_par_text(e, prose[0])
+            for line in prose[1:]:
+                extra = copy.deepcopy(e)
+                set_par_text(extra, line)
+                more_prose.append(extra)
+            prose_anchor = e
             described = True
         else:
             drop.append(e)
@@ -654,14 +668,16 @@ def build_section(template_els, record, ids, fallback, stats, linker=None, donor
                         if head and head not in names:
                             txbx.remove(p)
                             stats["template header lines removed"] += 1
-                    rewrite_frame(txbx, record["request_fields"], stats, fresh=True)
+                    rewrite_frame(txbx, record["request_fields"], stats, fresh=True,
+                                  example=record.get("request_example"))
                 elif k == "response":
                     code = record.get("success_status") or "200"
                     lines = txbx.findall(qn("p"))
                     if lines:
                         set_par_text(lines[0], "Http Code: %s" % code)
                     fix_response_media(txbx, record, stats)
-                    rewrite_frame(txbx, record["response_fields"], stats, fresh=True)
+                    rewrite_frame(txbx, record["response_fields"], stats, fresh=True,
+                                  example=record.get("response_example"))
         elif tag == "tbl":
             kind = table_kind(e)
             if not kind or kind in seen:
@@ -675,6 +691,9 @@ def build_section(template_els, record, ids, fallback, stats, linker=None, donor
             snap_to_grid(e)
             tables[kind] = e
     out = [e for e in els if not any(e is d for d in drop)]
+    if more_prose:
+        at = next(i for i, e in enumerate(out) if e is prose_anchor) + 1
+        out[at:at] = more_prose
     donors = donors or {"error": None, "tables": {}}
 
     # The seed ends almost every Sample Response with one shared error sample
@@ -1047,6 +1066,116 @@ def add_new_sections(body, spec, by_section, fallback, stats, ids, linker=None, 
                 None if descriptions is None else descriptions.get((category, name), {}))):
             body.insert(at + offset, el)
         stats["sections added"] += 1
+
+
+def section_shape(els):
+    """What an endpoint section can lend as a template.
+
+    {method, body, kinds, error}: the method of its request sample, whether it
+    shows a request body, the attribute tables it has, and whether it carries
+    an error sample.
+    """
+    method, content_type, kinds, error = None, False, set(), False
+    for e in els:
+        if e.tag == qn("p"):
+            for txbx in e.iter(qn("txbxContent")):
+                if frame_kind(txbx) == "request":
+                    lines = [para_text(p).strip() for p in txbx.findall(qn("p"))]
+                    method = method or METHOD_LINE_RE.match(lines[0]).group(1)
+                    content_type = content_type or any(x.lower().startswith("content-type") for x in lines[1:])
+                elif is_error_frame(txbx):
+                    error = True
+        elif e.tag == qn("tbl"):
+            kind = table_kind(e)
+            if kind:
+                kinds.add(kind)
+    return {"method": method, "body": "request_fields" in kinds or content_type, "kinds": kinds, "error": error}
+
+
+def build_api_chapter(body, spec, fallback, stats, ids, linker=None, section_wording=None):
+    """Build the whole `API Specification` chapter from the spec (skeleton render).
+
+    The chapter of a skeleton holds one category heading and a few endpoint
+    sections; they are the templates and are removed. Every tag of the spec
+    becomes a Heading 2 in tag order, and every record a section under it, in
+    spec order. Records sharing a title in a category (one operation served
+    on several paths) become one section that lists the other paths.
+    """
+    els = list(body)
+    start = next((i for i, e in enumerate(els) if e.tag == qn("p") and style_of(e) == "Heading1"
+                  and para_text(e).strip().upper() == "API SPECIFICATION"), None)
+    if start is None:
+        stats["API chapter skipped (no API Specification heading)"] += 1
+        return
+    end = next((i for i in range(start + 1, len(els)) if els[i].tag == qn("p")
+                and style_of(els[i]) == "Heading1"), None)
+    if end is None:
+        end = len(els) - 1 if els and etree.QName(els[-1]).localname == "sectPr" else len(els)
+    chapter = els[start + 1:end]
+
+    category_heading, pool, current = None, [], None
+    first_heading = None
+    for i, e in enumerate(chapter):
+        m = re.match(r"Heading(\d)$", style_of(e)) if e.tag == qn("p") else None
+        if m:
+            if first_heading is None:
+                first_heading = i
+            lv = int(m.group(1))
+            if lv == 2 and category_heading is None:
+                category_heading = e
+            current = [e] if lv == 3 else None
+            if current is not None:
+                pool.append(current)
+        elif current is not None:
+            current.append(e)
+    templates = []
+    for section in pool:
+        shape = section_shape(section)
+        if shape["method"]:
+            # The record a real endpoint of this shape would have, for pick_template.
+            record = {k: ([{"name": k}] if k in shape["kinds"] else []) for k in TABLE_ORDER}
+            record["method"] = shape["method"]
+            if shape["body"] and not record["request_fields"]:
+                record["headers"] = record["headers"] + [{"name": "Content-Type"}]
+            templates.append({"category": "", "record": record, "els": section})
+    if category_heading is None or not templates:
+        stats["API chapter skipped (no category heading or endpoint template)"] += 1
+        return
+    donors = find_donors(body)
+
+    groups = collections.OrderedDict()
+    for rec in sorted(spec, key=lambda r: r.get("category_order", 0)):
+        groups.setdefault(rec["category"], collections.OrderedDict()).setdefault(rec["name"], []).append(rec)
+
+    out = []
+    for category, names in groups.items():
+        heading = copy.deepcopy(category_heading)
+        ids.renumber(heading)
+        set_par_text(heading, category)
+        out.append(heading)
+        stats["categories built"] += 1
+        for name, recs in names.items():
+            record = dict(recs[0])
+            if len(recs) > 1:
+                others = ", ".join("%s %s" % (r["method"], re.sub(r"^\{baseURL\}", "", r["path"]))
+                                   for r in recs[1:])
+                record["description"] = "%s Also served at: %s." % (record["description"], others)
+            template = pick_template(templates, record)
+            if template is None:
+                stats["sections skipped (no template for the method)"] += 1
+                continue
+            out += build_section(template["els"], record, ids, fallback, stats, linker, donors,
+                                 None if section_wording is None else section_wording.get((category, name), {}))
+            stats["sections built"] += 1
+
+    for e in chapter[first_heading:]:
+        body.remove(e)
+    anchor = els[end] if end < len(els) else None
+    for e in out:
+        if anchor is not None:
+            anchor.addprevious(e)
+        else:
+            body.append(e)
 
 
 def history_table(body):
@@ -1503,7 +1632,8 @@ def seed_descriptions(seed, contract):
     """{category: {section: {table kind: {field: [lines]}}}} of a document's wording.
 
     Only wording that differs from the spec is returned: the description of a
-    field the document shares with the spec record its section pairs with.
+    field the document shares with the spec record its section pairs with,
+    and the section's own prose (key `description`, one line per paragraph).
     """
     spec = contract["endpoints"]
     pairs, _, _ = pair(spec, extract(seed))
@@ -1513,11 +1643,30 @@ def seed_descriptions(seed, contract):
     out = collections.OrderedDict()
     heading = {2: "", 3: "", 4: ""}
     current, key, seen = None, None, set()
+    prose, collecting = [], False
+
+    def close_prose():
+        """Keep the section's own prose when it is not the spec's description."""
+        if current is not None and prose:
+            spec_text = " ".join(current["description"].replace("`", "").split())
+            if prose != [spec_text]:
+                (out.setdefault(key[0], collections.OrderedDict())
+                    .setdefault(section_title(key[1], key[2]), collections.OrderedDict()))["description"] = list(prose)
+
     index_enumerations(root.find(qn("body")))
     for el in root.find(qn("body")):
         tag = etree.QName(el).localname
         if tag == "p":
             m = re.match(r"Heading(\d)$", style_of(el))
+            if m:
+                close_prose()
+                prose, collecting = [], True
+            elif collecting and current is not None:
+                text = para_text(el).strip()
+                if text == "Sample Request" or list(el.iter(qn("txbxContent"))):
+                    collecting = False
+                else:
+                    prose += [" ".join(x.split()) for x in text.split("\n") if x.strip()]
             if m and int(m.group(1)) in (2, 3, 4):
                 lv = int(m.group(1))
                 heading[lv] = para_text(el).strip()
@@ -1527,6 +1676,7 @@ def seed_descriptions(seed, contract):
                 current = by_section.get(key) if lv in (3, 4) else None
                 seen = set()
         elif tag == "tbl" and current is not None:
+            collecting = False
             kind = table_kind(el)
             if not kind or kind in seen:
                 continue
@@ -1545,6 +1695,7 @@ def seed_descriptions(seed, contract):
                     (out.setdefault(key[0], collections.OrderedDict())
                         .setdefault(section_title(key[1], key[2]), collections.OrderedDict())
                         .setdefault(kind, collections.OrderedDict()))[name] = lines
+    close_prose()
     return out
 
 
@@ -1563,6 +1714,11 @@ def load_descriptions(path):
     for category, titles in (data.get("sections") or {}).items():
         for title, tables in (titles or {}).items():
             for kind, fields in (tables or {}).items():
+                if kind == "description":
+                    # The section's own prose, between its heading and the samples.
+                    sections.setdefault((category, title), {})[kind] = text_lines(
+                        fields, "%s / description" % title)
+                    continue
                 if kind not in TABLE_KINDS.values():
                     raise ValueError("descriptions: unknown table %r in %r" % (kind, title))
                 for name, text in (fields or {}).items():
@@ -1715,11 +1871,12 @@ def request_field_update(settings_xml):
     return etree.tostring(root, xml_declaration=True, encoding="UTF-8", standalone=True)
 
 
-def render(seed, contract_path, out, meta=None, descriptions=None, naming=None):
+def render(seed, contract_path, out, meta=None, descriptions=None, naming=None, skeleton=False):
     with open(contract_path, encoding="utf-8") as f:
         contract = json.load(f)
     spec = contract["endpoints"]
-    doc = extract(seed)
+    # A skeleton documents nothing: its sections are templates, never paired.
+    doc = [] if skeleton else extract(seed)
     pairs, _, _ = pair(spec, doc)
     # A pair whose titles differ came from the broad x-route fallback (e.g. a
     # documented route the backend does not have); rendering it would write
@@ -1797,8 +1954,11 @@ def render(seed, contract_path, out, meta=None, descriptions=None, naming=None):
                                  wording=wording_for(heading, lv_of[0], kind)):
                     stats["tables rebuilt"] += 1
 
-    add_new_sections(body, spec, by_section, fallback, stats, IdAllocator(root), linker, find_donors(body),
-                     section_wording)
+    if skeleton:
+        build_api_chapter(body, spec, fallback, stats, IdAllocator(root), linker, section_wording)
+    else:
+        add_new_sections(body, spec, by_section, fallback, stats, IdAllocator(root), linker, find_donors(body),
+                         section_wording)
     linker.flush(stats, fallback)
     drop_half_bookmarks(root, stats)
     unlink_dangling(root, stats)
@@ -1829,6 +1989,9 @@ def main():
                         help="description file: document wording that overrides the spec's, per section and field")
     parser.add_argument("--objects",
                         help="object naming file: document title and chapter of a schema's object section")
+    parser.add_argument("--skeleton", action="store_true",
+                        help="the first argument is a skeleton (build_skeleton.py): every section is "
+                             "built from the spec, nothing is kept from an earlier specification")
     parser.add_argument("--allow-stale-history", action="store_true",
                         help="render although the API changed since the last history entry")
     args = parser.parse_args()
@@ -1865,7 +2028,7 @@ def main():
             naming = load_naming(args.objects)
         except (ValueError, yaml.YAMLError) as exc:
             sys.exit("invalid object naming file: %s" % exc)
-    stats = render(args.seed, args.contract, args.out, meta, descriptions, naming)
+    stats = render(args.seed, args.contract, args.out, meta, descriptions, naming, args.skeleton)
     for k, v in stats.items():
         print("%-34s: %d" % (k, v))
     print("wrote %s" % args.out)

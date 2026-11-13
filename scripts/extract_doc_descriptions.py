@@ -11,6 +11,7 @@ the renderer needs no earlier DOCX to know it:
     sections:
       <Heading 2>:
         <Heading 3>  or  <Heading 3> > <Heading 4>:
+          description: the section's own prose, one line per paragraph
           headers | path_params | request_fields | response_fields | response_headers:
             <field>: one line, or a list of lines
     objects:
@@ -112,7 +113,9 @@ def main():
                                         for k, v in objects.items()}},
                            f, allow_unicode=True, sort_keys=False, width=10000)
     count = sum(len(fields) for tables in sections.values() for kinds in tables.values()
-                for fields in kinds.values())
+                for kind, fields in kinds.items() if kind != "description")
+    print("section descriptions  : %d" % sum(1 for tables in sections.values() for kinds in tables.values()
+                                              if "description" in kinds))
     print("sections with wording : %d" % sum(len(t) for t in sections.values()))
     print("descriptions          : %d" % count)
     print("objects named         : %d" % len(objects))

@@ -7538,7 +7538,16 @@
         }
       ],
       "request_type": "",
-      "request_example": null,
+      "request_example": {
+        "name": "Contract Reviewer",
+        "remark": "Reviews contracts before signing",
+        "permissions": [
+          {
+            "permission_id": 101,
+            "effect": "ALLOW"
+          }
+        ]
+      },
       "success_status": "201",
       "response_fields": [
         {
@@ -8382,7 +8391,20 @@
         }
       ],
       "request_type": "",
-      "request_example": null,
+      "request_example": {
+        "changes": [
+          {
+            "permission_id": 101,
+            "action": "DENY"
+          }
+        ],
+        "group_changes": [
+          {
+            "group_id": 4,
+            "action": "RESET"
+          }
+        ]
+      },
       "success_status": "200",
       "response_fields": [
         {
@@ -28943,17 +28965,7 @@
         }
       ],
       "request_type": "",
-      "request_example": {
-        "field_name": "Signature1",
-        "page": 1,
-        "dimension": {
-          "x": 100,
-          "y": 650,
-          "width": 180,
-          "height": 60
-        },
-        "visible_enabled": true
-      },
+      "request_example": null,
       "success_status": "200",
       "response_fields": [
         {
@@ -29335,17 +29347,7 @@
         }
       ],
       "request_type": "",
-      "request_example": {
-        "field_name": "Signature1",
-        "page": 1,
-        "dimension": {
-          "x": 100,
-          "y": 650,
-          "width": 180,
-          "height": 60
-        },
-        "visible_enabled": true
-      },
+      "request_example": null,
       "success_status": "200",
       "response_fields": [
         {
@@ -29677,17 +29679,7 @@
         }
       ],
       "request_type": "",
-      "request_example": {
-        "field_name": "Signature1",
-        "page": 1,
-        "dimension": {
-          "x": 100,
-          "y": 650,
-          "width": 180,
-          "height": 60
-        },
-        "visible_enabled": true
-      },
+      "request_example": null,
       "success_status": "200",
       "response_fields": [
         {
@@ -30042,17 +30034,7 @@
         }
       ],
       "request_type": "",
-      "request_example": {
-        "field_name": "Signature1",
-        "page": 1,
-        "dimension": {
-          "x": 100,
-          "y": 650,
-          "width": 180,
-          "height": 60
-        },
-        "visible_enabled": true
-      },
+      "request_example": null,
       "success_status": "200",
       "response_fields": [
         {
@@ -30441,17 +30423,7 @@
         }
       ],
       "request_type": "",
-      "request_example": {
-        "field_name": "Signature1",
-        "page": 1,
-        "dimension": {
-          "x": 100,
-          "y": 650,
-          "width": 180,
-          "height": 60
-        },
-        "visible_enabled": true
-      },
+      "request_example": null,
       "success_status": "200",
       "response_fields": [
         {
@@ -30819,17 +30791,7 @@
         }
       ],
       "request_type": "",
-      "request_example": {
-        "field_name": "Signature1",
-        "page": 1,
-        "dimension": {
-          "x": 100,
-          "y": 650,
-          "width": 180,
-          "height": 60
-        },
-        "visible_enabled": true
-      },
+      "request_example": null,
       "success_status": "200",
       "response_fields": [
         {
@@ -31204,17 +31166,7 @@
         }
       ],
       "request_type": "",
-      "request_example": {
-        "field_name": "Signature1",
-        "page": 1,
-        "dimension": {
-          "x": 100,
-          "y": 650,
-          "width": 180,
-          "height": 60
-        },
-        "visible_enabled": true
-      },
+      "request_example": null,
       "success_status": "200",
       "response_fields": [
         {
@@ -31554,17 +31506,7 @@
         }
       ],
       "request_type": "",
-      "request_example": {
-        "field_name": "Signature1",
-        "page": 1,
-        "dimension": {
-          "x": 100,
-          "y": 650,
-          "width": 180,
-          "height": 60
-        },
-        "visible_enabled": true
-      },
+      "request_example": null,
       "success_status": "200",
       "response_fields": [
         {
@@ -31953,17 +31895,7 @@
         }
       ],
       "request_type": "",
-      "request_example": {
-        "field_name": "Signature1",
-        "page": 1,
-        "dimension": {
-          "x": 100,
-          "y": 650,
-          "width": 180,
-          "height": 60
-        },
-        "visible_enabled": true
-      },
+      "request_example": null,
       "success_status": "200",
       "response_fields": [
         {
@@ -32352,17 +32284,7 @@
         }
       ],
       "request_type": "",
-      "request_example": {
-        "field_name": "Signature1",
-        "page": 1,
-        "dimension": {
-          "x": 100,
-          "y": 650,
-          "width": 180,
-          "height": 60
-        },
-        "visible_enabled": true
-      },
+      "request_example": null,
       "success_status": "200",
       "response_fields": [
         {
@@ -32765,17 +32687,7 @@
         }
       ],
       "request_type": "",
-      "request_example": {
-        "field_name": "Signature1",
-        "page": 1,
-        "dimension": {
-          "x": 100,
-          "y": 650,
-          "width": 180,
-          "height": 60
-        },
-        "visible_enabled": true
-      },
+      "request_example": null,
       "success_status": "200",
       "response_fields": [
         {
@@ -33164,17 +33076,7 @@
         }
       ],
       "request_type": "",
-      "request_example": {
-        "field_name": "Signature1",
-        "page": 1,
-        "dimension": {
-          "x": 100,
-          "y": 650,
-          "width": 180,
-          "height": 60
-        },
-        "visible_enabled": true
-      },
+      "request_example": null,
       "success_status": "200",
       "response_fields": [
         {
@@ -33506,17 +33408,7 @@
         }
       ],
       "request_type": "",
-      "request_example": {
-        "field_name": "Signature1",
-        "page": 1,
-        "dimension": {
-          "x": 100,
-          "y": 650,
-          "width": 180,
-          "height": 60
-        },
-        "visible_enabled": true
-      },
+      "request_example": null,
       "success_status": "200",
       "response_fields": [
         {
@@ -33876,17 +33768,7 @@
         }
       ],
       "request_type": "",
-      "request_example": {
-        "field_name": "Signature1",
-        "page": 1,
-        "dimension": {
-          "x": 100,
-          "y": 650,
-          "width": 180,
-          "height": 60
-        },
-        "visible_enabled": true
-      },
+      "request_example": null,
       "success_status": "200",
       "response_fields": [
         {
@@ -34246,17 +34128,7 @@
         }
       ],
       "request_type": "",
-      "request_example": {
-        "field_name": "Signature1",
-        "page": 1,
-        "dimension": {
-          "x": 100,
-          "y": 650,
-          "width": 180,
-          "height": 60
-        },
-        "visible_enabled": true
-      },
+      "request_example": null,
       "success_status": "200",
       "response_fields": [
         {
@@ -34624,17 +34496,7 @@
         }
       ],
       "request_type": "",
-      "request_example": {
-        "field_name": "Signature1",
-        "page": 1,
-        "dimension": {
-          "x": 100,
-          "y": 650,
-          "width": 180,
-          "height": 60
-        },
-        "visible_enabled": true
-      },
+      "request_example": null,
       "success_status": "200",
       "response_fields": [
         {
@@ -34995,17 +34857,7 @@
         }
       ],
       "request_type": "",
-      "request_example": {
-        "field_name": "Signature1",
-        "page": 1,
-        "dimension": {
-          "x": 100,
-          "y": 650,
-          "width": 180,
-          "height": 60
-        },
-        "visible_enabled": true
-      },
+      "request_example": null,
       "success_status": "200",
       "response_fields": [
         {
@@ -35394,17 +35246,7 @@
         }
       ],
       "request_type": "",
-      "request_example": {
-        "field_name": "Signature1",
-        "page": 1,
-        "dimension": {
-          "x": 100,
-          "y": 650,
-          "width": 180,
-          "height": 60
-        },
-        "visible_enabled": true
-      },
+      "request_example": null,
       "success_status": "200",
       "response_fields": [
         {
@@ -35716,17 +35558,7 @@
         }
       ],
       "request_type": "",
-      "request_example": {
-        "field_name": "Signature1",
-        "page": 1,
-        "dimension": {
-          "x": 100,
-          "y": 650,
-          "width": 180,
-          "height": 60
-        },
-        "visible_enabled": true
-      },
+      "request_example": null,
       "success_status": "200",
       "response_fields": [
         {
@@ -36073,17 +35905,7 @@
         }
       ],
       "request_type": "",
-      "request_example": {
-        "field_name": "Signature1",
-        "page": 1,
-        "dimension": {
-          "x": 100,
-          "y": 650,
-          "width": 180,
-          "height": 60
-        },
-        "visible_enabled": true
-      },
+      "request_example": null,
       "success_status": "200",
       "response_fields": [
         {
@@ -36431,17 +36253,7 @@
         }
       ],
       "request_type": "",
-      "request_example": {
-        "field_name": "FullName",
-        "renamed_as": "EmployeeName",
-        "page": 1,
-        "dimension": {
-          "x": 100,
-          "y": 500,
-          "width": 200,
-          "height": 24
-        }
-      },
+      "request_example": null,
       "success_status": "200",
       "response_fields": [],
       "response_type": "",
@@ -36811,17 +36623,7 @@
         }
       ],
       "request_type": "",
-      "request_example": {
-        "field_name": "FullName",
-        "renamed_as": "EmployeeName",
-        "page": 1,
-        "dimension": {
-          "x": 100,
-          "y": 500,
-          "width": 200,
-          "height": 24
-        }
-      },
+      "request_example": null,
       "success_status": "200",
       "response_fields": [],
       "response_type": "",
@@ -37141,17 +36943,7 @@
         }
       ],
       "request_type": "",
-      "request_example": {
-        "field_name": "FullName",
-        "renamed_as": "EmployeeName",
-        "page": 1,
-        "dimension": {
-          "x": 100,
-          "y": 500,
-          "width": 200,
-          "height": 24
-        }
-      },
+      "request_example": null,
       "success_status": "200",
       "response_fields": [],
       "response_type": "",
@@ -37494,17 +37286,7 @@
         }
       ],
       "request_type": "",
-      "request_example": {
-        "field_name": "FullName",
-        "renamed_as": "EmployeeName",
-        "page": 1,
-        "dimension": {
-          "x": 100,
-          "y": 500,
-          "width": 200,
-          "height": 24
-        }
-      },
+      "request_example": null,
       "success_status": "200",
       "response_fields": [],
       "response_type": "",
@@ -37881,17 +37663,7 @@
         }
       ],
       "request_type": "",
-      "request_example": {
-        "field_name": "FullName",
-        "renamed_as": "EmployeeName",
-        "page": 1,
-        "dimension": {
-          "x": 100,
-          "y": 500,
-          "width": 200,
-          "height": 24
-        }
-      },
+      "request_example": null,
       "success_status": "200",
       "response_fields": [],
       "response_type": "",
@@ -38247,17 +38019,7 @@
         }
       ],
       "request_type": "",
-      "request_example": {
-        "field_name": "FullName",
-        "renamed_as": "EmployeeName",
-        "page": 1,
-        "dimension": {
-          "x": 100,
-          "y": 500,
-          "width": 200,
-          "height": 24
-        }
-      },
+      "request_example": null,
       "success_status": "200",
       "response_fields": [],
       "response_type": "",
@@ -38620,17 +38382,7 @@
         }
       ],
       "request_type": "",
-      "request_example": {
-        "field_name": "FullName",
-        "renamed_as": "EmployeeName",
-        "page": 1,
-        "dimension": {
-          "x": 100,
-          "y": 500,
-          "width": 200,
-          "height": 24
-        }
-      },
+      "request_example": null,
       "success_status": "200",
       "response_fields": [],
       "response_type": "",
@@ -38958,17 +38710,7 @@
         }
       ],
       "request_type": "",
-      "request_example": {
-        "field_name": "FullName",
-        "renamed_as": "EmployeeName",
-        "page": 1,
-        "dimension": {
-          "x": 100,
-          "y": 500,
-          "width": 200,
-          "height": 24
-        }
-      },
+      "request_example": null,
       "success_status": "200",
       "response_fields": [],
       "response_type": "",
@@ -39345,17 +39087,7 @@
         }
       ],
       "request_type": "",
-      "request_example": {
-        "field_name": "FullName",
-        "renamed_as": "EmployeeName",
-        "page": 1,
-        "dimension": {
-          "x": 100,
-          "y": 500,
-          "width": 200,
-          "height": 24
-        }
-      },
+      "request_example": null,
       "success_status": "200",
       "response_fields": [],
       "response_type": "",
@@ -39732,17 +39464,7 @@
         }
       ],
       "request_type": "",
-      "request_example": {
-        "field_name": "FullName",
-        "renamed_as": "EmployeeName",
-        "page": 1,
-        "dimension": {
-          "x": 100,
-          "y": 500,
-          "width": 200,
-          "height": 24
-        }
-      },
+      "request_example": null,
       "success_status": "200",
       "response_fields": [],
       "response_type": "",
@@ -40133,17 +39855,7 @@
         }
       ],
       "request_type": "",
-      "request_example": {
-        "field_name": "FullName",
-        "renamed_as": "EmployeeName",
-        "page": 1,
-        "dimension": {
-          "x": 100,
-          "y": 500,
-          "width": 200,
-          "height": 24
-        }
-      },
+      "request_example": null,
       "success_status": "200",
       "response_fields": [],
       "response_type": "",
@@ -40520,17 +40232,7 @@
         }
       ],
       "request_type": "",
-      "request_example": {
-        "field_name": "FullName",
-        "renamed_as": "EmployeeName",
-        "page": 1,
-        "dimension": {
-          "x": 100,
-          "y": 500,
-          "width": 200,
-          "height": 24
-        }
-      },
+      "request_example": null,
       "success_status": "200",
       "response_fields": [],
       "response_type": "",
@@ -40850,17 +40552,7 @@
         }
       ],
       "request_type": "",
-      "request_example": {
-        "field_name": "FullName",
-        "renamed_as": "EmployeeName",
-        "page": 1,
-        "dimension": {
-          "x": 100,
-          "y": 500,
-          "width": 200,
-          "height": 24
-        }
-      },
+      "request_example": null,
       "success_status": "200",
       "response_fields": [],
       "response_type": "",
@@ -41208,17 +40900,7 @@
         }
       ],
       "request_type": "",
-      "request_example": {
-        "field_name": "FullName",
-        "renamed_as": "EmployeeName",
-        "page": 1,
-        "dimension": {
-          "x": 100,
-          "y": 500,
-          "width": 200,
-          "height": 24
-        }
-      },
+      "request_example": null,
       "success_status": "200",
       "response_fields": [],
       "response_type": "",
@@ -41566,17 +41248,7 @@
         }
       ],
       "request_type": "",
-      "request_example": {
-        "field_name": "FullName",
-        "renamed_as": "EmployeeName",
-        "page": 1,
-        "dimension": {
-          "x": 100,
-          "y": 500,
-          "width": 200,
-          "height": 24
-        }
-      },
+      "request_example": null,
       "success_status": "200",
       "response_fields": [],
       "response_type": "",
@@ -41932,17 +41604,7 @@
         }
       ],
       "request_type": "",
-      "request_example": {
-        "field_name": "FullName",
-        "renamed_as": "EmployeeName",
-        "page": 1,
-        "dimension": {
-          "x": 100,
-          "y": 500,
-          "width": 200,
-          "height": 24
-        }
-      },
+      "request_example": null,
       "success_status": "200",
       "response_fields": [],
       "response_type": "",
@@ -42291,17 +41953,7 @@
         }
       ],
       "request_type": "",
-      "request_example": {
-        "field_name": "FullName",
-        "renamed_as": "EmployeeName",
-        "page": 1,
-        "dimension": {
-          "x": 100,
-          "y": 500,
-          "width": 200,
-          "height": 24
-        }
-      },
+      "request_example": null,
       "success_status": "200",
       "response_fields": [],
       "response_type": "",
@@ -42678,17 +42330,7 @@
         }
       ],
       "request_type": "",
-      "request_example": {
-        "field_name": "FullName",
-        "renamed_as": "EmployeeName",
-        "page": 1,
-        "dimension": {
-          "x": 100,
-          "y": 500,
-          "width": 200,
-          "height": 24
-        }
-      },
+      "request_example": null,
       "success_status": "200",
       "response_fields": [],
       "response_type": "",
@@ -42988,17 +42630,7 @@
         }
       ],
       "request_type": "",
-      "request_example": {
-        "field_name": "FullName",
-        "renamed_as": "EmployeeName",
-        "page": 1,
-        "dimension": {
-          "x": 100,
-          "y": 500,
-          "width": 200,
-          "height": 24
-        }
-      },
+      "request_example": null,
       "success_status": "200",
       "response_fields": [],
       "response_type": "",
@@ -43333,17 +42965,7 @@
         }
       ],
       "request_type": "",
-      "request_example": {
-        "field_name": "FullName",
-        "renamed_as": "EmployeeName",
-        "page": 1,
-        "dimension": {
-          "x": 100,
-          "y": 500,
-          "width": 200,
-          "height": 24
-        }
-      },
+      "request_example": null,
       "success_status": "200",
       "response_fields": [],
       "response_type": "",
@@ -46721,7 +46343,17 @@
       "response_fields": [],
       "response_type": "",
       "response_headers": [],
-      "response_example": null,
+      "response_example": {
+        "status": "SUCCESS",
+        "type": "SIGNING",
+        "data": {
+          "transactionCode": "TXN-8f2c4a1e",
+          "billCodeMap": "BILL-20261019-0001",
+          "requestTimestamp": 1760856311000,
+          "webhook": "https://app.example.com/webhook"
+        },
+        "metadata": "order-1024"
+      },
       "error_codes": [
         {
           "code": 1,
@@ -48387,7 +48019,13 @@
         }
       ],
       "request_type": "",
-      "request_example": null,
+      "request_example": {
+        "credential_id": "9f1c2b7e-4d3a-4e8b",
+        "package_id": 1024,
+        "document_id": 2048,
+        "field_name": "SIGNATURE_1",
+        "otp": "123456"
+      },
       "success_status": "200",
       "response_fields": [],
       "response_type": "",
@@ -66321,7 +65959,12 @@
         }
       ],
       "request_type": "",
-      "request_example": null,
+      "request_example": {
+        "grant_type": "client_credential",
+        "client_id": "GoPaperlessApp",
+        "client_secret": "<client_secret>",
+        "remember_me_enabled": true
+      },
       "success_status": "200",
       "response_fields": [
         {
@@ -66598,7 +66241,14 @@
         }
       ],
       "request_type": "",
-      "request_example": null,
+      "request_example": {
+        "grant_type": "password",
+        "client_id": "GoPaperlessApp",
+        "client_secret": "<client_secret>",
+        "username": "user@example.com",
+        "password": "<password>",
+        "remember_me_enabled": true
+      },
       "success_status": "200",
       "response_fields": [
         {
