@@ -21,18 +21,34 @@ A specialized framework designed to bridge the gap between static company API te
 
 ## Project Structure
 
+- `templates/` - `spec-skeleton.docx`, the formatting skeleton the specification is rendered from.
+- `config/` - Document-side content: description wording, object naming, planned sections.
+- `contract/` - Generated machine-readable API contracts and History snapshots.
+- `scripts/` - Rendering, checking and DOCX tooling.
+- `formatted/` - Rendered and review-ready DOCX outputs.
+- `reports/` - Dated verification reports.
 - `original/` - Source DOCX files (keep unchanged).
-- `formatted/` - Generated/review-ready formatted DOCX outputs.
-- `scripts/` - Automation scripts for analyzing, formatting, and validating DOCX files.
-- `unpacked_docx/` - Extracted working copy of a DOCX package used by formatting scripts.
+- `unpacked_docx/` - Extracted working copy of a DOCX package used by the formatting scripts.
 
 ## Usage
 
-Run scripts from the repository root. For example:
+The API specification DOCX is rendered from the backend's `openapi.yaml`. Check out
+`GoPaperless-Workflow-API` (branch `dev`) beside this repository, then run from the
+repository root:
 
 ```bash
-python scripts/analyze_docx.py original/YourDocument.docx
-python scripts/fix_docx_format.py
+python scripts/openapi_to_contract.py ../GoPaperless-Workflow-API/docs/api/openapi.yaml -o contract/from_openapi.json
+python scripts/propose_history.py contract/from_openapi.json ../GoPaperless-Workflow-API/docs/api/doc-meta.yaml
+python scripts/render_from_openapi.py templates/spec-skeleton.docx contract/from_openapi.json formatted/render.docx \
+    --skeleton --planned config/doc-planned.yaml \
+    --meta ../GoPaperless-Workflow-API/docs/api/doc-meta.yaml \
+    --descriptions config/doc-descriptions.yaml --objects config/doc-objects.yaml
+python scripts/check_frame_format.py formatted/render.docx
 ```
 
-Refer to individual script headers for detailed arguments and options.
+If `propose_history.py` prints a new History entry, the API changed since the last
+one: review it and run the command again with `--write` before rendering.
+
+`CLAUDE.md` describes the whole workflow: what each input decides, where a change
+goes, and how to verify a render. Refer to individual script headers for arguments
+and options.
