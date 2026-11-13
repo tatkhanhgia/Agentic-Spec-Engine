@@ -258,7 +258,8 @@ def rewrite_frame(txbx, fields, stats, fresh=False, example=None):
     """Rewrite a frame's JSON body. `fresh` ignores the seed's values (cloned section).
 
     `example` is the operation's own sample body; a fresh frame shows it
-    as written, and falls back to the fields' examples without one.
+    as written (an empty `{}` or `[]` included), and falls back to the
+    fields' examples when it is None.
     """
     found = frame_body(txbx)
     if found is None:
@@ -273,7 +274,8 @@ def rewrite_frame(txbx, fields, stats, fresh=False, example=None):
             stats["frames skipped (seed body not JSON)"] += 1
             return
         seed_body = {}
-    use_example = fresh and isinstance(example, (dict, list, str)) and bool(example)
+    # An empty object or list is a sample too; only None means "no sample".
+    use_example = fresh and (isinstance(example, (dict, list)) or (isinstance(example, str) and example.strip()))
     if fresh:
         if not fields and not use_example:
             # The new endpoint has no JSON body: drop the template's.

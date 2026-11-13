@@ -89,3 +89,15 @@ Enterprise Management 12, Account Management 7, Personal Settings 2, ADMIN APIs 
 
 One sample was repaired by hand: the `Get Role Users` response in V3 is not
 valid JSON (`},{{}`); it is stored as `{"users": [{...}, {}]}`.
+
+## Update: empty samples and entry order
+
+* A sample that is an empty `{}` or `[]` is now shown as written; before, the
+  frame body was dropped. It affects the spec operations whose example is `{}`
+  and the planned sections V3 shows with a `{}` body.
+* A planned entry may follow another planned entry wherever that one is in
+  the file; entries that follow each other in a circle are refused.
+
+Checks after the change: 348 sections, 315 spec sections paired (313 with no
+difference), `check_frame_format.py` 4 problems (unchanged), section order
+unchanged.

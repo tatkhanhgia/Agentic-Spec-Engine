@@ -153,7 +153,25 @@ def merge(endpoints, sections):
     for e in endpoints:
         order.setdefault(e["category"], e.get("category_order", 0))
     out = list(endpoints)
-    for s in sections:
+    # An entry that follows another planned entry waits until that one is
+    # placed, whatever the order of the file.
+    planned_titles = {(s["category"], s["title"]) for s in sections}
+    placed, queue = set(), list(sections)
+    while queue:
+        ready = [s for s in queue if not s["after"] or (s["category"], s["after"]) not in planned_titles
+                 or (s["category"], s["after"]) in placed]
+        if not ready:
+            raise ValueError("planned sections follow each other in a circle: %s"
+                             % ", ".join(repr(s["title"]) for s in queue))
+        queue = [s for s in queue if not any(s is r for r in ready)]
+        for s in ready:
+            _place(out, order, s)
+            placed.add((s["category"], s["title"]))
+    return out
+
+
+def _place(out, order, s):
+    if True:
         if s["category"] not in order:
             order[s["category"]] = max(order.values(), default=-1) + 1
         record = as_record(s, order[s["category"]])
@@ -164,7 +182,6 @@ def merge(endpoints, sections):
         else:
             at = (anchor[-1] if anchor else same[-1] if same else len(out) - 1) + 1
         out.insert(at, record)
-    return out
 
 
 def main():
