@@ -10,6 +10,17 @@ This directory contains the runtime scripts used for the GoPaperless DOCX workfl
 
 ## Script roles
 
+### Render from OpenAPI (primary workflow, see `CLAUDE.md`)
+
+- `openapi_to_contract.py` flattens the backend's `openapi.yaml` into `contract/from_openapi.json`.
+- `render_from_openapi.py` renders the specification DOCX from that contract; `--skeleton` builds everything from `templates/spec-skeleton.docx`.
+- `build_skeleton.py` cuts a formatted document down to the skeleton. Run it only when the look of the document changes.
+- `doc_meta.py` loads and validates `doc-meta.yaml` (cover, introduction, History).
+- `propose_history.py` proposes or appends the next History entry when the API changed, and keeps the snapshots in `contract/openapi_history/`.
+- `doc_planned.py` loads and validates `config/doc-planned.yaml` and merges the planned sections into the contract.
+- `extract_doc_descriptions.py`, `extract_planned.py` generated the `config/` files from the approved V3 document. The files are edited by hand since; re-running overwrites them.
+- `extract_doc_contract.py` reads a DOCX back into a contract; `compare_openapi_doc.py` compares it with `contract/from_openapi.json`.
+
 ### Formatter
 
 - `fix_docx_format.py` applies the template-driven DOCX formatting workflow to `unpacked_docx/` and produces formatted output.
