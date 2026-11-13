@@ -1,0 +1,1847 @@
+# Sections of the specification document for APIs that are designed but have
+# no route in the code yet. openapi.yaml describes only what the code serves,
+# so they live here; the renderer (scripts/render_from_openapi.py --planned)
+# shows each one marked "(Not implemented yet)".
+#
+# Generated once from the approved document; edited by hand afterwards.
+# When an API is implemented, describe it in openapi.yaml and delete its entry
+# here: the renderer refuses an entry whose method and path the spec serves.
+#
+# `after` names the section the entry follows in its category; without it, or
+# when no section has that title, the entry goes to the end of the category.
+# `first: true` puts the entry at the start of its category instead.
+# The response table's shared error rows are added by the renderer.
+sections:
+- category: Authenticate – Log in
+  title: OTP Login Authentication
+  after: Single Sign On Authentication
+  method: POST
+  path: /v1/authenticate/otp
+  description:
+  - This function retrieves an access token, which will be used in subsequent API calls.
+  - GoPaperless Workflow supports two-factor authentication (2FA) using a One-Time Password (OTP) during login. To enable OTP-based authentication, the Enterprise Administrator must configure this option in the Enterprise Role settings.
+  - At least one SMS provider must be configured in the GoPaperless Workflow Service to use this API.
+  headers:
+  - name: x-language-name
+    type: String
+    presence: O
+    description: 'Display the error message in the specified language. Possible values are: + en + vi'
+  - name: Content-Type
+    type: String
+    presence: M
+    description: The MIME type of the request body. Usually application/json
+  request_fields:
+  - name: mobile_number
+    type: String
+    presence: M
+    description: Define the mobile number of user. The OTP will be sent to the Application.
+  - name: method
+    type: String
+    presence: M
+    description: 'Method possible values are: + SMS + EMAIL'
+  response_fields:
+  - name: access_token
+    type: String
+    presence: M
+    description: The access token will be used later to connect with other APIs.
+  - name: token_type
+    type: String
+    presence: M
+    description: Type of the token returned. It is always set to “bearer”.
+  - name: expires_in
+    type: Integer
+    presence: M
+    description: Number of seconds for which this access token is valid.
+  - name: refresh_token
+    type: String
+    presence: M
+    description: This is a token related to access token. Can use this token to revoke.
+  - name: refresh_token_expires_in
+    type: Integer
+    presence: M
+    description: Number of seconds for which this refresh token is valid.
+  request_example:
+    mobile_number: String
+    method: SMS
+  response_example:
+    access_token: Token
+    token_type: bearer
+    expires_in: 300
+    refresh_token: refreshtoken
+    refresh_token_expires_in: 1800
+- category: Document Package
+  title: Get Package Verification
+  after: Get Document Verification
+  method: GET
+  path: /v1/packages/{packageId}/verification
+  description: Business applications can use this service API to retrieve the verification results for all digital signature fields across all documents within a package.
+  headers:
+  - name: x-language-name
+    type: String
+    presence: O
+    description: 'Display the error message in the specified language. Possible values are: + en + vi'
+  - name: Authorization
+    type: String
+    presence: M
+    description: 'The authentication token (accessToken) required to access the API. Must be provided in the format “Bearer <accessToken>” Note: the accessToken is obtained after a successful authorization.'
+  - name: Content-Type
+    type: String
+    presence: M
+    description: The MIME type of the request body. Usually application/json
+  path_params:
+  - name: packageId
+    type: Integer
+    presence: M
+    description: This is the ID of the package that was created. Using this ID to Interact with that document package.
+  request_example: {}
+  response_example: "[\n  {\n    \"document_id\": 1,\n    \"fields\": [\n      {\n        \"status\": \"String\",\n        \"field_name\": \"String\",\n        \"signer_name\": \"String\",\n        \"signer_photo\": \"String\",\n        \"signer_photo_url\": \"String\",\n        \"signature_status\": \"String\",\n        \"signing_reason\": \"String\",\n        \"signing_location\": \"String\",\n        \"contact_information\": \"String\",\n        \"signing_time\": \"String\",\n        \"ltv\": false,\n        \"qualified\": true,\n        \"certified\": true,\n        \"cerfify_permission\": \"String\",\n        \"timestamp_at\": \"String\",\n        \"timestamp_authority\": \"String\",\n        \"subject_dn\": \"String\",\n        \"issuer_dn\": \"String\",\n        \"cert_valid_from\": \"String\",\n        \"cert_valid_to\": \"String\",\n        \"signature_type\": \"String\",\n        \"signature_algorithm\": \"String\",\n        \"signed_hash\": \"String\",\n        \"display\": true,\n        \"page_number\": 1\n      },\n      {},..\n    ]\n  }\n  ,{},…\n]"
+- category: Document Workflow
+  title: Add Electronic Seal to Workflow
+  after: Share Workflow
+  method: POST
+  path: /v1/packages/{packageId}/workflow/electronic-seals
+  description: 'Business applications can use this service API to add an Electronic Seal recipient to a workflow. This call will only add a recipient to the workflow. That is, no fields currently on the document will be automatically assigned to the new Electronic Seal recipient(s), nor will this create any new fields. Note the Electronic Seal recipient(s) will be added as the last person in the workflow. Hence further work may be required to remove a current Electronic Seal recipient(s) already present in the workflow. At least one recipient must exist in a workflow before fields can be added to the document. Note: the input accepts one or more Electronic Seal recipient(s) in a single call. Note: only PDF type document is supported.'
+  headers:
+  - name: x-language-name
+    type: String
+    presence: O
+    description: 'Display the error message in the specified language. Possible values are: + en + vi'
+  - name: Authorization
+    type: String
+    presence: M
+    description: 'The authentication token (accessToken) required to access the API. Must be provided in the format “Bearer <accessToken>” Note: the accessToken is obtained after a successful authorization.'
+  - name: Content-Type
+    type: String
+    presence: M
+    description: The MIME type of the request body. Usually application/json
+  path_params:
+  - name: packageId
+    type: Integer
+    presence: M
+    description: This is the ID of the package that was created. Using this ID to Interact with that document package.
+  request_fields:
+  - name: name
+    type: String
+    presence: M
+    description: The name of the new user to be added/updated in workflow. If no value is provided, old value will be retained.
+  - name: signing_order
+    type: Integer
+    presence: M
+    description: Order in which the workflow will be signed by the recipients. This signing order is important when workflow type is set to "CUSTOM".
+  response_fields:
+  - name: name
+    type: String
+    presence: M
+    description: Name
+  - name: signing_order
+    type: Integer
+    presence: M
+    description: Signing Order
+  - name: level_of_assurance
+    type: String
+    presence: M
+    description: Level of Assurance
+  request_example:
+    name: String
+    signing_order: 0
+  response_example:
+    name: String
+    signing_order: 0
+    level_of_assurance: String
+- category: Document Workflow
+  title: Update Workflow Reminders
+  after: Accept Terms of Service (ECONTRACT)
+  method: PUT
+  path: /v1/packages/{packageId}/workflow/reminders
+  description: Business applications can use this service API to update reminders. The reminder service (e.g., SMTP) will notify the user after a configured period of time.
+  headers:
+  - name: x-language-name
+    type: String
+    presence: O
+    description: 'Display the error message in the specified language. Possible values are: + en + vi'
+  - name: Authorization
+    type: String
+    presence: M
+    description: 'The authentication token (accessToken) required to access the API. Must be provided in the format “Bearer <accessToken>” Note: the accessToken is obtained after a successful authorization.'
+  - name: Content-Type
+    type: String
+    presence: M
+    description: The MIME type of the request body. Usually application/json
+  path_params:
+  - name: packageId
+    type: Integer
+    presence: M
+    description: This is the ID of the package that was created. Using this ID to Interact with that document package.
+  request_fields:
+  - name: apply_to_all
+    type: Boolean
+    presence: O
+    description: True, if the reminder settings are to be applied to all the recipients in the workflow.
+  - name: enabled
+    type: Integer
+    presence: M
+    description: True, if reminder settings are to be enabled.
+  - name: frequency
+    type: String
+    presence: M
+    description: Reminder Frequency. Possible Values are DAYS | HOURS
+  - name: remind_after
+    type: Integer
+    presence: M
+    description: Required, in case of enabled property will true. The number of days after which the first reminder would be sent to workflow user.
+  - name: keep_reminding_after
+    type: Integer
+    presence: M
+    description: Required, in case of enabled property will true. The number of days after which the subsequent reminders would be sent to workflow user
+  - name: total_reminders
+    type: Integer
+    presence: M
+    description: Required, in case of enabled property will true. The number of subsequent reminders would be sent to workflow user.
+  request_example:
+    apply_to_all: true
+    enabled: true
+    frequency: String
+    remind_after: 1
+    keep_reminding_after: 1
+    total_reminders: 1
+  response_example: {}
+- category: Document Workflow
+  title: Get Workflow User Authentication (Document Opening)
+  after: Delete Workflow Comment/Message
+  method: GET
+  path: /v1/packages/{packageId}/workflow/{order}/authentication
+  description: Business Applications can use this service API to get the access security settings enabled for the package. Recipients will not be able to access document package outside the scope of this duration if the access security is enabled. Document owner can also configure authentication based security of the package for a recipient.
+  headers:
+  - name: x-language-name
+    type: String
+    presence: O
+    description: 'Display the error message in the specified language. Possible values are: + en + vi'
+  - name: Authorization
+    type: String
+    presence: M
+    description: 'The authentication token (accessToken) required to access the API. Must be provided in the format “Bearer <accessToken>” Note: the accessToken is obtained after a successful authorization.'
+  - name: Content-Type
+    type: String
+    presence: M
+    description: The MIME type of the request body. Usually application/json
+  path_params:
+  - name: packageId
+    type: Integer
+    presence: M
+    description: This is the ID of the package that was created. Using this ID to Interact with that document package.
+  - name: order
+    type: Integer
+    presence: M
+    description: Order ID of the User
+  response_fields:
+  - name: authentication
+    type: authentication
+    presence: M
+    description: Authentication object with the details of authentication methods applied on the document for the recipient.
+  - name: authentication_signing
+    type: authenticationSigning
+    presence: M
+    description: Authentication Signing for the package
+  - name: access_duration
+    type: accessDuration
+    presence: M
+    description: Access duration object with the details of access securities for the recipient.
+  request_example: {}
+  response_example:
+    authentication:
+      enabled: true
+      password:
+        enabled: true
+      sms_otp:
+        enabled: true
+        otp_length: 0
+        retry_duration: 0
+        mobile_number: String
+    authentication_signing:
+      enabled: true
+      sms_otp:
+        otp_length: 0
+        retry_duration: 0
+        mobile_number: String
+    access_duration:
+      enabled: true
+      duration_by_date:
+        enabled: true
+        accessible: true
+        duration:
+          start_date_time: String
+          end_date_time: String
+      duration_by_days:
+        enabled: true
+        accessible: true
+        duration:
+          total_days: 1
+- category: Document Workflow
+  title: Update Workflow User Authentication (Document Opening)
+  after: Get Workflow User Authentication (Document Opening)
+  method: PUT
+  path: /v1/packages/{packageId}/workflow/{order}/authentication
+  description: Business Applications can use this service API to update the access security settings enabled for the package. Recipients will not be able to access document package outside the scope of this duration if the access security is enabled. Document owner can also configure authentication based security of the package for a recipient
+  headers:
+  - name: x-language-name
+    type: String
+    presence: O
+    description: 'Display the error message in the specified language. Possible values are: + en + vi'
+  - name: Authorization
+    type: String
+    presence: M
+    description: 'The authentication token (accessToken) required to access the API. Must be provided in the format “Bearer <accessToken>” Note: the accessToken is obtained after a successful authorization.'
+  - name: Content-Type
+    type: String
+    presence: M
+    description: The MIME type of the request body. Usually application/json
+  path_params:
+  - name: packageId
+    type: Integer
+    presence: M
+    description: This is the ID of the package that was created. Using this ID to Interact with that document package.
+  - name: order
+    type: Integer
+    presence: M
+    description: Order ID of the User
+  request_fields:
+  - name: authentication
+    type: authentication
+    presence: O
+    description: Authentication object with the details of authentication methods applied on the document for the recipient.
+  - name: authentication_signing
+    type: authenticationSigning
+    presence: O
+    description: Authentication Signing for the package
+  - name: access_duration
+    type: accessDuration
+    presence: O
+    description: Access duration object with the details of access securities for the recipient.
+  - name: apply_to_all
+    type: Boolean
+    presence: O
+    description: True, if the access security or authentications are to be applied on all the recipients in the workflow.
+  request_example:
+    apply_to_all: true
+    authentication:
+      enabled: true
+      password:
+        enabled: true
+      sms_otp:
+        enabled: true
+        otp_length: 0
+        retry_duration: 0
+        mobile_number: String
+    authentication_signing:
+      enabled: true
+      sms_otp:
+        otp_length: 0
+        retry_duration: 0
+        mobile_number: String
+    access_duration:
+      enabled: true
+      duration_by_date:
+        enabled: true
+        accessible: true
+        duration:
+          total_days: 1
+  response_example: {}
+- category: Document Workflow
+  title: Get Workflow User Permissions
+  after: Update Workflow User Authentication (Document Opening)
+  method: GET
+  path: /v1/packages/{packageId}/workflow/{order}/permissions
+  description: Business Applications can use this service API to get the document permissions for a User in that workflow. This API can also be used by the enterprise administrator.
+  headers:
+  - name: x-language-name
+    type: String
+    presence: O
+    description: 'Display the error message in the specified language. Possible values are: + en + vi'
+  - name: Authorization
+    type: String
+    presence: M
+    description: 'The authentication token (accessToken) required to access the API. Must be provided in the format “Bearer <accessToken>” Note: the accessToken is obtained after a successful authorization.'
+  - name: Content-Type
+    type: String
+    presence: M
+    description: The MIME type of the request body. Usually application/json
+  path_params:
+  - name: packageId
+    type: Integer
+    presence: M
+    description: This is the ID of the package that was created. Using this ID to Interact with that document package.
+  - name: order
+    type: Integer
+    presence: M
+    description: Order ID of the User
+  response_fields:
+  - name: print
+    type: Boolean
+    presence: M
+    description: True, if printing is allowed for this recipient.
+  - name: download
+    type: Boolean
+    presence: M
+    description: True, if download is allowed.
+  - name: add_text
+    type: Boolean
+    presence: M
+    description: True, if add text annotation on the document is allowed.
+  - name: change_recipients
+    type: Boolean
+    presence: M
+    description: True, if the recipient on the current order can change other recipients in the workflow after workflow is shared.
+  - name: add_attachment
+    type: Boolean
+    presence: M
+    description: True, if attachments and merging of PDF documents is allowed.
+  request_example: {}
+  response_example:
+    print: true
+    download: true
+    add_text: true
+    change_recipients: true
+    add_attachment: true
+- category: Document Workflow
+  title: Update Workflow User Permissions
+  after: Get Workflow User Permissions
+  method: PUT
+  path: /v1/packages/{packageId}/workflow/{order}/permissions
+  description: Business Applications can use this service API to update the document permissions for a User in that workflow. This API can also be used by the enterprise administrator.
+  headers:
+  - name: x-language-name
+    type: String
+    presence: O
+    description: 'Display the error message in the specified language. Possible values are: + en + vi'
+  - name: Authorization
+    type: String
+    presence: M
+    description: 'The authentication token (accessToken) required to access the API. Must be provided in the format “Bearer <accessToken>” Note: the accessToken is obtained after a successful authorization.'
+  - name: Content-Type
+    type: String
+    presence: M
+    description: The MIME type of the request body. Usually application/json
+  path_params:
+  - name: packageId
+    type: Integer
+    presence: M
+    description: This is the ID of the package that was created. Using this ID to Interact with that document package.
+  - name: order
+    type: Integer
+    presence: M
+    description: Order ID of the User
+  request_fields:
+  - name: apply_to_all
+    type: Boolean
+    presence: M
+    description: True, if the permissions are to be applied on all the recipients in the workflow
+  - name: permissions
+    type: permission
+    presence: M
+    description: It has all the permissions to be allowed in the workflow
+  request_example:
+    apply_to_all: true
+    permissions:
+      print: true
+      download: true
+      add_text: true
+      change_recipients: true
+      add_attachment: true
+  response_example: {}
+- category: Enterprise Management
+  title: Get Workflow User Permissions of Enterprise Package
+  after: Export Enterprise Invitations
+  method: GET
+  path: /v1/enterprise/packages/{packageId}/workflow/{order}/permissions
+  description: Business Applications can use this service API to get the document permissions for a User in that workflow. This API can also be used by the enterprise administrator.
+  headers:
+  - name: x-language-name
+    type: String
+    presence: O
+    description: 'Display the error message in the specified language. Possible values are: + en + vi'
+  - name: Content-Type
+    type: String
+    presence: M
+    description: The MIME type of the request body. Usually application/json
+  - name: Authorization
+    type: String
+    presence: M
+    description: 'The authentication token (accessToken) required to access the API. Must be provided in the format: Bearer {accessToken}'
+  path_params:
+  - name: packageId
+    type: String
+    presence: M
+    description: ''
+  - name: order
+    type: String
+    presence: M
+    description: ''
+  request_fields:
+  - name: packageId
+    type: Integer
+    presence: M
+    description: This is the ID of the package that was created. Using this ID to Interact with that document package.
+  - name: order
+    type: Integer
+    presence: M
+    description: Order ID of the User
+  response_fields:
+  - name: print
+    type: Boolean
+    presence: M
+    description: True, if printing is allowed for this recipient.
+  - name: download
+    type: Boolean
+    presence: M
+    description: True, if download is allowed.
+  - name: add_text
+    type: Boolean
+    presence: M
+    description: True, if add text annotation on the document is allowed.
+  - name: change_recipients
+    type: Boolean
+    presence: M
+    description: True, if the recipient on the current order can change other recipients in the workflow after workflow is shared.
+  - name: add_attachment
+    type: Boolean
+    presence: M
+    description: True, if attachments and merging of PDF documents is allowed.
+  request_example: {}
+  response_example:
+    print: true
+    download: true
+    add_text: true
+    change_recipients: true
+    add_attachment: true
+- category: Enterprise Management
+  title: Update Workflow User Permissions of Enterprise Package
+  after: Get Workflow User Permissions of Enterprise Package
+  method: PUT
+  path: /v1/enterprise/packages/{packageId}/workflow/{order}/permissions
+  description: Business Applications can use this service API to update the document permissions for a User in that workflow. This API can also be used by the enterprise administrator.
+  headers:
+  - name: x-language-name
+    type: String
+    presence: O
+    description: 'Display the error message in the specified language. Possible values are: + en + vi'
+  - name: Content-Type
+    type: String
+    presence: M
+    description: The MIME type of the request body. Usually application/json
+  - name: Authorization
+    type: String
+    presence: M
+    description: 'The authentication token (accessToken) required to access the API. Must be provided in the format: Bearer {accessToken}'
+  path_params:
+  - name: packageId
+    type: String
+    presence: M
+    description: ''
+  - name: order
+    type: String
+    presence: M
+    description: ''
+  request_fields:
+  - name: packageId
+    type: Integer
+    presence: M
+    description: This is the ID of the package that was created. Using this ID to Interact with that document package.
+  - name: order
+    type: Integer
+    presence: M
+    description: Order ID of the User
+  - name: apply_to_all
+    type: Boolean
+    presence: M
+    description: True, if the permissions are to be applied on all the recipients in the workflow
+  - name: permissions
+    type: workflowPermissionRequest
+    presence: M
+    description: It has all the permissions to be allowed in the workflow
+  request_example:
+    apply_to_all: true
+    permissions:
+      print: true
+      download: true
+      add_text: true
+      change_recipients: true
+      add_attachment: true
+  response_example: {}
+- category: Enterprise Management
+  title: Get Workflow User Authentication (Document Opening) of Enterprise Package
+  after: Update Workflow User Permissions of Enterprise Package
+  method: GET
+  path: /v1/enterprise/packages/{packageId}/workflow/{order}/authentication
+  description: Business Applications can use this service API to get the access security settings enabled for the package. Recipients will not be able to access document package outside the scope of this duration if the access security is enabled. Document owner can also configure authentication based security of the package for a recipient
+  headers:
+  - name: x-language-name
+    type: String
+    presence: O
+    description: 'Display the error message in the specified language. Possible values are: + en + vi'
+  - name: Content-Type
+    type: String
+    presence: M
+    description: The MIME type of the request body. Usually application/json
+  - name: Authorization
+    type: String
+    presence: M
+    description: 'The authentication token (accessToken) required to access the API. Must be provided in the format: Bearer {accessToken}'
+  path_params:
+  - name: packageId
+    type: String
+    presence: M
+    description: ''
+  - name: order
+    type: String
+    presence: M
+    description: ''
+  request_fields:
+  - name: packageId
+    type: Integer
+    presence: M
+    description: This is the ID of the package that was created. Using this ID to Interact with that document package.
+  - name: order
+    type: Integer
+    presence: M
+    description: Order ID of the User
+  response_fields:
+  - name: authentication
+    type: authentication
+    presence: M
+    description: Authentication object with the details of authentication methods applied on the document for the recipient.
+  - name: authentication_signing
+    type: authenticationSigning
+    presence: M
+    description: Authentication Signing for the package
+  - name: access_duration
+    type: accessDuration
+    presence: M
+    description: Access duration object with the details of access securities for the recipient.
+  request_example: {}
+  response_example:
+    authentication:
+      enabled: true
+      password:
+        enabled: true
+      sms_otp:
+        enabled: true
+        otp_length: 0
+        retry_duration: 0
+        mobile_number: String
+    authentication_signing:
+      enabled: true
+      sms_otp:
+        otp_length: 0
+        retry_duration: 0
+        mobile_number: String
+    access_duration:
+      enabled: true
+      duration_by_date:
+        enabled: true
+        accessible: true
+        duration:
+          total_days: 1
+- category: Enterprise Management
+  title: Update Workflow User Authentication of Enterprise Package
+  after: Get Workflow User Authentication (Document Opening) of Enterprise Package
+  method: PUT
+  path: /v1/enterprise/packages/{packageId}/workflow/{order}/authentication
+  description: Business Applications can use this service API to update the access security settings enabled for the package. Recipients will not be able to access document package outside the scope of this duration if the access security is enabled. Document owner can also configure authentication based security of the package for a recipient
+  headers:
+  - name: x-language-name
+    type: String
+    presence: O
+    description: 'Display the error message in the specified language. Possible values are: + en + vi'
+  - name: Content-Type
+    type: String
+    presence: M
+    description: The MIME type of the request body. Usually application/json
+  - name: Authorization
+    type: String
+    presence: M
+    description: 'The authentication token (accessToken) required to access the API. Must be provided in the format: Bearer {accessToken}'
+  path_params:
+  - name: packageId
+    type: String
+    presence: M
+    description: ''
+  - name: order
+    type: String
+    presence: M
+    description: ''
+  request_fields:
+  - name: packageId
+    type: Integer
+    presence: M
+    description: This is the ID of the package that was created. Using this ID to Interact with that document package.
+  - name: order
+    type: Integer
+    presence: M
+    description: Order ID of the User
+  - name: authentication
+    type: authentication
+    presence: M
+    description: Authentication object with the details of authentication methods applied on the document for the recipient.
+  - name: authentication_signing
+    type: authenticationSigning
+    presence: M
+    description: Authentication Signing for the package
+  - name: access_duration
+    type: accessDuration
+    presence: M
+    description: Access duration object with the details of access securities for the recipient.
+  - name: apply_to_all
+    type: Boolean
+    presence: M
+    description: True, if the access security or authentications are to be applied on all the recipients in the workflow.
+  request_example:
+    apply_to_all: true
+    authentication:
+      enabled: true
+      password:
+        enabled: true
+      sms_otp:
+        enabled: true
+        otp_length: 0
+        retry_duration: 0
+        mobile_number: String
+    authentication_signing:
+      enabled: true
+      sms_otp:
+        otp_length: 0
+        retry_duration: 0
+        mobile_number: String
+    access_duration:
+      enabled: true
+      duration_by_date:
+        enabled: true
+        accessible: true
+        duration:
+          total_days: 1
+  response_example: {}
+- category: Enterprise Management
+  title: Reset Enterprise User Password
+  after: Update Workflow User Authentication of Enterprise Package
+  method: POST
+  path: /v1/enterprise/users/{id}/reset-password
+  description: Business Applications can use this service API to reset Enterprise User Password.
+  headers:
+  - name: x-language-name
+    type: String
+    presence: O
+    description: 'Display the error message in the specified language. Possible values are: + en + vi'
+  - name: Content-Type
+    type: String
+    presence: M
+    description: The MIME type of the request body. Usually application/json
+  - name: Authorization
+    type: String
+    presence: M
+    description: 'The authentication token (accessToken) required to access the API. Must be provided in the format: Bearer {accessToken}'
+  path_params:
+  - name: id
+    type: String
+    presence: M
+    description: ''
+  request_fields:
+  - name: id
+    type: String
+    presence: M
+    description: Id of the user
+  request_example: {}
+  response_example: {}
+- category: Enterprise Management
+  title: Get Enterprise User
+  after: Get Enterprise User Management Statistics
+  method: GET
+  path: /v1/enterprise/users/{id}
+  description: Business Applications can use this service API to get a user
+  headers:
+  - name: x-language-name
+    type: String
+    presence: O
+    description: 'Display the error message in the specified language. Possible values are: + en + vi'
+  - name: Content-Type
+    type: String
+    presence: M
+    description: The MIME type of the request body. Usually application/json
+  - name: Authorization
+    type: String
+    presence: M
+    description: 'The authentication token (accessToken) required to access the API. Must be provided in the format: Bearer {accessToken}'
+  path_params:
+  - name: id
+    type: String
+    presence: M
+    description: ''
+  request_fields:
+  - name: x-search-text
+    type: String
+    presence: O
+    description: Search if required
+  - name: id
+    type: Integer
+    presence: M
+    description: The id of enterprise user
+  response_fields:
+  - name: user_id
+    type: Integer
+    presence: M
+    description: User Id
+  - name: created_on
+    type: String
+    presence: M
+    description: Created on date of the registered user.
+  - name: user_name
+    type: String
+    presence: M
+    description: The full name of the user.
+  - name: user_email
+    type: String
+    presence: M
+    description: The email address of the registered user.
+  - name: enterprise_role
+    type: String
+    presence: M
+    description: The enterprise role under which the user is registered.
+  - name: mobile_number
+    type: String
+    presence: M
+    description: The mobile number of the registered user.
+  - name: job_title
+    type: String
+    presence: M
+    description: The Job Title of the registered user.
+  - name: company_name
+    type: String
+    presence: M
+    description: The company name of the registered user.
+  - name: status
+    type: String
+    presence: M
+    description: The current status of the user e.g. "ACTIVATED" or "REGISTERED". If status is registered, it means user is registered but not activated yet.
+  - name: enabled
+    type: Boolean
+    presence: M
+    description: True, if user is enabled and false if user is not enabled by the application administrators.
+  request_example: {}
+  response_example:
+    user_id: 0
+    created_on: String
+    user_name: String
+    enterprise_role: String
+    mobile_number: String
+    job_title: String
+    company_name: String
+    status: String
+    enabled: true
+- category: Enterprise Management
+  title: Update Enterprise User
+  after: Get Enterprise User
+  method: PUT
+  path: /v1/enterprise/users
+  description: Business Applications can use this service API to update the information of a user.
+  headers:
+  - name: x-language-name
+    type: String
+    presence: O
+    description: 'Display the error message in the specified language. Possible values are: + en + vi'
+  - name: Content-Type
+    type: String
+    presence: M
+    description: The MIME type of the request body. Usually application/json
+  - name: Authorization
+    type: String
+    presence: M
+    description: 'The authentication token (accessToken) required to access the API. Must be provided in the format: Bearer {accessToken}'
+  request_fields:
+  - name: user_email
+    type: String
+    presence: M
+    description: The email address of the user account to be updated.
+  - name: user_name
+    type: String
+    presence: O
+    description: The name of the user to be updated.
+  - name: job_title
+    type: String
+    presence: O
+    description: Job title of user.
+  - name: company_name
+    type: String
+    presence: O
+    description: Company Name of user.
+  - name: mobile_number
+    type: String
+    presence: O
+    description: Mobile number of user.
+  - name: user_old_password
+    type: String
+    presence: O
+    description: The old password of the user account.
+  - name: user_new_password
+    type: String
+    presence: O
+    description: The new password of the user account.
+  - name: security_question
+    type: String
+    presence: O
+    description: Security question used to reset password if user forgets his password.
+  - name: security_answer
+    type: String
+    presence: O
+    description: Security answer used to reset the password if user forgets his password.
+  - name: enterprise_role
+    type: String
+    presence: O
+    description: The enterprise role to be assigned to this user - these are managed within the Enterprise account.
+  - name: enabled
+    type: Boolean
+    presence: O
+    description: Setting this to false would disable the user and vice versa
+  request_example:
+    user_email: string
+    user_name: string
+    job_title: string
+    company_name: string
+    mobile_number: string
+    user_old_password: string
+    user_new_password: string
+    security_question: string
+    security_answer: string
+    enterprise_role: string
+    enabled: true
+  response_example: {}
+- category: Enterprise Management
+  title: Get Groups
+  after: Delete Enterprise User
+  method: GET
+  path: /v1/settings/groups/{pageNo}/{recordPerPage}
+  description: Business Applications can use this service API to get the list of groups
+  headers:
+  - name: x-language-name
+    type: String
+    presence: O
+    description: 'Display the error message in the specified language. Possible values are: + en + vi'
+  - name: x-search-text
+    type: String
+    presence: O
+    description: Search text if required. This is optional and without it the entire list is returned. Furthermore, recommended value for search text parameter is in Base64 encoded format.
+  - name: x-total-enterprise
+    type: String
+    presence: O
+    description: Total number of records found with the provided search criteria.
+  - name: Content-Type
+    type: String
+    presence: M
+    description: The MIME type of the request body. Usually application/json
+  - name: Authorization
+    type: String
+    presence: M
+    description: 'The authentication token (accessToken) required to access the API. Must be provided in the format: Bearer {accessToken}'
+  path_params:
+  - name: recordPerPage
+    type: String
+    presence: M
+    description: ''
+  - name: pageNo
+    type: String
+    presence: M
+    description: ''
+  request_fields:
+  - name: pageNo
+    type: Integer
+    presence: O
+    description: Page number, according the division of records per page
+  - name: recordsPerPage
+    type: Integer
+    presence: O
+    description: Number of records that are needed to be fetched in one request
+  response_fields:
+  - name: groups
+    type: List<group>
+    presence: M
+    description: The array of groups
+  request_example: {}
+  response_example:
+    groups:
+    - id: 0
+      group_name: String
+      group_members:
+      - user_email: String
+        user_name: String
+      - {}
+    - {}
+- category: Enterprise Management
+  title: Delete Groups
+  after: Get Groups
+  method: DELETE
+  path: /v1/settings/groups/{id}
+  description: Business Applications can use this service API to delete the group.
+  headers:
+  - name: x-language-name
+    type: String
+    presence: O
+    description: 'Display the error message in the specified language. Possible values are: + en + vi'
+  - name: Content-Type
+    type: String
+    presence: M
+    description: The MIME type of the request body. Usually application/json
+  - name: Authorization
+    type: String
+    presence: M
+    description: 'The authentication token (accessToken) required to access the API. Must be provided in the format: Bearer {accessToken}'
+  path_params:
+  - name: id
+    type: String
+    presence: M
+    description: ''
+  request_fields:
+  - name: Id
+    type: Integer
+    presence: O
+    description: Id of the group
+  request_example: {}
+  response_example: {}
+- category: Enterprise Management
+  title: Add Member into Group
+  after: Delete Groups
+  method: POST
+  path: /v1/enterprise/groups/{id}
+  description: Business Applications can use this service API to add a new member into the group.
+  headers:
+  - name: x-language-name
+    type: String
+    presence: O
+    description: 'Display the error message in the specified language. Possible values are: + en + vi'
+  - name: Content-Type
+    type: String
+    presence: M
+    description: The MIME type of the request body. Usually application/json
+  - name: Authorization
+    type: String
+    presence: M
+    description: 'The authentication token (accessToken) required to access the API. Must be provided in the format: Bearer {accessToken}'
+  path_params:
+  - name: id
+    type: String
+    presence: M
+    description: ''
+  request_fields:
+  - name: id
+    type: Integer
+    presence: O
+    description: Id of the group
+  - name: group_name
+    type: String
+    presence: M
+    description: New group name
+  - name: user_email
+    type: String
+    presence: M
+    description: Email of the user
+  request_example:
+    group_name: String
+    user_email: String
+  response_example: {}
+- category: Enterprise Management
+  title: Delete Member in Group
+  after: Add Member into Group
+  method: DELETE
+  path: /v1/enterprise/groups/{id}
+  description: Business Applications can use this service API to delete a member from the group.
+  headers:
+  - name: x-language-name
+    type: String
+    presence: O
+    description: 'Display the error message in the specified language. Possible values are: + en + vi'
+  - name: Content-Type
+    type: String
+    presence: M
+    description: The MIME type of the request body. Usually application/json
+  - name: Authorization
+    type: String
+    presence: M
+    description: 'The authentication token (accessToken) required to access the API. Must be provided in the format: Bearer {accessToken}'
+  path_params:
+  - name: id
+    type: String
+    presence: M
+    description: ''
+  request_fields:
+  - name: id
+    type: Integer
+    presence: O
+    description: Id of the group
+  - name: group_name
+    type: String
+    presence: M
+    description: Group name that the user will be removed from
+  - name: user_email
+    type: String
+    presence: M
+    description: Email of the user
+  request_example:
+    user_email: String
+  response_example: {}
+- category: Enterprise Management
+  title: Get Role Users
+  after: Get Roles
+  method: GET
+  path: /v1/enterprise/roles/{id}/users/{pageNo}/{recordPerPage}
+  description: Business Applications can use this service API to get a list of users that belong to the role
+  headers:
+  - name: x-language-name
+    type: String
+    presence: O
+    description: 'Display the error message in the specified language. Possible values are: + en + vi'
+  - name: x-total-records
+    type: String
+    presence: O
+    description: Total number of records
+  - name: Content-Type
+    type: String
+    presence: M
+    description: The MIME type of the request body. Usually application/json
+  - name: Authorization
+    type: String
+    presence: M
+    description: 'The authentication token (accessToken) required to access the API. Must be provided in the format: Bearer {accessToken}'
+  path_params:
+  - name: id
+    type: String
+    presence: M
+    description: ''
+  - name: pageNo
+    type: String
+    presence: M
+    description: ''
+  - name: recordPerPage
+    type: String
+    presence: M
+    description: ''
+  request_fields:
+  - name: pageNo
+    type: Integer
+    presence: O
+    description: Page number, according the division of records per page
+  - name: recordsPerPage
+    type: Integer
+    presence: O
+    description: Number of records that are needed to be fetched in one request
+  - name: id
+    type: Integer
+    presence: M
+    description: Id of the role
+  response_fields:
+  - name: users
+    type: List<member>
+    presence: M
+    description: List of member belongs to the role
+  request_example: {}
+  response_example:
+    users:
+    - user_name: String
+      user_email: String
+    - {}
+- category: Account Management
+  title: Register Enterprise User (Free Trial)
+  after: Get Account Invitation By ID
+  method: POST
+  path: /v1/account
+  description: Business Applications can use this service API to register a new user
+  headers:
+  - name: x-language-name
+    type: String
+    presence: O
+    description: 'Display the error message in the specified language. Possible values are: + en + vi'
+  - name: Content-Type
+    type: String
+    presence: M
+    description: The MIME type of the request body. Usually application/json
+  - name: Authorization
+    type: String
+    presence: M
+    description: 'The authentication token (accessToken) required to access the API. Must be provided in the format: Bearer {accessToken}'
+  request_fields:
+  - name: user_name
+    type: String
+    presence: M
+    description: The name of the user to be registered.
+  - name: user_email
+    type: String
+    presence: M
+    description: The email address of the user account to be registered.
+  - name: user_password
+    type: String
+    presence: M
+    description: The password of the user account
+  - name: security_question
+    type: String
+    presence: M
+    description: Security question used to reset password if user forgets his password.
+  - name: security_answer
+    type: Boolean
+    presence: O
+    description: Security answer used to reset the password if user forgets his password.
+  - name: enterprise_role
+    type: String
+    presence: M
+    description: The enterprise role to be assigned to this user
+  - name: email_notification
+    type: String
+    presence: M
+    description: This defines whether enterprise user would get an email notification about the account creation. Default value is 'false'.
+  - name: certificate_id
+    type: String
+    presence: O
+    description: ''
+  - name: job_title
+    type: String
+    presence: O
+    description: Job title of user
+  - name: company_name
+    type: String
+    presence: O
+    description: Company name of user
+  - name: mobile_number
+    type: String
+    presence: O
+    description: Mobile number of user
+  - name: country
+    type: String
+    presence: O
+    description: Country name for the user
+  - name: time_zone
+    type: String
+    presence: O
+    description: Timezone name for the user
+  - name: language
+    type: String
+    presence: O
+    description: Language selected for the user
+  - name: user_national_id
+    type: String
+    presence: O
+    description: National identity number of the user
+  - name: user_csp_id
+    type: String
+    presence: O
+    description: User ID of the user registered in CSP service inside the GoPaperless Workflow Engine.
+  - name: user_ra_id
+    type: String
+    presence: O
+    description: User ID of the user registered in SAM service inside the GoPaperless Workflow Engine.
+  - name: user_csc_id
+    type: String
+    presence: O
+    description: ''
+  - name: common_name
+    type: String
+    presence: O
+    description: An identifiable name for the user that added as Common Name (CN) in identity certificate.
+  request_example:
+    user_name: String
+    user_email: String
+    user_password: String
+    security_question: String
+    security_answer: String
+    enterprise_role: String
+    email_notification: true
+    certificate_id: 1
+    job_title: String
+    company_name: String
+    mobile_number: String
+    country: String
+    time_zone: String
+    language: String
+    user_national_id: String
+    common_name: String
+  response_example: {}
+- category: Account Management
+  title: Get Account
+  after: Register Enterprise User (Free Trial)
+  method: GET
+  path: /v1/account
+  description: Business Applications can use this service API to get the account information of a logged in user
+  headers:
+  - name: x-language-name
+    type: String
+    presence: O
+    description: 'Display the error message in the specified language. Possible values are: + en + vi'
+  - name: Content-Type
+    type: String
+    presence: M
+    description: The MIME type of the request body. Usually application/json
+  - name: Authorization
+    type: String
+    presence: M
+    description: 'The authentication token (accessToken) required to access the API. Must be provided in the format: Bearer {accessToken}'
+  response_fields:
+  - name: user_email
+    type: Boolean
+    presence: M
+    description: Email address of the user.
+  - name: user_name
+    type: Object
+    presence: O
+    description: Name of user for which the authentication token is provided.
+  - name: created_on
+    type: Boolean
+    presence: M
+    description: Account created on.
+  - name: enabled
+    type: Boolean
+    presence: M
+    description: True, if user is enabled and can access the application. False otherwise.
+  - name: two_factor_authentication_enabled
+    type: Boolean
+    presence: M
+    description: True, if user is configured the Two factor authentication
+  - name: service_plan
+    type: servicePlan
+    presence: M
+    description: Service plan of the account
+  - name: enterprise
+    type: enterprise
+    presence: M
+    description: Enterprise information.
+  request_example: {}
+  response_example:
+    user_email: string
+    user_name: string
+    created_on: string
+    enabled: true
+    two_factor_authentication_enabled: true
+    service_plan:
+      name: string
+      type: string
+      features:
+      - string
+      constraints:
+        users: string
+        signatures: string
+        advanced_electronic_signatures: string
+        high_trust_advanced_signatures: string
+        qualified_electronic_signatures: string
+        electronic_seals: string
+        advanced_electronic_seals: string
+        qualified_electronic_seals: string
+        simple_electronic_signatures: string
+        storage: string
+        workflows: string
+        max_upload_size: string
+        templates: string
+      settings:
+        pdf_compliant: true
+        signing_keys_with_password: true
+        signature_type: string
+        authorized_signing: true
+        sms_otp: true
+        email_otp: true
+        totp: true
+        sms_otp_length: 0
+        sms_otp_retry_duration: 0
+        workflow_evidence: string
+        auto_archiving: true
+        auto_deletion: true
+      billing:
+        mode: string
+        payment_type: string
+        price: string
+        yearly_price: string
+        next_billing_date: string
+    enterprise:
+      enterprise_id: 0
+      enterprise_name: string
+      owner: string
+      owner_email: string
+      mobile_number: string
+      support_email: string
+- category: Account Management
+  title: Send Forgot Password Request
+  after: Get Account Profiles
+  method: POST
+  path: /v1/account/password/reset
+  description: Business Applications can use this service API to send an email with instructions to reset a password.
+  headers:
+  - name: x-language-name
+    type: String
+    presence: O
+    description: 'Display the error message in the specified language. Possible values are: + en + vi'
+  - name: Content-Type
+    type: String
+    presence: M
+    description: The MIME type of the request body. Usually application/json
+  - name: Authorization
+    type: String
+    presence: M
+    description: 'The authentication token (accessToken) required to access the API. Must be provided in the format: Bearer {accessToken}'
+  request_fields:
+  - name: user_email
+    type: String
+    presence: M
+    description: Email of the user
+  request_example:
+    user_email: String
+  response_example: {}
+- category: Account Management
+  title: Get Dashboard Processing Trend
+  after: Get Dashboard Activities
+  method: GET
+  path: /v1/account/dashboard/processing-trend
+  description: Business applications can use this service API to get the workflow processing trend of the account over time for dashboard display. All counters are serialized as strings.
+  headers:
+  - name: x-language-name
+    type: String
+    presence: O
+    description: 'Display the error message in the specified language. Possible values are: + en + vi'
+  - name: Content-Type
+    type: String
+    presence: M
+    description: The MIME type of the request body. Usually application/json
+  - name: Authorization
+    type: String
+    presence: M
+    description: 'The authentication token (accessToken) required to access the API. Must be provided in the format: Bearer {accessToken}'
+  - name: x-from-date
+    type: String
+    presence: O
+    description: Optional lower bound of the created date, ISO 8601 format, e.g. 2026-07-01T00:00:00Z.
+  - name: x-to-date
+    type: String
+    presence: O
+    description: Optional upper bound of the created date, ISO 8601 format, e.g. 2026-07-31T23:59:59Z.
+  response_fields:
+  - name: trend
+    type: List<Object>
+    presence: M
+    description: Array of trend points. Each item contains label and count.
+  request_example: {}
+  response_example:
+    trend:
+    - label: '2026-07-01'
+      count: '12'
+- category: Account Management
+  title: Get Group
+  after: Get Dashboard Processing Trend
+  method: GET
+  path: /v1/settings/groups/{pageNo}/{recordPerPage}
+  description: Business Applications can use this service API to get the list of groups for the current user
+  headers:
+  - name: x-language-name
+    type: String
+    presence: O
+    description: 'Display the error message in the specified language. Possible values are: + en + vi'
+  - name: x-search-text
+    type: String
+    presence: O
+    description: Search text if required. This is optional and without it the entire list is returned. Furthermore, recommended value for search text parameter is in Base64 encoded format.
+  - name: x-enterprise
+    type: String
+    presence: O
+    description: If set as "true" only enterprise groups list will be returned. In case of "false" only the user's groups list will be returned. If you do not set the header, then both enterprise and user's groups lists will be returned.
+  - name: x-total-records
+    type: String
+    presence: O
+    description: Total number of records found with the provided search criteria.
+  - name: Content-Type
+    type: String
+    presence: M
+    description: The MIME type of the request body. Usually application/json
+  - name: Authorization
+    type: String
+    presence: M
+    description: 'The authentication token (accessToken) required to access the API. Must be provided in the format: Bearer {accessToken}'
+  path_params:
+  - name: recordPerPage
+    type: String
+    presence: M
+    description: ''
+  - name: pageNo
+    type: String
+    presence: M
+    description: ''
+  request_fields:
+  - name: pageNo
+    type: Integer
+    presence: O
+    description: Page number, according the division of records per page
+  - name: recordsPerPage
+    type: Integer
+    presence: O
+    description: Number of records that are needed to be fetched in one request
+  response_fields:
+  - name: groups
+    type: List<group>
+    presence: M
+    description: The array of groups
+  request_example: {}
+  response_example:
+    groups:
+    - id: 0
+      group_name: name
+      group_member:
+      - user_email: String
+        user_name: String
+      - {}
+- category: Account Management
+  title: Change Password
+  after: Get Group
+  method: PUT
+  path: /v1/settings/profile/password
+  description: Business Applications can use this service API to change the password of the current user
+  headers:
+  - name: x-language-name
+    type: String
+    presence: O
+    description: 'Display the error message in the specified language. Possible values are: + en + vi'
+  - name: Content-Type
+    type: String
+    presence: M
+    description: The MIME type of the request body. Usually application/json
+  - name: Authorization
+    type: String
+    presence: M
+    description: 'The authentication token (accessToken) required to access the API. Must be provided in the format: Bearer {accessToken}'
+  request_fields:
+  - name: user_old_password
+    type: String
+    presence: M
+    description: Old password of the user
+  - name: user_new_password
+    type: String
+    presence: M
+    description: New password of the user
+  response_fields:
+  - name: access_token
+    type: String
+    presence: M
+    description: The access token will be used later to connect with other APIs.
+  - name: token_type
+    type: String
+    presence: M
+    description: Type of the token returned. It is always set to “bearer”.
+  - name: expires_in
+    type: Integer
+    presence: M
+    description: Number of seconds for which this access token is valid.
+  - name: refresh_token
+    type: String
+    presence: M
+    description: This is a token related to access token. Can use this token to revoke.
+  - name: refresh_token_expires_in
+    type: Integer
+    presence: M
+    description: Number of seconds for which this refresh token is valid.
+  request_example:
+    user_old_password: String
+    user_new_password: String
+  response_example:
+    access_token: Token
+    token_type: bearer
+    expires_in: 300
+    refresh_token: refreshtoken
+    refresh_token_expires_in: 1800
+- category: Account Management
+  title: Update Security Settings
+  after: Change Password
+  method: PUT
+  path: /v1/settings/profile/security
+  description: Business Applications can use this service API to update profile’s security information of the current user.
+  headers:
+  - name: x-language-name
+    type: String
+    presence: O
+    description: 'Display the error message in the specified language. Possible values are: + en + vi'
+  - name: Content-Type
+    type: String
+    presence: M
+    description: The MIME type of the request body. Usually application/json
+  - name: Authorization
+    type: String
+    presence: M
+    description: 'The authentication token (accessToken) required to access the API. Must be provided in the format: Bearer {accessToken}'
+  request_fields:
+  - name: password
+    type: String
+    presence: M
+    description: Password of the user for the authentication
+  - name: question
+    type: String
+    presence: M
+    description: New security question
+  - name: answer
+    type: String
+    presence: M
+    description: New security answer
+  request_example:
+    password: String
+    question: String
+    answer: String
+  response_example: {}
+- category: Personal Settings
+  title: Add Contact into Address Book
+  after: Delete Address Book
+  method: PUT
+  path: /v1/settings/addressbook
+  description: Business Applications can use this service API to add a contact into address book.
+  headers:
+  - name: x-language-name
+    type: String
+    presence: O
+    description: 'Display the error message in the specified language. Possible values are: + en + vi'
+  - name: Content-Type
+    type: String
+    presence: M
+    description: The MIME type of the request body. Usually application/json
+  - name: Authorization
+    type: String
+    presence: M
+    description: 'The authentication token (accessToken) required to access the API. Must be provided in the format: Bearer {accessToken}'
+  request_fields:
+  - name: address_book_name
+    type: String
+    presence: M
+    description: Name of the address book
+  - name: contact_email
+    type: String
+    presence: M
+    description: Email of the contact
+  response_fields:
+  - name: address_books
+    type: List<String>
+    presence: M
+    description: An array that representing the address book that belongs to the user.
+  request_example:
+    address_book_name: Address Book1
+    contact_email: email Contact 1
+  response_example:
+    address_books:
+    - addressA
+    - addressB
+- category: Personal Settings
+  title: Remove Contact in Address Book
+  after: Add Contact into Address Book
+  method: PUT
+  path: /v1/settings/addressbook
+  description: Business Applications can use this service API to add a contact into address book.
+  headers:
+  - name: x-language-name
+    type: String
+    presence: O
+    description: 'Display the error message in the specified language. Possible values are: + en + vi'
+  - name: Content-Type
+    type: String
+    presence: M
+    description: The MIME type of the request body. Usually application/json
+  - name: Authorization
+    type: String
+    presence: M
+    description: 'The authentication token (accessToken) required to access the API. Must be provided in the format: Bearer {accessToken}'
+  request_fields:
+  - name: address_book_name
+    type: String
+    presence: M
+    description: Name of the address book
+  - name: contact_email
+    type: String
+    presence: M
+    description: Email of the contact
+  request_example:
+    address_book_name: Address Book1
+    contact_email: email Contact 1
+  response_example: {}
+- category: ADMIN APIs
+  title: Admin Authentication
+  first: true
+  method: POST
+  path: /v1/admin/authenticate/client_cert
+  description:
+  - This API can be used to authenticate to GoPaperless Workflow Service Administrator. It requires a current, valid client TLS certificate
+  - The API call should present a client TLS certificate in the HTTPS call
+  headers:
+  - name: x-language-name
+    type: String
+    presence: O
+    description: 'Display the error message in the specified language. Possible values are: + en + vi'
+  - name: x-password
+    type: String
+    presence: O
+    description: Password of GoPaperless Workflow Administrator if required
+  - name: Content-Type
+    type: String
+    presence: M
+    description: The MIME type of the request body. Usually application/json
+  response_fields:
+  - name: access_token
+    type: String
+    presence: M
+    description: User authentication access token – bearer token for subsequent authorisation to other API calls
+  - name: token_type
+    type: String
+    presence: M
+    description: Type of the token returned by authorization server. It is always set to “Bearer”
+  - name: expires_in
+    type: Integer
+    presence: M
+    description: Number of seconds for which this access token is valid
+  request_example: {}
+  response_example:
+    access_token: string
+    token_type: string
+    expires_in: 0
+- category: ADMIN APIs
+  title: Change User Service Plan
+  after: Create Account
+  method: PUT
+  path: /v1/admin/accounts
+  description: Applications can call this API update a user's service plan. This requires GoPaperless Workflow Administrator permission.
+  headers:
+  - name: x-language-name
+    type: String
+    presence: O
+    description: 'Display the error message in the specified language. Possible values are: + en + vi'
+  - name: Content-Type
+    type: String
+    presence: M
+    description: The MIME type of the request body. Usually application/json
+  - name: Authorization
+    type: String
+    presence: M
+    description: 'The authentication token (accessToken) required to access the API. Must be provided in the format: Bearer {accessToken}'
+  request_fields:
+  - name: user_email
+    type: String
+    presence: M
+    description: Email of the user
+  - name: service_plan
+    type: String
+    presence: M
+    description: New service plan name
+  request_example:
+    user_email: String
+    service_plan: String
+  response_example: {}
+- category: ADMIN APIs
+  title: Get Accounts
+  after: Change User Service Plan
+  method: GET
+  path: /v1/admin/accounts/{pageNo}/{recordsPerPage}
+  description: API is used to get accounts and filter them based on the search criteria.
+  headers:
+  - name: x-language-name
+    type: String
+    presence: O
+    description: 'Display the error message in the specified language. Possible values are: + en + vi'
+  - name: x-user-name
+    type: String
+    presence: O
+    description: Name of the account user to be searched
+  - name: x-user-email
+    type: String
+    presence: O
+    description: Email of the account user to be searched.
+  - name: x-enterprise-name
+    type: String
+    presence: O
+    description: Name of enterprise by which the account is to be searched.
+  - name: x-billing-mode
+    type: String
+    presence: O
+    description: Billing mode for the account, possible values are ONLINE, OFFLINE. If developers intend to ignore billing mode, it's optional.
+  - name: x-payment-type
+    type: String
+    presence: O
+    description: Payment type for the account search, possible values are PAY_REGULARLY, PAY_AS_YOU_GO.
+  - name: x-service-plan
+    type: String
+    presence: O
+    description: Name of service plan to search
+  - name: x-activated
+    type: String
+    presence: O
+    description: True, if accounts are activated.
+  - name: x-enabled
+    type: String
+    presence: O
+    description: True, if accounts are enabled.
+  - name: x-from
+    type: String
+    presence: O
+    description: Date value in ISO format from where the account is to be searched.
+  - name: x-to
+    type: String
+    presence: O
+    description: Date value in ISO format to which the account is to be searched.
+  - name: x-total-records
+    type: String
+    presence: O
+    description: Total number of records found with the provided search criteria.
+  - name: Content-Type
+    type: String
+    presence: M
+    description: The MIME type of the request body. Usually application/json
+  - name: Authorization
+    type: String
+    presence: M
+    description: 'The authentication token (accessToken) required to access the API. Must be provided in the format: Bearer {accessToken}'
+  path_params:
+  - name: pageNo
+    type: String
+    presence: M
+    description: ''
+  - name: recordsPerPage
+    type: String
+    presence: M
+    description: ''
+  request_fields:
+  - name: pageNo
+    type: Integer
+    presence: O
+    description: Page number, according the division of records per page
+  - name: recordsPerPage
+    type: Integer
+    presence: O
+    description: Number of records that are needed to be fetched in one request
+  response_fields:
+  - name: accounts
+    type: List<account>
+    presence: M
+    description: The array of accounts
+  request_example: {}
+  response_example:
+    accounts:
+    - user_name: string
+      user_email: string
+      service_plan: string
+      enterprise_id: 0
+      enterprise_name: string
+      created_on: string
+- category: ADMIN APIs
+  title: Service Plan Reset
+  after: Get Accounts
+  method: POST
+  path: /v1/admin/accounts/statisics/reset
+  description: Business applications can use this API to reset the Service Plan statistics for a user. Every user in GoPaperless Workflow has an associated Service Plan. Within this the number of signatures, workflows, templates, etc., are recorded. This API call allows the calling application to reset these statistics for the given user.
+  headers:
+  - name: x-language-name
+    type: String
+    presence: O
+    description: 'Display the error message in the specified language. Possible values are: + en + vi'
+  - name: Content-Type
+    type: String
+    presence: M
+    description: The MIME type of the request body. Usually application/json
+  - name: Authorization
+    type: String
+    presence: M
+    description: 'The authentication token (accessToken) required to access the API. Must be provided in the format: Bearer {accessToken}'
+  request_fields:
+  - name: user_email
+    type: String
+    presence: M
+    description: Email of the user
+  request_example:
+    user_email: String
+  response_example: {}

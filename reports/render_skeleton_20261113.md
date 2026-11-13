@@ -49,7 +49,7 @@ documented once (path aliases), as in the seed-based render.
 
 ## What the skeleton render does not carry over from V3
 
-* Sections that exist only in V3 and have no operation in the spec (most of
+* (Superseded by the update below.) Sections that exist only in V3 and have no operation in the spec (most of
   the "Not implemented yet" ones). The seed-based render kept them untouched;
   the skeleton render has nothing to build them from.
 * Heading 4 sub-structure: every operation is one Heading 3 section.
@@ -57,3 +57,35 @@ documented once (path aliases), as in the seed-based render.
 
 The seed-based output is kept beside the new one until the owner accepts the
 skeleton render.
+
+## Update: planned sections (`config/doc-planned.yaml`)
+
+The 33 sections V3 documents for routes the code does not have (no entry in
+any `validURLs` registry; V3 did not mark them) are now part of the skeleton
+render. They cannot go under `paths` of `openapi.yaml`: the spec describes
+what the code serves, and the backend test
+`everyOperationIsServedByARegistryRoute` rejects an operation with no route.
+
+* `scripts/extract_planned.py` copied them from V3 into
+  `config/doc-planned.yaml`: prose, tables, sample request and response.
+* `render_from_openapi.py --skeleton --planned config/doc-planned.yaml` places
+  each one in its category (after the section it followed in V3) and marks it
+  `(Not implemented yet)`.
+* The renderer refuses an entry whose method and path, or whose title, the
+  spec now has: implementing an API means describing it in `openapi.yaml` and
+  deleting its entry.
+
+| Check | Result |
+|---|---|
+| Sections built | 348 = 315 from the spec + 33 planned |
+| Planned sections read back from the render | 33 of 33, every table row identical to the file |
+| Spec sections | 315 paired, 313 with no difference (unchanged) |
+| `check_frame_format.py` | 4 problems (System Connection Information widths, unchanged) |
+| Duplicate ids / bookmarks / dangling links | 0 / 0 / 0 |
+| Pages (LibreOffice PDF) | 761 |
+
+Per category: Authenticate – Log in 1, Document Package 1, Document Workflow 6,
+Enterprise Management 12, Account Management 7, Personal Settings 2, ADMIN APIs 4.
+
+One sample was repaired by hand: the `Get Role Users` response in V3 is not
+valid JSON (`},{{}`); it is stored as `{"users": [{...}, {}]}`.
