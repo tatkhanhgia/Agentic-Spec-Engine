@@ -26,6 +26,9 @@ sections:
         token_type: Type of the token returned. It is always set to “bearer”.
         expires_in: Number of seconds for which this access token is valid.
         refresh_token: This is a token related to access token. Can use this token to revoke.
+      description:
+      - This function is responsible for retrieving an access token, which is required for subsequent function calls.
+      - The client must provide credentials issued by the service provider (GoPaperless Workflow Service). The server will authenticate these credentials and, if valid, return an access token for use in subsequent API requests.
     Password Authentication:
       headers:
         x-language-name:
@@ -49,6 +52,9 @@ sections:
         token_type: Type of the token returned. It is always set to “bearer”.
         expires_in: Number of seconds for which this access token is valid.
         refresh_token: This is a token related to access token. Can use this token to revoke.
+      description:
+      - This function retrieves an access token, which will be used in subsequent API calls.
+      - The client must provide user credentials issued by the service provider (GoPaperless Workflow Service). The server will validate the provided credentials and return an access token if they are correct.
     Single Sign On Authentication:
       headers:
         x-language-name:
@@ -68,6 +74,9 @@ sections:
         token_type: Type of the token returned. It is always set to “bearer”.
         expires_in: Number of seconds for which this access token is valid.
         refresh_token: This is a token related to access token. Can use this token to revoke.
+      description:
+      - This function retrieves an access token, which will be used in subsequent API calls.
+      - A business application can call this API to obtain a user's access token by making a request to a third-party service, based on the provided method and token.
     Revoke refresh token:
       headers:
         x-language-name:
@@ -78,12 +87,18 @@ sections:
       request_fields:
         refresh_token: OAuth refresh access token to revoke
         token_type_hint: Type of token. Currently only “refresh_token” is supported
+      description:
+      - This function revokes the refresh tokens issued for a user.
+      - A refresh token is generated and sent when an authentication request is successfully processed.
     Get Information:
       headers:
         x-language-name:
         - 'Display the error message in the specified language. Possible values are:'
         - + en
         - + vi
+      description:
+      - This function retrieves information about GoPaperless Workflow Services.
+      - Additionally, this API can be used to verify the validity of an access token by including it in the request header.
     Pre Login Authentication:
       headers:
         x-language-name:
@@ -98,6 +113,7 @@ sections:
         - Status of the user. Possible values are
         - + NOT_FOUND
         - + ACTIVE
+      description: This function retrieves the authentication method for the user based on the configuration set in the enterprise role.
     Switch Enterprise Context:
       headers:
         x-language-name:
@@ -112,6 +128,7 @@ sections:
       request_fields:
         profile_id: The ID of the enterprise profile to switch to. This parameter takes priority over enterprise_id. A positive value resolves the enterprise from the profile list of the user. A value of 0 or less switches the context back to the personal account.
         enterprise_id: The ID of the enterprise to switch to. It is an alternative to profile_id and is used only when profile_id is not provided. A value of 0 or -1 switches the context back to the personal account.
+      description: Business applications can use this service API to switch the working context of the current user between a personal account and an enterprise account that the user belongs to. All subsequent API calls are then performed in the selected context.
   Document Package:
     Pre Upload Document:
       headers:
@@ -132,6 +149,7 @@ sections:
         - '+ 0 : Exist a Form Field'
         - '+ 1 : Document is empty'
         document_status_name: Name of the status
+      description: Business Applications can use this service API to pre-check a document before calling subsequent APIs.
     Add Document Package:
       headers:
         x-language-name:
@@ -147,6 +165,9 @@ sections:
         package_name: Defines the name of the package.
       response_fields:
         package_id: This is the ID of the package that was created. Using this ID to Interact with that document package.
+      description:
+      - After authenticating into GoPaperless Workflow Service (e.g., Business Application), this mandatory function must be called first to create a package in GoPaperless Workflow.
+      - This API is used to create a blank package containing one or more documents. Additionally, the package can be used to add fields, data, and other elements to initiate a new workflow.
     Upload Document:
       headers:
         x-language-name:
@@ -163,6 +184,7 @@ sections:
         packageId: This is the ID of the package that was created. Using this ID to Interact with that document package.
       response_fields:
         document_id: The document ID to be used to share, download or append it into workflow
+      description: The client can use this API to add a document to a document package, which is linked to a user account. The document metadata is sent in the HTTP header, while the document data (binary) is sent in the HTTP body.
     Upload Document (base64):
       headers:
         x-language-name:
@@ -181,6 +203,7 @@ sections:
         document: Base64 encoded of the document
       response_fields:
         document_id: The document ID to be used to share, download or append it into workflow
+      description: The client can use this service API to add a document to a document package, which is linked to a user account. The document metadata is sent in the HTTP headers, while the document data (Base64-encoded) is sent in the HTTP body
     Download Package:
       headers:
         x-language-name:
@@ -193,6 +216,9 @@ sections:
         - 'Note: the accessToken is obtained after a successful authorization.'
       path_params:
         packageId: This is the ID of the package that was created. Using this ID to Interact with that document package.
+      description:
+      - Business applications can use this service API to download a document package in binary format. If the package contains a single document, the downloaded file will be a binary PDF. However, if the package includes multiple documents, the download will be a binary ZIP file containing all documents.
+      - 'Note: The parameters x-password and x-otp are required if the package owner (the user who created the package) has enabled this option during the workflow creation phase.'
     Download Package (base64):
       headers:
         x-language-name:
@@ -207,6 +233,9 @@ sections:
         packageId: This is the ID of the package that was created. Using this ID to Interact with that document package.
       response_fields:
         file_data: File data in base64 format
+      description:
+      - Business applications can use this service API to download a document package in base64 format. If the package contains a single document, the downloaded file will be a binary PDF. However, if the package includes multiple documents, the download will be a binary ZIP file containing all documents.
+      - 'Note: The parameters x-password and x-otp are required if the package owner (the user who created the package) has enabled this option during the workflow creation phase.'
     Download Document:
       headers:
         x-language-name:
@@ -220,6 +249,7 @@ sections:
       path_params:
         packageId: This is the ID of the package that was created. Using this ID to Interact with that document package.
         documentId: This is the ID of the document that was created and belongs to the packageId.
+      description: Business applications can use this service API to download a document in binary format. The client must provide both the package ID and the document ID to retrieve the document successfully
     Download Document (base64):
       headers:
         x-language-name:
@@ -235,6 +265,7 @@ sections:
         documentId: The document ID is required for sharing, downloading, or appending the document to a workflow.
       response_fields:
         file_data: Data of the document in base64 format
+      description: Business applications can use this service API to download the document in base64 string format. The package ID and document ID are provided in the resource URL.
     Get All Packages:
       headers:
         x-language-name:
@@ -249,6 +280,7 @@ sections:
         x-total-records: The length of the list of records
       response_fields:
         packages: The list of <Package>.
+      description: Business applications can use this service API to get all document packages in GoPaperless Workflow.
     Get Document Image:
       headers:
         x-page-width: Width of the image returned in response.
@@ -266,6 +298,7 @@ sections:
         packageId: This is the ID of the package that was created. Using this ID to Interact with that document package.
         documentId: The document ID to be used to share, download or append it into workflow
         pageNo: Page number in the document for which the image is requested.
+      description: Business Applications can use this service API to get an image of the document.
     Get Document Image Base64:
       headers:
         x-page-width: Width of the image returned in response.
@@ -286,6 +319,7 @@ sections:
       response_fields:
         file_data: Data of the image in base64 format
         image_format: Format of the image
+      description: Business Applications can use this service API to get an image of the document in base64 format.
     Get Document Details:
       headers:
         x-language-name:
@@ -312,6 +346,7 @@ sections:
         created_by: Name of the user who created this decline
         modified_at: Date of the decline to know when it was modified in ISO format
         modified_by: Name of the user who modified this decline
+      description: Business applications can use this service API to retrieve detailed information about a document contained within a package.
     Get Document Verification:
       headers:
         x-language-name:
@@ -325,6 +360,7 @@ sections:
       path_params:
         packageId: This is the ID of the package that was created. Using this ID to Interact with that document package.
         documentId: The document ID is required for sharing, downloading, or appending the document to a workflow.
+      description: Business Applications can use this service API to get the verification result for all the digital signature fields of a document in a package.
     Get Package Details:
       headers:
         x-language-name:
@@ -345,6 +381,7 @@ sections:
         - + ACTIVE/ENABLED
         - + INACTIVE/DISABLED
         documents: List of document belongs to this package
+      description: Business applications can use this service API to get the details of a document package, including its name, owner, status and the list of documents it contains.
     Rename Package:
       headers:
         x-language-name:
@@ -360,6 +397,7 @@ sections:
         packageId: This is the ID of the package that was created. Using this ID to Interact with that document package.
       request_fields:
         package_name: New name of the document package.
+      description: Business applications can use this service API to rename the name of the package.
     Rename Document:
       headers:
         x-language-name:
@@ -376,6 +414,7 @@ sections:
         documentId: The document ID is required for sharing, downloading, or appending the document to a workflow.
       request_fields:
         document_name: New name of the document.
+      description: Business Applications can use this service API to rename a document inside the package.
     Delete Package:
       headers:
         x-language-name:
@@ -388,6 +427,7 @@ sections:
         - 'Note: the accessToken is obtained after a successful authorization.'
       path_params:
         packageId: This is the ID of the package that was created. Using this ID to Interact with that document package.
+      description: Business Applications can use this service API to delete the package.
     Delete Document:
       headers:
         x-language-name:
@@ -401,6 +441,7 @@ sections:
       path_params:
         packageId: This is the ID of the package that was created. Using this ID to Interact with that document package.
         documentId: The document ID is required for sharing, downloading, or appending the document to a workflow.
+      description: Business Applications can use this service API to delete the document of package.
     Update Document:
       headers:
         x-language-name:
@@ -416,6 +457,12 @@ sections:
       path_params:
         packageId: This is the ID of the package that was created. Using this ID to Interact with that document package.
         documentId: The document ID is required for sharing, downloading, or appending the document to a workflow.
+      description:
+      - Business applications can use this service API to update a document of a document package. The document information is sent in the HTTP request header and document bytes are sent in the HTTP request body.
+      - GoPaperless Workflow supports a wide variety of document formats, each of which can be converted to PDF format upon upload.
+      - Note PDF documents are not altered upon upload to the system.
+      - Note the document must already exist in the package before you can update it using this call.
+      - Note this feature is supported only for PDF documents.
     Update Document (base64):
       headers:
         x-language-name:
@@ -433,6 +480,12 @@ sections:
         documentId: The document ID is required for sharing, downloading, or appending the document to a workflow.
       request_fields:
         document: Base64 encoded of the document
+      description:
+      - Business applications can use this service API to update a document of a document package. The document information is sent in the HTTP request header and the document content is sent as a base64 encoded string in the HTTP request body.
+      - GoPaperless Workflow supports a wide variety of document formats, each of which can be converted to PDF format upon upload.
+      - Note PDF documents are not altered upon upload to the system.
+      - Note the document must already exist in the package before you can update it using this call.
+      - Note this feature is supported only for PDF documents.
     Merge Document:
       headers:
         x-language-name:
@@ -448,6 +501,7 @@ sections:
       path_params:
         packageId: This is the ID of the package that was created. Using this ID to Interact with that document package.
         documentId: The document ID is required for sharing, downloading, or appending the document to a workflow.
+      description: Business applications can use this service API to merge a document at the top or the bottom of the target document in a package. The x-append-to-top header controls the position.
     Apply Workflow Template:
       headers:
         x-language-name:
@@ -465,6 +519,11 @@ sections:
       request_fields:
         template_name: Name of template to be applied on the document.
         apply_to_all: True, if template is to be applied on all the documents in the package.
+      description:
+      - Business applications can use this service API to apply a workflow template to a document. The document ID on which template has to be applied is provided in the resource URL.
+      - 'While applying the template it is important to remember these two important points:'
+      - Point 1 - If the template being applied is created using a PDF which already contained form fields then ensure that the document on which this template is now being applied must contain these form fields in advance and GoPaperless Workflow will NOT create those form fields via the template rather only apply the form data and assign to the respective users.
+      - Point 2 - If the template being applied is created where form fields are manually added (hence not present in the PDF originally) via GoPaperless Workflow e.g. signature field, initial, in-person signature, check boxes, radio buttons, text fields etc. then on applying such a template, these form fields will be created on the target document even if these form fields were already present in the document.
     Convert Document to Paper:
       headers:
         x-language-name:
@@ -481,6 +540,7 @@ sections:
         documentId: The document ID is required for sharing, downloading, or appending the document to a workflow.
       request_fields:
         converter_display_name: Name shown on the conversion page as the person who converted the document. When omitted, the name of the authenticated user is used, falling back to their email address.
+      description: Business applications can use this service API to produce a paper copy of a signed document. The returned PDF carries an appended conversion page that records who converted the document and a QR code linking back to the workflow.
     Download Signature Summary:
       headers:
         x-language-name:
@@ -494,6 +554,7 @@ sections:
       path_params:
         packageId: This is the ID of the package that was created. Using this ID to Interact with that document package.
         documentId: The document ID is required for sharing, downloading, or appending the document to a workflow.
+      description: Business applications can use this service API to download the signature summary of a document as a PDF file. The summary lists the signatures applied to the document. This API requires a user access token; a token obtained through Client Credentials Authentication is rejected.
     Download Signature Summary (base64):
       headers:
         x-language-name:
@@ -509,6 +570,7 @@ sections:
         documentId: The document ID is required for sharing, downloading, or appending the document to a workflow.
       response_fields:
         file_data: Data of the document in base64 format
+      description: Business applications can use this service API to download the signature summary of a document as a base64 encoded string. The content is the same PDF returned by Download Signature Summary. This API requires a user access token; a token obtained through Client Credentials Authentication is rejected.
   Document Workflow:
     Start new Workflow:
       headers:
@@ -526,6 +588,7 @@ sections:
       request_fields:
         workflow_mode: Mode of the workflow. Possible values in [here](#WorkflowMode)
         deadline_at: Deadline of the workflow
+      description: Business applications can use this service API to initiate a new workflow from a given `packageId`. Converting the package into a workflow enables seamless processing of subsequent API calls.
     Create Workflow From Template:
       headers:
         x-language-name:
@@ -544,6 +607,7 @@ sections:
         package_id: The ID of the document package that was created.
         workflow_id: The ID of the workflow that was created.
         template_id: The ID of the template that was applied.
+      description: Business applications can use this service API to create a new draft document package, document and workflow in one call from a complete template snapshot. The template to apply is provided in the request body.
     Share Workflow:
       headers:
         x-language-name:
@@ -556,6 +620,7 @@ sections:
         - 'Note: the accessToken is obtained after a successful authorization.'
       path_params:
         packageId: This is the ID of the package that was created. Using this ID to Interact with that document package.
+      description: Business applications can use this service API to share the document package with the signers and start the workflow. The package ID to be shared is provided in the resource URL.
     Add User to Workflow:
       headers:
         x-language-name:
@@ -573,6 +638,7 @@ sections:
         users: Arrays of the User
       response_fields:
         users: Arrays of the User
+      description: After creating a workflow, the business application can use this service API to add a user to the workflow. This API call adds only one recipient at a time, and the newly added user will be placed as the last participant in the workflow.
     Get All Workflow:
       headers:
         x-language-name:
@@ -595,6 +661,7 @@ sections:
         x-total-records: The length of the list of records
       response_fields:
         workflows: The list of workflow.
+      description: Business applications can use this service API to retrieve all workflows in GoPaperless Workflow.
     Update Workflow Details:
       headers:
         x-language-name:
@@ -618,6 +685,7 @@ sections:
         comments: Allow comments
         deadline_at: Deadline of the workflow
         category_id: Id of the category
+      description: Business applications can use this service API to update the workflow details of a package.
     Delete Workflow:
       headers:
         x-language-name:
@@ -630,6 +698,7 @@ sections:
         - 'Note: the accessToken is obtained after a successful authorization.'
       path_params:
         packageId: This is the ID of the package that was created. Using this ID to Interact with that document package.
+      description: Business applications can use this service API to stop a workflow in progress and archive it. The package ID is provided in the resource URL.
     Get Workflow Details:
       headers:
         x-language-name:
@@ -659,6 +728,7 @@ sections:
         created_by: Name of the user who created this package
         modified_at: Date of the package to know when it was modified in ISO format
         modified_by: Name of the user who modified this package
+      description: Business applications can use this service API to retrieve workflow details for a given package.
     Get Workflow Details by UUID:
       headers:
         x-language-name:
@@ -688,6 +758,7 @@ sections:
         created_by: Name of the user who created this package
         modified_at: Date of the package to know when it was modified in ISO format
         modified_by: Name of the user who modified this package
+      description: Business applications can use this service API to retrieve the details of a workflow by its UUID, as an alternative to the package ID based lookup. The response payload is identical to Get Workflow Details.
     View Workflow:
       headers:
         x-language-name:
@@ -711,6 +782,7 @@ sections:
         created_by: Name of the user who created this package
         modified_at: Date of the package to know when it was modified in ISO format
         modified_by: Name of the user who modified this package
+      description: Applications can call this service API when a shared document is opened by a recipient. It returns the workflow details for an unauthenticated recipient and records the view action. No access token is required.
     Get Workflow Users:
       headers:
         x-language-name:
@@ -725,6 +797,7 @@ sections:
         packageId: This is the ID of the package that was created. Using this ID to Interact with that document package.
       response_fields:
         users: Arrays of the User
+      description: Business applications can use this service API to retrieve a list of users assigned to the workflow of a package.
     Update Workflow User:
       headers:
         x-language-name:
@@ -747,6 +820,7 @@ sections:
         role: Role of the participant. Possible values are [here](#Role)
         signing_order: Order of the recipient in the workflow. This signing order is mandatory when workflow type is "CUSTOM".
         email_language_code: Parameter to define language in email.
+      description: Business applications can use this service API to update user data in the workflow.
     Delete Workflow User:
       headers:
         x-language-name:
@@ -760,6 +834,7 @@ sections:
       path_params:
         packageId: This is the ID of the package that was created. Using this ID to Interact with that document package.
         order: SigningOrder of the User
+      description: Business applications can use this service API to remove a user from the workflow.
     Accept Terms of Service (ECONTRACT):
       headers:
         x-language-name:
@@ -779,6 +854,7 @@ sections:
         ua: User-Agent string of the client that accepted the terms.
         ts: Unix timestamp in seconds of the acceptance.
         act: Action identifier of the consent, e.g. "accept".
+      description: Business applications can use this service API to record the Terms of Service acceptance evidence of an ECONTRACT workflow participant. The package ID and the workflow participant ID are provided in the resource URL.
     Send Reminder:
       headers:
         x-language-name:
@@ -792,6 +868,7 @@ sections:
       path_params:
         packageId: This is the ID of the package that was created. Using this ID to Interact with that document package.
         order: Order of the recipient in the workflow.
+      description: Business applications can use this service API to send a reminder to a workflow user. The recipient is identified by the order in the workflow and must be a next signer, otherwise the request is rejected.
     Get Workflow History:
       headers:
         x-language-name:
@@ -807,6 +884,7 @@ sections:
       response_fields:
         workflow_id: The ID of the package
         actions: Arrays of the Actions
+      description: Business applications can use this service API to get the list of actions performed on the document
     Add Workflow Comment/Message:
       headers:
         x-language-name:
@@ -822,6 +900,7 @@ sections:
         send_to_owner: If document owner is included in everyone's drop down but not a part of workflow collaborators. Default is true
         order: If the user wants to send comments to multiple recipients
         text: Workflow Comment text
+      description: Business applications can use this service API to add a Comment/Message to the workflow.
     Get Workflow Comment/Message:
       headers:
         x-language-name:
@@ -836,6 +915,7 @@ sections:
         packageId: This is the ID of the package that was created. Using this ID to Interact with that document package.
       response_fields:
         comments: List of comment in workflow
+      description: Business applications can use this service API to get the Comment/Message of the workflow.
     Delete Workflow Comment/Message:
       headers:
         x-language-name:
@@ -849,6 +929,7 @@ sections:
       path_params:
         packageId: This is the ID of the package that was created. Using this ID to Interact with that document package.
         commentId: ID of the comment
+      description: Business applications can use this service API to delete the Comment/Message of the workflow.
     Create new Category:
       headers:
         x-language-name:
@@ -868,6 +949,7 @@ sections:
         category_parent_id: Parent of this category
       response_fields:
         category_id: Id of the category
+      description: Using this API to create a new category to filter that workflow.
     Update Category:
       headers:
         x-language-name:
@@ -887,6 +969,7 @@ sections:
         - Color of the category logo in HEX format.
         - 'Ex: #000000, #01FF12'
         category_parent_id: Parent of this category
+      description: Using this API to update the category.
     Get list of Category:
       headers:
         x-language-name:
@@ -899,6 +982,7 @@ sections:
         - 'Note: the accessToken is obtained after a successful authorization.'
       response_fields:
         categories: Array of the category
+      description: Using this API to get all the categories that belong to the user.
     Delete Category:
       headers:
         x-language-name:
@@ -911,6 +995,7 @@ sections:
         - 'Note: the accessToken is obtained after a successful authorization.'
       path_params:
         categoryId: The ID of the category to be deleted.
+      description: Business applications can use this service API to delete a category used to organize workflows. The category ID is provided in the resource URL.
     Add Placeholder to Workflow:
       headers:
         x-language-name:
@@ -926,6 +1011,10 @@ sections:
         packageId: This is the ID of the package that was created. Using this ID to Interact with that document package.
       request_fields:
         placeholders: Arrays of the Placeholder
+      description:
+      - Business applications can use this service API to add placeholder to a workflow in a package. A place holder is required when you do not know the identity of the intended recipient in a workflow.
+      - Note the placeholder will be added as the last user in the workflow. Hence further work may be required to remove a current user/group, already present in the workflow.
+      - Adding a place holder allows you to proceed and add signature and/or input fields to the document, which can then be assigned to individual users at a later stage. While XML type document preparation, only supported role types are "SIGNER", "REVIEWER" and "CARBON_COPY".
     Update Placeholder in Workflow:
       headers:
         x-language-name:
@@ -945,6 +1034,7 @@ sections:
         email_notification: If set as true, GoPaperless Workflow will send notifications to the user via email as per the document owner and user notification settings. A value of false means no notifications will be sent to user throughout the workflow.
         role: Role of the participant. Possible values are [here](#Role)
         signing_order: Order of the recipient in the workflow. This signing order is mandatory when workflow type is "CUSTOM".
+      description: Business applications can use this service API to update a placeholder in the workflow. Normally this call is useful after a template has been applied to a document and business applications wants to override the details of a specific place holder within the workflow. The ID of the workflow document is provided in the resource URL, and the workflow place holder is identified by the order at which it is added to the workflow. While XML type document preparation, only supported role types are "SIGNER", "REVIEWER" and "CARBON_COPY".
     Import Excel to Clone Workflow:
       headers:
         x-language-name:
@@ -963,6 +1053,7 @@ sections:
         items: List of recipients to clone the workflow for.
         webhook_url: Callback URL notified when the clone operation completes.
         share_enabled: True to automatically share the cloned workflows.
+      description: Business applications can use this service API to bulk-clone the workflow for a list of recipients imported from an Excel file. The target placeholder is identified by the order at which it is added to the workflow. The operation runs asynchronously; use Get Status of Import Excel to poll the progress.
     Get Status of Import Excel:
       headers:
         x-language-name:
@@ -981,6 +1072,7 @@ sections:
         workflow_inprogress: Number of workflows still processing.
         percentage: Completion percentage of the operation.
         workflows: 'Per-workflow result: id (package ID), workflow_id, name, action (processing step), status (Boolean) and error (resolved error message).'
+      description: Business applications can use this service API to poll the progress of a bulk clone-workflow-from-Excel operation. The transaction code is provided in the resource URL.
     Upload Attachment:
       headers:
         x-language-name:
@@ -998,6 +1090,11 @@ sections:
         documentId: The document ID is required for sharing, downloading, or appending the document to a workflow.
       response_fields:
         attachment_id: Id of the attachment.
+      description:
+      - Business applications can use this service API to upload an attachment to a document package. The document information is sent in the HTTP request header and document bytes are sent in the HTTP request body.
+      - Note PDF documents are not altered upon upload to the system.
+      - Note a package must already exist before you can add a document using this call.
+      - Note this feature is supported only for PDF documents.
     Get Attachments:
       headers:
         x-language-name:
@@ -1013,6 +1110,7 @@ sections:
         documentId: The document ID is required for sharing, downloading, or appending the document to a workflow.
       response_fields:
         attachments: List of the attachment
+      description: Business applications can use this service API to get all attachments in document package.
     Delete Attachment:
       headers:
         x-language-name:
@@ -1027,6 +1125,7 @@ sections:
         packageId: This is the ID of the package that was created. Using this ID to Interact with that document package.
         documentId: The document ID is required for sharing, downloading, or appending the document to a workflow.
         attachmentId: Id of the attachment
+      description: Business applications can use this service API to delete the attachment in document.
     Download Attachment:
       headers:
         x-language-name:
@@ -1041,6 +1140,7 @@ sections:
         packageId: This is the ID of the package that was created. Using this ID to Interact with that document package.
         documentId: The document ID is required for sharing, downloading, or appending the document to a workflow.
         attachmentId: Id of the attachment
+      description: Business applications can use this service API to download attachment in document
   Document Preparation:
     Add Digital Signature Field:
       headers:
@@ -1073,6 +1173,7 @@ sections:
         appearance_design: The appearance of Signature frame. Possible values are [here](#AppearanceDesign)
       response_fields:
         field_name: Name of the field
+      description: Business applications can use this service API to add a new signature field into the workflow.
     Update Digital Signature Field:
       headers:
         x-language-name:
@@ -1103,6 +1204,7 @@ sections:
         remark: Remark in your application
         annotation_position: Position of the signature. Possible values are [here](#AnnotationPosition)
         appearance_design: The appearance of Signature frame. Possible values are [here](#AppearanceDesign)
+      description: Business applications can use this service API to update a signature field of the workflow.
     Add TextBox Field:
       headers:
         x-language-name:
@@ -1149,6 +1251,7 @@ sections:
         remark: Remark in your application
       response_fields:
         field_name: Name of the field
+      description: Business applications can use this service API to add a new textBox field into the workflow. When the type parameter carries the name of a custom field configured for the enterprise, the request is processed as that custom field instead of a plain text field. The account must belong to an enterprise; otherwise the request is rejected.
     Update TextBox Field:
       headers:
         x-language-name:
@@ -1193,6 +1296,7 @@ sections:
         required: The object to show required in your application.
         suffix: Suffix of the field.
         remark: Remark in your application
+      description: Business applications can use this service API to update a textBox field in the workflow. When the type parameter carries the name of a custom field configured for the enterprise, the request is processed as that custom field instead of a plain text field. The account must belong to an enterprise; otherwise the request is rejected.
     Add Initial Field:
       headers:
         x-language-name:
@@ -1225,6 +1329,7 @@ sections:
         replicate_pages: List the page numbers to which the client wants this initial field to be replicated.
       response_fields:
         field_name: Name of the field
+      description: Business applications can use this service API to add an initial field into the workflow.
     Update Initial Field:
       headers:
         x-language-name:
@@ -1256,6 +1361,7 @@ sections:
         replicate_all_pages: True if the client wants to replicate the initial field on all pages
         apply_to_all: True if the client wants to set the image of this initial field for all initial fields in the workflow.
         replicate_pages: List the page numbers to which the client wants this initial field to be replicated.
+      description: Business applications can use this service API to update a QR field in the workflow.
     Assign Document Field:
       headers:
         x-language-name:
@@ -1272,6 +1378,7 @@ sections:
         documentId: The document ID to be used to share, download or append it into workflow
       request_fields:
         fields_assign: The Arrays of fields
+      description: Business applications can use this service API to assign user to the field (QR field, Digital Signature Field, …). The field must be already be present in the document and the users must be present in the workflow. This API call allows you to assign a user by their workflow order number, to an input field on the document.
     Delete Document Field:
       headers:
         x-language-name:
@@ -1288,6 +1395,7 @@ sections:
         documentId: The document ID to be used to share, download or append it into workflow
       request_fields:
         field_name: Name of the field
+      description: Business applications can use this service API to delete the document field.
     Get Document Fields:
       headers:
         x-language-name:
@@ -1319,6 +1427,7 @@ sections:
         stepper: Object representing to the Numeric Stepper Attribute.
         checkboxV2: Object representing to the Checkbox V2 Attribute.
         radioboxV2: Object representing to the Radiobox V2 Attribute.
+      description: Business applications can use this service API to get the document field.
     Get Field Types:
       headers:
         x-language-name:
@@ -1331,6 +1440,7 @@ sections:
         - 'Note: the accessToken is obtained after a successful authorization.'
       response_fields:
         field_types: Array of field type groups. Each element carries the group name and the items that belong to it, and every item may carry a children array of the same shape.
+      description: Using this API to get every field type available in the system, grouped by SYSTEM, INDIVIDUAL and COMMON. The API requires a user access token; a client credential token is rejected.
     Add In-person Field:
       headers:
         x-language-name:
@@ -1363,6 +1473,12 @@ sections:
         order: Order id of the participant.
       response_fields:
         field_name: Name of the field
+      description:
+      - Business applications can use this service API to add an in-person signature field to a document in a package.
+      - At least one user must exist in a workflow before fields(input and signature) can be added to the document in this way. The order number corresponds to the recipient in the workflow. Therefore, this number must be equal or less than the total number of users in the workflow. The below example assigns this new signature field to the first person in the workflow.
+      - See Add Users to Workflow for more information. Note if you have a document with a template applied, or have applied one using the APIs, then the workflow will already contain users.
+      - In order to host an in-person meeting a GoPaperless Workflow user must be part of the workflow. They must either be added with Role "INPERSON_HOST" or "SIGNER". For the host option they do not require a signature or input field on the document, and the in-person signature field can be signed by the non-GoPaperless Workflow registered user.
+      - Note this is a special workflow scenario whereby it is expected that the GoPaperless Workflow user and recipient would be in the same location. This type of signature is not intended for use whereby a document is shared with recipients over email link in the normal loose integration method.
     Update In-person Field:
       headers:
         x-language-name:
@@ -1394,6 +1510,9 @@ sections:
         annotation_position: Position of the signature. Possible values are [here](#AnnotationPosition)
         appearance_design: The appearance of Signature frame. Possible values are [here](#AppearanceDesign)
         order: Order id of the participant.
+      description:
+      - Business applications can use this service API to update an in-person signature field of a document in a package.
+      - Note all of the input parameters can be changed. Where you wish to retain the current setting submit it in the call unchanged. You can therefore use the same parameters as when you added the input field, or the information as returned by Get Document Fields. The latter can be used when a template was applied or the document was created using the GUI interface.
     Add Datetime Field:
       headers:
         x-language-name:
@@ -1440,6 +1559,7 @@ sections:
         date: Data of the date
       response_fields:
         field_name: Name of the field
+      description: Business applications can use this service API to add a new date time field into the workflow.
     Update Datetime Field:
       headers:
         x-language-name:
@@ -1485,6 +1605,7 @@ sections:
         suffix: Suffix of the field.
         remark: Remark in your application
         date: Data of the date
+      description: Business applications can use this service API to update a date time field in the workflow.
     Add CheckBox Field:
       headers:
         x-language-name:
@@ -1529,6 +1650,7 @@ sections:
         remark: Remark in your application
       response_fields:
         field_name: Name of the field
+      description: Business applications can use this service API to add a new checkbox field into the workflow.
     Update CheckBox Field:
       headers:
         x-language-name:
@@ -1572,6 +1694,7 @@ sections:
         required: The object to show required in your application.
         suffix: Suffix of the field.
         remark: Remark in your application
+      description: Business applications can use this service API to update a checkbox field in the workflow.
     Add RadioBox Field:
       headers:
         x-language-name:
@@ -1606,6 +1729,7 @@ sections:
         remark: Remark in your application
       response_fields:
         field_name: Name of the field
+      description: Business applications can use this service API to add a new radiobox field into the workflow.
     Update RadioBox Field:
       headers:
         x-language-name:
@@ -1639,6 +1763,7 @@ sections:
         required: The object to show required in your application.
         suffix: Suffix of the field.
         remark: Remark in your application
+      description: Business applications can use this service API to update a radiobox field in the workflow.
     Add QR Field:
       headers:
         x-language-name:
@@ -1673,6 +1798,7 @@ sections:
         custom_url: This custom URL provides an alternative for the client to define the target URL, instead of using the URL configured within the Enterprise Settings.
       response_fields:
         field_name: Name of the field
+      description: Business applications can use this service API to add a new QR field into the workflow.
     Update QR Field:
       headers:
         x-language-name:
@@ -1701,6 +1827,7 @@ sections:
         suffix: Suffix of the field.
         remark: Remark in your application
         image_qr: Image data of the QR Code (when you have and qr image, just send it with this parameter).
+      description: Business applications can use this service API to update a QR field in the workflow.
     Add ComboBox Field:
       headers:
         x-language-name:
@@ -1747,6 +1874,7 @@ sections:
         combo_item: Data of the combobox
       response_fields:
         field_name: Name of the field
+      description: Business applications can use this service API to add a new combo box field into the workflow.
     Update ComboBox Field:
       headers:
         x-language-name:
@@ -1792,6 +1920,7 @@ sections:
         place_holder: Place holder of the field.
         tool_tip_text: To show tool tip text of the field.
         combo_item: Data of the combobox
+      description: Business applications can use this service API to update a combo box field in the workflow.
     Add Toggle Field:
       headers:
         x-language-name:
@@ -1838,6 +1967,7 @@ sections:
         toggle_item: Data of the toggle
       response_fields:
         field_name: Name of the field
+      description: Business applications can use this service API to add a new toggle field into the workflow.
     Update Toggle Field:
       headers:
         x-language-name:
@@ -1883,6 +2013,7 @@ sections:
         place_holder: Place holder of the field.
         tool_tip_text: To show tool tip text of the field.
         toggle_item: Data of the toggle
+      description: Business applications can use this service API to update a toggle field in the workflow.
     Add Numeric Stepper Field:
       headers:
         x-language-name:
@@ -1928,6 +2059,7 @@ sections:
         tool_tip_text: To show tool tip text of the field.
       response_fields:
         field_name: Name of the field
+      description: Business applications can use this service API to add a new numeric stepper field into the workflow.
     Update Numeric Stepper Field:
       headers:
         x-language-name:
@@ -1972,6 +2104,7 @@ sections:
         font: Font of the text in the field.
         place_holder: Place holder of the field.
         tool_tip_text: To show tool tip text of the field.
+      description: Business applications can use this service API to update a numeric stepper field in the workflow.
     Add Hyperlink Field:
       headers:
         x-language-name:
@@ -2018,6 +2151,7 @@ sections:
         address: Data of the hyperlink field
       response_fields:
         field_name: Name of the field
+      description: Business applications can use this service API to add a new hyperlink field into the workflow.
     Update Hyperlink Field:
       headers:
         x-language-name:
@@ -2063,6 +2197,7 @@ sections:
         place_holder: Place holder of the field.
         tool_tip_text: To show tool tip text of the field.
         address: Data of the hyperlink field
+      description: Business applications can use this service API to update a hyperlink field in the workflow.
     Add Stamp Field:
       headers:
         x-language-name:
@@ -2092,6 +2227,7 @@ sections:
         image: Data of the image in base64 format
       response_fields:
         field_name: Name of the field
+      description: Business applications can use this service API to add a new stamp field into the workflow.
     Update Stamp Field:
       headers:
         x-language-name:
@@ -2120,6 +2256,7 @@ sections:
         suffix: Suffix of the field.
         remark: Remark in your application
         image: Data of the image in base64 format
+      description: Business applications can use this service API to update a stamp field in the workflow.
     Add Camera Field:
       headers:
         x-language-name:
@@ -2151,6 +2288,7 @@ sections:
         camera: Data of the camera field
       response_fields:
         field_name: Name of the field
+      description: Business applications can use this service API to add a new camera field into the workflow.
     Update Camera Field:
       headers:
         x-language-name:
@@ -2181,6 +2319,7 @@ sections:
         place_holder: Place holder of the field.
         tool_tip_text: To show tool tip text of the field.
         camera: Data of the camera field
+      description: Business applications can use this service API to update a camera field in the workflow.
     Add Attachment Field:
       headers:
         x-language-name:
@@ -2213,6 +2352,7 @@ sections:
         show_icon_enabled: The flag to define if the icon next to camera is show in your application
       response_fields:
         field_name: Name of the field
+      description: Business applications can use this service API to add a new attachment into the workflow.
     Update Attachment Field:
       headers:
         x-language-name:
@@ -2244,6 +2384,7 @@ sections:
         tool_tip_text: To show tool tip text of the field.
         file: Data of the attachment field
         show_icon_enabled: The flag to define if the icon next to camera is show in your application
+      description: Business applications can use this service API to update an attachment in the workflow.
     Add CheckBox Field Version 2:
       headers:
         x-language-name:
@@ -2281,6 +2422,9 @@ sections:
         uncheckbox_frame: Data of the checkbox frame when the “checked” is “false”
       response_fields:
         field_name: Name of the field
+      description:
+      - Business applications can use this service API to add a new checkbox field version 2 into the workflow.
+      - 'Note: Users cannot interact with this field while the file is being processed. This type of field will render an image instead of a FormField.'
     Update CheckBox Field Version 2:
       headers:
         x-language-name:
@@ -2317,6 +2461,7 @@ sections:
         multiple_checked: The flag to define if the group in checkbox field can have multiple checker.
         checkbox_frame: Data of the checkbox frame when the “checked” is “true”
         uncheckbox_frame: Data of the checkbox frame when the “checked” is “false”
+      description: Business applications can use this service API to update a checkbox in the workflow.
     Add RadioBox Field Version 2:
       headers:
         x-language-name:
@@ -2353,6 +2498,9 @@ sections:
         uncheckbox_frame: Data of the checkbox frame when the “checked” is “false”
       response_fields:
         field_name: Name of the field
+      description:
+      - Business applications can use this service API to add a new radiobox field version 2 into the workflow.
+      - 'Note: Users cannot interact with this field while the file is being processed. This type of field will render an image instead of a FormField.'
     Update RadioBox Field Version 2:
       headers:
         x-language-name:
@@ -2388,6 +2536,7 @@ sections:
         align_option: Alignment object to show the position of the text.
         checkbox_frame: Data of the checkbox frame when the “checked” is “true”
         uncheckbox_frame: Data of the checkbox frame when the “checked” is “false”
+      description: Business applications can use this service API to update a radiobox in the workflow.
     Add VNeID Field:
       headers:
         x-language-name:
@@ -2435,6 +2584,7 @@ sections:
         loaded_from_vneid: True if the value of the field is taken from the VNeID application instead of being entered manually.
       response_fields:
         field_name: Name of the field
+      description: Business applications can use this service API to add a new VNeID field into the workflow.
     Update VNeID Field:
       headers:
         x-language-name:
@@ -2481,6 +2631,7 @@ sections:
         remark: Remark in your application
         type: The VNeID attribute that the field is populated with. The type is only changed when this parameter is provided. The available types are returned by the Get Field Types API.
         loaded_from_vneid: True if the value of the field is taken from the VNeID application instead of being entered manually.
+      description: Business applications can use this service API to update a VNeID field in the workflow.
     Add Redact Field:
       headers:
         x-language-name:
@@ -2510,6 +2661,7 @@ sections:
         redact_policy: Redaction policy of the field. It carries a creator object and an others object. Each of them takes pre_process and post_process, whose possible values are SHOW, REDACT, SHOW_ALL and REDACT_ALL. The others object also takes remark.
       response_fields:
         field_name: Name of the field
+      description: Business applications can use this service API to add a new redact field into the workflow.
     Update Redact Field:
       headers:
         x-language-name:
@@ -2538,6 +2690,7 @@ sections:
         suffix: Suffix of the field.
         remark: Remark in your application
         redact_policy: Redaction policy of the field. It carries a creator object and an others object. Each of them takes pre_process and post_process, whose possible values are SHOW, REDACT, SHOW_ALL and REDACT_ALL. The others object also takes remark.
+      description: Business applications can use this service API to update a redact field in the workflow.
     Add Elabor Field:
       headers:
         x-language-name:
@@ -2571,6 +2724,7 @@ sections:
         remark: Remark in your application
       response_fields:
         field_name: Name of the field
+      description: Business applications can use this service API to add a new Elabor field into the workflow.
     Update Elabor Field:
       headers:
         x-language-name:
@@ -2603,6 +2757,7 @@ sections:
         suffix: Suffix of the field.
         remark: Remark in your application
         type: The Elabor attribute that the field is populated with. The type is only changed when this parameter is provided. The available types are returned by the Get Field Types API.
+      description: Business applications can use this service API to update an Elabor field in the workflow.
   Document Processing:
     Approve Document:
       headers:
@@ -2619,6 +2774,7 @@ sections:
         packageId: This is the ID of the package that was created. Using this ID to Interact with that document package.
       request_fields:
         reason: The reason for approving a package
+      description: Business application can use this service API to approve the document before signing it.
     Decline Document:
       headers:
         x-language-name:
@@ -2634,6 +2790,9 @@ sections:
         packageId: This is the ID of the package that was created. Using this ID to Interact with that document package.
       request_fields:
         reason: 'The reason for decline a package. Maximum length: 256 characters.'
+      description:
+      - Business application can use this service API to decline the document.
+      - 'Note: the user must send a reason.'
     Sign with GoPaperless Workflow > Sign Document:
       headers:
         x-language-name:
@@ -2656,6 +2815,7 @@ sections:
         contact_information: Contact information of the signer provided by the recipient.
         skip_verification: No signature verification returns in response body when it is set as true. Default value for this parameter set to false.
         time_zone: Timezone in IANA format.
+      description: Business applications can use this service API to sign the document.
     Sign with GoPaperless Workflow > Sign Eseal:
       headers:
         x-language-name:
@@ -2677,6 +2837,7 @@ sections:
         contact_information: Contact information of the signer provided by the recipient.
         skip_verification: No signature verification returns in response body when it is set as true. Default value for this parameter set to false.
         time_zone: Timezone in IANA format.
+      description: Business applications can use this service API to sign eseal. Only an owner with an enterprise account can sign an Eseal.
     Two Step Signing > Get Document Hash:
       headers:
         x-language-name:
@@ -2709,6 +2870,7 @@ sections:
         appearance_design: Name of the signature appearance provided by user.
       response_fields:
         hash_value: Data of the hash
+      description: Business applications can use this service API to get the hash of signature Field in the document.
     Two Step Signing > Embed Signature:
       headers:
         x-language-name:
@@ -2735,6 +2897,7 @@ sections:
         - ']'
         hash_value: Hash of the field.
         skip_verification: The flag to show the verification of document after sign.
+      description: Business applications can use this service API to embed signature in PDF/XML document.
     Fill Form Fields:
       headers:
         x-language-name:
@@ -2751,6 +2914,7 @@ sections:
       path_params:
         packageId: This is the ID of the package that was created. Using this ID to Interact with that document package.
         documentId: The document ID to be used to share, download or append it into workflow
+      description: Business Applications can use this service API to fill in the form field in the document.
     Fill Initials:
       headers:
         x-language-name:
@@ -2771,6 +2935,7 @@ sections:
         image: Base64 Image used for the filling of the initials
         apply_to_all: True if all initials are to be filled.
         initial_field: The list of initial field names to be filled.
+      description: Business Applications can use this service API to fill Initials in the document.
     Submit Document:
       headers:
         x-language-name:
@@ -2786,6 +2951,9 @@ sections:
         packageId: This is the ID of the package that was created. Using this ID to Interact with that document package.
       request_fields:
         reason: The reason for submitting a package
+      description:
+      - One of the GoPaperless Workflow roles is called "Editor". This allows a recipient to edit input fields on a document, but does not require a signature. Once completed the recipient submits their changes. The button used in the GUI is called "Submit".
+      - This is the equivalent operation for an editor to submit their changes via an API call.
   Connector:
     Get List USB-Token Connector:
       headers:
@@ -2797,6 +2965,7 @@ sections:
         - The authentication token (accessToken) required to access the API. Must be provided in the format
         - “Bearer <accessToken>”
         - 'Note: the accessToken is obtained after a successful authorization.'
+      description: Business application can use this service API to get the USB-Token needed to perform USB Token signing (2-step signing).
     Get List Smart-ID Connector:
       headers:
         x-language-name:
@@ -2807,6 +2976,7 @@ sections:
         - The authentication token (accessToken) required to access the API. Must be provided in the format
         - “Bearer <accessToken>”
         - 'Note: the accessToken is obtained after a successful authorization.'
+      description: Business application can use this service API to get the Smart-ID needed to perform signing.
     Get List Internal Signing Service Connector (ISS):
       headers:
         x-language-name:
@@ -2817,6 +2987,7 @@ sections:
         - The authentication token (accessToken) required to access the API. Must be provided in the format
         - “Bearer <accessToken>”
         - 'Note: the accessToken is obtained after a successful authorization.'
+      description: Business application can use this service API to get the ISS needed to perform signing.
     Get Certificate Profile of Connector:
       headers:
         x-language-name:
@@ -2829,6 +3000,7 @@ sections:
         - 'Note: the accessToken is obtained after a successful authorization.'
       response_fields:
         certificate_profiles: Array of Certificate profile
+      description: Business application can use this service API to get all Certificate Profile for Connector.
   RSSP Processing:
     Get RSSP Information:
       headers:
@@ -2845,6 +3017,7 @@ sections:
         - 'Note: the accessToken is obtained after a successful authorization.'
       response_fields:
         signing_servers: Array of Signing Server
+      description: Business application can use this service API to get the RSSP needed to perform signing.
     Get Filtered Credential List:
       headers:
         x-language-name:
@@ -2868,6 +3041,7 @@ sections:
         connector_name: Name of the Connector that returned in API “Get RSSP Information”
       response_fields:
         credentialIDs: Array of Signing Server
+      description: Business application can use this service API to get credential list from RSSP (remote signing service provider).
     Sign Document via RSSP Directly:
       headers:
         x-language-name:
@@ -2906,6 +3080,9 @@ sections:
       response_fields:
         validity_period: The validity period of a TSE defines the timeframe during which the device is authorized to operate and generate valid fiscal data.
         vc_code: The unique, randomly generated string that is used to identify and track a specific transaction.
+      description:
+      - Business applications can use this service API to sign PDF/XML.
+      - This API will generate D2S (Data to be Signed), get Signature from RSSP directly and then perform signature embedding.
     RSSP Credential Authorization:
       headers:
         x-language-name:
@@ -2925,6 +3102,7 @@ sections:
         package_id: The identifier of the package with which the client interacts.
         document_id: The id of document that client interact with.
         field_name: Name of the field that client interact with
+      description: Business applications can use this service API for credentials authorization from RSSP (remote signing service provider)
     Get Signing Status (TSE MID):
       headers:
         x-language-name:
@@ -2938,6 +3116,7 @@ sections:
         Content-Type: The MIME type of the request body. Usually application/json
       response_fields:
         status: Status of the signing process
+      description: Business applications can use this service API to get the signing status when the credential mode is “TSE”.
     Get Credentials Info:
       headers:
         x-language-name:
@@ -2960,6 +3139,7 @@ sections:
         SCAL: SCAL of the certificate (data from RSSP)
         multisign: Number of signature
         fields: All fields parsed from the X.509 certificate, keyed by field name.
+      description: Business applications can use this service API to get credential info from RSSP.
     Send OTP via RSSP:
       headers:
         x-language-name:
@@ -2976,6 +3156,7 @@ sections:
       response_fields:
         validity_period: Validity period of the OTP in seconds.
         user_email: Email of the user the OTP was sent to.
+      description: Business applications can use this service API to send otp via RSSP.
     Get Signing Transaction Status:
       headers:
         x-language-name:
@@ -2989,6 +3170,7 @@ sections:
         - 'Note: the accessToken is obtained after a successful authorization.'
       path_params:
         transactionCode: Transaction code of the signing or sharing transaction, returned when the transaction was initiated.
+      description: Business applications can use this service API to get the status of a standalone RSS signing or data sharing transaction. The transaction code returned when the transaction was initiated is provided in the resource URL. The response type field tells whether the result describes a SIGNING or a SHARING transaction.
     Get Pending Signing Sessions:
       headers:
         x-language-name:
@@ -3002,6 +3184,7 @@ sections:
       response_fields:
         total: Number of pending signing sessions of the current user.
         sessions: Pending sessions. Each item contains requestId, credentialId, connectorName, packageId, documentId, createdBy, createdAt (epoch milliseconds), transactionId, status and isAgent.
+      description: Business applications can use this service API to list the RSS signing sessions of the current user that are still waiting for authorization. This API requires a user access token; a token obtained through Client Credentials Authentication is rejected.
     Get Sign Hash From Service:
       headers:
         x-language-name:
@@ -3022,6 +3205,7 @@ sections:
         operation_mode: 'Operation mode. Possible values are: + S (synchronous, default) + A (asynchronous)'
         is_redirect_app_enabled: If true, the signing session is treated as running on a mobile channel and the provider app redirect is enabled.
         metadata: Process metadata from the client (app info, device fingerprint, network).
+      description: Business applications can use this service API to sign one or more document hashes directly via the RSS service, without a document package. Each digest is sent in the request and the signature value is returned per document. In synchronous mode (operation_mode S, default) the call waits for the user to authorize on the provider application; in asynchronous mode (A) the call returns a waiting-approval response immediately and the result is delivered later. This API requires a user access token; a token obtained through Client Credentials Authentication is rejected.
     Check OCSP Certificate Status:
       headers:
         x-language-name:
@@ -3040,6 +3224,7 @@ sections:
       response_fields:
         valid: True when the certificate passed the OCSP validation.
         cert_status: 'OCSP certificate status. Possible values are: + GOOD + REVOKED + UNKNOWN'
+      description: Business applications can use this service API to check the revocation status of a signing certificate via OCSP. The certificate can be sent directly in base64 format, or connector_name and credential_id can be provided so the service loads the certificate from the signing provider. When OCSP checking is disabled for the connector, the call returns cert_status UNKNOWN with valid true. This API requires a user access token; a token obtained through Client Credentials Authentication is rejected.
   Register Certificate Processing:
     Get Information of Citizen card:
       headers:
@@ -3056,6 +3241,7 @@ sections:
         value: Citizen card number of the user to look up.
       response_fields:
         personal_informations: All information about user
+      description: Business applications can use this service API to retrieve the citizen card information of a user from the identity provider.
     Register Certificate via RSSP:
       headers:
         x-language-name:
@@ -3079,6 +3265,7 @@ sections:
       response_fields:
         session_id: The unique string that identifies the process flow of registering a certificate
         is_email_verified: When this flag is true => Call Sent OTP to Register Certificate with user email to verified.
+      description: Business applications can use this service API to register new Certificate via RSSP.
     Send OTP for Certificate Registration:
       headers:
         x-language-name:
@@ -3095,6 +3282,7 @@ sections:
       request_fields:
         email: Email address to receive the OTP. Required when the user email has not been verified yet. At least one of email or mobile must be provided.
         mobile: Mobile number to receive the OTP. Required when the user mobile number has not been verified yet. At least one of email or mobile must be provided.
+      description: Business applications can use this service API to send OTP to your SMS or Email.
     Verify OTP for Certificate Registration:
       headers:
         x-language-name:
@@ -3110,6 +3298,7 @@ sections:
         sessionId: Session id of the process flow
       request_fields:
         otp: OTP that has been sent to your SMS
+      description: Business applications can use this service API to verify your OTP to register certificate.
     Get List Tax Codes:
       headers:
         x-language-name:
@@ -3124,6 +3313,7 @@ sections:
         sessionId: Session id of the process flow
       response_fields:
         tax_informations: List of tax registration records associated with the certificate holder. Each record contains owner, director, chief accountant, company and source information.
+      description: Business applications can use this service API to get list Tax Codes (when your level of assurance is electronic seal or qualified electronic seal).
     Finish Register Certificate:
       headers:
         x-language-name:
@@ -3147,6 +3337,7 @@ sections:
         webhook_url: Webhook URL that receives the certificate issuance result callback.
         operation_mode: 'Operation mode. Possible values are: + A (asynchronous, default) + S (synchronous) + C'
         metadata: Process metadata from the client (app info, device fingerprint, network).
+      description: 'Business applications can use this service API to finish your flow to register new Certificate. This API is processed asynchronously: the connection is held open (up to 5 minutes) until the certificate issuance completes, or until the flow is canceled via Cancel Issue Certificate.'
     Get Credential Registration Status:
       headers:
         x-language-name:
@@ -3160,6 +3351,7 @@ sections:
         x-connector-name: Connector used to query the registration status. Default value is SMART_ID_RSS_VNeID.
       response_fields:
         data: Details of the transaction. Contains request_type, citizen_pid, credential_id, serial_number and certificate_data.
+      description: Business applications can use this service API to get the status of a certificate registration transaction.
     Cancel Issue Certificate:
       headers:
         x-language-name:
@@ -3173,6 +3365,7 @@ sections:
         Content-Type: The MIME type of the request body. Usually application/json
       request_fields:
         session_id: Session id of the certificate registration flow to cancel.
+      description: Business applications can use this service API to cancel an in-progress certificate registration transaction. Canceling releases the pending Finish Register Certificate request immediately.
   Enterprise Management:
     Register Enterprise User:
       headers:
@@ -3201,6 +3394,11 @@ sections:
         language: Language selected for the user
         user_national_id: National identity number of the user
         common_name: An identifiable name for the user that added as Common Name (CN) in identity certificate.
+      description:
+      - Business Applications can use this service API to register Enterprise User. New users inherit the Enterprise Admin Service Plan and all associated permissions. And there are different scenarios to consider when registering a user.
+      - Users will get an “account activation” email on successful registration, if password, security question and answer parameters are not provided in the call. Email notification flag would be ignored by the GoPaperless Workflow.
+      - Users will get an “account activation” email on successful registration, if password, security question and answer parameters are provided in the call. Email notification flag should be set to True
+      - Users will not get any email on successful registration, if password, security question and answer parameters are provided in the call => Email notification flag set to False
     Agent Invite Enterprise User:
       headers:
         x-language-name:
@@ -3217,6 +3415,7 @@ sections:
         user_name: Full name of the invited user. Derived from the first and last name when omitted.
         enterprise_role: Name of the enterprise role to assign. The system default role is assigned when omitted or not matched.
         expired_time: Expiry time of the invitation, ISO 8601. Defaults to 5 minutes from the invitation time.
+      description: Business applications can use this service API to invite a user into the enterprise on behalf of an agent. When the invited email does not exist in the system yet, a new user account is provisioned automatically and no registration email is sent. A successful call returns HTTP 204 with no content.
     Invite Enterprise User:
       headers:
         x-language-name:
@@ -3233,6 +3432,7 @@ sections:
         user_name: Full name of the invited user. Derived from the first and last name when omitted.
         enterprise_role: Name of the enterprise role to assign. The system default role is assigned when omitted or not matched.
         expired_time: Expiry time of the invitation, ISO 8601. Defaults to 5 minutes from the invitation time.
+      description: Business applications can use this service API to invite an existing user of the system into the enterprise. The invited email must already belong to a registered user. A successful call returns HTTP 204 with no content and an invitation email is sent to the user.
     Get Enterprise Invitations:
       headers:
         x-language-name:
@@ -3241,6 +3441,7 @@ sections:
         - + vi
         Authorization: 'The authentication token (accessToken) required to access the API. Must be provided in the format: Bearer {accessToken}'
         x-search-text: Optional search text, Base64-encoded UTF-8. Invalid Base64 is rejected.
+      description: Business applications can use this service API to get the paged list of enterprise invitations. Pending invitations past their validity period are returned as EXPIRED. The x-total-records response header contains the total number of records.
     Resend Enterprise User Invitation:
       headers:
         x-language-name:
@@ -3248,6 +3449,7 @@ sections:
         - + en
         - + vi
         Authorization: 'The authentication token (accessToken) required to access the API. Must be provided in the format: Bearer {accessToken}'
+      description: Business applications can use this service API to resend a pending or expired enterprise invitation. The invitation expiry is renewed and the invitation email is sent again. This API is rate limited to 1 request per 5 minutes per invitation (HTTP 429 with a Retry-After header when exceeded) and each invitation can be resent at most 3 times. A successful call returns HTTP 204 with no content.
     Cancel Enterprise User Invitation:
       headers:
         x-language-name:
@@ -3258,6 +3460,7 @@ sections:
         Authorization: 'The authentication token (accessToken) required to access the API. Must be provided in the format: Bearer {accessToken}'
       request_fields:
         user_email: When provided, must match the email of the invited user; the request is rejected on mismatch.
+      description: Business applications can use this service API to cancel a pending enterprise invitation. Only the enterprise owner can call this API. The invitation must be pending and not expired; the cancellation is a status update, the invitation record is kept.
     Delete Enterprise User Invitation:
       headers:
         x-language-name:
@@ -3265,6 +3468,7 @@ sections:
         - + en
         - + vi
         Authorization: 'The authentication token (accessToken) required to access the API. Must be provided in the format: Bearer {accessToken}'
+      description: Business applications can use this service API to delete a pending enterprise invitation from the invitation list. The operation is a status update to CANCELLED; the invitation record is not physically removed. Unlike Cancel Enterprise User Invitation, this API is not restricted to the enterprise owner.
     Export Enterprise Invitations:
       headers:
         x-language-name:
@@ -3280,6 +3484,7 @@ sections:
       path_params:
         status: 'Optional status filter: ALL, PENDING, ACCEPTED, REJECTED, EXPIRED or CANCELLED. Defaults to ALL.'
         pageNo: Page number to be retrieved (1-based). When the pagination segments are omitted the full result is exported.
+      description: Business applications can use this service API to export the enterprise invitation list as a file. The status and pagination segments are optional; without pagination the full list is exported. The response is a binary file with the x-total-records, x-file-name and Content-Disposition headers; the file name follows EnterpriseInvitations_yyyyMMdd_HHmmss with the chosen extension.
     Get Enterprise Users:
       headers:
         x-language-name:
@@ -3287,6 +3492,7 @@ sections:
         - + en
         - + vi
         Authorization: 'The authentication token (accessToken) required to access the API. Must be provided in the format: Bearer {accessToken}'
+      description: Business Applications can use this service API to get a list of users belonging to this Enterprise.
     Export Enterprise Users:
       headers:
         x-language-name:
@@ -3300,6 +3506,7 @@ sections:
         x-export-format: 'Export file format: xlsx (default) or csv.'
       path_params:
         pageNo: Page number to be retrieved (1-based). When the pagination segments are omitted the full result is exported.
+      description: Business applications can use this service API to export the enterprise user list as a file. The pagination segments are optional; without them the full list is exported. The response is a binary file with the x-total-records, x-file-name and Content-Disposition headers; the file name follows EnterpriseUsers_yyyyMMdd_HHmmss with the chosen extension.
     Get Enterprise User Quota:
       headers:
         x-language-name:
@@ -3313,6 +3520,7 @@ sections:
         user_id: The ID of the enterprise user.
         enterprise_id: The ID of the enterprise.
         quota: Quota of the user. Contains signature, workflow, template, storage and upload_size, each with allowed, consumed and remaining values.
+      description: Business applications can use this service API to get the quota of one enterprise user. All quota values are serialized as strings; unlimited quotas are returned as Unlimited.
     Get Enterprise User Management Statistics:
       headers:
         x-language-name:
@@ -3324,6 +3532,7 @@ sections:
         enterprise_users: Total number of enterprise users.
         signature_used: Number of consumed signatures.
         document_storage: Consumed document storage.
+      description: Business applications can use this service API to get the user management statistics of the enterprise. All values are serialized as strings.
     Delete Enterprise User:
       headers:
         x-language-name:
@@ -3333,6 +3542,7 @@ sections:
         Authorization: 'The authentication token (accessToken) required to access the API. Must be provided in the format: Bearer {accessToken}'
       path_params:
         enterpriseUserId: The ID of the enterprise user to remove.
+      description: Business applications can use this service API to remove a user from the enterprise. The enterprise user ID is provided in the resource URL. The enterprise owner cannot be removed.
     Get Roles:
       headers:
         x-language-name:
@@ -3341,6 +3551,7 @@ sections:
         - + vi
         x-total-records: Total number of records
         Authorization: 'The authentication token (accessToken) required to access the API. Must be provided in the format: Bearer {accessToken}'
+      description: Business Applications can use this service API to get roles for enterprise.
     Delete Role:
       headers:
         x-language-name:
@@ -3348,6 +3559,7 @@ sections:
         - + en
         - + vi
         Authorization: 'The authentication token (accessToken) required to access the API. Must be provided in the format: Bearer {accessToken}'
+      description: Business Applications can use this service API to get a list of users that belong to the role
     Add Role:
       headers:
         x-language-name:
@@ -3360,6 +3572,7 @@ sections:
         name: Name of the role
       response_fields:
         name: Name of the role
+      description: Business Applications can use this service API to add a role for Enterprise.
     Get Enterprise Custom Fields:
       headers:
         x-language-name:
@@ -3371,6 +3584,7 @@ sections:
         x-search-type-name: Search on the type name, Base64-encoded UTF-8.
       path_params:
         pageNo: Page number to be retrieved (1-based). When the pagination segments are omitted the full result is exported.
+      description: Business applications can use this service API to get the custom field types of the enterprise, sorted by creation time descending. The pagination segments are optional. The x-total-records response header contains the total number of records after filtering.
     Create Enterprise Custom Field:
       headers:
         x-language-name:
@@ -3392,6 +3606,7 @@ sections:
         id: Server-generated ID of the created custom field.
         type_name: Name of the custom field type.
         parent_type: Parent field type, always TEXTBOX.
+      description: Business applications can use this service API to create a custom field type for the enterprise. Only the enterprise owner can call this API. A successful call returns HTTP 201 with the created custom field.
     Update Enterprise Custom Field:
       headers:
         x-language-name:
@@ -3411,6 +3626,7 @@ sections:
       response_fields:
         id: The ID of the custom field.
         type_name: Name of the custom field type.
+      description: Business applications can use this service API to update a custom field type of the enterprise. Only the enterprise owner can call this API. Only the fields present in the request body are overwritten (merge behavior); the field name identity is immutable.
     Delete Enterprise Custom Field:
       headers:
         x-language-name:
@@ -3420,6 +3636,7 @@ sections:
         Authorization: 'The authentication token (accessToken) required to access the API. Must be provided in the format: Bearer {accessToken}'
       path_params:
         fieldId: The ID of the custom field to delete (the server-generated id; the legacy field_name is accepted as a fallback).
+      description: Business applications can use this service API to delete a custom field type of the enterprise. Only the enterprise owner can call this API. A successful call returns HTTP 204 with no content.
     Get Enterprise Electronic Seals:
       headers:
         x-language-name:
@@ -3427,6 +3644,7 @@ sections:
         - + en
         - + vi
         Authorization: 'The authentication token (accessToken) required to access the API. Must be provided in the format: Bearer {accessToken}'
+      description: Business applications can use this service API to get the electronic seal configuration of the enterprise. The response is an array containing the single configuration of the enterprise.
     Update Enterprise Electronic Seals:
       headers:
         x-language-name:
@@ -3438,6 +3656,7 @@ sections:
         - “Bearer <accessToken>”
         - 'Note: the accessToken is obtained after a successful authorization.'
         Content-Type: The MIME type of the request body. Usually application/json
+      description: Business applications can use this service API to update the electronic seal configuration of the enterprise. Only the enterprise owner can call this API. Only the fields present in the request are merged into the existing configuration; base64 logo and hand signature images are uploaded to the file management service.
     Get Enterprise TSA Configuration:
       headers:
         x-language-name:
@@ -3449,6 +3668,7 @@ sections:
         hash_algorithm: 'Hashing algorithm: SHA256, SHA384 or SHA512.'
         retry_count: Number of retries on failure.
         authentication: 'Authentication settings: enabled, username and password (RSA-encrypted).'
+      description: Business applications can use this service API to get the timestamp authority (TSA) configuration of the enterprise. When no configuration exists yet, an empty configuration object is returned. The authentication password is returned RSA-encrypted, never in plaintext.
     Add Enterprise TSA Setting:
       headers:
         x-language-name:
@@ -3472,6 +3692,7 @@ sections:
         hash_algorithm: Hashing algorithm of the setting.
         created_on: Creation time of the setting.
         status: Status of the setting.
+      description: Business applications can use this service API to add a timestamp authority (TSA) setting for the enterprise. Only the enterprise owner can call this API. A successful call returns HTTP 201 with the created setting.
     Update Enterprise TSA Configuration:
       headers:
         x-language-name:
@@ -3492,6 +3713,7 @@ sections:
       response_fields:
         hash_algorithm: Hashing algorithm.
         authentication: 'Authentication settings: enabled and username. The password is never returned.'
+      description: Business applications can use this service API to update the timestamp authority (TSA) configuration of the enterprise. Only the enterprise owner can call this API. Only the fields present in the request are merged into the stored configuration. The TSA endpoint is probed before saving; changed credentials are verified against the endpoint.
     Test Connection Enterprise TSA Configuration:
       headers:
         x-language-name:
@@ -3512,6 +3734,7 @@ sections:
         endpoint: 'Endpoint probe result: reachable, http_status, latency_ms and error_subcode (26 when the endpoint is not accessible).'
         credentials: 'Credential probe result: tested, valid and error_subcode (27 when the credentials are invalid).'
         error_subcode: Subcode of the failing probe, when any.
+      description: Business applications can use this service API to test the connection of a timestamp authority (TSA) configuration without saving anything. Only the enterprise owner can call this API. The request body is optional; when omitted, the stored configuration is probed. The HTTP status is always 200; the probe outcome is reported in the response body.
     Get Enterprise Report List:
       headers:
         x-language-name:
@@ -3521,6 +3744,7 @@ sections:
         Authorization: 'The authentication token (accessToken) required to access the API. Must be provided in the format: Bearer {accessToken}'
         x-from-date: Lower bound of the export date, ISO 8601 offset date-time.
         x-to-date: Upper bound of the export date, ISO 8601 offset date-time.
+      description: Business applications can use this service API to get the paged list of generated enterprise reports. The x-total-records response header contains the total number of records.
     Get Enterprise Quota Statistics:
       headers:
         x-language-name:
@@ -3538,6 +3762,7 @@ sections:
         quota: Quota snapshot. Contains signatures, workflows, templates and storage, each with allowed, consumed and serviceplan (allowed).
         total_count: 'Consumed counts: signatures, workflows, templates and storage.'
         utilization: 'Utilization percentages: signatures, workflows, templates and storage, e.g. 12.50%.'
+      description: Business applications can use this service API to get the quota statistics snapshot of the enterprise. The pagination segments are required by the route but the response is always a single snapshot object (x-total-records is 1). Quota values are serialized as strings; unlimited quotas are returned as Unlimited.
     Export Enterprise Workflow Statistics:
       headers:
         x-language-name:
@@ -3556,6 +3781,7 @@ sections:
       path_params:
         status: 'Optional workflow status filter: ALL (default), DRAFT, SIGNED, COMPLETED, DECLINED, EXPIRED, EXPIRING, INPROGRESS, PENDING, UPDATED, APPROVED, SEAL_ONLY or SIGNATURE_ONLY. Unrecognized values fall back to ALL.'
         pageNo: Page number to be retrieved (1-based). When the pagination segments are omitted the full result is exported.
+      description: Business applications can use this service API to export the workflow statistics of the enterprise as a file. The status and pagination segments are optional; without pagination the full result is exported. When no date range is provided, the last 2 months are exported. The response is a binary file with the x-total-records, x-file-name and Content-Disposition headers; the file name is prefixed Report_ (or BaoCao_ for Vietnamese) followed by yyyyMMdd_HHmmss and the chosen extension.
     Get Enterprise Workflows:
       headers:
         x-language-name:
@@ -3571,6 +3797,7 @@ sections:
         status: 'Workflow status filter: ALL, DRAFT, SIGNED, COMPLETED, DECLINED, EXPIRED, EXPIRING, INPROGRESS, PENDING, UPDATED, APPROVED, SEAL_ONLY or SIGNATURE_ONLY (case-insensitive).'
       response_fields:
         workflows: Array of enterprise workflows. Each item contains package_id, workflow_id, package_name, package_owner, owner_name, owner_email, is_signature_signing_enabled, is_eseal_signing_enabled, workflow_type, workflow_state, workflow_status, total_comments, is_shared, total_participants, total_participants_signed, categories, continue_on_decline, next_signer, deadline_at, created_by, created_at, modified_at, modified_by, access_duration (date_from, date_to) and decline (reason, declined_by, declined_by_order).
+      description: Business applications can use this service API to get the paged list of workflows across the enterprise. The x-total-records response header contains the total number of records. Status values without a direct workflow state mapping (SIGNED, EXPIRED, EXPIRING, UPDATED, APPROVED, SEAL_ONLY, SIGNATURE_ONLY) currently return the unfiltered list.
   Account Management:
     Get Account Invitations:
       headers:
@@ -3582,6 +3809,7 @@ sections:
       path_params:
         pageNo: Page number to be retrieved (1-based). The pagination segments are optional; all invitations are returned when omitted.
         recordsPerPage: Number of records to be retrieved in one page.
+      description: Business Applications can use this service API to get a list of invitations from different enterprises.
     Accept Account Invitation:
       headers:
         x-language-name:
@@ -3592,6 +3820,7 @@ sections:
         Authorization: 'The authentication token (accessToken) required to access the API. Must be provided in the format: Bearer {accessToken}'
       request_fields:
         invitation_token: Token of the invitation, as delivered in the invitation email link.
+      description: Business applications can use this service API to accept one enterprise invitation of the logged in user. The invitation is identified by its invitation token. Unlike SigningHub, other pending invitations are not affected. A successful call returns HTTP 204 with no content.
     Reject Account Invitation:
       headers:
         x-language-name:
@@ -3602,6 +3831,7 @@ sections:
         Authorization: 'The authentication token (accessToken) required to access the API. Must be provided in the format: Bearer {accessToken}'
       request_fields:
         invitation_token: Token of the invitation, as delivered in the invitation email link.
+      description: Business applications can use this service API to reject one pending enterprise invitation of the logged in user. The invitation is identified by its invitation token. Unlike SigningHub, only the referenced invitation is rejected. A successful call returns HTTP 204 with no content.
     Get Account Invitation By ID:
       headers:
         x-language-name:
@@ -3620,6 +3850,7 @@ sections:
         status: Status of the invitation, e.g. PENDING.
         created_at: Creation time of the invitation.
         expired_at: Expiry time of the invitation.
+      description: Business applications can use this service API to get the details of one enterprise invitation of the logged in user. The invitation is returned only when the email of the authenticated user matches the invited user. A pending invitation past its validity period is automatically expired before it is returned.
     Get Account Enterprises:
       headers:
         x-language-name:
@@ -3627,6 +3858,7 @@ sections:
         - + en
         - + vi
         Authorization: 'The authentication token (accessToken) required to access the API. Must be provided in the format: Bearer {accessToken}'
+      description: Business applications can use this service API to get the list of enterprises that the logged in user belongs to. Fields with a null value are omitted from the response.
     Get Account Profiles:
       headers:
         x-language-name:
@@ -3634,6 +3866,7 @@ sections:
         - + en
         - + vi
         Authorization: 'The authentication token (accessToken) required to access the API. Must be provided in the format: Bearer {accessToken}'
+      description: Business applications can use this service API to get the account profiles available to the logged in user for switching between the personal and enterprise contexts. A personal profile is always returned. This API requires a user access token; a client credentials access token is not allowed.
     Account Usage Statistics:
       headers:
         x-language-name:
@@ -3646,6 +3879,7 @@ sections:
         signature: Total signature of the user
         workflow: Workflow of the user
         user: User belongs to the user
+      description: Business Applications can use this service API to get the account usage statistics
     Document Statistics:
       headers:
         x-language-name:
@@ -3661,6 +3895,7 @@ sections:
         declined: Total number of documents in declined status.
         completed: Total number of documents in completed status.
         updated: Total number of documents in updated status.
+      description: Business Applications can use this service API to get the documents count with respect to their statuses.
     Get Signing History:
       headers:
         x-language-name:
@@ -3684,6 +3919,7 @@ sections:
         recordsPerPage: Number of records to be retrieved in one page.
       response_fields:
         signing_transactions: Array of signing transactions. Each item contains id, transaction_id, package_id, document_id, application_id, credential_id, request_id, field_name, user_email, connector_name, connector_name_remark, citizen_id_number, auth_mode, status (id, name, enabled, is_continue_processing), expiry, created_at, application_name, certificate_authority_name, credential_info and metadata. Empty fields are omitted from the response.
+      description: Business applications can use this service API to get the signing transaction history of the logged in user. The optional status segment filters the transactions by their result. Filter headers override the same fields in the request body when both are provided. The x-total-records response header contains the total number of records.
     Get Certificate Enroll History:
       headers:
         x-language-name:
@@ -3702,6 +3938,7 @@ sections:
         recordsPerPage: Number of records to be retrieved in one page.
       response_fields:
         certificate_enrollments: Array of certificate enrollments. Each item contains session_id, process_id, user_email, credential_id, application_id, citizen_id_number, connector_name, connector_name_remark, certificate_authority_name, certificate_profile, certificate_authority_vneid_id, step, status, is_email_verified, is_mobile_verified, created_at, request_type and credential_info.
+      description: Business applications can use this service API to get the certificate enrollment history of the logged in user. The optional status segment filters the enrollments by their step. Filter headers override the same fields in the request body when both are provided. Enrollments waiting for verification for more than 5 minutes are automatically expired. The x-total-records response header contains the total number of records.
     Get User Activity Logs:
       headers:
         x-language-name:
@@ -3709,6 +3946,7 @@ sections:
         - + en
         - + vi
         Authorization: 'The authentication token (accessToken) required to access the API. Must be provided in the format: Bearer {accessToken}'
+      description: Business Applications can use this service API to get the list of actions performed by a user
     Get Dashboard Workflows:
       headers:
         x-language-name:
@@ -3727,6 +3965,7 @@ sections:
         expired: Number of expired workflows.
         draft: Number of draft workflows.
         pending: Number of pending workflows.
+      description: Business applications can use this service API to get the account level workflow status counts for dashboard display. All counters are serialized as strings.
     Get Dashboard Quota:
       headers:
         x-language-name:
@@ -3743,6 +3982,7 @@ sections:
         signature: 'Signature quota: consumed, allowed and serviceplan (allowed).'
         zalo_sms: 'Zalo/SMS notification quota: consumed, allowed and serviceplan (allowed).'
         users: 'User quota: consumed, allowed and serviceplan (allowed).'
+      description: Business applications can use this service API to get the account level quota consumption for dashboard display. Each quota entry contains the consumed amount, the currently allowed amount and the service plan allowance. All values are serialized as strings; unlimited quotas are returned as Unlimited.
     Get Dashboard Workflow Types:
       headers:
         x-language-name:
@@ -3756,6 +3996,7 @@ sections:
       response_fields:
         types: Array of workflow type counters. Each item contains type (ECONTRACT or BASIC) and count.
         total_count: Contains total, the sum across all types.
+      description: Business applications can use this service API to get the workflow type distribution of the account for dashboard display. One entry is returned for every workflow type (ECONTRACT, BASIC), zero-filled when the type has no workflows. All counters are serialized as strings.
     Get Dashboard Categories:
       headers:
         x-language-name:
@@ -3769,6 +4010,7 @@ sections:
       response_fields:
         categories: Array of category counters. Each item contains id, name and count.
         total_count: Contains total, the sum across all categories.
+      description: Business applications can use this service API to get the workflow category distribution of the account for dashboard display. All counters are serialized as strings.
     Get Dashboard Validations:
       headers:
         x-language-name:
@@ -3786,6 +4028,7 @@ sections:
         valid: Number of valid documents.
         invalid: Number of invalid documents.
         processing: Number of documents being processed.
+      description: Business applications can use this service API to get the document validation status counts of the account for dashboard display. Every status key is always present, zero-filled when it has no documents. All counters are serialized as strings.
     Get Dashboard Overdue Workflows:
       headers:
         x-language-name:
@@ -3802,6 +4045,7 @@ sections:
       response_fields:
         items: Array of overdue workflows. Each item contains workflow_id (Number), name, expired_at and status.
         total_count: Contains total, the total number of overdue workflows.
+      description: Business applications can use this service API to get the paged list of overdue workflows of the account for dashboard display. The x-total-records response header contains the total number of records.
     Get Dashboard Activities:
       headers:
         x-language-name:
@@ -3818,6 +4062,7 @@ sections:
       response_fields:
         items: Array of account activities. Each item contains id, performed_by_email, performed_by_name, action, module, created_on, information_type and information_value.
         total_count: Contains total, the total number of activities.
+      description: Business applications can use this service API to get the paged activity feed of the account for dashboard display. The x-total-records response header contains the total number of records.
     Add Identity for a User:
       headers:
         x-language-name:
@@ -3834,6 +4079,7 @@ sections:
         webhook_url: The webhook URL where you want to receive status updates.
       response_fields:
         validity_period: The validity period during which the processing request remains active.
+      description: By default, the application identifies users using their email address. To provide more flexibility, clients can assign a unique identifier to a user via the API below. Currently, only identity verification through the VNeID service is supported.
     Initialize Billing:
       headers:
         x-language-name:
@@ -3865,6 +4111,7 @@ sections:
         expires_at: Expiry time of the payment.
         core_processing_available: True when the payment provider processed the request.
         message_key: Additional message key of the provider.
+      description: Business applications can use this service API to initialize a Trusted Billing payment for the selected service plan of the logged in personal or enterprise account. Quantity, billing cycle, price, currency and payment type are derived on the server from the selected service plan billing entry. Payment URL, QR code, deeplink and expiry fields are null when the payment provider does not supply them.
     Get Billing Payment History:
       headers:
         x-language-name:
@@ -3878,6 +4125,7 @@ sections:
       response_fields:
         items: Array of billing payments. Each item contains billing_payment_id, billing_id, transaction_id, currency_id, type, status, connector_name, payment_number, vat_number, amount (Number), remark, expiry_date, payment_date and created_at.
         pagination: Contains page_no, records_per_page and total_records.
+      description: Business applications can use this service API to get the payment level billing history of the logged in account. Optional query parameters filter the result. The x-total-records response header contains the total number of records.
     Get Billing Payment Details:
       headers:
         x-language-name:
@@ -3891,6 +4139,7 @@ sections:
         billing: 'Local billing account: billing_id, external_customer_id, reference_number, address, zipcode, mobile_number, fax, discount, description, duration, billing_date, created_at, modified_at, created_by and modified_by.'
         billing_payment: 'Local billing payment: billing_payment_id, billing_id, transaction_id, currency_id, type, status, connector_name, payment_number, vat_number, amount (Number), remark, expiry_date, payment_date, created_at, created_by and modified_by.'
         trusted_billing: 'Trusted Billing bill details: bill_id, bill_number, status, company_id, customer_id, customer_name, qr_code, va_number, item_properties (item_id, name, uom, quantity, unit_price, amount, tax, tax_value, amount_after_discount), created_at and updated_at. Omitted when the provider returns no details.'
+      description: Business applications can use this service API to get the details of a billing payment owned by the logged in account, enriched with the Trusted Billing bill details. Fields with a null value are omitted from the response.
     Get Account Quota Consume History:
       headers:
         x-language-name:
@@ -3905,6 +4154,7 @@ sections:
       path_params:
         pageNo: Page number to be retrieved (1-based).
         recordsPerPage: Number of records to be retrieved in one page.
+      description: Business applications can use this service API to get the quota consumption history of the logged in account. All numeric values are serialized as strings. The x-total-records response header contains the total number of records. The x-sort-by, x-asc, x-search-text and x-quota-dimension headers are not supported by this API and are rejected when present.
   Personal Settings:
     Remove Account Request:
       headers:
@@ -3919,6 +4169,7 @@ sections:
         Content-Type: The MIME type of the request body. Usually application/json
       request_fields:
         password: The password of the current user account. It is used to confirm the account removal request.
+      description: Business applications can use this service API to request the deletion of the account of the current user. The password of the account must be provided to confirm the removal request.
     Get Signature Settings:
       headers:
         x-language-name:
@@ -3928,6 +4179,7 @@ sections:
         Authorization: 'The authentication token (accessToken) required to access the API. Must be provided in the format: Bearer {accessToken}'
       response_fields:
         signatures: List of the appearance
+      description: Business applications can use this service API to get the signature settings for the current user. This means the enterprise administrator or the enterprise user if the “scope” variable was used in the authentication request.
     Add Signature Appearance:
       headers:
         x-language-name:
@@ -3941,6 +4193,7 @@ sections:
         credential_configuration: Credential configuration of the appearance
       response_fields:
         appearance_id: ID of the appearance
+      description: Business applications can use this service API to add new signature appearance for the current user. This means the enterprise administrator or the enterprise user if the “scope” variable was used in the authentication request.
     Update Signature Appearance:
       headers:
         x-language-name:
@@ -3952,6 +4205,7 @@ sections:
       request_fields:
         metadata: Metadata of the appearance
         credential_configuration: Credential configuration of the appearance
+      description: Business applications can use this service API to update the signature appearance for the current user. This means the enterprise administrator or the enterprise user if the “scope” variable was used in the authentication request.
     Delete Signature Appearance:
       headers:
         x-language-name:
@@ -3959,6 +4213,7 @@ sections:
         - + en
         - + vi
         Authorization: 'The authentication token (accessToken) required to access the API. Must be provided in the format: Bearer {accessToken}'
+      description: Business applications can use this service API to delete the signature appearance for the current user. This means the enterprise administrator or the enterprise user if the “scope” variable was used in the authentication request.
     Get General Profile Information:
       headers:
         x-language-name:
@@ -3971,6 +4226,7 @@ sections:
         security: Security information of the logged in user
         locale: Locale related information
         enterprise: Enterprise information of the logged in user
+      description: Business Applications can use this service API to get the general profile information of the current user
     Update General Profile Information:
       headers:
         x-language-name:
@@ -3983,6 +4239,7 @@ sections:
         job_title: Job title of the user
         company_name: Company name for the user
         mobile_number: Mobile number of the user
+      description: Business Applications can use this service API to update the general profile information of the current user
     Get Address Book:
       headers:
         x-language-name:
@@ -3992,6 +4249,7 @@ sections:
         Authorization: 'The authentication token (accessToken) required to access the API. Must be provided in the format: Bearer {accessToken}'
       response_fields:
         address_books: An array that representing the address book that belongs to the user.
+      description: Business Applications can use this service API to get an address book for the current user.
     Add Address Book:
       headers:
         x-language-name:
@@ -4005,6 +4263,7 @@ sections:
         description: Description of the address book
       response_fields:
         address_book_id: Id of the address book
+      description: Business Applications can use this service API to add a new address book for the current user.
     Update Address Book:
       headers:
         x-language-name:
@@ -4016,6 +4275,7 @@ sections:
       request_fields:
         address_book_name: Name of the address book
         description: Description of the address book
+      description: Business Applications can use this service API to update the address book for the current user.
     Delete Address Book:
       headers:
         x-language-name:
@@ -4023,6 +4283,7 @@ sections:
         - + en
         - + vi
         Authorization: 'The authentication token (accessToken) required to access the API. Must be provided in the format: Bearer {accessToken}'
+      description: Business Applications can use this service API to delete the address book for the current user.
     Get Contacts:
       headers:
         x-language-name:
@@ -4033,6 +4294,7 @@ sections:
         Authorization: 'The authentication token (accessToken) required to access the API. Must be provided in the format: Bearer {accessToken}'
       response_fields:
         contacts: The array of the contact
+      description: Business Applications can use this service API to get a list of contacts for the current user.
     Add Personal Contact:
       headers:
         x-language-name:
@@ -4052,6 +4314,7 @@ sections:
         mobile_number: Mobile number of the contact
       response_fields:
         contact_id: Id of the contact
+      description: Business Applications can use this service API to add a contact for the current user.
     Update Personal Contact:
       headers:
         x-language-name:
@@ -4068,6 +4331,7 @@ sections:
         company_name: Company name that user belongs to
         personal_code: Personal code of the contact
         mobile_number: Mobile number of the contact
+      description: Business Applications can use this service API to update the contact for the current user.
     Delete Personal Contact:
       headers:
         x-language-name:
@@ -4075,6 +4339,7 @@ sections:
         - + en
         - + vi
         Authorization: 'The authentication token (accessToken) required to access the API. Must be provided in the format: Bearer {accessToken}'
+      description: Business Applications can use this service API to delete the contact for the current user.
   Application/Device Management:
     Register Application User:
       headers:
@@ -4105,6 +4370,11 @@ sections:
         account_type: Type of user account (e.g., CITIZEN)
         date_of_issue: Date and time the ID or account was issued.
         date_of_expiry: Expiration date and time of the ID or account.
+      description:
+      - Business Applications can use this service API to register User that belongs to the application. New users inherit the User Service Plan and all associated permissions. And there are different scenarios to consider when registering a user.
+      - Users will get an “account activation” email on successful registration, if password, security question and answer parameters are not provided in the call. Email notification flag would be ignored by the GoPaperless Workflow.
+      - Users will get an “account activation” email on successful registration, if password, security question and answer parameters are provided in the call. Email notification flag should be set to True
+      - Users will not get any email on successful registration, if password, security question and answer parameters are provided in the call => Email notification flag set to False
   Template:
     Save Workflow as Template:
       headers:
@@ -4122,6 +4392,7 @@ sections:
       request_fields:
         name: Name of the template that is to be added.
         description: Name of the description that is to be added.
+      description: Business applications can use this service API to save workflow as template. This API can also be used by the business application to perform action on behalf of the enterprise user via "Scope Authentication".
     Get Templates:
       headers:
         x-language-name: 'Display the error message in the specified language. Possible values are: + en + vi'
@@ -4133,6 +4404,9 @@ sections:
         pageNo: The page of results to return, starting at 1.
       response_fields:
         templates: The templates matching the request.
+      description:
+      - 'Business applications can use this service API to get the list of personal and/or enterprise templates available to the logged-in user. Use the templateType path parameter to choose which of the two, or ALL for both. Requesting ENTERPRISE with a client credentials token is rejected: the caller must be logged in as an enterprise user.'
+      - The API also supports searching for personal templates or enterprise-wide templates, depending on the user's role and permissions granted by their enterprise administrator.
     Get Template By ID:
       headers:
         x-language-name:
@@ -4151,6 +4425,7 @@ sections:
         created_at: Date and time when the template was created
         enterprise: True, if user belong to an enterprise.
         documents: Documents data belongs to this template
+      description: Business applications can use this service API to get a personal/enterprise template. This API can also be used by the business application to perform action on behalf of the enterprise user via "Scope Authentication".
     Update Template:
       headers:
         x-language-name:
@@ -4167,6 +4442,7 @@ sections:
         public: Response is "true" if enterprise template is marked as public. Otherwise "false" would be returned
         read_only: Response of "true" if the template is read only, and user cannot make any changes to the workflow after applying this template. Otherwise "false".
         description: Description of the template
+      description: Business applications can use this service API to update personal/enterprise template. This API can also be used by the business application to perform action on behalf of the enterprise user via "Scope Authentication".
     Delete Template:
       headers:
         x-language-name:
@@ -4177,6 +4453,7 @@ sections:
         - The authentication token (accessToken) required to access the API. Must be provided in the format
         - “Bearer <accessToken>”
         - 'Note: the accessToken is obtained after a successful authorization.'
+      description: Business applications can use this service API to update personal/enterprise template. This API can also be used by the business application to perform action on behalf of the enterprise user via "Scope Authentication".
     Get Template Workflow Users:
       headers:
         x-language-name:
@@ -4187,6 +4464,7 @@ sections:
         - The authentication token (accessToken) required to access the API. Must be provided in the format
         - “Bearer <accessToken>”
         - 'Note: the accessToken is obtained after a successful authorization.'
+      description: Business applications can use this service API to get the list of participants configured in the workflow of a personal/enterprise template. This API can also be used by the business application to perform the action on behalf of the enterprise user.
     Add Template Workflow Users:
       headers:
         x-language-name:
@@ -4198,6 +4476,7 @@ sections:
         - “Bearer <accessToken>”
         - 'Note: the accessToken is obtained after a successful authorization.'
         Content-Type: The MIME type of the request body. Usually application/json
+      description: Business applications can use this service API to add one or more users to the workflow of a personal/enterprise template. The request body is a JSON array, so several users can be added in a single call. This API can also be used by the business application to perform the action on behalf of the enterprise user.
     Add Template Workflow Placeholder:
       headers:
         x-language-name:
@@ -4209,6 +4488,10 @@ sections:
         - “Bearer <accessToken>”
         - 'Note: the accessToken is obtained after a successful authorization.'
         Content-Type: The MIME type of the request body. Usually application/json
+      description:
+      - Business applications can use this service API to add one or more placeholders to the workflow of a personal/enterprise template. A placeholder reserves a position in the workflow that is filled with a real user when a workflow is created from the template. The request body is a JSON array, so several placeholders can be added in a single call.
+      - Note the placeholder will be added as the last user in the workflow. Hence further work may be required to remove a current user/group, already present in the workflow.
+      - Adding a place holder allows you to proceed and add signature and/or input fields to the document, which can then be assigned to individual users at a later stage. While XML type document preparation, only supported role types are "SIGNER", "REVIEWER" and "CARBON_COPY".
     Update Template Workflow User:
       headers:
         x-language-name:
@@ -4241,6 +4524,7 @@ sections:
         guest_user: True if the participant is not a registered user of the system.
         email_language_code: 'The language used for notification emails sent to this participant. Possible values are: + en + vi'
         email_notification: If true, the participant is notified by email.
+      description: Business applications can use this service API to update a user already present in the workflow of a personal/enterprise template. This API can also be used by the business application to perform the action on behalf of the enterprise user.
     Update Template Workflow Placeholder:
       headers:
         x-language-name:
@@ -4268,6 +4552,7 @@ sections:
         guest_user: True if the participant is not a registered user of the system.
         email_language_code: 'The language used for notification emails sent to this participant. Possible values are: + en + vi'
         email_notification: If true, the participant is notified by email.
+      description: Business applications can use this service API to update a placeholder already present in the workflow of a personal/enterprise template. This API can also be used by the business application to perform the action on behalf of the enterprise user.
     Reorder Template Workflow Participant:
       headers:
         x-language-name:
@@ -4283,6 +4568,7 @@ sections:
         order: The position of the participant in the template workflow, as returned in the order attribute of Get Template Workflow Users.
       request_fields:
         order: The new position of the participant in the template workflow.
+      description: Business applications can use this service API to move a participant to a different position in the workflow of a personal/enterprise template. The participant currently at the target position and every participant in between are shifted accordingly.
     Delete Template Workflow Participant:
       headers:
         x-language-name:
@@ -4295,6 +4581,7 @@ sections:
         - 'Note: the accessToken is obtained after a successful authorization.'
       path_params:
         order: The position of the participant in the template workflow, as returned in the order attribute of Get Template Workflow Users.
+      description: Business applications can use this service API to remove a participant - either a user or a placeholder - from the workflow of a personal/enterprise template. The remaining participants are renumbered.
     Clone Template:
       headers:
         x-language-name:
@@ -4309,6 +4596,7 @@ sections:
       request_fields:
         name: Name of the new template. Between 1 and 255 characters.
         description: Description of the new template. Up to 200 characters.
+      description: Business applications can use this service API to create a copy of an existing personal/enterprise template under a new name. The documents, fields and workflow participants of the source template are copied to the new one.
     Get Template Details:
       headers:
         x-language-name:
@@ -4322,6 +4610,7 @@ sections:
       response_fields:
         documents: The documents contained in the template, each with the form fields placed on it.
         workflow: The workflow configuration stored in the template. An empty object when the template has no workflow yet.
+      description: Business applications can use this service API to get the full content of a personal/enterprise template, including its documents and form fields, its workflow configuration and its participants. Get Template By ID returns only the template metadata.
     Add Template Field:
       headers:
         x-language-name:
@@ -4345,6 +4634,7 @@ sections:
         renamed_as: New name for the field. Used to rename an existing field.
         page: The page of the document on which the field is placed.
         type_name: 'The concrete field type. Possible values are: + SIGNATURE + TEXT + CHECKBOX'
+      description: Business applications can use this service API to place a new field on a document inside a personal/enterprise template. The field is stored in the template and is recreated on every workflow created from it.
     Update Template Field:
       headers:
         x-language-name:
@@ -4368,6 +4658,7 @@ sections:
         renamed_as: New name for the field. Used to rename an existing field.
         page: The page of the document on which the field is placed.
         type_name: 'The concrete field type. Possible values are: + SIGNATURE + TEXT + CHECKBOX'
+      description: Business applications can use this service API to update a field already placed on a document inside a personal/enterprise template. Use renamed_as to change the name of the field.
   Validation Management:
     Add Validation:
       headers:
@@ -4387,6 +4678,7 @@ sections:
         file: Base64 encoded content of the document to validate.
       response_fields:
         validation_id: ID of the validation that was created. Use this ID with Get Report of Validation and Delete Validation.
+      description: 'Business applications can use this service API to submit a document for signature and seal validation. The document is sent in base64 format. The validation runs asynchronously: the call returns the validation ID immediately and the result is retrieved with Get Report of Validation. This API requires a user access token; a token obtained through Client Credentials Authentication is rejected.'
     Get List Validation:
       headers:
         x-language-name:
@@ -4406,6 +4698,7 @@ sections:
         x-total-records: The length of the list of records
       response_fields:
         validations: The list of validations of the current user.
+      description: Business applications can use this service API to retrieve the validations of the current user. The x-search-text header can be used to filter the list by validation name. This API requires a user access token; a token obtained through Client Credentials Authentication is rejected.
     Get Report of Validation:
       headers:
         x-language-name:
@@ -4422,6 +4715,7 @@ sections:
         seals: Electronic seals found in the document. Each item has the same structure as a signature.
         details: Report identifiers, document hashes and download links of the validation reports.
         file: The validated document and its diagnostic data.
+      description: Business applications can use this service API to retrieve the validation report of a document. The validation ID is provided in the resource URL. While the validation is still being processed the call returns HTTP code 202; once finished it returns the full report with the overview, the validated signatures and seals, the report download links and the original document in base64 format. Only the user who created the validation can read its report. This API requires a user access token; a token obtained through Client Credentials Authentication is rejected.
     Download Reports:
       headers:
         x-language-name:
@@ -4435,6 +4729,7 @@ sections:
       path_params:
         reportId: 'Identifier of the report, returned in the details links of Get Report of Validation: validation_detail_report_id for detailed and diagnostic, validation_basic_report_id for simple.'
         reportType: 'Type of the report to download. Possible values are: + detailed (detailed validation report, PDF) + diagnostic (diagnostic data, XML) + simple (simple validation report, PDF)'
+      description: Business applications can use this service API to download a validation report file. The report identifier is taken from the report links returned by Get Report of Validation. The detailed report is a PDF file returned with Content-Type application/pdf; the diagnostic report is an XML file returned with Content-Type application/xml; the simple report is a PDF file that is currently returned with Content-Type application/xml and file name DiagnosticReport.pdf.
     Delete Validation:
       headers:
         x-language-name:
@@ -4447,6 +4742,7 @@ sections:
         - 'Note: the accessToken is obtained after a successful authorization.'
       path_params:
         validationId: The ID of the validation returned by Add Validation.
+      description: Business applications can use this service API to delete a validation. The validation ID is provided in the resource URL. This API requires a user access token; a token obtained through Client Credentials Authentication is rejected.
   ADMIN APIs:
     Create Account:
       headers:
@@ -4469,6 +4765,10 @@ sections:
         security_answer: Security answer of the new user
         service_agreements: User consent terms of service and privacy policies for account registration
         user_last_name: Last name of the user
+      description:
+      - This API can be used to create a new account in GoPaperless Workflow.
+      - You must authenticate using your GoPaperless Workflow Administration client TLS certificate
+      - The API call should present a client TLS certificate in the HTTPS call
 objects:
   AddUserToWorkflowRequestData:
     user_email: Email of the user

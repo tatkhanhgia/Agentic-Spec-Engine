@@ -212,6 +212,23 @@ def json_content(node):
     return content.get("application/json") or next(iter(content.values()), None) or {}
 
 
+def example_of(node):
+    """The sample of a body: its `example`, else the first of its named `examples`."""
+    content = json_content(node)
+    if "example" in content:
+        return content["example"]
+    for ex in (content.get("examples") or {}).values():
+        if isinstance(ex, dict) and "value" in ex:
+            return ex["value"]
+    return None
+
+
+def named_examples(node):
+    """{name: value} of a body's named `examples`."""
+    return {name: ex["value"] for name, ex in (json_content(node).get("examples") or {}).items()
+            if isinstance(ex, dict) and "value" in ex}
+
+
 def success_response(spec, responses):
     for code in sorted(str(c) for c in responses):
         if code.startswith("2"):
@@ -219,14 +236,16 @@ def success_response(spec, responses):
     return None, {}
 
 
-def expand_sections(spec, base, sections):
+def expand_sections(spec, base, sections, examples=None):
     """One record per document section when an operation spans several.
 
     `x-doc-sections` lists `{title, path-values?, when?, request-schema?}`.
     `path-values` fills path parameters, so `/fields/{fieldType}` becomes
     `/fields/text`; `when` names the request variant (e.g. a grant_type) the
     section documents; `request-schema` names the anyOf branch whose fields
-    the section's Request table lists.
+    the section's Request table lists; `example` names the request body's
+    named example the section shows. A section without one has no sample of
+    its own: the operation's single sample fits only one of its sections.
     """
     if not sections:
         return [base]
@@ -242,6 +261,7 @@ def expand_sections(spec, base, sections):
         record["key"] = "%s %s" % (base["method"], to_key(path))
         record["path_params"] = [p for p in base["path_params"] if p["name"] not in values]
         record["variant"] = section.get("when", "")
+        record["request_example"] = (examples or {}).get(section.get("example"))
         if section.get("request-schema"):
             record["request_fields"], record["request_type"] = spec.fields(
                 {"$ref": section["request-schema"]})
@@ -318,19 +338,20 @@ def convert(data):
                 "path_params": path_params,
                 "request_fields": request_fields,
                 "request_type": request_type,
-                "request_example": json_content(body).get("example") if body else None,
+                "request_example": example_of(body) if body else None,
                 "success_status": code,
                 "response_fields": response_fields,
                 "response_type": response_type,
                 "response_headers": response_headers,
-                "response_example": json_content(resp).get("example"),
+                "response_example": example_of(resp),
                 "error_codes": op.get("x-error-codes") or [],
                 "needs_review": op.get("x-needs-review") or [],
                 "status": op.get("x-doc-status", ""),
                 "media_types": list((body.get("content") or {}).keys()),
                 "response_media_types": list((resp.get("content") or {}).keys()),
             }
-            endpoints.extend(expand_sections(spec, base, op.get("x-doc-sections")))
+            endpoints.extend(expand_sections(spec, base, op.get("x-doc-sections"),
+                                             named_examples(body) if body else None))
     # Object definitions for the RELATIVE OBJECT chapter: every component
     # schema with properties, under the label its Type cells show.
     objects = {}
