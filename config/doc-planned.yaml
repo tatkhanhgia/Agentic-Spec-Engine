@@ -152,8 +152,10 @@ sections:
   title: Update Workflow Reminders
   after: Accept Terms of Service (ECONTRACT)
   method: PUT
-  path: /v1/packages/{packageId}/workflow/reminders
-  description: Business applications can use this service API to update reminders. The reminder service (e.g., SMTP) will notify the user after a configured period of time.
+  path: /v1/packages/{packageId}/workflow/{order}/reminders
+  description:
+  - Business applications can use this service API to update the workflow reminders for a recipient that has already been added to a workflow. Normally this call is useful after a template has been applied to a document and business applications want to override the reminders settings within the workflow.
+  - The ID of the package is provided in the resource URL, and the workflow recipient is identified by the order at which it is added to the workflow.
   headers:
   - name: x-language-name
     type: String
@@ -172,11 +174,15 @@ sections:
     type: Integer
     presence: M
     description: This is the ID of the package that was created. Using this ID to Interact with that document package.
+  - name: order
+    type: Integer
+    presence: M
+    description: The order of the recipient in the workflow.
   request_fields:
   - name: apply_to_all
     type: Boolean
     presence: O
-    description: True, if the reminder settings are to be applied to all the recipients in the workflow.
+    description: True, if reminder settings are to be applied on all the recipients in the workflow.
   - name: enabled
     type: Boolean
     presence: M
@@ -184,26 +190,25 @@ sections:
   - name: frequency
     type: String
     presence: M
-    description: Reminder Frequency. Possible Values are DAYS | HOURS
+    description: Reminder Frequency. Possible Values are DAYS | HOURS.
   - name: remind_after
     type: Integer
     presence: M
     description: Required, in case of enabled property will true. The number of days after which the first reminder would be sent to workflow user.
-  - name: keep_reminding_after
-    type: Integer
-    presence: M
-    description: Required, in case of enabled property will true. The number of days after which the subsequent reminders would be sent to workflow user
-  - name: total_reminders
-    type: Integer
-    presence: M
-    description: Required, in case of enabled property will true. The number of subsequent reminders would be sent to workflow user.
+  - name: repeat
+    type: Object
+    presence: O
+    description: 'Settings of the subsequent reminders: enabled (Boolean) - true, if subsequent reminders are enabled; frequency (String) - repeat reminder frequency, DAYS | HOURS; keep_reminding_after (Integer) - required when enabled is true, the number of days after which the subsequent reminders would be sent to workflow user; total_reminders (Integer) - required when enabled is true, the number of subsequent reminders that would be sent to workflow user.'
   request_example:
     apply_to_all: true
     enabled: true
-    frequency: String
+    frequency: DAYS
     remind_after: 1
-    keep_reminding_after: 1
-    total_reminders: 1
+    repeat:
+      enabled: true
+      frequency: DAYS
+      keep_reminding_after: 1
+      total_reminders: 1
   response_example: {}
 - category: Document Workflow
   title: Get Workflow User Authentication (Document Opening)

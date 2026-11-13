@@ -115,3 +115,23 @@ gives the same field in the APIs that exist:
 | Register Enterprise User (Free Trial) | `certificate_id` (sample) | `1` | `"1"` | type stays String, as `certificate_id` is in `GetEnterpriseEsealSettingResponse`; the sample now agrees |
 | Get Account | `user_email`, `user_name`, `created_on` | Boolean, Object, Boolean | String | String in every spec operation that has them |
 | Update Workflow Reminders | `enabled` | Integer | Boolean | no reminder-settings code exists; from its description ("True, if ...") and sample (`true`) |
+
+## Update: Update Workflow Reminders follows SigningHub 10.0
+
+The owner asked to follow SigningHub's design for this planned API. Source:
+SigningHub 10.0 API reference, Document Workflow, `Update Workflow Reminders`
+(`PUT /v4/packages/{packageId}/workflow/{order}/reminders`).
+
+| | V3 | SigningHub 10.0 | Now |
+|---|---|---|---|
+| Path | `/v1/packages/{packageId}/workflow/reminders` | `/v4/packages/{packageId}/workflow/{order}/reminders` | `/v1/packages/{packageId}/workflow/{order}/reminders` |
+| Path parameters | `packageId` | `packageId`, `order` | `packageId`, `order` |
+| `enabled` | Integer | boolean | Boolean |
+| `apply_to_all`, `frequency`, `remind_after` | Boolean, String, Integer | same | unchanged |
+| `keep_reminding_after`, `total_reminders` | top-level fields | inside `repeat` | inside `repeat` |
+| `repeat` | absent | object: `enabled`, `frequency`, `keep_reminding_after`, `total_reminders` | added (Object, optional); its fields are listed in the row's description and shown in the sample |
+| Response | `{}` | 200, no body | unchanged |
+
+Kept from V3: the presence (M/O) of the existing fields, the headers, and the
+empty response sample. SigningHub also has `Get Workflow Reminder` on the same
+path; the document has no such section and none was added.
