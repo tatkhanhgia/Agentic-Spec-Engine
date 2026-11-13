@@ -50,7 +50,10 @@ a change is made in the input that owns it, then the document is rendered again.
 
 The backend repository (`GoPaperless-Workflow-API`, branch `dev`) must be checked
 out beside this one; the commands below read `../GoPaperless-Workflow-API/docs/api/`.
-Both scripts only read it.
+They only read it, with one exception: `propose_history.py --write` appends a
+History entry to the backend's `doc-meta.yaml` (step 2). That file is the only
+thing this workflow ever writes in the backend checkout; the change is committed
+there through the backend's own branch and pull request rules.
 
 ### The commands
 
@@ -59,22 +62,29 @@ Run from the repository root:
 ```
 python scripts/openapi_to_contract.py ../GoPaperless-Workflow-API/docs/api/openapi.yaml -o contract/from_openapi.json
 python scripts/propose_history.py contract/from_openapi.json ../GoPaperless-Workflow-API/docs/api/doc-meta.yaml
-python scripts/render_from_openapi.py templates/spec-skeleton.docx contract/from_openapi.json "<out.docx>" \
+python scripts/render_from_openapi.py templates/spec-skeleton.docx contract/from_openapi.json formatted/render.docx \
     --skeleton --planned config/doc-planned.yaml \
     --meta ../GoPaperless-Workflow-API/docs/api/doc-meta.yaml \
     --descriptions config/doc-descriptions.yaml --objects config/doc-objects.yaml
-python scripts/check_frame_format.py "<out.docx>"
-python scripts/extract_doc_contract.py "<out.docx>" -o <from_doc.json>
-python scripts/compare_openapi_doc.py contract/from_openapi.json <from_doc.json>
+python scripts/check_frame_format.py formatted/render.docx
+python scripts/extract_doc_contract.py formatted/render.docx -o contract/from_render.json
+python scripts/compare_openapi_doc.py contract/from_openapi.json contract/from_render.json
 ```
+
+`formatted/render.docx` is an example output name; pick the real one.
+`contract/from_render.json` is a scratch file of the check: do not commit it.
 
 1. **Contract** — `openapi_to_contract.py` flattens the spec into
    `contract/from_openapi.json`. Commit it whenever it changes.
 2. **History** — `propose_history.py` compares the contract with the snapshot of
-   the last History entry. When the API changed it prints the next entry;
-   `--write` appends it to `doc-meta.yaml` and stores the snapshot. The renderer
-   refuses to run while the API is ahead of the last entry
-   (`--allow-stale-history` overrides, for a draft only).
+   the last History entry. When it answers "nothing to add", go on. When the API
+   changed it prints the next entry and the renderer will refuse to run until
+   that entry exists: review the proposal, then run the same command with
+   `--write`. That appends the entry to the backend's `doc-meta.yaml` and stores
+   the snapshot under `contract/openapi_history/`; edit the wording in
+   `doc-meta.yaml` if needed, commit the snapshot here and `doc-meta.yaml` in
+   the backend. `--allow-stale-history` on the renderer skips the check, for a
+   draft only.
 3. **Render** — `render_from_openapi.py --skeleton` builds every category,
    section, object and enumeration from the contract by cloning the skeleton's
    blocks. Save outputs under `formatted/`.
@@ -201,7 +211,7 @@ cross-checks, not replacements.
 - The backend lives at `C:\Users\Admin\Documents\NetBeansProjects\Library_RSSP_SDK\ProjectRSSP_newest\Gopaperless_Workflow_Maven` on the owner's Windows machine, or beside this repository as `../GoPaperless-Workflow-API` (Java servlet, JBoss — not Spring; its Swagger config is commented out and unusable).
 - The backend's hand-written `docs/api/openapi.yaml` is the input of the render workflow above; `scripts/openapi_to_contract.py` writes `contract/from_openapi.json` from it.
 - Routes are declared per controller in a static `validURLs` registry plus `web.xml` servlet mappings. That registry is the source of truth for what endpoints exist: a route missing from it is rejected at runtime.
-- `scripts/extract_code_contract.py` reads the backend and writes `contract/from_code.json`. It is strictly read-only: never run Maven, never write to that project, never touch its git state.
+- `scripts/extract_code_contract.py` reads the backend and writes `contract/from_code.json`. It is strictly read-only: never run Maven, never write to that project, never touch its git state. The single authorized write into the backend checkout is `propose_history.py --write` appending a History entry to `docs/api/doc-meta.yaml` (render workflow, step 2).
 - `scripts/extract_doc_contract.py` reads the formatted DOCX and writes `contract/from_doc.json`. Read-only as well.
 - The template governs *presentation*; the contract governs *content*. Changing formatting rules never belongs in `contract/`.
 

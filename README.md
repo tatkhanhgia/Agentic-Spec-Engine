@@ -38,12 +38,16 @@ repository root:
 
 ```bash
 python scripts/openapi_to_contract.py ../GoPaperless-Workflow-API/docs/api/openapi.yaml -o contract/from_openapi.json
-python scripts/render_from_openapi.py templates/spec-skeleton.docx contract/from_openapi.json "formatted/out.docx" \
+python scripts/propose_history.py contract/from_openapi.json ../GoPaperless-Workflow-API/docs/api/doc-meta.yaml
+python scripts/render_from_openapi.py templates/spec-skeleton.docx contract/from_openapi.json formatted/render.docx \
     --skeleton --planned config/doc-planned.yaml \
     --meta ../GoPaperless-Workflow-API/docs/api/doc-meta.yaml \
     --descriptions config/doc-descriptions.yaml --objects config/doc-objects.yaml
-python scripts/check_frame_format.py "formatted/out.docx"
+python scripts/check_frame_format.py formatted/render.docx
 ```
+
+If `propose_history.py` prints a new History entry, the API changed since the last
+one: review it and run the command again with `--write` before rendering.
 
 `CLAUDE.md` describes the whole workflow: what each input decides, where a change
 goes, and how to verify a render. Refer to individual script headers for arguments
