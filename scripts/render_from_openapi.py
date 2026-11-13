@@ -41,6 +41,7 @@ from lxml import etree
 
 from compare_openapi_doc import ERROR_ROWS, pair
 from doc_meta import UniqueKeyLoader, cover_version, load as load_meta
+from doc_planned import load as load_planned, merge as merge_planned
 from propose_history import read_snapshot, signatures
 from extract_doc_contract import TABLE_KINDS, cell_text, extract, para_text, qn, style_of, to_key
 
@@ -272,7 +273,7 @@ def rewrite_frame(txbx, fields, stats, fresh=False, example=None):
             stats["frames skipped (seed body not JSON)"] += 1
             return
         seed_body = {}
-    use_example = fresh and isinstance(example, (dict, list)) and bool(example)
+    use_example = fresh and isinstance(example, (dict, list, str)) and bool(example)
     if fresh:
         if not fields and not use_example:
             # The new endpoint has no JSON body: drop the template's.
@@ -297,7 +298,9 @@ def rewrite_frame(txbx, fields, stats, fresh=False, example=None):
         return
     for p in body_paras:
         txbx.remove(p)
-    for line in json.dumps(new_body, ensure_ascii=False, indent=2).split("\n"):
+    # A sample kept as text (not valid JSON in its source) is shown as written.
+    shown = new_body if isinstance(new_body, str) else json.dumps(new_body, ensure_ascii=False, indent=2)
+    for line in shown.split("\n"):
         p = copy.deepcopy(template)
         for attr in ("paraId", "textId"):
             p.attrib.pop("{%s}%s" % (W14, attr), None)
@@ -620,8 +623,8 @@ def build_section(template_els, record, ids, fallback, stats, linker=None, donor
         if not text:
             continue
         if not described:
-            prose = (wording or {}).get("description") or [record["description"].replace("`", "")
-                                                           or record["name"]]
+            prose = ((wording or {}).get("description") or record.get("prose")
+                     or [record["description"].replace("`", "") or record["name"]])
             set_par_text(e, prose[0])
             for line in prose[1:]:
                 extra = copy.deepcopy(e)
@@ -1871,10 +1874,15 @@ def request_field_update(settings_xml):
     return etree.tostring(root, xml_declaration=True, encoding="UTF-8", standalone=True)
 
 
-def render(seed, contract_path, out, meta=None, descriptions=None, naming=None, skeleton=False):
+def render(seed, contract_path, out, meta=None, descriptions=None, naming=None, skeleton=False,
+           planned=None):
     with open(contract_path, encoding="utf-8") as f:
         contract = json.load(f)
     spec = contract["endpoints"]
+    if planned:
+        # Sections for APIs the code does not serve yet; ValueError when the
+        # spec has caught up with one of them.
+        spec = merge_planned(spec, planned)
     # A skeleton documents nothing: its sections are templates, never paired.
     doc = [] if skeleton else extract(seed)
     pairs, _, _ = pair(spec, doc)
@@ -1992,6 +2000,9 @@ def main():
     parser.add_argument("--skeleton", action="store_true",
                         help="the first argument is a skeleton (build_skeleton.py): every section is "
                              "built from the spec, nothing is kept from an earlier specification")
+    parser.add_argument("--planned",
+                        help="doc-planned.yaml: sections for APIs the code does not serve yet "
+                             "(with --skeleton; a seed document already holds them)")
     parser.add_argument("--allow-stale-history", action="store_true",
                         help="render although the API changed since the last history entry")
     args = parser.parse_args()
@@ -2022,13 +2033,23 @@ def main():
             descriptions = load_descriptions(args.descriptions)
         except (ValueError, yaml.YAMLError) as exc:
             sys.exit("invalid description file: %s" % exc)
+    planned = None
+    if args.planned:
+        if not args.skeleton:
+            sys.exit("--planned needs --skeleton: a seed document already holds its planned sections")
+        try:
+            planned = load_planned(args.planned)
+            with open(args.contract, encoding="utf-8") as f:
+                merge_planned(json.load(f)["endpoints"], planned)
+        except (ValueError, yaml.YAMLError) as exc:
+            sys.exit("invalid doc-planned: %s" % exc)
     naming = None
     if args.objects:
         try:
             naming = load_naming(args.objects)
         except (ValueError, yaml.YAMLError) as exc:
             sys.exit("invalid object naming file: %s" % exc)
-    stats = render(args.seed, args.contract, args.out, meta, descriptions, naming, args.skeleton)
+    stats = render(args.seed, args.contract, args.out, meta, descriptions, naming, args.skeleton, planned=planned)
     for k, v in stats.items():
         print("%-34s: %d" % (k, v))
     print("wrote %s" % args.out)
