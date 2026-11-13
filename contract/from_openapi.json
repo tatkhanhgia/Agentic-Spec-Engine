@@ -61161,6 +61161,13 @@
         },
         {
           "code": 56,
+          "sub_code": 44,
+          "code_constant": "WorkflowConstant.CODE_TRUSTED_BILLING",
+          "constant": "TrustedBillingErrorSubCode.SUBCODE_TBS_WEBHOOK_TAX_CODE_ENTERPRISE_BILLED_TO_OTHER_CUSTOMER",
+          "condition": "400: no override and the only owner candidate, the enterprise matching the customer tax id, is already billed to another external customer; parked"
+        },
+        {
+          "code": 56,
           "sub_code": 38,
           "code_constant": "WorkflowConstant.CODE_TRUSTED_BILLING",
           "constant": "TrustedBillingErrorSubCode.SUBCODE_TBS_WEBHOOK_BILL_BUSY",
