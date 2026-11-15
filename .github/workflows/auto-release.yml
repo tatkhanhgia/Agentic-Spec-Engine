@@ -1,0 +1,56 @@
+name: Auto-release
+
+# Cuts a stable release from Conventional Commits made since the latest
+# vMAJOR.MINOR.PATCH tag: feat -> minor, fix -> patch, type!:/BREAKING CHANGE
+# -> major. Pushes carrying only chore/docs/ci/etc. commits release nothing.
+# Mirrors the "Auto-release from Conventional Commits" step of
+# GoPaperless-Workflow-API (scripts/next-release-version.sh, ci-linux.yml).
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  auto-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out full history and tags
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: 🚀 Auto-release from Conventional Commits
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          result=$(bash scripts/next-release-version.sh)
+          if [ "$result" = "none" ]; then
+            echo "ℹ️  No feat/fix/breaking commits since the last release — nothing to ship."
+            exit 0
+          fi
+          version="${result%% *}"
+          level="${result##* }"
+          tag="v${version}"
+          echo "➡️  Next release: $tag ($level bump)"
+          if gh release view "$tag" --repo "${{ github.repository }}" >/dev/null 2>&1; then
+            echo "ℹ️  Release $tag already exists — skipping."
+            exit 0
+          fi
+          range="HEAD"
+          if last_tag=$(git tag --list 'v[0-9]*.[0-9]*.[0-9]*' --sort=-v:refname \
+              | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | head -n1) && [ -n "$last_tag" ]; then
+            range="${last_tag}..HEAD"
+          fi
+          {
+            echo "Automatic release from Conventional Commits (${level} bump)."
+            echo
+            echo "Commits since the previous release:"
+            echo
+            git log --oneline "$range"
+          } > release-notes.md
+          gh release create "$tag" --repo "${{ github.repository }}" \
+            --title "$tag" --notes-file release-notes.md
