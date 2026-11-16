@@ -1,0 +1,33 @@
+{
+  "render_from_openapi.py @ 044b30a": {
+    "types_rewritten": 67,
+    "descriptions_kept_from_seed": 2217,
+    "tables_using_shared_template_row": 63,
+    "tables_skipped_no_template_row": 0,
+    "frames_rewritten": 436,
+    "sections_marked_not_implemented": 36,
+    "frames_unchanged": 208,
+    "frames_left_as_is": 382,
+    "content_type_lines_removed": 192,
+    "content_type_lines_rewritten": 6,
+    "type_links_to_new_objects": 218,
+    "request_urls_rewritten": 176,
+    "frame_bodies_removed": 154,
+    "template_error_frames_removed": 84,
+    "shared_error_frames_added": 80,
+    "tables_added_from_seed": 12,
+    "sections_added": 88,
+    "response_content_type_lines_removed": 34,
+    "response_content_type_lines_rewritten": 16,
+    "template_header_lines_removed": 54,
+    "object_sections_added": 86,
+    "history_rows_added": 1,
+    "cover_version_updated": 1
+  },
+  "matches_handoff_key_counts": {
+    "sections_added": "88 (khớp)",
+    "object_sections_added": "86 (khớp)",
+    "sections_marked_not_implemented": "36 (khớp)",
+    "frames_left_no_json": "76 (khớp - handoff 'Frame bị bỏ qua vì seed không phải JSON')"
+  }
+}

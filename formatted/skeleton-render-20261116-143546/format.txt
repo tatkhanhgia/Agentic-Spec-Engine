@@ -1,0 +1,10 @@
+request frames checked : 696
+frame bodies checked   : 1548 (indent width 2)
+
+H. table cell widths disagree with tblGrid (2.4) : 4
+   System Connection Information | No Name Value Description | row 1: column 1 is 900 dxa (want 948 dxa)
+   System Connection Information | No Name Value Description | row 2: column 1 is 900 dxa (want 948 dxa)
+   System Connection Information | No Name Value Description | row 3: column 1 is 900 dxa (want 948 dxa)
+   System Connection Information | No Name Value Description | row 4: column 1 is 900 dxa (want 948 dxa)
+
+4 problem(s)

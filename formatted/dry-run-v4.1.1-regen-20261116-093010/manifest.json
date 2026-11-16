@@ -1,0 +1,33 @@
+{
+  "run": "dry-run v4.1.1 (regenerate từ nguồn đã pin)",
+  "generated_utc": "2026-11-16T02:32:55Z",
+  "method": "Tái tạo lại dry-run v4.1.1 đã ghi trong docs/handoff-self-hosted-docx-release-20261112.md bằng đúng 3 input đã pin, quy trình theo handoff bước 6.",
+  "replaces": "formatted/dry-run-v4.1.1 (bản gốc đã bị xóa nhầm ngày 2026-11-16)",
+  "inputs": {
+    "backend_repo": "tatkhanhgia/GoPaperless-Workflow-API",
+    "backend_tag": "v4.1.1",
+    "backend_commit": "f31e32cb1cce1bdace1f11d1955c8e7617fba1c2",
+    "openapi_source": "docs/api/openapi.yaml @ backend_commit",
+    "openapi_git_blob": "4dea1aefd18c51095ce6bf70957bda16f020213e",
+    "renderer_commit": "044b30a2461e39c8aea41a4c1d4ea9929646a739",
+    "seed_file": "formatted/GoPaperless Workflow RESTful API Specification V3 - 20260727.docx"
+  },
+  "render_args": {
+    "doc_version": "3.1",
+    "doc_date": "20261112",
+    "author": "GIATK"
+  },
+  "checksums_sha256": {
+    "openapi.yaml": "561d57b8376ab17bc5732b82222d974af7144a30eeca84c80181063b038f0c21",
+    "seed": "f73a7202fbca57c5befd1a6654325d0c01f765e83d200ff146b1bf49778bea9f",
+    "output_docx": "2f2725522bbb6f3cee169e62c8aeda442424b939d4d8a8f18f611c641d05f98a"
+  },
+  "fidelity_vs_handoff": {
+    "openapi_sha256_matches_original": true,
+    "seed_sha256_matches_original": true,
+    "operations_converted": "329 (khớp handoff)",
+    "docx_bytes": "3432959 (handoff: 3433016, lệch do mtime zip + core.xml modified + dòng History khác)",
+    "output_docx_sha256_matches_original": false,
+    "note": "Ba input byte-identical; DOCX đầu ra tương đương nội dung nhưng không byte-identical vì metadata thời gian/lịch."
+  }
+}

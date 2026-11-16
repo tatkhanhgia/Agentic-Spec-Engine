@@ -1,0 +1,12 @@
+request frames checked : 700
+frame bodies checked   : 1934 (indent width 2)
+
+E. JSON body indentation differs from template 2.8.4 : 2
+   Get Workflow Users | first line 'Http Code: 200'  (x2)
+
+F. Presence cell empty in attribute table (2.4) : 3
+   GetListWorkflowResponse | GetListWorkflowResponse | row 15
+   Document | Document | template
+   FieldAuthentication | Response Attributes | totp
+
+5 problem(s)

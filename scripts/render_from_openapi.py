@@ -44,8 +44,12 @@ from doc_meta import UniqueKeyLoader, cover_version, load as load_meta
 from doc_planned import load as load_planned, merge as merge_planned
 from propose_history import read_snapshot, signatures
 from extract_doc_contract import TABLE_KINDS, cell_text, extract, para_text, qn, style_of, to_key
+from fix_docx_format import (parse_table_property_rules,
+                             normalize_connection_table_widths)
 
 W = "http://schemas.openxmlformats.org/wordprocessingml/2006/main"
+FORMAT_TEMPLATE = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                               "GoPaperless_DOCX_Format_Template.md")
 
 
 def set_cell_text(tc, text):
@@ -1973,6 +1977,10 @@ def render(seed, contract_path, out, meta=None, descriptions=None, naming=None, 
     drop_half_bookmarks(root, stats)
     unlink_dangling(root, stats)
     stamp = apply_meta(body, meta, stats) if meta else None
+
+    # Enforce the template's System Connection Information widths so the
+    # packaged document passes check_frame_format's exact column check.
+    normalize_connection_table_widths(root, parse_table_property_rules(FORMAT_TEMPLATE))
 
     xml = etree.tostring(root, xml_declaration=True, encoding="UTF-8", standalone=True)
     with zipfile.ZipFile(seed) as zin, zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED) as zout:

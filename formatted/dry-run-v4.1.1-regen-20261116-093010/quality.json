@@ -1,0 +1,33 @@
+{
+  "format_gate": {
+    "tool": "check_frame_format.py @ 044b30a",
+    "seed_problems": 518,
+    "output_problems": 518,
+    "output_exit_code": 1,
+    "new_errors_vs_seed": 0,
+    "handoff_expected": "seed 518 / output 518 / exit 1",
+    "matches_handoff": true
+  },
+  "inherited_defects": {
+    "duplicate_bookmarks": 19,
+    "broken_internal_links": 14,
+    "note": "Cùng tập với seed (thừa kế), handoff ghi nhận y hệt."
+  },
+  "comparison_openapi_vs_doc": {
+    "tool": "compare_openapi_doc.py @ 044b30a",
+    "spec_records": 329,
+    "doc_endpoints": 353,
+    "paired": 320,
+    "doc_only": 33,
+    "spec_only": 13,
+    "paired_with_no_field_difference": 313,
+    "request_fields_type_differs": 77,
+    "response_fields_type_differs": 62,
+    "matches_handoff": true
+  },
+  "visual_qa": {
+    "status": "CHƯA thực hiện",
+    "reason": "Thiếu LibreOffice soffice.exe trên PATH (như handoff); chưa render ảnh trang."
+  },
+  "verdict": "Gate không đạt (exit 1) y hệt handoff. Bản DOCX này KHÔNG đủ điều kiện phát hành."
+}

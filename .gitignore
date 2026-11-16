@@ -10,3 +10,15 @@ __pycache__/
 
 # Temporary Office files
 ~$*.docx
+
+# Raw inputs sourced verbatim from the PRIVATE backend repo. This project's repo
+# is public: never publish the backend openapi.yaml or doc-meta.yaml here.
+formatted/**/openapi.yaml
+formatted/**/doc-meta.yaml
+
+# Regeneration/fixer backups (byte-duplicates of their originals).
+*.docx.orig
+
+# Renderer snapshot is just this repo at a pinned commit; not evidence worth duplicating.
+formatted/**/engine/
+formatted/**/engine.zip
